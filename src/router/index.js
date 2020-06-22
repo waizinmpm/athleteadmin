@@ -48,27 +48,38 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 
-        if (to.meta.reqiuresAuth) {
-            const authUser = store.getters.currentUser
-            if (!authUser || !authUser.token) {
-                next({ name: 'login' })
-            } else if (authUser || authUser.token) {
-                console.log("authUser")
-                    // for admin 
-                if (to.meta.admin) {
-                    const authUser = store.getters.currentUser
-                    if (authUser.role_id === 1) {
-                        next()
-                    } else {
-                        next({ name: 'Unauthorized' })
-                    }
-                }
-                next()
-            }
-        } else {
-            next()
-        }
-    })
+	if (to.matched.some(x => x.name == 'login')) {
+		const authUser = store.getters.currentUser;
+		if (authUser || authUser.token) {
+			next({ path : '/admin' });
+		} else {
+			next();
+		}			
+	} else {
+		next();
+	}
+
+	if (to.meta.reqiuresAuth) {
+		const authUser = store.getters.currentUser
+		if (!authUser || !authUser.token) {
+			next({ name: 'login' })
+		} else if (authUser || authUser.token) {
+			console.log("authUser")
+				// for admin 
+			if (to.meta.admin) {
+				const authUser = store.getters.currentUser
+				if (authUser.role_id === 1) {
+					next()
+				} else {
+					next({ name: 'Unauthorized' })
+				}
+			}
+			next()
+		}
+	} else {
+		next()
+	}
+})
     // important script for component permission
 
 export default router;

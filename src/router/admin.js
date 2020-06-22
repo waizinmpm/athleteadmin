@@ -10,7 +10,7 @@ import AdminPasswordSetting from '../components/auth/AdminPasswordSetting';
 
 const route = [{
         path: '/',
-        component: home,
+		component: home,
         meta: {
             reqiuresAuth: true,
             admin: true, // for only admin component
