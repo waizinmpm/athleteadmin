@@ -23,13 +23,13 @@ Vue.prototype.$api = api
 Vue.config.productionTip = false;
 
 const languages = {
-    English: English,
-    日本語: 日本語,
+    en: English,
+    jp: 日本語,
 }
 
 Vue.use(VueI18n);
 const i18n = new VueI18n({
-    locale: '日本語',
+    locale: 'jp',
     messages: languages,
 })
 

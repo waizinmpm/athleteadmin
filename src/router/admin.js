@@ -6,6 +6,7 @@ import ScoutedList from '../components/admin/recuriter/ScoutedList';
 import PaymentManagement from '../components/admin/recuriter/PaymentManagement';
 import JobSeekerList from '../components/admin/jobseeker/JobSeekerList';
 import Invoice from '../components/admin/recuriter/Invoice';
+import AdminPasswordSetting from '../components/auth/AdminPasswordSetting';
 
 const route = [{
         path: '/',
@@ -79,15 +80,15 @@ const route = [{
             jobseeker: false
         }
     },
-    // {
-    //     path: '/password-setting',
-    //     component: PasswordSetting,
-    //     meta: {
-    //         reqiuresAuth: false,
-    //         admin: true, // for only admin component
-    //         jobseeker: false
-    //     }
-    // }
+    {
+        path: '/password-setting',
+        component: AdminPasswordSetting,
+        meta: {
+            reqiuresAuth: true,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    }
 ];
 
 export default route;

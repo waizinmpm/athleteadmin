@@ -6,6 +6,7 @@ import admin from './admin';
 import Register from '../components/auth/AdminRegister.vue';
 import Login from '../components/auth/AdminLogin.vue';
 import Unauthorized from '../components/UnauthorizedPage.vue';
+import NotFoundPage from '../components/NotFoundPage';
 
 Vue.use(VueRouter);
 
@@ -31,7 +32,11 @@ const routes = [
         component: adminPage,
         children: admin,
 
-    },
+	},
+	{
+		path: '*',
+		component: NotFoundPage
+	}
 
 ];
 

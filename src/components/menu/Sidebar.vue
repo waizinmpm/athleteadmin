@@ -35,7 +35,7 @@
             </ul>
         </li>
         <li class="list-group-item"><router-link to="/password-setting" class="" >パスワード変更</router-link></li>
-        <li class="list-group-item"><router-link to="/" class="" @click.prevent="logout">{{$t('menu.logout')}}</router-link></li> 
+        <li class="list-group-item"><a to="#" class="" @click.prevent="logout">{{$t('menu.logout')}}</a></li> 
         </ul>         
     <!--end sidebar-->
     </div>

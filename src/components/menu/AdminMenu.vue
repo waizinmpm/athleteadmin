@@ -21,7 +21,7 @@
             <ul class="nav navbar-nav navbar-right">
               <li class="form-group" style="margin-top:15px;margin-right:15px;margin-left:15px;">
                 <select v-model="$i18n.locale" class="form-control input-sm">
-                  <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang" style="width:80px;height:80px;border-color:#aab2bd;border-radius:3px;">{{ lang }}</option>
+                  <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang.locale" style="width:80px;height:80px;border-color:#aab2bd;border-radius:3px;">{{ lang.description }}</option>
                 </select>                 
               </li>
               <li class="active" style="min-width:90px;"><a>{{$t('menu.Home')}}</a></li>              
@@ -38,7 +38,10 @@ export default {
     name: 'app-header',
     data(){
       return{
-        langs:['日本語','English']
+        langs:[
+			{ locale: 'jp', description: '日本語' },
+			{ locale: 'en', description: 'English' }	
+		]
         
       }
     },
