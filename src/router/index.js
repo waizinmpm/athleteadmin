@@ -63,9 +63,8 @@ router.beforeEach((to, from, next) => {
 		const authUser = store.getters.currentUser
 		if (!authUser || !authUser.token) {
 			next({ name: 'login' })
-		} else if (authUser || authUser.token) {
-			console.log("authUser")
-				// for admin 
+		} else if (authUser || authUser.token) {			
+			// for admin 
 			if (to.meta.admin) {
 				const authUser = store.getters.currentUser
 				if (authUser.role_id === 1) {
