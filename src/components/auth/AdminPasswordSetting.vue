@@ -6,13 +6,14 @@
                 <label for="password">{{ $t('adminPasswordSetting.enter_current_password') }}</label>
                 <div class="input-group">
                     <!-- hide password-->
-                    <input
+                    <input 
                         class="form-control input_pass m-l1"
                         type="password"
                         placeholder="パスワード"
                         id="password"
                         v-model="formLogin.password"
                         v-show="!showPass"
+						@keyup="clearSuccess"
                     />
                     <!-- show password-->
                     <input
@@ -21,6 +22,7 @@
                         placeholder="パスワード"
                         v-model="formLogin.password"
                         v-show="showPass"
+						@keyup="clearSuccess"
                     />
                     <span class="showpwd" @click="showPass = !showPass">
                         <span v-show="!showPass" class="fa fa-fw fa-eye field-icon toggle-password"></span>
@@ -39,7 +41,7 @@
                 <label for="password">{{ $t('adminPasswordSetting.enter_new_password') }}</label>
                 <div class="input-group">
                     <!-- hide password-->
-                    <input
+                    <input 
                         class="form-control input_pass m-l1"
                         type="password"
                         placeholder="パスワード"
@@ -88,12 +90,23 @@
             <div class="fomr-group text-center m-t-30">
                 <button class="btn loginbtn" type="submit" :disabled="!isPasswordMatched" @click="changePassword">OK</button>
                 <button class="btn searchbtn" type="button" @click="cancelChange">{{ $t('common.cancel') }}</button>
-            </div>
+            </div>			
         </form>
+
+		<div class="">
+			<div class="form-group has-error has-feedback" v-if="errors">
+				<label for="inputError2" class="control-label">{{ errors }}</label>
+			</div>
+			<div class="form-group has-success has-feedback" v-if="success">
+				<label for="inputError2" class="control-label">{{ success }}</label>
+			</div>
+		</div>
+		
     </div>
 </template>
 <script>
 import { login } from '../../partials/auth';
+import api from '../../api/apiBasePath';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -110,9 +123,11 @@ export default {
 				showNewPass: false,
 				retypePassword: "",
 				showRetypePass: false,
-            },
+			},			
             showPass: false,
-            passwordAuthenticated: false
+			passwordAuthenticated: false,
+			errors: null,
+			success: null
         };
 	},
 	computed: {
@@ -122,29 +137,50 @@ export default {
 		isPasswordMatched() {
 			return this.formChangePassword.newPassword.length > 0 && 
 				this.formChangePassword.newPassword == this.formChangePassword.retypePassword;
-		}
+		},
+		authError() { 
+			return this.$store.getters.authError;
+		},
 	},
     methods: {
-        authenticate: function() {
+        authenticate: function() {			
 			login({
 				email: this.currentUser.email,
 				password: this.$data.formLogin.password
 			})
-			.then(() => {
+			.then(() => {				
 				this.passwordAuthenticated = true;
+				this.errors = null;
 			})
-			.catch(err => {
-				console.log(err);
-			})            
+			.catch(() => {
+				this.errors = this.$t('adminPasswordSetting.password_wrong');
+			})
 		},
 		changePassword: function() {
-			console.log("Changing password...");
+			api.post('/v1/admin/password-change', {
+				password: this.$data.formChangePassword.newPassword
+			})
+			.then(() => {
+				this.success = this.$t('adminPasswordSetting.password_changed');
+				this.cancelChange();
+			})
+			.catch(err => {				
+				let errObj = err.response.data.error.message;
+				for (let key in errObj) {					
+					this.errors += errObj[key];
+				}
+			});
+			
 		},
 		cancelChange: function() {
 			this.formChangePassword.newPassword = "";
 			this.formChangePassword.retypePassword = "";
 			this.formLogin.password = "";
 			this.passwordAuthenticated = false;
+			this.errors = null;
+		},
+		clearSuccess: function() {
+			this.success = null;
 		}
     }
 };
@@ -157,5 +193,8 @@ export default {
     padding: 10px 0;
     border-radius: 20px;
     margin-right: 20px;
+}
+.has-success .control-label {
+	color: #5DA017;
 }
 </style>

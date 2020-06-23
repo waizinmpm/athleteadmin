@@ -50,7 +50,7 @@ router.beforeEach((to, from, next) => {
 
 	if (to.matched.some(x => x.name == 'login')) {
 		const authUser = store.getters.currentUser;
-		if (authUser || authUser.token) {
+		if (authUser) {
 			next({ path : '/admin' });
 		} else {
 			next();

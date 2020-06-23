@@ -14,8 +14,7 @@ export function registerUser(credentials) {
 export function login(credentials) {
     return new Promise((res, rej) => {
         api.post('/auth/login', credentials)
-            .then(response => {
-                console.log(response.data)
+            .then(response => {                
                 res(response.data);
             })
             .catch(err => {
