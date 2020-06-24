@@ -22,7 +22,7 @@
           </div>
 
           <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">{{ $t('common.password') }}</label>
             <div class="input-group">               
               <!-- hide password-->
               <input class="form-control input_pass m-l1" type="password" placeholder="パスワード" id="password" v-model="formLogin.password" v-show="!showPass" @keyup="formLogin.password" />
@@ -36,15 +36,15 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <input type="checkbox" class="custom-control-input custom-checkbox" id="customCheck1">
             <label class="custom-control-label custom-checkbox-label" for="customCheck1">パスワードを記憶して⾃動ログインする
             </label>
-          </div>
+          </div> -->
 
           <div class="fomr-group text-center m-t-30">
            <button class="btn loginbtn" type="submit">ok</button>
-           <button class="btn searchbtn" type="submit">cancel</button>
+           <button class="btn searchbtn" type="button">{{ $t('common.cancel') }}</button>
            </div>
         </form>          
         </div>

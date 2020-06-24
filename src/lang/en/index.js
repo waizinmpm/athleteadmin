@@ -5,5 +5,5 @@ import common from './common';
 export default {
 	common: common,
 	menu: menu,
-	adminPasswordSetting: adminPasswordSetting,
+	admin_password_setting: adminPasswordSetting,
 }

@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import api from '../src/api/apiBasePath';
+import Vuelidate from 'vuelidate';
 
 
 window.$ = require('jquery')
@@ -18,6 +19,7 @@ import VueI18n from 'vue-i18n';
 import English from '../src/lang/en';
 import 日本語 from './lang/jp';
 Vue.use(DatePicker);
+Vue.use(Vuelidate);
 Vue.use(api)
 Vue.prototype.$api = api
 Vue.config.productionTip = false;
