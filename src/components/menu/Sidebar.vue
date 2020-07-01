@@ -30,7 +30,7 @@
             <a href="#demo2" class="list-group-item " data-toggle="collapse2"><span class="glyphicon glyphicon-chevron-down" data-toggle="childcollapse2"></span>求職者会員</a>
             <ul>
                 <li class="collapse in" id="demo2">
-                <router-link to="/job-seeker-list" class="list-group-item list-group-child-item"><i class="glyphicon glyphicon-th-list"></i>会員情報⼀覧</router-link>                         
+                <router-link to="/admin-jobseeker-list" class="list-group-item list-group-child-item"><i class="glyphicon glyphicon-th-list"></i>会員情報⼀覧</router-link>                         
             </li>
             </ul>
         </li>
