@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import api from '../src/api/apiBasePath';
 import Vuelidate from 'vuelidate';
-import DataTable from '../src/components/DataTable/DataTable';
 
 
 window.$ = require('jquery')
@@ -24,9 +23,6 @@ Vue.use(Vuelidate);
 Vue.use(api)
 Vue.prototype.$api = api
 Vue.config.productionTip = false;
-
-Vue.component('pagination', require('laravel-vue-pagination'));
-Vue.component('DataTable', DataTable);
 
 const languages = {
     en: English,

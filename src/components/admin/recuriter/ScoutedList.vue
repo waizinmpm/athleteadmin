@@ -33,16 +33,16 @@
                             <date-picker v-model="searchKey.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
                         </div>                     
                         <div class="col-md-3">                        
-                            <button class="btn searchbtn" style="margin-top:22px;">検索</button>
+                            <button class="btn searchbtn" style="margin-top:22px;" @click="searchScout">検索</button>
                         </div>                
                     </div>
                     <!-- Search by Status -->
                     <label for="ステータス">ステータス</label>
                     <div class="row">
                         <div class="col-md-6">                     
-                            <div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.title">                          
-                                <input type="checkbox" @click="samplefunction(status.title)" class="custom-control-input custom-checkbox" v-model="status.checked">
-                                <label class="custom-control-label custom-checkbox-label">{{status.title}}</label>                          
+                            <div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.id">                          
+                                <input type="checkbox" name="scout-status" @click="selectScoutStatus(status.id,status.id)" v-bind:value="status.id" v-bind:id="status.id" class="custom-control-input custom-checkbox" v-model="status.checked">
+                                <label class="custom-control-label custom-checkbox-label">{{status.id}}</label>                          
                             </div>  
                         </div>                    
                     </div>
@@ -89,23 +89,24 @@ let $ = JQuery
     export default {
         data(){
         return {
-          searchKey:{
-            from_date: '',
-            to_date:'',
-            control_number: '',
-            job_number: '',
-            job_title: '',
-            athlete_membership_number: '',
-            athlete_membership_name: '',
-            selected_status: []
-          },
-          arr_status: [
-            { title: '興味あり', checked: false },
-            { title: '入社済', checked: false },
-            { title: '辞退/不採用', checked: false },
-            { title: '回答待ち', checked: false },
-            { title: '期限切れ', checked: false }
-        ],
+            searchKey:{
+                from_date: '',
+                to_date:'',
+                control_number: '',
+                job_number: '',
+                job_title: '',
+                athlete_membership_number: '',
+                athlete_membership_name: '',
+                freeword: '',
+                selected_status: [],
+            },
+            arr_status: [
+                { id: '興味あり', checked: false},
+                { id: '入社済', checked: false},
+                { id: '辞退/不採用', checked: false},
+                { id: '回答待ち', checked: false},
+                { id: '期限切れ', checked: false}
+            ],
             lang:{
                 days: ['日', '月', '火', '水', '木', '金', '土'],
                 months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
@@ -117,40 +118,46 @@ let $ = JQuery
         }
     },
     mounted(){
+          this.$api.post('v1/admin/scout-list', this.searchKey)            
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+               console.log(error);
+            })
 
-        //   this.$api.get('/get-scout-list')            
-        //     .then(res => {
-        //         console.log(res);
-        //     })
-        //     .catch(error => {
-        //        console.log(error);
-        //     })
-
-         $(document).ready(function() {
-                $("#chkAll").click(function () {
-                    console.log(this);
-                    // $("input[name='employees']").attr("checked", this.checked);
-                });
-                $('#example').DataTable({
-                     "language": {
-                        "search": "フィルタ",
-                        "zeroRecords": 'お探しの条件に合うは見つかりませんでした。',
-                        "sLengthMenu": "1ページ _MENU_ ",
-                         "paginate": {                               
-                                "next": "次へ ",
-                                "previous": " 前へ"
-                        },
-                        "info":"_START_ - _END_ (_TOTAL_ 件中)",    
-                        "infoEmpty":"",
-                        "infoFiltered":"",    
-                    }
-                }); 
-            } );
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "language": {
+                    "search": "フィルタ",
+                    "zeroRecords": 'お探しの条件に合うは見つかりませんでした。',
+                    "sLengthMenu": "1ページ _MENU_ ",
+                    "paginate": {                               
+                        "next": "次へ ",
+                        "previous": " 前へ"
+                    },
+                    "info":"_START_ - _END_ (_TOTAL_ 件中)",    
+                    "infoEmpty":"",
+                    "infoFiltered":"",    
+                }
+            }); 
+        } );
     },
     methods: {
-        samplefunction(){
+        selectScoutStatus(status_id){
+            $('#'+status_id).attr('checked','true');
+        }, 
+        searchScout() {
+
+            var tmp_status = [];
+            this.selected_status = [];
+            $.each($("input[name='scout-status']:checked"), function(){
+                tmp_status.push($(this).val());
+            });
+            this.selected_status.push({status:tmp_status});
             console.log(this.selected_status);
         }
+        
     }
   }
 </script>
