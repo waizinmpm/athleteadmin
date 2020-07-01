@@ -1,7 +1,7 @@
 import api from '../api/apiBasePath';
 export function registerUser(credentials) {
     return new Promise((res, rej) => {
-        api.post('/auth/register', credentials)
+        api.post('/v1/auth/register', credentials)
             .then(response => {
                 res(response.data);
             })
@@ -13,7 +13,7 @@ export function registerUser(credentials) {
 
 export function login(credentials) {
     return new Promise((res, rej) => {
-        api.post('/auth/login', credentials)
+        api.post('/v1/auth/login', credentials)
             .then(response => {                
                 res(response.data);
             })
