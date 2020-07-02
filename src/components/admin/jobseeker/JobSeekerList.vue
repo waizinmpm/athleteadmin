@@ -8,7 +8,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="求職者会員番号、求職者名を⼊⼒してください……" id="inputGroup" v-model="filteredData.freeword" @input="getData()" />
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="求職者会員番号、求職者名を⼊⼒してください……"
+                                    id="inputGroup"
+                                    v-model="filteredData.freeword"
+                                    @input="getData()"
+                                />
                                 <span class="input-group-addon bg-color">
                                     <i class="fa fa-search"></i>
                                 </span>
@@ -20,20 +27,49 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="col-md-2 p-lr0">
-                                <input type="checkbox" class="custom-control-input custom-checkbox" value="1" v-model="filteredData.jobseeker_recordstatus" @change="getData()" id="有効" />
-                                <label for="有効" class="custom-control-label custom-checkbox-label"> 有効 </label>                               
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input custom-checkbox"
+                                    value="1"
+                                    v-model="filteredData.jobseeker_recordstatus"
+                                    @change="getData()"
+                                    id="有効"
+                                />
+                                <label
+                                    for="有効"
+                                    class="custom-control-label custom-checkbox-label"
+                                >有効</label>
                             </div>
                             <div class="col-md-2 p-lr0">
-                                <input type="checkbox" class="custom-control-input custom-checkbox" value="2" v-model="filteredData.jobseeker_recordstatus" @change="getData()" id="無効" />
-                                <label for="無効" class="custom-control-label custom-checkbox-label" >無効</label>
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input custom-checkbox"
+                                    value="2"
+                                    v-model="filteredData.jobseeker_recordstatus"
+                                    @change="getData()"
+                                    id="無効"
+                                />
+                                <label
+                                    for="無効"
+                                    class="custom-control-label custom-checkbox-label"
+                                >無効</label>
                             </div>
                             <div class="col-md-2 p-lr0">
-                                <input type="checkbox" class="custom-control-input custom-checkbox" value="0" v-model="filteredData.jobseeker_recordstatus" @change="getData()" id="退会" />
-                                <label for="退会" class="custom-control-label custom-checkbox-label" >退会</label>
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input custom-checkbox"
+                                    value="0"
+                                    v-model="filteredData.jobseeker_recordstatus"
+                                    @change="getData()"
+                                    id="退会"
+                                />
+                                <label
+                                    for="退会"
+                                    class="custom-control-label custom-checkbox-label"
+                                >退会</label>
                             </div>
                         </div>
                     </div>
-                    
                 </div>
                 <!--end advanced search-->
             </div>
@@ -51,11 +87,23 @@
                         </select>
                     </div>
                     <div class="col-sm-6">
-                        <span class="btn custom-btn delete" style="float:right" @click="deleteData()">削除</span>
-                    </div>                    
+                        <span
+                            class="btn custom-btn delete"
+                            style="float:right"
+                            @click="deleteData()"
+                        >削除</span>
+                    </div>
                 </div>
 
-                <DataTable  ref="datatable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @check-all="selectAll" @sort="sortBy" >
+
+                <DataTable
+                    ref="datatable"
+                    :columns="columns"
+                    :sortKey="sortKey"
+                    :sortOrders="sortOrders"
+                    @check-all="selectAll"
+                    @sort="sortBy"
+                >
                     <tbody>
                         <tr v-for="project in projects.data" :key="project.id">
                             <td>
@@ -71,14 +119,24 @@
 
                                 <div class="toggle" v-if="project.recordstatus != 0">
                                     <span class="checkbox">
-                                        <input type='checkbox' :id="project.id" v-if="project.recordstatus == 1" @click="changeStatus(project.id,project.recordstatus)" checked/>
-                                        <input type='checkbox' :id="project.id" v-if="project.recordstatus == 2" @click="changeStatus(project.id,project.recordstatus)"  />
+                                        <input
+                                            type="checkbox"
+                                            :id="project.id"
+                                            v-if="project.recordstatus == 1"
+                                            @click="changeStatus(project.id,project.recordstatus)"
+                                            checked
+                                        />
+                                        <input
+                                            type="checkbox"
+                                            :id="project.id"
+                                            v-if="project.recordstatus == 2"
+                                            @click="changeStatus(project.id,project.recordstatus)"
+                                        />
                                         <label for="checkbox"></label>
-                                        <span  v-if="project.recordstatus == 1" class="on">有効</span>
+                                        <span v-if="project.recordstatus == 1" class="on">有効</span>
                                         <span v-if="project.recordstatus == 2" class="on">無効</span>
                                     </span>
                                 </div>
-                                
                             </td>
                         </tr>
                     </tbody>
@@ -112,37 +170,33 @@ export default {
             { label: "求職者会員番号", name: "custom_id" },
             { label: "求職者名", name: "jobseeker_name" },
             { label: "ステータス", name: "status" },
-            { label: "", name: "status_button" },
+            { label: "", name: "status_button" }
         ];
         columns.forEach(column => {
             sortOrders[column.name] = -1;
         });
         let filteredData = {
-            'freeword': '',
-            'jobseeker_recordstatus': [],
+            freeword: "",
+            jobseeker_recordstatus: []
         };
         return {
-            base_url: "admin/jobseeker-list",
+            base_url: "/v1/admin/jobseeker-list",
             columns: columns,
             sortOrders: sortOrders,
-            filteredData: filteredData,
+            filteredData: filteredData
         };
     },
     methods: {
-        changeStatus(id, recordstatus){
-            if(recordstatus == 1)
-            {
-               this.recordstatus_text = "無効にしてよろしいでしょうか。";
-            }
-            else{
+        changeStatus(id, recordstatus) {
+            if (recordstatus == 1) {
+                this.recordstatus_text = "無効にしてよろしいでしょうか。";
+            } else {
                 this.recordstatus_text = "有効してよろしいでしょうか。";
             }
-          
-            this.$api
-                .post(this.base_url + `/change-status/${id}`)
-                .then(() => {
-                    this.getData();
-                });     
+
+            this.$api.post(this.base_url + `/change-status/${id}`).then(() => {
+                this.getData();
+            });
             // this.$swal({
             //     allowOutsideClick: false,
             //     text: this.recordstatus_text,
@@ -163,16 +217,16 @@ export default {
             //     .then(() => {
             //             this.getData();
             //     });
-            
+
             // })
             // .catch(error =>{
             //     if(recordstatus == 1){
             //         $("#"+id).prop("checked", true);
             //     }else{
             //         $("#"+id).prop("checked", false);
-            //     }                
+            //     }
             // });
-        },
+        }
     },
     mounted() {}
 };
