@@ -66,7 +66,8 @@ export default {
         deleteData() {
             this.$api
                 .post(this.base_url + '/delete', this.selected)
-                .then(() => {
+                .then(response => {
+                    console.log(response.data);
                     this.getData();
                 })
                 .catch(errors => {

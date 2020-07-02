@@ -80,6 +80,7 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
+                        <label for="">limit:</label>
                         <select v-model="tableData.length" @change="getData()">
                             <option
                                 v-for="(records, index) in perPage"
@@ -96,7 +97,7 @@
                         >削除</span>
                     </div>
                 </div>
-
+                
                 <DataTable
                     ref="datatable"
                     :columns="columns"
