@@ -69,18 +69,83 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button class="custom-btn delete" @click="deleteJob">削除</button>
+                            <!-- <button class="custom-btn delete" @click="deleteJob">削除</button> -->
                         </div>
                     </div>
                 </div>
                 <!--end advanced search-->
             </div>
         </div>
-        <table
-            id="tbl_jobs"
-            class="table table-responsive table-hover table-bordered"
-            v-if="jobs.total"
-        >
+        <div class="row">
+            <div class="col-sm-12 p-0">
+                <div class="row">
+                    <div class="col-sm-6 select">
+                        <select v-model="tableData.length" @change="getData()">
+                            <option
+                                v-for="(records, index) in perPage"
+                                :key="index"
+                                :value="records"
+                            >{{records}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <span
+                            class="btn custom-btn delete"
+                            style="float:right"
+                            @click="deleteData()"
+                        >削除</span>
+                    </div>
+                </div>
+
+                <DataTable
+                    ref="datatable"
+                    :columns="columns"
+                    :sortKey="sortKey"
+                    :sortOrders="sortOrders"
+                    @check-all="selectAll"
+                    @sort="sortBy"
+                >
+                    <tbody>
+                        <tr v-for="project in projects.data" :key="project.id">
+                            <td>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" :value="project.id" v-model="selected" />
+                                </label>
+                            </td>
+                            <td>{{project.recruiter_id}}</td>
+                            <td>{{project.recruiter_show_name}}</td>
+                            <td>{{project.job_number}}</td>
+                            <td>{{project.title}}</td>
+                            <td>{{project.application_address}}</td>
+                            <td>{{project.message}}</td>
+                            <td>{{ project.job_post_date }}~{{ project.job_post_date }}</td>
+                            <td>
+                                <span>{{ project.job_post_status }}</span>
+                                <button class="custom-btn change">変更</button>
+                            </td>
+                            <td>
+                                <button class="custom-btn edit">編集</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </DataTable>
+                <pagination
+                    v-if="projects.length != 0"
+                    :data="projects"
+                    @pagination-change-page="getData"
+                    :limit="limitpc"
+                >
+                    <span slot="prev-nav">
+                        <i class="fas fa-angle-left"></i> 前へ
+                    </span>
+                    <span slot="next-nav">
+                        次へ
+                        <i class="fas fa-angle-right"></i>
+                    </span>
+                </pagination>
+            </div>
+        </div>
+        <!-- <table id="tbl_jobs" class="table table-responsive table-hover table-bordered" v-if="jobs.total">
             <thead>
                 <tr>
                     <th align="left">
@@ -100,12 +165,7 @@
             <tbody>
                 <tr v-for="job of jobs.data" :key="job.id">
                     <td>
-                        <input
-                            type="checkbox"
-                            name="employees"
-                            v-model="checked"
-                            :value="job.id"
-                        />
+                        <input type="checkbox" name="employees" v-model="checked" :value="job.id" />
                     </td>
                     <td>{{ job.recruiter_id }}</td>
                     <td>{{ job.recruiter_show_name }}</td>
@@ -129,12 +189,59 @@
                 <span slot="prev-nav">&lt; Previous</span>
                 <span slot="next-nav">Next &gt;</span>
             </pagination>
-        </div>
+        </div>-->
     </div>
 </template>
 
 <script>
-import api from "../../../api/apiBasePath";
+import DataTableServices from "../../DataTable/DataTableServices";
+
+export default {
+    mixins: [DataTableServices],
+    data() {
+        let sortOrders = {};
+        let columns = [
+            { label: "企業番号", name: "recruiter_id" },
+            { label: "企業名", name: "recruiter_show_name" },
+            { label: "求⼈番号", name: "job_number" },
+            { label: "求⼈タイトル", name: "title" },
+            { label: "求⼈応募者数", name: "application_address" },
+            { label: "スカウト受託者数", name: "message" },
+            { label: "掲載期間", name: "job_post_date" },
+            { label: "ステータス", name: "job_post_status" },
+            { label: "", name: "status_button" }
+        ];
+        columns.forEach(column => {
+            sortOrders[column.name] = -1;
+        });
+        let filteredData = {
+            freeword: "",
+            jobseeker_recordstatus: []
+        };
+        return {
+            base_url: "v1/admin/job-list",
+            columns: columns,
+            sortOrders: sortOrders,
+            filteredData: filteredData
+        };
+    },
+    methods: {
+        changeStatus(id, recordstatus) {
+            if (recordstatus == 1) {
+                this.recordstatus_text = "無効にしてよろしいでしょうか。";
+            } else {
+                this.recordstatus_text = "有効してよろしいでしょうか。";
+            }
+
+            this.$api.post(this.base_url + `/change-status/${id}`).then(() => {
+                this.getData();
+            });
+        }
+    },
+    mounted() {}
+};
+
+/* import api from "../../../api/apiBasePath";
 export default {
     data() {
         return {
@@ -190,5 +297,5 @@ export default {
             }
         }
     }
-};
+}; */
 </script>

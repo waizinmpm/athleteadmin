@@ -6,11 +6,14 @@ import api from '../src/api/apiBasePath';
 import Vuelidate from 'vuelidate';
 
 
-window.$ = require('jquery')
+/* window.$ = require('jquery')
 window.JQuery = require('jquery')
 require('datatables.net');
 import 'datatables.net';
-import 'datatables.net-dt/css/jquery.dataTables.css';
+import 'datatables.net-dt/css/jquery.dataTables.css'; */
+import DataTable from '../src/components/DataTable/DataTable';
+Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('DataTable', DataTable);
 import DatePicker from 'vue2-datepicker';
 
 import 'vue2-datepicker/index.css';
