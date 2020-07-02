@@ -3,45 +3,51 @@
         <div class="row">
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
-                <h5 class="m-b-10 main-header">スカウト済み一覧</h5>   
-                <div class="content-row" style="padding-bottom:0px;">    
+                <h5 class="m-b-10 main-header">{{ $t('scouted_list.title') }}</h5>   
+                <div class="content-row" style="padding-bottom:0px;">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="求人番号">求人番号</label>
-                            <input type="text" placeholder="求人番号" class="form-control" v-model.trim="searchKey.job_number">
+                            <label for="企業番号">{{ $t('common.recruiter_id') }}</label>
+                            <input type="text" placeholder="企業番号" class="form-control" v-model.trim="filteredData.recruiter_id">
                         </div>
                         <div class="col-md-3">
-                            <label for="求人タイトル">求人タイトル</label>
-                            <input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="searchKey.job_title">
+                            <label for="企業名">{{ $t('common.recruiter_name') }}</label>
+                            <input type="text" placeholder="企業名" class="form-control" v-model.trim="filteredData.recruiter_name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="求人番号">{{ $t('common.job_number') }}</label>
+                            <input type="text" placeholder="求人番号" class="form-control" v-model.trim="filteredData.job_number">
                         </div>
                         <div class="col-md-3">
-                            <label for="求人番号">求人番号</label>
-                            <input type="text" placeholder="求人番号" class="form-control" v-model.trim="searchKey.job_number">
+                            <label for="求人タイトル">{{ $t('common.job_title') }}</label>
+                            <input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
                         </div>
                         <div class="col-md-3">
-                            <label for="アスリート会員氏名">アスリート会員氏名</label>
-                            <input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="searchKey.athlete_membership_number">
+                            <label for="アスリート会員氏名">{{ $t('common.jobseeker_name') }}</label>
+                            <input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
                         </div>                        
                     </div>
                     <div class="row">
                         <div class="col-md-3 datepicker-wrapper">
-                            <label for="スカウト日時">スカウト日時</label>
-                            <date-picker v-model="searchKey.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
+                            <label for="スカウト日時">{{ $t('scouted_list.scout_date') }}</label>
+                            <date-picker v-model="filteredData.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
                         </div>  
                         <div class="col-md-3 datepicker-wrapper">
                             <label for=""></label>
-                            <date-picker v-model="searchKey.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
+                            <date-picker v-model="filteredData.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
                         </div>                     
                         <div class="col-md-3">                        
-                            <button class="btn searchbtn" style="margin-top:22px;" @click="searchScout">検索</button>
+                            <button class="btn searchbtn" style="margin-top:22px;" @click="getData()">{{ $t('common.search') }}</button>
                         </div>                
                     </div>
                     <!-- Search by Status -->
-                    <label for="ステータス">ステータス</label>
+                    <label for="ステータス">{{ $t('scouted_list.scout_status') }}</label>
                     <div class="row">
                         <div class="col-md-6">                     
                             <div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.id">                          
-                                <input type="checkbox" name="scout-status" @click="selectScoutStatus(status.id,status.id)" v-bind:value="status.id" v-bind:id="status.id" class="custom-control-input custom-checkbox" v-model="status.checked">
+                                <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status">
                                 <label class="custom-control-label custom-checkbox-label">{{status.id}}</label>                          
                             </div>  
                         </div>                    
@@ -50,114 +56,116 @@
                 <!--end advanced search-->     
             </div>
         </div>   
-        <table id="example" class="table table-striped table-bordered" style="width:100%">    
-            <thead>
-                <tr>
-                    <th>スカウト日時</th>
-                    <th>管理番号</th>
-                    <th>求人番号</th>
-                    <th>求人タイトル</th>
-                    <th>アスリート会員番号</th>
-                    <th>アスリート会員氏名</th>
-                    <th>ステータス</th>
-                    <th></th>             
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>2020/03/02 12:30:00</td>
-                    <td>K2020-0001</td>
-                    <td>00001</td>
-                    <td>コロナ会社</td>
-                    <td>00001-0001</td>
-                    <td>レジ打ち</td>
-                    <td>0000001</td>
-                    <td class="text-left">
-                    <button class="custom-btn btns-margin">チャット</button>
-                    <button class="custom-btn btns-margin">請求書⽣成</button>
-                    <button class="custom-btn btns">クレカ請求</button>
-                    </td>
-                </tr>    
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="col-sm-12 p-0">
+                <div class="row">
+                    <div class="col-sm-6 select">
+                        <select v-model="tableData.length" @change="getData()">
+                            <option v-for="(records, index) in perPage" :key="index" :value="records">
+                                {{records}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
+                    <tbody>
+                        <tr v-for="project in projects.data" :key="project.id">
+                            <td><input type="checkbox"></td>
+                            <td>{{project.scouted_date}}</td>
+                            <td>{{project.recruiter_id}}</td>
+                            <td>{{project.recruiter_name}}</td>
+                            <td>{{project.job_number}}</td>
+                            <td>{{project.title}}</td>
+                            <td>{{project.jobseeker_id}}</td>
+                            <td>{{project.jobseeker_name}}</td>
+                            <td>{{project.scout_status}} <span class="btn btn-default">{{$t('common.edit')}}</span> </td>
+                            <td style="width:200px;">
+                                <!-- <span class="btn btn-default">{{$t('common.chat')}}</span>
+                                <span class="btn btn-default">{{$t('common.payment_confirm')}}</span>
+                                <span class="btn btn-default">{{$t('common.invoice_generate')}}</span> -->
+                                <!-- <div class="toggle" v-if="project.recordstatus != 0">
+                                    <span class="checkbox">
+                                        <input
+                                            type="checkbox"
+                                            :id="project.id"
+                                            v-if="project.recordstatus == 1"
+                                            @click="changeStatus(project.id,project.recordstatus)"
+                                            checked
+                                        />
+                                        <input
+                                            type="checkbox"
+                                            :id="project.id"
+                                            v-if="project.recordstatus == 2"
+                                            @click="changeStatus(project.id,project.recordstatus)"
+                                        />
+                                        <label for="checkbox"></label>
+                                        <span v-if="project.recordstatus == 1" class="on">有効</span>
+                                        <span v-if="project.recordstatus == 2" class="on">無効</span>
+                                    </span>
+                                </div> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </DataTable>
+                <pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
+                    <span slot="prev-nav">
+                        <i class="fas fa-angle-left"></i> 前へ
+                    </span>
+                    <span slot="next-nav">
+                        次へ <i class="fas fa-angle-right"></i>
+                    </span>
+                </pagination>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-import JQuery from 'jquery'
-let $ = JQuery
+import DataTableServices from "../../DataTable/DataTableServices";
+
     export default {
+        mixins: [DataTableServices],
         data(){
-        return {
-            searchKey:{
-                from_date: '',
-                to_date:'',
-                control_number: '',
-                job_number: '',
-                job_title: '',
-                athlete_membership_number: '',
-                athlete_membership_name: '',
-                freeword: '',
-                selected_status: [],
-            },
-            arr_status: [
-                { id: '興味あり', checked: false},
-                { id: '入社済', checked: false},
-                { id: '辞退/不採用', checked: false},
-                { id: '回答待ち', checked: false},
-                { id: '期限切れ', checked: false}
-            ],
-            lang:{
-                days: ['日', '月', '火', '水', '木', '金', '土'],
-                months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                placeholder: {
-                    date: '年 - 月 - 日',
-                }
-            },
-            post:{},         
-        }
-    },
-    mounted(){
-          this.$api.post('v1/admin/scout-list', this.searchKey)            
-            .then(res => {
-                console.log(res);
-            })
-            .catch(error => {
-               console.log(error);
-            })
-
-        $(document).ready(function() {
-            $('#example').DataTable({
-                "language": {
-                    "search": "フィルタ",
-                    "zeroRecords": 'お探しの条件に合うは見つかりませんでした。',
-                    "sLengthMenu": "1ページ _MENU_ ",
-                    "paginate": {                               
-                        "next": "次へ ",
-                        "previous": " 前へ"
-                    },
-                    "info":"_START_ - _END_ (_TOTAL_ 件中)",    
-                    "infoEmpty":"",
-                    "infoFiltered":"",    
-                }
-            }); 
-        } );
-    },
-    methods: {
-        selectScoutStatus(status_id){
-            $('#'+status_id).attr('checked','true');
-        }, 
-        searchScout() {
-
-            var tmp_status = [];
-            this.selected_status = [];
-            $.each($("input[name='scout-status']:checked"), function(){
-                tmp_status.push($(this).val());
+            let sortOrders = {};
+            let columns = [];
+            columns.forEach(column => {
+                sortOrders[column.name] = -1;
             });
-            this.selected_status.push({status:tmp_status});
-            console.log(this.selected_status);
-        }
+            return {
+                base_url: "/v1/admin/scout-list",
+                columns: columns,
+                sortOrders: sortOrders,
+                
+                filteredData:{
+                    recruiter_id: '',
+                    recruiter_name: '',
+                    from_date: '',
+                    to_date:'',
+                    job_number: '',
+                    job_title: '',
+                    jobseeker_name: '',
+                    scout_status: [],
+                },
+              
+                arr_status: [
+                    { id: '興味あり', checked: false },
+                    { id: '期限切れ', checked: false },
+                    { id: '不採用/辞退', checked: false },
+                    { id: '内定未請求', checked: false },
+                    { id: '請求済', checked: false },
+                    { id: '入金確認済', checked: false }
+                ],
+                lang:{
+                    days: ['日', '月', '火', '水', '木', '金', '土'],
+                    months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    placeholder: {
+                        date: '年 - 月 - 日',
+                    }
+                },   
+            }
+        },
+        methods: {
         
+        }
     }
-  }
 </script>
