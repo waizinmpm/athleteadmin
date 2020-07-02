@@ -55,7 +55,7 @@
                     </div>                    
                 </div>
 
-                <DataTable ref="datatable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @check-all="selectAll" @sort="sortBy" >
+                <DataTable  ref="datatable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @check-all="selectAll" @sort="sortBy" >
                     <tbody>
                         <tr v-for="project in projects.data" :key="project.id">
                             <td>
@@ -122,7 +122,7 @@ export default {
             'jobseeker_recordstatus': [],
         };
         return {
-            base_url: "/admin/jobseeker-list",
+            base_url: "admin/jobseeker-list",
             columns: columns,
             sortOrders: sortOrders,
             filteredData: filteredData,
