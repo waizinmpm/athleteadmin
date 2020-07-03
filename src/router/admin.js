@@ -1,11 +1,11 @@
 import home from '../components/admin/AdminHome';
-import RecuriterList from '../components/admin/recuriter/RecuriterList';
-import JobList from '../components/admin/recuriter/JobList';
-import JobApplyList from '../components/admin/recuriter/JobApplyList';
-import ScoutedList from '../components/admin/recuriter/ScoutedList';
-import PaymentManagement from '../components/admin/recuriter/PaymentManagement';
+import RecruiterList from '../components/admin/recruiter/RecruiterList';
+import JobList from '../components/admin/recruiter/JobList';
+import JobApplyList from '../components/admin/recruiter/JobApplyList';
+import ScoutedList from '../components/admin/recruiter/ScoutedList';
+import PaymentManagement from '../components/admin/recruiter/PaymentManagement';
 import JobSeekerList from '../components/admin/jobseeker/JobSeekerList';
-import Invoice from '../components/admin/recuriter/Invoice';
+import Invoice from '../components/admin/recruiter/Invoice';
 import AdminPasswordSetting from '../components/auth/AdminPasswordSetting';
 
 const route = [{
@@ -18,8 +18,8 @@ const route = [{
         }
     },
     {
-        path: '/recuriter-list',
-        component: RecuriterList,
+        path: '/admin-recruiter-list',
+        component: RecruiterList,
         meta: {
             reqiuresAuth: false,
             admin: true, // for only admin component
