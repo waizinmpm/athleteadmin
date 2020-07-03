@@ -43,7 +43,7 @@
                         </div>                
                     </div>
                     <!-- Search by Status -->
-                    <label for="ステータス">{{ $t('scouted_list.scout_status') }}</label>
+                    <label for="ステータス">{{ $t('common.status') }}</label>
                     <div class="row">
                         <div class="col-md-6">                     
                             <div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.id">                          

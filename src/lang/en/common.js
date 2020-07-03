@@ -3,6 +3,7 @@ export default {
     "cancel": "Cancel",
     "edit": "Edit",
     "search": "Search",
+    "status": "Status",
     "chat": "Chat",
     "payment_confirm": "Payment Confirmation",
     "invoice_generate": "Invoice Generate",

@@ -3,6 +3,7 @@ export default {
     "cancel": "キャンセル",
     "edit": "編集",
     "search":"検索",
+    "status": "ステータス ",
     "chat": "チャット",
     "payment_confirm": "入金確認",
     "invoice_generate": "請求書生成",
