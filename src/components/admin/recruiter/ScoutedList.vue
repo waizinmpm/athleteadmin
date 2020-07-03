@@ -72,11 +72,11 @@
                         <tr v-for="project in projects.data" :key="project.id">
                             <td><input type="checkbox"></td>
                             <td>{{project.scouted_date}}</td>
-                            <td>{{project.recruiter_id}}</td>
+                            <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>
                             <td>{{project.title}}</td>
-                            <td>{{project.jobseeker_id}}</td>
+                            <td>{{project.jobseeker_number}}</td>
                             <td>{{project.jobseeker_name}}</td>
                             <td>{{project.scout_status}} <span class="btn btn-default">{{$t('common.edit')}}</span> </td>
                             <td style="width:200px;">

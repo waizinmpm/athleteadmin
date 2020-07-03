@@ -77,7 +77,7 @@
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>
                             <td>{{project.title}}</td>
-                            <td>{{project.jobseeker_id}}</td>
+                            <td>{{project.jobseeker_number}}</td>
                             <td>{{project.jobseeker_name}} <span class="btn btn-default">{{$t('common.edit')}}</span> </td>
                             <td>{{project.job_apply_status}}</td>
                             <td style="width:200px;">
