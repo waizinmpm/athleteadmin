@@ -3,6 +3,7 @@ export default {
     "scout_date": "Scout Date",
     "scout_status": "Scout Status",
     "columns": [
+        {"label":"Management Number"},
         {"label":"Scout date and time"},
         {"label":"Recruiter Number"},
         {"label":"Recruiter Name"},

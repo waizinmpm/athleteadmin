@@ -3,6 +3,7 @@ export default {
     "scout_date": "スカウト日時",
     "scout_status": "ステータス",
     "columns": [
+        {"label":"管理番号"},
         {"label":"スカウト日時"},
         {"label":"企業番号"},
         {"label":"企業名"},

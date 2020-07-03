@@ -71,6 +71,7 @@
                     <tbody>
                         <tr v-for="project in projects.data" :key="project.id">
                             <td><input type="checkbox"></td>
+                            <td>{{project.management_number}}</td>
                             <td>{{project.scouted_date}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
