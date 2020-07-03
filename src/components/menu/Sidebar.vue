@@ -8,7 +8,7 @@
             <span class="glyphicon glyphicon-chevron-down" data-toggle="childcollapse1"></span>企業会員</a>
             <ul>
                 <li class="collapse in" id="demo1">
-                <router-link to="/recuriter-list" class="list-group-item list-group-child-item">
+                <router-link to="/admin-recruiter-list" class="list-group-item list-group-child-item">
                     <span class="fa fa-file-text-o"></span>会員情報⼀覧
                 </router-link>
                 <router-link to="/job-list" class="list-group-item list-group-child-item">
