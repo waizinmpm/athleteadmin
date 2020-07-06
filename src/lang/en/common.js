@@ -1,7 +1,8 @@
 export default {
-	"password": "パスワード",
+    "password": "パスワード",
     "cancel": "Cancel",
     "edit": "Edit",
+    "delete": "Delete",
     "search": "Search",
     "status": "Status",
     "chat": "Chat",
@@ -13,6 +14,6 @@ export default {
     //-- Job Fields
     "job_number": "Job Number",
     "job_title": "Job Title",
-     //-- Job Seeker Fields
-     "jobseeker_name": "JobSeeker Name",
+    //-- Job Seeker Fields
+    "jobseeker_name": "JobSeeker Name",
 };

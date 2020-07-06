@@ -1,8 +1,9 @@
 export default {
-	"password": "パスワード",
+    "password": "パスワード",
     "cancel": "キャンセル",
     "edit": "編集",
-    "search":"検索",
+    "delete": "削除",
+    "search": "検索",
     "status": "ステータス ",
     "chat": "チャット",
     "payment_confirm": "入金確認",
