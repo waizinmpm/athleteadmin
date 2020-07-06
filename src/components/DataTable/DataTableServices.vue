@@ -54,7 +54,7 @@ export default {
             this.$api
                 .post(this.base_url + "?page=" + page, jsonData)
                 .then(response => {
-                    console.log("return",response.data)
+                    console.log("return", response.data);
                     this.projects = response.data;
                     this.checkedAll = false;
                 })
@@ -65,7 +65,7 @@ export default {
 
         deleteData() {
             this.$api
-                .post(this.base_url + '/delete', this.selected)
+                .post(this.base_url + "/delete", this.selected)
                 .then(response => {
                     console.log(response.data);
                     this.getData();

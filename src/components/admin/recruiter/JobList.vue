@@ -7,28 +7,53 @@
                 <div class="content-row" style="padding-bottom:0px;">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="企業番号">企業番号</label>
-                            <input type="text" placeholder="企業番号" class="form-control" name="企業番号" />
+                            <label for="企業番号">{{ $t('common.recruiter_id') }}</label>
+                            <input
+                                type="text"
+                                :placeholder="$t('common.recruiter_id')"
+                                class="form-control"
+                                name="企業番号"
+                                v-model="filteredData.company_number"
+                            />
                         </div>
                         <div class="col-md-3">
-                            <label for="企業名">企業名</label>
-                            <input type="text" placeholder="企業名" class="form-control" />
+                            <label for="企業名">{{ $t('common.recruiter_name') }}</label>
+                            <input
+                                type="text"
+                                :placeholder="$t('common.recruiter_name')"
+                                class="form-control"
+                                v-model="filteredData.company_name"
+                            />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="求⼈番号">求⼈番号</label>
-                            <input type="text" placeholder="求⼈番号" class="form-control" />
+                            <label for="求⼈番号">{{ $t('common.job_number') }}</label>
+                            <input
+                                type="text"
+                                :placeholder="$t('common.job_number')"
+                                class="form-control"
+                                v-model="filteredData.job_number"
+                            />
                         </div>
                         <div class="col-md-3">
-                            <label for="求⼈タイトル">求⼈タイトル</label>
-                            <input type="text" placeholder="求⼈タイトル" class="form-control" />
+                            <label for="求⼈タイトル">{{ $t('common.job_title') }}</label>
+                            <input
+                                type="text"
+                                :placeholder="$t('common.job_title')"
+                                class="form-control"
+                                v-model="filteredData.job_title"
+                            />
                         </div>
                         <div class="col-md-3">
-                            <button class="btn searchbtn" style="margin-top:22px;">検索</button>
+                            <button
+                                class="btn searchbtn"
+                                style="margin-top:22px;"
+                                @click="getData()"
+                            >{{ $t('common.search') }}</button>
                         </div>
                     </div>
-                    <label for="ステータス">ステータス</label>
+                    <label for="ステータス">{{ $t('common.status') }}</label>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="col-md-2 p-lr0">
@@ -37,6 +62,8 @@
                                     class="custom-control-input custom-checkbox"
                                     name="公開"
                                     id="公開"
+                                    v-model="filteredData.status"
+                                    value="release"
                                 />
                                 <label
                                     for="公開"
@@ -48,6 +75,8 @@
                                     type="checkbox"
                                     class="custom-control-input custom-checkbox"
                                     id="⾮公開"
+                                    v-model="filteredData.status"
+                                    value="disclosure"
                                 />
                                 <label
                                     for="⾮公開"
@@ -59,6 +88,8 @@
                                     type="checkbox"
                                     class="custom-control-input custom-checkbox"
                                     id="停⽌"
+                                    v-model="filteredData.status"
+                                    value="stop"
                                 />
                                 <label
                                     for="停⽌"
@@ -80,7 +111,7 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
-                        <label for="">limit:</label>
+                        <label for>limit:</label>
                         <select v-model="tableData.length" @change="getData()">
                             <option
                                 v-for="(records, index) in perPage"
@@ -94,10 +125,10 @@
                             class="btn custom-btn delete"
                             style="float:right"
                             @click="deleteData()"
-                        >削除</span>
+                        >{{ $t('common.delete') }}</span>
                     </div>
                 </div>
-                
+
                 <DataTable
                     ref="datatable"
                     :columns="columns"
@@ -121,7 +152,7 @@
                             <td>{{project.message}}</td>
                             <td>{{ project.job_post_date }}~{{ project.job_post_date }}</td>
                             <td>
-                                <span>{{ project.job_post_status }}</span>
+                                <div>{{ project.job_post_status }}</div>
                                 <button class="custom-btn change">変更</button>
                             </td>
                             <td>
@@ -217,7 +248,8 @@ export default {
         });
         let filteredData = {
             freeword: "",
-            jobseeker_recordstatus: []
+            //jobseeker_recordstatus: [],
+            status: []
         };
         return {
             base_url: "v1/admin/job-list",
@@ -239,7 +271,9 @@ export default {
             });
         }
     },
-    mounted() {}
+    mounted() {
+        console.log(this.projects);
+    }
 };
 
 /* import api from "../../../api/apiBasePath";
