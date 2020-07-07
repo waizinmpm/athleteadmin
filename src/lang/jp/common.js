@@ -2,6 +2,7 @@ export default {
     "password": "パスワード",
     "cancel": "キャンセル",
     "edit": "編集",
+    "change": "変更",
     "delete": "削除",
     "search": "検索",
     "status": "ステータス ",

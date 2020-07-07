@@ -144,19 +144,19 @@
                                     <input type="checkbox" :value="project.id" v-model="selected" />
                                 </label>
                             </td>
-                            <td>{{project.recruiter_id}}</td>
-                            <td>{{project.recruiter_show_name}}</td>
-                            <td>{{project.job_number}}</td>
-                            <td>{{project.title}}</td>
-                            <td>{{project.application_address}}</td>
-                            <td>{{project.message}}</td>
-                            <td>{{ project.job_post_date }}~{{ project.job_post_date }}</td>
+                            <td>{{ project.recruiter_id }}</td>
+                            <td>{{ project.recruiter_show_name }}</td>
+                            <td>{{ project.job_number }}</td>
+                            <td>{{ project.title }}</td>
+                            <td>{{ project.application_address }}</td>
+                            <td>{{ project.message }}</td>
+                            <td>{{ project.job_post_date | moment("YYYY-MM-DD") }}</td>
                             <td>
-                                <div>{{ project.job_post_status }}</div>
-                                <button class="custom-btn change">変更</button>
+                                <div>{{ project.job_post_status.toUpperCase() }}</div>
+                                <button class="custom-btn change">{{ $t('common.change') }}</button>
                             </td>
                             <td>
-                                <button class="custom-btn edit">編集</button>
+                                <button class="custom-btn edit">{{ $t('common.edit') }}</button>
                             </td>
                         </tr>
                     </tbody>

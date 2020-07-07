@@ -50,7 +50,7 @@ export default {
                 tableData: this.tableData,
                 filteredData: this.filteredData
             };
-
+            page = page ?? 1;
             this.$api
                 .post(this.base_url + "?page=" + page, jsonData)
                 .then(response => {
