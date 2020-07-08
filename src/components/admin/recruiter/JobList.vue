@@ -150,10 +150,14 @@
                             <td>{{ project.title }}</td>
                             <td>{{ project.application_address }}</td>
                             <td>{{ project.message }}</td>
-                            <td>{{ project.job_post_date | moment("YYYY-MM-DD") }}</td>
+                            <td>{{ project.job_post_date | date('%Y-%m-%d') }}</td>
+                            <!-- <td>{{ project.job_post_date | moment("YYYY-MM-DD") }}</td> -->
                             <td>
                                 <div>{{ project.job_post_status.toUpperCase() }}</div>
-                                <button class="custom-btn change">{{ $t('common.change') }}</button>
+                                <button
+                                    class="custom-btn change"
+                                    @click="changeStatus(project.id, project.job_post_status)"
+                                >{{ $t('common.change') }}</button>
                             </td>
                             <td>
                                 <button class="custom-btn edit">{{ $t('common.edit') }}</button>
@@ -227,6 +231,7 @@
 
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
+import api from "../../../api/apiBasePath";
 
 export default {
     mixins: [DataTableServices],
@@ -259,8 +264,19 @@ export default {
         };
     },
     methods: {
-        changeStatus(id, recordstatus) {
-            if (recordstatus == 1) {
+        changeStatus(id, status) {
+            let statusData = [];
+            statusData.push(id, status);
+            api.post(this.base_url + `/change-status`, statusData)
+                .then(response => {
+                    console.log(response.data);
+                    this.getData();
+                })
+                .catch(errors => {
+                    console.log(errors);
+                });
+
+            /* if (recordstatus == 1) {
                 this.recordstatus_text = "無効にしてよろしいでしょうか。";
             } else {
                 this.recordstatus_text = "有効してよろしいでしょうか。";
@@ -268,7 +284,7 @@ export default {
 
             this.$api.post(this.base_url + `/change-status/${id}`).then(() => {
                 this.getData();
-            });
+            }); */
         }
     },
     mounted() {
