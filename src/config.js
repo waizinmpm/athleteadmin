@@ -17,22 +17,58 @@ export default {
 		payment_confirmed: '入金確認済',
 	},
 	jobseeker: {
-		active: 1,
-		inactive: 2,
-		stop: 3,
-		delete: 0,
+		active: {
+			value: 1,
+			display: '有効',
+		},
+		inactive: {
+			value: 2,
+			display: '無効',
+		},
+		stopped: {
+			value: 3,
+			display: '退会',
+		},
+		deleted: {
+			value: 0,
+			display: '削除',
+		},
 	},
 	recruiter: {
-		private: 1,
-		public: 2,
-		stop: 3,
-		delete: 0,
+		private: {
+			value: 1, 
+			display: '非公開',
+		},
+		public: {
+			value: 2,
+			display: '公開',
+		},
+		stopped: {
+			value: 3,
+			display: '停止'
+		},
+		delete: {
+			value: 0,
+			display: '削除'
+		},
 	},
 	job: {
-		private: 1,
-		public: 2,
-		stop: 3,
-		delete: 0,
+		private: {
+			value: 1,
+			display: '非公開',
+		},
+		public: {
+			value: 2,
+			display: '公開'
+		},
+		stopped: {
+			value: 3,
+			display: '停止'
+		},
+		delete: {
+			value: 0,
+			display: '削除'
+		},
 	},
 	job_post: {
 		post: 'post',
@@ -42,7 +78,7 @@ export default {
 		scoutable: 1,
 		not_scoutable: 0,
 	},
-	face_image_priavate: {
+	face_image_private: {
 		private: 1,
 		public: 0,
 	},
