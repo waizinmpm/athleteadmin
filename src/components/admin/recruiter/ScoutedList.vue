@@ -60,6 +60,8 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
+                        <span>検索結果表示件数: {{ totalScouts }}件</span><br>
+                        <span>1ページ表示数&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
                             <option v-for="(records, index) in perPage" :key="index" :value="records">
                                 {{records}}
@@ -167,6 +169,11 @@ import DataTableServices from "../../DataTable/DataTableServices";
         },
         methods: {
         
+        },
+        computed: {
+            totalScouts: function() {
+                return this.$data.projects.total;
+            }
         }
     }
 </script>
