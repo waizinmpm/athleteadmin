@@ -67,7 +67,7 @@
                         </select>
                     </div>
                 </div>
-                <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
+                <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
                     <tbody>
                         <tr v-for="project in projects.data" :key="project.id">
                             <td><input type="checkbox"></td>

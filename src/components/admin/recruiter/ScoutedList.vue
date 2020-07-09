@@ -47,7 +47,7 @@
                     <div class="row">
                         <div class="col-md-6">                     
                             <div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.id">                          
-                                <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status">
+                                <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status" @change="getData()">
                                 <label class="custom-control-label custom-checkbox-label">{{status.id}}</label>                          
                             </div>  
                         </div>                    
@@ -69,10 +69,9 @@
                         </select>
                     </div>
                 </div>
-                <DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
+                <DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
-                            <td><input type="checkbox"></td>
                             <td>{{project.management_number}}</td>
                             <td>{{project.scouted_date}}</td>
                             <td>{{project.recruiter_number}}</td>
