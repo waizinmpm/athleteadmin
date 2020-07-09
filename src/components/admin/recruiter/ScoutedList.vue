@@ -59,7 +59,9 @@
         <div class="row">
             <div class="col-sm-12 p-0">
                 <div class="row">
-                    <div class="col-sm-6 select">
+                    <div class="col-sm-12 select text-right">
+                        <span>検索結果表示件数: {{ totalScouts }}件</span><br>
+                        <span>1ページ表示数&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
                             <option v-for="(records, index) in perPage" :key="index" :value="records">
                                 {{records}}
@@ -69,7 +71,7 @@
                 </div>
                 <DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
                     <tbody>
-                        <tr v-for="project in projects.data" :key="project.id">
+                        <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td><input type="checkbox"></td>
                             <td>{{project.management_number}}</td>
                             <td>{{project.scouted_date}}</td>
@@ -81,9 +83,9 @@
                             <td>{{project.jobseeker_name}}</td>
                             <td>{{project.scout_status}} <span class="btn btn-default">{{$t('common.edit')}}</span> </td>
                             <td style="width:200px;">
-                                <!-- <span class="btn btn-default">{{$t('common.chat')}}</span>
-                                <span class="btn btn-default">{{$t('common.payment_confirm')}}</span>
-                                <span class="btn btn-default">{{$t('common.invoice_generate')}}</span> -->
+                                <span class="btn btn-default" @click="startChat" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
+                                <span class="btn btn-default" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
+                                <span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.scout_status)">{{$t('common.invoice_generate')}}</span>
                                 <!-- <div class="toggle" v-if="project.recordstatus != 0">
                                     <span class="checkbox">
                                         <input
@@ -166,7 +168,41 @@ import DataTableServices from "../../DataTable/DataTableServices";
             }
         },
         methods: {
-        
-        }
+			allowChat(status) {
+				return status == this.$configs.scouts.interested;
+			},
+			allowBilling(status) {
+				return status == this.$configs.scouts.unclaimed;
+			},
+			allowPaymentConfirm(status) {
+				return status == this.$configs.scouts.billed;
+			},
+			startChat() {
+				alert("Now will start chatting...");
+			},
+			generateBill(scoutId, index) {
+				alert("Bill is successfully generated...");				
+				this.$data.projects.data[index].scout_status = this.$configs.scouts.billed;
+			},
+			confirmPayment(scoutId, index) {
+				if (confirm("Are you sure?")) {
+					this.$api.post('/v1/admin/scout-list/confirm-payment', {
+						scoutId: scoutId
+					})
+					.then(() => {
+						this.$data.projects.data[index].scout_status = this.$configs.scouts.payment_confirmed;
+					})
+					.catch(() => {
+						alert("操作時にエラーが発生しました。")
+					})
+					
+				}
+			}
+        },
+        computed: {
+            totalScouts: function() {
+                return this.$data.projects.total;
+            }
+		}
     }
 </script>
