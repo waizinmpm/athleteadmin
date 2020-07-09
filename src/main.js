@@ -10,6 +10,7 @@ import 'vue2-datepicker/index.css';
 import VueI18n from 'vue-i18n';
 import English from '../src/lang/en';
 import 日本語 from './lang/jp';
+import configs from './config';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
@@ -17,7 +18,8 @@ Vue.use(require('vue-moment'));
 Vue.use(DatePicker);
 Vue.use(Vuelidate);
 Vue.use(api)
-Vue.prototype.$api = api
+Vue.prototype.$api = api;
+Vue.prototype.$configs = configs;
 Vue.config.productionTip = false;
 
 const languages = {
