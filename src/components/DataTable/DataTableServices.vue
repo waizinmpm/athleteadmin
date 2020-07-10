@@ -64,11 +64,19 @@ export default {
         },
 
         deleteData() {
+            let checkedData = {};
+            this.$set(checkedData, "checked_data", this.selected);
             this.$api
-                .post(this.base_url + "/delete", this.selected)
+                .post(this.base_url + "/delete", checkedData)
                 .then(response => {
-                    console.log(response.data);
-                    this.getData();
+                    console.log("delete", response.data);
+                    let getpage = 1;
+                    if ((this.projects.to - this.selected.length + 1) > this.projects.from) {
+                        getpage = this.projects.current_page;
+                    } else {
+                        getpage = this.projects.current_page - 1;
+                    }
+                    this.getData(getpage);
                 })
                 .catch(errors => {
                     console.log(errors);
