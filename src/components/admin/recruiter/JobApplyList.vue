@@ -47,7 +47,7 @@
                     <div class="row">
                         <div class="col-md-6">                     
                             <div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.id">                          
-                                <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.jobapply_status">
+                                <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.jobapply_status" @change="getData()">
                                 <label class="custom-control-label custom-checkbox-label">{{status.id}}</label>                          
                             </div>  
                         </div>                    
@@ -59,7 +59,9 @@
         <div class="row">
             <div class="col-sm-12 p-0">
                 <div class="row">
-                    <div class="col-sm-6 select">
+                    <div class="col-sm-12 select text-right">
+                        <span>検索結果表示件数: {{ totalScouts }}件</span><br>
+                        <span>1ページ表示数&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
                             <option v-for="(records, index) in perPage" :key="index" :value="records">
                                 {{records}}
@@ -67,10 +69,9 @@
                         </select>
                     </div>
                 </div>
-                <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
+                <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
                     <tbody>
                         <tr v-for="project in projects.data" :key="project.id">
-                            <td><input type="checkbox"></td>
                             <td>{{project.jobapply_id}}</td>
                             <td>{{project.created_at}}</td>
                             <td>{{project.recruiter_number}}</td>
@@ -149,11 +150,11 @@ import DataTableServices from "../../DataTable/DataTableServices";
                 },
               
                 arr_status: [
-                    { id: '検討中', checked: false },
-                    { id: '辞退/不採用', checked: false },
-                    { id: '内定未請求', checked: false },
-                    { id: '請求済', checked: false },
-                    { id: '入金確認済', checked: false }
+                    { id: this.$configs.job_apply.under_review, checked: false },
+                    { id: this.$configs.job_apply.declined, checked: false },
+                    { id: this.$configs.job_apply.unclaimed, checked: false },
+                    { id: this.$configs.job_apply.billed, checked: false },
+                    { id: this.$configs.job_apply.payment_confirmed, checked: false }
                 ],
                 lang:{
                     days: ['日', '月', '火', '水', '木', '金', '土'],
@@ -164,8 +165,10 @@ import DataTableServices from "../../DataTable/DataTableServices";
                 },   
             }
         },
-        methods: {
-        
-        }
+        computed: {
+            totalScouts: function() {
+                return this.$data.projects.total;
+            }
+		}
     }
 </script>

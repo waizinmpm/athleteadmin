@@ -47,7 +47,7 @@
                     <div class="row">
                         <div class="col-md-6">                     
                             <div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.id">                          
-                                <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status">
+                                <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status" @change="getData()">
                                 <label class="custom-control-label custom-checkbox-label">{{status.id}}</label>                          
                             </div>  
                         </div>                    
@@ -59,7 +59,7 @@
         <div class="row">
             <div class="col-sm-12 p-0">
                 <div class="row">
-                    <div class="col-sm-6 select">
+                    <div class="col-sm-12 select text-right">
                         <span>検索結果表示件数: {{ totalScouts }}件</span><br>
                         <span>1ページ表示数&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
@@ -69,10 +69,9 @@
                         </select>
                     </div>
                 </div>
-                <DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
+                <DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
                     <tbody>
-                        <tr v-for="project in projects.data" :key="project.id">
-                            <td><input type="checkbox"></td>
+                        <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>{{project.management_number}}</td>
                             <td>{{project.scouted_date}}</td>
                             <td>{{project.recruiter_number}}</td>
@@ -83,9 +82,9 @@
                             <td>{{project.jobseeker_name}}</td>
                             <td>{{project.scout_status}} <span class="btn btn-default">{{$t('common.edit')}}</span> </td>
                             <td style="width:200px;">
-                                <!-- <span class="btn btn-default">{{$t('common.chat')}}</span>
-                                <span class="btn btn-default">{{$t('common.payment_confirm')}}</span>
-                                <span class="btn btn-default">{{$t('common.invoice_generate')}}</span> -->
+                                <span class="btn btn-default" @click="startChat" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
+                                <span class="btn btn-default" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
+                                <span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.scout_status)">{{$t('common.invoice_generate')}}</span>
                                 <!-- <div class="toggle" v-if="project.recordstatus != 0">
                                     <span class="checkbox">
                                         <input
@@ -151,12 +150,12 @@ import DataTableServices from "../../DataTable/DataTableServices";
                 },
               
                 arr_status: [
-                    { id: '興味あり', checked: false },
-                    { id: '期限切れ', checked: false },
-                    { id: '不採用/辞退', checked: false },
-                    { id: '内定未請求', checked: false },
-                    { id: '請求済', checked: false },
-                    { id: '入金確認済', checked: false }
+                    { id: this.$configs.scouts.interested, checked: false },
+                    { id: this.$configs.scouts.expired, checked: false },
+                    { id: this.$configs.scouts.declined, checked: false },
+                    { id: this.$configs.scouts.unclaimed, checked: false },
+                    { id: this.$configs.scouts.billed, checked: false },
+                    { id: this.$configs.scouts.payment_confirmed, checked: false }
                 ],
                 lang:{
                     days: ['日', '月', '火', '水', '木', '金', '土'],
@@ -168,12 +167,41 @@ import DataTableServices from "../../DataTable/DataTableServices";
             }
         },
         methods: {
-        
+			allowChat(status) {
+				return status == this.$configs.scouts.interested;
+			},
+			allowBilling(status) {
+				return status == this.$configs.scouts.unclaimed;
+			},
+			allowPaymentConfirm(status) {
+				return status == this.$configs.scouts.billed;
+			},
+			startChat() {
+				alert("Now will start chatting...");
+			},
+			generateBill(scoutId, index) {
+				alert("Bill is successfully generated...");				
+				this.$data.projects.data[index].scout_status = this.$configs.scouts.billed;
+			},
+			confirmPayment(scoutId, index) {
+				if (confirm("Are you sure?")) {
+					this.$api.post('/v1/admin/scout-list/confirm-payment', {
+						scoutId: scoutId
+					})
+					.then(() => {
+						this.$data.projects.data[index].scout_status = this.$configs.scouts.payment_confirmed;
+					})
+					.catch(() => {
+						alert("操作時にエラーが発生しました。")
+					})
+					
+				}
+			}
         },
         computed: {
             totalScouts: function() {
                 return this.$data.projects.total;
             }
-        }
+		}
     }
 </script>
