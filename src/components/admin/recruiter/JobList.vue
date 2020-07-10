@@ -11,7 +11,7 @@
                             <input
                                 type="text"
                                 :placeholder="$t('common.recruiter_id')"
-                                class="form-control"
+                                class="form-control mx-input"
                                 name="企業番号"
                                 v-model="filteredData.company_number"
                             />
@@ -21,7 +21,7 @@
                             <input
                                 type="text"
                                 :placeholder="$t('common.recruiter_name')"
-                                class="form-control"
+                                class="form-control mx-input"
                                 v-model="filteredData.company_name"
                             />
                         </div>
@@ -32,7 +32,7 @@
                             <input
                                 type="text"
                                 :placeholder="$t('common.job_number')"
-                                class="form-control"
+                                class="form-control mx-input"
                                 v-model="filteredData.job_number"
                             />
                         </div>
@@ -41,7 +41,7 @@
                             <input
                                 type="text"
                                 :placeholder="$t('common.job_title')"
-                                class="form-control"
+                                class="form-control mx-input"
                                 v-model="filteredData.job_title"
                             />
                         </div>
@@ -56,45 +56,23 @@
                     <label for="ステータス">{{ $t('common.status') }}</label>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="col-md-2 p-lr0">
+                            <div
+                                class="col-md-2 p-lr0"
+                                v-for="(status, name) in recordStatus"
+                                :key="status.id"
+                            >
                                 <input
                                     type="checkbox"
                                     class="custom-control-input custom-checkbox"
-                                    name="公開"
-                                    id="公開"
+                                    name="record_status"
+                                    id="record_status"
                                     v-model="filteredData.status"
-                                    value="release"
+                                    :value="name"
                                 />
                                 <label
-                                    for="公開"
+                                    for="record_status"
                                     class="custom-control-label custom-checkbox-label"
-                                >公開</label>
-                            </div>
-                            <div class="col-md-2 p-lr0">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input custom-checkbox"
-                                    id="⾮公開"
-                                    v-model="filteredData.status"
-                                    value="disclosure"
-                                />
-                                <label
-                                    for="⾮公開"
-                                    class="custom-control-label custom-checkbox-label"
-                                >⾮公開</label>
-                            </div>
-                            <div class="col-md-2 p-lr0">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input custom-checkbox"
-                                    id="停⽌"
-                                    v-model="filteredData.status"
-                                    value="stop"
-                                />
-                                <label
-                                    for="停⽌"
-                                    class="custom-control-label custom-checkbox-label"
-                                >停⽌</label>
+                                >{{status}}</label>
                             </div>
                         </div>
                     </div>
@@ -111,7 +89,8 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
-                        <label for>limit:</label>
+                        <div for>検索結果表示件数: {{ projects.total }}件</div>
+                        <span>{{ projects.current_page }}ページ表示数</span>&nbsp;
                         <select v-model="tableData.length" @change="getData()">
                             <option
                                 v-for="(records, index) in perPage"
@@ -128,7 +107,7 @@
                         >{{ $t('common.delete') }}</span>
                     </div>
                 </div>
-
+                
                 <DataTable
                     ref="datatable"
                     :columns="columns"
@@ -144,19 +123,20 @@
                                     <input type="checkbox" :value="project.id" v-model="selected" />
                                 </label>
                             </td>
-                            <td>{{ project.recruiter_id }}</td>
-                            <td>{{ project.recruiter_show_name }}</td>
+                            <td>{{ project.recruiter.recruiter_number }}</td>
+                            <td>{{ project.recruiter.recruiter_name }}</td>
                             <td>{{ project.job_number }}</td>
                             <td>{{ project.title }}</td>
                             <td>{{ project.application_address }}</td>
                             <td>{{ project.message }}</td>
                             <td>{{ project.job_post_date | date('%Y-%m-%d') }}</td>
-                            <!-- <td>{{ project.job_post_date | moment("YYYY-MM-DD") }}</td> -->
                             <td>
-                                <div>{{ project.job_post_status.toUpperCase() }}</div>
+                                <div v-for="(status, name) in recordStatus" :key="status.id">
+                                    <span v-if="name == project.record_status">{{status}}</span>
+                                </div>
                                 <button
                                     class="custom-btn change"
-                                    @click="changeStatus(project.id, project.job_post_status)"
+                                    @click="changeStatus(project.id, project.record_status)"
                                 >{{ $t('common.change') }}</button>
                             </td>
                             <td>
@@ -252,7 +232,7 @@ export default {
             sortOrders[column.name] = -1;
         });
         let filteredData = {
-            freeword: "",
+            //freeword: "",
             //jobseeker_recordstatus: [],
             status: []
         };
@@ -260,31 +240,33 @@ export default {
             base_url: "v1/admin/job-list",
             columns: columns,
             sortOrders: sortOrders,
-            filteredData: filteredData
+            filteredData: filteredData,
+            recordStatus: {
+                1: "非公開",
+                2: "公開",
+                3: "停止"
+            }
         };
     },
     methods: {
         changeStatus(id, status) {
-            let statusData = [];
-            statusData.push(id, status);
+            let statusData = {};
+            this.$set(statusData, "id", id);
+            this.$set(statusData, "status", status);
             api.post(this.base_url + `/change-status`, statusData)
                 .then(response => {
                     console.log(response.data);
-                    this.getData();
+                    console.log(this.projects.data.length);
+                    if (this.projects.data.length == 0) {
+                        this.getData(this.projects.current_page - 1);
+                    }else{
+                        this.getData(this.projects.current_page);
+                    }
+                    
                 })
                 .catch(errors => {
                     console.log(errors);
                 });
-
-            /* if (recordstatus == 1) {
-                this.recordstatus_text = "無効にしてよろしいでしょうか。";
-            } else {
-                this.recordstatus_text = "有効してよろしいでしょうか。";
-            }
-
-            this.$api.post(this.base_url + `/change-status/${id}`).then(() => {
-                this.getData();
-            }); */
         }
     },
     mounted() {
