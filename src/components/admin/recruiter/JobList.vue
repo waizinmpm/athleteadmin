@@ -107,7 +107,7 @@
                         >{{ $t('common.delete') }}</span>
                     </div>
                 </div>
-                
+
                 <DataTable
                     ref="datatable"
                     :columns="columns"
@@ -115,7 +115,7 @@
                     :sortOrders="sortOrders"
                     @check-all="selectAll"
                     @sort="sortBy"
-					:showCheckbox="true"
+                    :showCheckbox="true"
                 >
                     <tbody>
                         <tr v-for="project in projects.data" :key="project.id">
@@ -260,10 +260,9 @@ export default {
                     console.log(this.projects.data.length);
                     if (this.projects.data.length == 0) {
                         this.getData(this.projects.current_page - 1);
-                    }else{
+                    } else {
                         this.getData(this.projects.current_page);
                     }
-                    
                 })
                 .catch(errors => {
                     console.log(errors);
