@@ -2,13 +2,11 @@
     <table class="table table-hover is-bordered data-table">
         <thead>
             <tr>
-                <th>
-                    <input type="checkbox" @click="emitToParent" v-model="checkornot" />
-                </th>
-                <th
-                    v-for="column in columns"
-                    :key="column.name"
-                    @click="$emit('sort', column.name)"
+            
+               <th v-if="showCheckbox">
+               <input type="checkbox" @click="emitToParent" v-model="checkornot" />
+               </th>
+                <th v-for="column in columns" :key="column.name" @click="$emit('sort', column.name)"
                     :class="sortKey === column.name ? (sortOrders[column.name] > 0 ? 'sorting_asc' : 'sorting_desc') : 'sorting'"
                     :style="'width:'+column.width+';'+'cursor:pointer;'"
                 >{{column.label}}</th>
@@ -20,7 +18,7 @@
 
 <script>
 export default {
-    props: ["columns", "sortKey", "sortOrders", "removeChecked"],
+    props: ["columns", "sortKey", "sortOrders", "removeChecked", 'showCheckbox'],
     data() {
         return {
             checkornot: false

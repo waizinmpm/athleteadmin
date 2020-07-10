@@ -136,6 +136,7 @@
                     :sortOrders="sortOrders"
                     @check-all="selectAll"
                     @sort="sortBy"
+					:showCheckbox="true"
                 >
                     <tbody>
                         <tr v-for="project in projects.data" :key="project.id">
