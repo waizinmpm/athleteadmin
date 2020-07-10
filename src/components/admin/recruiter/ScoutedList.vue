@@ -150,12 +150,12 @@ import DataTableServices from "../../DataTable/DataTableServices";
                 },
               
                 arr_status: [
-                    { id: '興味あり', checked: false },
-                    { id: '期限切れ', checked: false },
-                    { id: '不採用/辞退', checked: false },
-                    { id: '内定未請求', checked: false },
-                    { id: '請求済', checked: false },
-                    { id: '入金確認済', checked: false }
+                    { id: this.$configs.scouts.interested, checked: false },
+                    { id: this.$configs.scouts.expired, checked: false },
+                    { id: this.$configs.scouts.declined, checked: false },
+                    { id: this.$configs.scouts.unclaimed, checked: false },
+                    { id: this.$configs.scouts.billed, checked: false },
+                    { id: this.$configs.scouts.payment_confirmed, checked: false }
                 ],
                 lang:{
                     days: ['日', '月', '火', '水', '木', '金', '土'],
