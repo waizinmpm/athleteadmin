@@ -256,13 +256,6 @@ export default {
             this.$set(statusData, "status", status);
             api.post(this.base_url + `/change-status`, statusData)
                 .then(response => {
-                    /* console.log(response.data);
-                    console.log(this.projects.data.length);
-                    if (this.projects.data.length == 0) {
-                        this.getData(this.projects.current_page - 1);
-                    } else {
-                        this.getData(this.projects.current_page);
-                    } */
                     console.log("changeStatus", response.data);
                     let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
                     this.getData(getpage);
