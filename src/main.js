@@ -11,10 +11,12 @@ import VueI18n from 'vue-i18n';
 import English from '../src/lang/en';
 import 日本語 from './lang/jp';
 import configs from './config';
+import VueFilter from 'vue-filter';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
-Vue.use(require('vue-moment'));
+//Vue.use(require('vue-moment'));
+Vue.use(VueFilter);
 Vue.use(DatePicker);
 Vue.use(Vuelidate);
 Vue.use(api)

@@ -82,6 +82,9 @@
                             <td>{{project.jobseeker_name}} <span class="btn btn-default">{{$t('common.edit')}}</span> </td>
                             <td>{{project.job_apply_status}}</td>
                             <td style="width:200px;">
+                                <span class="btn btn-default" @click="startChat" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
+                                <span class="btn btn-default" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span>
+                                <span class="btn btn-default" @click="generateBill(project.jobapply_id, index)" v-if="allowBilling(project.job_apply_status)">{{$t('common.invoice_generate')}}</span>
                                 <!-- <span class="btn btn-default">{{$t('common.chat')}}</span>
                                 <span class="btn btn-default">{{$t('common.payment_confirm')}}</span>
                                 <span class="btn btn-default">{{$t('common.invoice_generate')}}</span> -->
@@ -165,8 +168,40 @@ import DataTableServices from "../../DataTable/DataTableServices";
                 },   
             }
         },
+        methods: {
+			allowChat(status) {
+				return status == this.$configs.job_apply.under_review;
+			},
+			allowBilling(status) {
+				return status == this.$configs.job_apply.unclaimed;
+			},
+			allowPaymentConfirm(status) {
+				return status == this.$configs.job_apply.billed;
+			},
+			startChat() {
+				alert("Now will start chatting...");
+			},
+			generateBill(scoutId, index) {
+				alert("Bill is successfully generated...");		
+				this.$data.projects.data[index].job_apply_status = this.$configs.job_apply.billed;
+			},
+			confirmPayment(jobapplyId, index) {
+				if (confirm("Are you sure?")) {
+					this.$api.post('/v1/admin/jobapply-list/confirm-payment', {
+						jobapplyId: jobapplyId
+					})
+					.then(() => {
+						this.$data.projects.data[index].job_apply_status = this.$configs.job_apply.payment_confirmed;
+					})
+					.catch(() => {
+						alert("操作時にエラーが発生しました。")
+					})
+					
+				}
+			}
+        },
         computed: {
-            totalScouts: function() {
+            totaljob_apply: function() {
                 return this.$data.projects.total;
             }
 		}

@@ -180,7 +180,7 @@ import DataTableServices from "../../DataTable/DataTableServices";
 				alert("Now will start chatting...");
 			},
 			generateBill(scoutId, index) {
-				alert("Bill is successfully generated...");				
+				alert("Bill is successfully generated...");		
 				this.$data.projects.data[index].scout_status = this.$configs.scouts.billed;
 			},
 			confirmPayment(scoutId, index) {
