@@ -15,7 +15,7 @@ $borderradius1:25px;
 $borderradius2:3px;
 $bordercolor:#e7e7e7;
 $colors:( 
-primary: #004bb1, primary-ligtht:#1A74C0, primary-dark:#233977, 
+primary: #84BE3F, primary-ligtht:#1A74C0, primary-dark:#233977, 
 second:#FB8C00, secondary-light:#a5a5a5, 
 text-color:#000, 
 errorcolor:red, 

@@ -13799,7 +13799,9 @@ a.navbar-brand {
     -ms-flex-align: center!important;
     align-items: center!important;
     justify-content: center;
-    background: #f8f8f8;
+    /* background: #f6ffeb; */
+    background: #b8cfb2;
+    background: #d9e8c3;
     min-height: 100vh;
     min-height: -webkit-fill-available;
 }
@@ -13811,12 +13813,14 @@ a.navbar-brand {
     margin: 0 auto;
     background-color: #fff;
     border: 1px solid #dedede;
-    box-shadow: 1px 3px rgba(0, 0, 0, .1);
-    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, .1);
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
 }
 
 .form-signin label {
-    color: #2699FB;
+    font-size: 16px;
+    line-height: 1;
+    color: #84BE3F;
 }
 
 .form-signin.checkbox,
@@ -13857,19 +13861,19 @@ a.navbar-brand {
 }
 
 .form-signin-heading {
-    color: #004bb1;
+    color: #84BE3F;
     margin-top: 0px;
     margin-bottom: 20px;
     font-size: 20px;
 }
 
 .form-signin input {
-    background-color: #F1F9FF;
-    border: 1px solid #BCE0FD;
+    background-color: #f0fae3;
+    border: 1px solid #84BE3F;
     height: 41px;
     border-radius: 10px !important;
     margin-bottom: 10px;
-    color: #2699FB;
+    color: #84BE3F;
     font-size: 14px;
 }
 
@@ -13878,7 +13882,7 @@ a.navbar-brand {
 }
 
 .form-signin .form-control:focus {
-    border-color: #BCE0FD;
+    border-color: #84BE3F;
 }
 
 .form-signin .input-group-addon {
@@ -13886,20 +13890,20 @@ a.navbar-brand {
     border-color: #BCE0FD;
 }
 
-.form-signin::placeholder {
-    color: #2699FB;
+.form-signin .form-control::placeholder {
+   color: #C6DDD9;
 }
 
-.form-signin::-moz-placeholder {
-    color: #2699FB;
+.form-signin .form-control::-moz-placeholder {
+   color: #C6DDD9;
 }
 
-.form-signin:-ms-input-placeholder {
-    color: #2699FB;
+.form-signin .form-control:-ms-input-placeholder {
+   color: #C6DDD9;
 }
 
-.form-signin::-webkit-input-placeholder {
-    color: #2699FB;
+.form-signin .form-control::-webkit-input-placeholder {
+   color: #C6DDD9;
 }
 
 .showpwd {
@@ -13923,11 +13927,14 @@ a.navbar-brand {
 }
 
 input:-webkit-autofill {
-    -webkit-text-fill-color: #2699FB;
+    -webkit-text-fill-color: #84BE3F;
+    -webkit-box-shadow: 0 0 0px 1000px #f0fae3 inset;
+    -webkit-transition: background-color 5000s ease-in-out 0s;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 input:-webkit-autofill:focus {
-    -webkit-text-fill-color: #2699FB;
+    -webkit-text-fill-color: #84BE3F;
 }
 
 ::placeholder {

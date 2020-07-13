@@ -1,14 +1,15 @@
 <template>
     <div class="row">
+        <h5 class="m-b-10 main-header">パスワード変更</h5>
         <!-- Password confirmation form -->
         <form
-            class="form-signin"
+            class="form-content"
             role="form"
             v-show="!passwordAuthenticated"
             @submit.prevent="authenticate"
         >
             <div class="form-group">
-                <label for="password">{{ $t('admin_password_setting.enter_current_password') }}</label>
+                <label for="password" class="form-label">{{ $t('admin_password_setting.enter_current_password') }}</label>
                 <div class="input-group">
                     <!-- hide password-->
                     <input
@@ -41,14 +42,14 @@
                 </div>
             </div>
             <div class="fomr-group text-center m-t-30">
-                <button class="btn loginbtn" type="submit">OK</button>
+                <button class="btn loginbtn" type="submit">変更する</button>
             </div>
         </form>
 
         <!-- Password change form -->
-        <form class="form-signin" role="form" v-show="passwordAuthenticated" @submit.prevent>
+        <form class="form-content" role="form" v-show="passwordAuthenticated" @submit.prevent>
             <div class="form-group">
-                <label for="password">{{ $t('admin_password_setting.enter_new_password') }}</label>
+                <label for="password" class="form-label">{{ $t('admin_password_setting.enter_new_password') }}</label>
                 <div class="input-group">
                     <!-- hide password-->
                     <input
@@ -79,7 +80,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">{{ $t('admin_password_setting.enter_password_again') }}</label>
+                <label for="password" class="form-label">{{ $t('admin_password_setting.enter_password_again') }}</label>
                 <div class="input-group">
                     <!-- hide password-->
                     <input
@@ -116,7 +117,7 @@
                     @click="changePassword"
                 >OK</button>
                 <button
-                    class="btn searchbtn"
+                    class="btn loginbtn"
                     type="button"
                     @click="cancelChange"
                 >{{ $t('common.cancel') }}</button>
@@ -250,5 +251,39 @@ export default {
 }
 .input-error {
     border: 1px solid red;
+}
+
+
+
+
+.form-content {
+    width: 30%;
+    height: 100vh;
+    padding: 20px;
+}
+.form-control {
+    border-radius: 5px !important;
+}
+.loginbtn{
+    background-color: #84BE3F;
+    color: #fff;
+    width: 120px;
+    padding: 8px 0;
+    border-radius: 0;
+    margin-right: 20px;
+}
+.showpwd {
+    top: 7px;
+}
+.form-group {
+    margin-bottom: 25px;
+}
+.form-label {
+    border-left: 5px solid #84be3f;
+    padding-left: 5px;
+    margin-bottom: 7px;
+}
+.form-control:focus {
+    border-color: #84BE3F;
 }
 </style>
