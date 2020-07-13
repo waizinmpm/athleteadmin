@@ -6,47 +6,51 @@
         class="text-success"
       >Thank you {{registeredUser.name}}.You can now login</div>
       <div class="card">      
-        <div class="login-card-body">
-         <form class="form-signin" role="form" @submit.prevent="authenticate">
-          <h3 class="form-signin-heading text-center">運営管理者ログイン</h3> 
+        <div class="login-card-body row">
+            <div class="col-12">
+                <img :src="'/images/logo_admin.png'" class="logo-img" alt="ATLETEJOB" />
+                <form class="form-signin" role="form" @submit.prevent="authenticate">
+                    <h3 class="form-signin-heading text-center">運営管理者ログイン</h3> 
 
-          <div class="form-group has-error has-feedback" v-if="authError">
-            <label for="inputError2" class="control-label">{{authError}}</label>           
-          </div>
+                    <div class="form-group has-error has-feedback" v-if="authError">
+                        <label for="inputError2" class="control-label">{{authError}}</label>           
+                    </div>
 
-          <div class="form-group">
-          <label for="email">ID</label>
-            <div class="input-group">              
-              <input type="email" class="form-control" name="メールアドレス" id="email" placeholder="メールアドレス" autocomplete="off" v-model="formLogin.email"/>
-            </div>
-          </div>
+                    <div class="form-group">
+                    <label for="email">ID</label>
+                        <div class="input-group">              
+                        <input type="email" class="form-control" name="メールアドレス" id="email" placeholder="メールアドレス" autocomplete="off" v-model="formLogin.email"/>
+                        </div>
+                    </div>
 
-          <div class="form-group">
-          <label for="password">{{ $t('common.password') }}</label>
-            <div class="input-group">               
-              <!-- hide password-->
-              <input class="form-control input_pass m-l1" type="password" placeholder="パスワード" id="password" v-model="formLogin.password" v-show="!showPass"  />
-              <!-- show password-->
-              <input class="form-control input_pass" type="text" placeholder="パスワード" v-model="formLogin.password" v-show="showPass" />
-              <span class="showpwd" @click="showPass = !showPass">
-              <span v-show="!showPass"  class="fa fa-fw fa-eye field-icon toggle-password"></span>
-              <span v-show="showPass" class="fa fa-fw fa-eye-slash"></span>
-              </span>
-             
-            </div>
-          </div>
+                    <div class="form-group">
+                    <label for="password">{{ $t('common.password') }}</label>
+                        <div class="input-group">               
+                        <!-- hide password-->
+                        <input class="form-control input_pass m-l1" type="password" placeholder="パスワード" id="password" v-model="formLogin.password" v-show="!showPass"  />
+                        <!-- show password-->
+                        <input class="form-control input_pass" type="text" placeholder="パスワード" v-model="formLogin.password" v-show="showPass" />
+                        <p  v-if="formLogin.password != ''">
+                            <span class="showpwd" @click="showPass = !showPass">
+                            <span v-show="!showPass"  class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            <span v-show="showPass" class="fa fa-fw fa-eye-slash"></span>
+                            </span>
+                        </p>
+                        </div>
+                    </div>
 
-          <!-- <div class="form-group">
-            <input type="checkbox" class="custom-control-input custom-checkbox" id="customCheck1">
-            <label class="custom-control-label custom-checkbox-label" for="customCheck1">パスワードを記憶して⾃動ログインする
-            </label>
-          </div> -->
+                    <!-- <div class="form-group">
+                        <input type="checkbox" class="custom-control-input custom-checkbox" id="customCheck1">
+                        <label class="custom-control-label custom-checkbox-label" for="customCheck1">パスワードを記憶して⾃動ログインする
+                        </label>
+                    </div> -->
 
-          <div class="fomr-group text-center m-t-30">
-           <button class="btn loginbtn" type="submit">ok</button>
-           <button class="btn searchbtn" type="button">{{ $t('common.cancel') }}</button>
-           </div>
-        </form>          
+                    <div class="fomr-group text-center m-t-30">
+                    <button class="btn loginbtn mr" type="submit">ログイン</button>
+                    <button class="btn loginbtn" type="button">{{ $t('common.cancel') }}</button>
+                    </div>
+                </form>    
+            </div>      
         </div>
       </div>
     </div>
@@ -96,22 +100,56 @@ export default {
 
 <style scoped>
 .error {
-  text-align: center;
   color: red;
 }
-.loginbtn{
-      background-color: #004bb1;
-      color: #fff;
-      width: 120px;
-      padding: 10px 0;
-      border-radius: 20px;
-      margin-right: 20px;
+.logo-img {
+  display: block;
+  width: 50%;
+  margin: 0 auto 50px;  
 }
-.searchbtn {
-      background-color: #004bb1;
+.loginbtn{
+      background-color: #84BE3F;
       color: #fff;
       width: 120px;
       padding: 10px 0;
-      border-radius: 20px;
-    }
+      border-radius: 0;
+}
+.mr {
+    margin-right: 20px;
+}
+.mb-4{
+    margin-bottom: 2rem;
+}
+.custom-checkbox {
+  height: 18px !important;
+  width: 18px !important;
+  opacity: 0;
+}
+
+.custom-checkbox-label {
+  padding-left: 15px;
+  line-height: 20px;
+  font-weight: normal;
+}
+
+.custom-checkbox-label::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: -1.3rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: #84BE3F solid 2px;
+  border-radius: 4px;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  background-color: transparent;
+  content: "\2714";
+  color: #84BE3F;
+  font-size: 17px;
+  padding-left: 2px;
+  border-color: #84BE3F;
+}
 </style>
