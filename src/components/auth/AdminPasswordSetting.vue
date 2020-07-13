@@ -257,7 +257,7 @@ export default {
 
 
 .form-content {
-    width: 40%;
+    width: 30%;
     height: 100vh;
     padding: 20px;
 }
