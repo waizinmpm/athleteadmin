@@ -86,7 +86,8 @@ export default {
         sortBy(key) {
             this.sortKey = key;
             this.sortOrders[key] = this.sortOrders[key] * -1;
-            this.tableData.column = this.getIndex(this.columns, "name", key);
+            this.tableData.column = (this.getIndex(this.columns, "name", key) + 1);
+            // add plus 1 to get key0 as a initial state sorting
             this.tableData.dir = this.sortOrders[key] === 1 ? "asc" : "desc";
             this.getData();
         },
