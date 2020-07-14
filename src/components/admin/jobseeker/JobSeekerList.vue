@@ -112,7 +112,7 @@
                                     <input type="checkbox" :value="project.id" v-model="selected" />
                                 </label>
                             </td>
-                            <td>{{project.custom_id}}</td>
+                            <td>{{project.jobseeker_number}}</td>
                             <td>{{project.jobseeker_name}}</td>
                             <td>{{project.recordstatus == 1 ? '有効' : (project.recordstatus == 0 ? '退会' : '無効')}}</td>
                             <td style="width:200px;">
