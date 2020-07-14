@@ -128,8 +128,8 @@
                             <td>{{ project.recruiter.recruiter_name }}</td>
                             <td>{{ project.job_number }}</td>
                             <td>{{ project.title }}</td>
-                            <td>{{ project.application_address }}</td>
-                            <td>{{ project.message }}</td>
+                            <td>{{ project.job_apply.length }}</td>
+                            <td>{{ project.scout.length }}</td>
                             <td>{{ project.job_post_date | date('%Y-%m-%d') }}</td>
                             <td>
                                 <div v-for="(status, name) in recordStatus" :key="status.id">
