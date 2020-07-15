@@ -78,6 +78,8 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
+                        <div for>検索結果表示件数: {{ projects.total }}件</div>
+                        <span>{{ projects.current_page }}ページ表示数</span>&nbsp;
                         <select v-model="tableData.length" @change="getData()">
                             <option
                                 v-for="(records, index) in perPage"
@@ -109,16 +111,18 @@
                         <tr v-for="project in projects.data" :key="project.id">
                             <td>
                                 <label class="form-checkbox">
-                                    <input type="checkbox" :value="project.id" v-model="selected" />
+                                    <span v-if="project.record_status != 0">
+                                        <input type="checkbox" :value="project.id" v-model="selected" />
+                                    </span>
                                 </label>
                             </td>
                             <td>{{project.jobseeker_number}}</td>
                             <td>{{project.jobseeker_name}}</td>
-                            <td>{{project.record_status == 1 ? '有効' : (project.recordstatus == 0 ? '退会' : '無効')}}</td>
-                            <td style="width:200px;">
-                                <span class="btn btn-info">編集</span>
-
+                            <td>{{project.record_status == 1 ? '有効' : (project.record_status == 0 ? '退会' : '無効')}}</td>
+                            <td style="width:20%;">
                                 <div class="toggle" v-if="project.record_status != 0">
+                                    <button @click="edit(project.id)" class="btn btn-info">編集</button>
+                                    &nbsp;
                                     <span class="checkbox">
                                         <input
                                             type="checkbox"
@@ -160,6 +164,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
 
@@ -229,6 +234,9 @@ export default {
             //         $("#"+id).prop("checked", false);
             //     }
             // });
+        },
+        edit(id){
+            alert("jobseeker id -> "+ id);
         }
     },
     mounted() {}
