@@ -114,28 +114,28 @@
                             </td>
                             <td>{{project.jobseeker_number}}</td>
                             <td>{{project.jobseeker_name}}</td>
-                            <td>{{project.recordstatus == 1 ? '有効' : (project.recordstatus == 0 ? '退会' : '無効')}}</td>
+                            <td>{{project.record_status == 1 ? '有効' : (project.recordstatus == 0 ? '退会' : '無効')}}</td>
                             <td style="width:200px;">
                                 <span class="btn btn-info">編集</span>
 
-                                <div class="toggle" v-if="project.recordstatus != 0">
+                                <div class="toggle" v-if="project.record_status != 0">
                                     <span class="checkbox">
                                         <input
                                             type="checkbox"
                                             :id="project.id"
-                                            v-if="project.recordstatus == 1"
-                                            @click="changeStatus(project.id,project.recordstatus)"
+                                            v-if="project.record_status == 1"
+                                            @click="changeStatus(project.id,project.record_status)"
                                             checked
                                         />
                                         <input
                                             type="checkbox"
                                             :id="project.id"
-                                            v-if="project.recordstatus == 2"
-                                            @click="changeStatus(project.id,project.recordstatus)"
+                                            v-if="project.record_status == 2"
+                                            @click="changeStatus(project.id,project.record_status)"
                                         />
                                         <label for="checkbox"></label>
-                                        <span v-if="project.recordstatus == 1" class="on">有効</span>
-                                        <span v-if="project.recordstatus == 2" class="on">無効</span>
+                                        <span v-if="project.record_status == 1" class="on">有効</span>
+                                        <span v-if="project.record_status == 2" class="on">無効</span>
                                     </span>
                                 </div>
                             </td>
@@ -195,7 +195,9 @@ export default {
                 this.recordstatus_text = "有効してよろしいでしょうか。";
             }
 
-            this.$api.post(this.base_url + `/change-status/${id}`).then(() => {
+            this.$api.post(this.base_url + `/change-status/${id}`)
+            .then((res) => {
+                console.log(res);
                 this.getData();
             });
             // this.$swal({
