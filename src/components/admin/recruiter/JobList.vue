@@ -56,17 +56,14 @@
                     <label for="ステータス">{{ $t('common.status') }}</label>
                     <div class="row">
                         <div class="col-md-6">
-                            <div
-                                class="col-md-2 p-lr0"
-                                v-for="(status, name) in recordStatus"
-                                :key="status.id"
-                            >
+                            <div class="col-md-2 p-lr0" v-for="(status, name) in recordStatus" :key="status.id">
                                 <input
                                     type="checkbox"
                                     class="custom-control-input custom-checkbox"
                                     name="record_status"
                                     id="record_status"
                                     v-model="filteredData.status"
+                                    @change="getData()"
                                     :value="name"
                                 />
                                 <label
@@ -74,11 +71,6 @@
                                     class="custom-control-label custom-checkbox-label"
                                 >{{status}}</label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- <button class="custom-btn delete" @click="deleteJob">削除</button> -->
                         </div>
                     </div>
                 </div>
@@ -133,7 +125,8 @@
                             <td>{{ project.job_post_date | date('%Y-%m-%d') }}</td>
                             <td>
                                 <div v-for="(status, name) in recordStatus" :key="status.id">
-                                    <span v-if="name == project.record_status">{{status}}</span>
+                                    <input type="radio" :id="status" :value="name" v-model="project.record_status">
+                                    <label for="">{{status}}</label>
                                 </div>
                                 <button
                                     class="custom-btn change"
@@ -201,7 +194,8 @@ export default {
                 1: "非公開",
                 2: "公開",
                 3: "停止"
-            }
+            },
+            tblStatus:''
         };
     },
     methods: {
