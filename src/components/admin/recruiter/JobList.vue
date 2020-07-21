@@ -122,7 +122,7 @@
                             <td>{{ project.title }}</td>
                             <td>{{ project.job_apply.length }}</td>
                             <td>{{ project.scout.length }}</td>
-                            <td>{{ project.job_post_date | date('%Y-%m-%d') }}</td>
+                            <td>{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
                             <td>
                                 <div v-for="(status, name) in recordStatus" :key="status.id">
                                     <input type="radio" :id="status" :value="name" v-model="project.record_status">
@@ -216,6 +216,10 @@ export default {
         editJob(jobId){
             alert("job id -> "+ jobId);
         }
+        /* reverse: function (jobdate) {
+            var job_post_date = new Date(jobdate);
+        return job_post_date.setMonth(job_post_date.getMonth()+1);
+        } */
     },
     mounted() {
         console.log(this.projects);
