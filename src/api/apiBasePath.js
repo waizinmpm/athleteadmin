@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from '../store';
 const api = axios.create({
-    baseURL: 'http://192.168.10.106:8000/api/',
+    baseURL: process.env.VUE_APP_API_URL,
     // headers: {'Authorization': `Bearer ${store.getters.token}`}
 });
 console.log('stre', store)
