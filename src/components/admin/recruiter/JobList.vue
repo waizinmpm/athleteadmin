@@ -134,7 +134,7 @@
                                 >{{ $t('common.change') }}</button>
                             </td>
                             <td>
-                                <router-link :to="'/job-list/' + project.id + '/edit'" class="btn custom-btn edit">{{ $t('common.edit')}}</router-link>
+                                <router-link :to="'/job-list/job/' + project.id + '/edit'" class="btn custom-btn edit">{{ $t('common.edit')}}</router-link>
                             </td>
                         </tr>
                     </tbody>
