@@ -56,7 +56,7 @@
                     <label for="ステータス">{{ $t('common.status') }}</label>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="col-md-2 p-lr0" v-for="(status, name) in recordStatus" :key="status.id">
+                            <div class="col-md-2 p-lr0" v-for="status in recordStatus" :key="status.id">
                                 <input
                                     type="checkbox"
                                     class="custom-control-input custom-checkbox"
@@ -64,12 +64,12 @@
                                     id="record_status"
                                     v-model="filteredData.status"
                                     @change="getData()"
-                                    :value="name"
+                                    :value="status.value"
                                 />
                                 <label
                                     for="record_status"
                                     class="custom-control-label custom-checkbox-label"
-                                >{{status}}</label>
+                                >{{status.display}}</label>
                             </div>
                         </div>
                     </div>
@@ -122,11 +122,11 @@
                             <td>{{ project.title }}</td>
                             <td>{{ project.job_apply.length }}</td>
                             <td>{{ project.scout.length }}</td>
-                            <td>{{ project.job_post_date | date('%Y-%m-%d') }}</td>
+                            <td>{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
                             <td>
-                                <div v-for="(status, name) in recordStatus" :key="status.id">
-                                    <input type="radio" :id="status" :value="name" v-model="project.record_status">
-                                    <label for="">{{status}}</label>
+                                <div v-for="status in recordStatus" :key="status.id">
+                                    <input type="radio" :id="status" :value="status.value" v-model="project.record_status">
+                                    <label for="">{{status.display}}</label>
                                 </div>
                                 <button
                                     class="custom-btn change"
@@ -134,7 +134,7 @@
                                 >{{ $t('common.change') }}</button>
                             </td>
                             <td>
-                                <button class="custom-btn edit" @click="editJob(project.id)">{{ $t('common.edit') }}</button>
+                                <router-link :to="'/job-list/job/' + project.id + '/edit'" class="btn custom-btn edit">{{ $t('common.edit')}}</router-link>
                             </td>
                         </tr>
                     </tbody>
@@ -185,16 +185,21 @@ export default {
             //jobseeker_recordstatus: [],
             status: []
         };
-        return {
+        return {//
             base_url: "v1/admin/job-list",
             columns: columns,
             sortOrders: sortOrders,
             filteredData: filteredData,
-            recordStatus: {
+            /* recordStatus: {
                 1: "非公開",
                 2: "公開",
                 3: "停止"
-            },
+            }, */
+            recordStatus: [
+                this.$configs.job.private,
+                this.$configs.job.public,
+                this.$configs.job.stopped
+            ],
             tblStatus:''
         };
     },
@@ -216,6 +221,10 @@ export default {
         editJob(jobId){
             alert("job id -> "+ jobId);
         }
+        /* reverse: function (jobdate) {
+            var job_post_date = new Date(jobdate);
+        return job_post_date.setMonth(job_post_date.getMonth()+1);
+        } */
     },
     mounted() {
         console.log(this.projects);
