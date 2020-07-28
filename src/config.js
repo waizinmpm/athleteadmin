@@ -53,21 +53,21 @@ export default {
 		},
 	},
 	job: {
-		private: {
-			value: 1,
-			display: '非公開',
+		delete: {
+			value: 0,
+			display: '削除'
 		},
 		public: {
-			value: 2,
+			value: 1,
 			display: '公開'
+		},
+		private: {
+			value: 2,
+			display: '非公開',
 		},
 		stopped: {
 			value: 3,
 			display: '停止'
-		},
-		delete: {
-			value: 0,
-			display: '削除'
 		},
 	},
 	job_post: {
