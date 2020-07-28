@@ -139,8 +139,6 @@
 </template>
 
 <script>
-import JQuery from 'jquery'
-let $ = JQuery
 import DataTableServices from "../../DataTable/DataTableServices";
 
     export default {
@@ -230,7 +228,6 @@ import DataTableServices from "../../DataTable/DataTableServices";
             },
             hideToggle() {
                 this.status = false;
-                 $('.scout-toggle').removeClass('expand');
             },
             closeModal () {
                 this.status = false;
