@@ -126,24 +126,29 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-sm-6">
-							<h4>仕事</h4>
-							<dl class="row">
-								<dt class="col-sm-2 text-right">管理番号</dt>
-								<dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
-								<dt class="col-sm-2 text-right">タイトル</dt>
-								<dd class="col-sm-9">{{ invoiceForm.title }}</dd>
-							</dl>
-							<h4>請求先企業会員</h4>
-							<dl class="row">
-								<dt class="col-sm-2 text-right">会員番号</dt>
-								<dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
-								<dt class="col-sm-2 text-right">企業名</dt>
-								<dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
-							</dl>
-							<dl class="row">
-								<dt class="col-sm-4">請求書送付先メールアドレス</dt>
-								<dd class="col-sm-8">{{ invoiceForm.email }}</dd>
-							</dl>
+							<div class="border">
+								<h4>仕事</h4>
+								<dl class="row">
+									<dt class="col-sm-2 text-right">管理番号</dt>
+									<dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
+									<dt class="col-sm-2 text-right">タイトル</dt>
+									<dd class="col-sm-9">{{ invoiceForm.title }}</dd>
+								</dl>
+								<h4>請求先企業会員</h4>
+								<dl class="row">
+									<dt class="col-sm-2 text-right">会員番号</dt>
+									<dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
+									<dt class="col-sm-2 text-right">企業名</dt>
+									<dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
+								</dl>
+							</div>		
+							<div class="border">
+								<dl class="row email-box">									
+									<dt class="col-sm-4">請求書送付先メールアドレス</dt>
+									<dd class="col-sm-8">{{ invoiceForm.email }}</dd>
+								</dl>
+							</div>
+							<div class="border">
 							<h4>仲介手数料</h4>
 							<div class="form-group row">
 								<div class="col-sm-2"></div>
@@ -170,18 +175,25 @@
 							</div>
 							<div class="form-group row">
 								<div class="col-sm-9 text-right">
-									
-									<button class="btn btn-primary">請求書プレビュー</button>
+									<button class="btn btn-primary" @click="loadInvoicePreview">請求書プレビュー</button>
 								</div>
 							</div>
+							</div>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-6" v-if="invoicePreview">
 							<h4>請求書プレビュー</h4>
+							<div class="invoice-preview-area">
+								<iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 70vh;" scrolling="no"></iframe>
+							</div>
 						</div>
+					</div>
+					<div class="row">
 						<div class="col-sm-6">
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="closeInvoicePreview">前に戻る</button>
 							<button class="btn btn-danger" style="margin-right: 1rem;" @click="requireInvoiceForm = false">キャンセル</button>
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="requireInvoiceForm = false">請求書を保存しメールで送付</button>
 						</div>
-					</div>					
+					</div>
 				</div>
 			</div>
 		</div>
@@ -202,6 +214,7 @@ import DataTableServices from "../../DataTable/DataTableServices";
             });
             return {
 				requireInvoiceForm: false,
+				invoicePreview: '',
                 base_url: "/v1/admin/scout-list",
                 columns: columns,
                 sortOrders: sortOrders,
@@ -322,6 +335,19 @@ import DataTableServices from "../../DataTable/DataTableServices";
 				this.requireInvoiceForm = true;
 				//this.$data.projects.data[index].scout_status = this.$configs.scouts.billed;
 			},
+			loadInvoicePreview() {
+				this.$api.post('/v1/admin/scout-list/generate-bill', this.invoiceForm)
+				.then((r) => {
+					let html = r.data;
+					this.invoicePreview = html;
+				})
+				.catch(() => {
+					
+				})
+			},
+			closeInvoicePreview() {
+				this.invoicePreview = null;
+			},
 			confirmPayment(scoutId, index) {
 				if (confirm("Are you sure?")) {
 					this.$api.post('/v1/admin/scout-list/confirm-payment', {
@@ -359,7 +385,14 @@ import DataTableServices from "../../DataTable/DataTableServices";
 	min-width: 150px;	
 	text-align: left;
 }
-
+.border {
+	padding: 0px 1rem;
+	margin: 1rem 0px;
+	border: 1px solid #dee2e6!important;
+}
+.email-box {
+	padding-top: 15px;
+}
 /* The Modal (background) */
 .modal {
   position: fixed; /* Stay in place */
