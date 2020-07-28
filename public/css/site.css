@@ -13799,11 +13799,8 @@ a.navbar-brand {
     -ms-flex-align: center!important;
     align-items: center!important;
     justify-content: center;
-    /* background: #f6ffeb; */
-    background: #b8cfb2;
     background: #d9e8c3;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
+    height: 100vh;
 }
 
 .form-signin {

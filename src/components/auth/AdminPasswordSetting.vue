@@ -36,12 +36,12 @@
                         <span v-show="!showPass" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         <span v-show="showPass" class="fa fa-fw fa-eye-slash"></span>
                     </span>
-                    <div class="form-group has-error has-feedback" v-if="$v.formLogin.password.$error">
+                    <div class="has-error has-feedback" v-if="$v.formLogin.password.$error">
                         <label for="inputError2" class="control-label" v-if="!$v.formLogin.password.required">{{ $t('admin_password_setting.password_required') }}</label>
                     </div>
                 </div>
             </div>
-            <div class="fomr-group text-center m-t-30">
+            <div class="fomr-group">
                 <button class="btn loginbtn" type="submit">変更する</button>
             </div>
         </form>
@@ -109,7 +109,7 @@
                     </div>
                 </div>
             </div>
-            <div class="fomr-group text-center m-t-30">
+            <div class="fomr-group m-t-30">
                 <button
                     class="btn loginbtn"
                     type="submit"
