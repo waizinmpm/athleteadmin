@@ -73,7 +73,7 @@
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>{{project.management_number}}</td>
-                            <td>{{project.scouted_date}}</td>
+                            <td>{{project.scouted_date| date('%Y-%m-%d')}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>
