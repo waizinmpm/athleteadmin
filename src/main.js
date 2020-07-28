@@ -15,7 +15,7 @@ import VueFilter from 'vue-filter';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
-//Vue.use(require('vue-moment'));
+Vue.use(require('vue-moment'));
 Vue.use(VueFilter);
 Vue.use(DatePicker);
 Vue.use(Vuelidate);
