@@ -6,7 +6,7 @@
             <div class="form-content" style="width: 100%;border-radius:0px 0px 5px 5px;">
             <form @submit.prevent="jobpostcreate">
                 <div class="row text-right">
-                    <router-link to="/job-list" class="btn btn-m primary-btn border-style recruiter-primary-color">Back</router-link>
+                    <router-link to="/job-list" class="btn btn-m primary-btn border-style recruiter-primary-color">{{ $t('common.cancel') }}</router-link>
                 </div>
                 <div class="row">
                 <div class="col-12 form-bordered">
@@ -103,7 +103,7 @@
                     </div>
                     <div class="col-md-8 form-right-block">
                         <div class="row col-12 p-0">
-                        <div class="col-3" v-for="(result,indx) in employment_types" :key="result.id">
+                        <div class="col-3" v-for="(result, index) in employment_types" :key="result.id">
                             <input
                             type="checkbox"
                             v-bind:value="result.employment_type_name"
@@ -114,7 +114,7 @@
                             <label
                             :for="result.employment_type_name"
                             class="custom-control-label custom-checkbox-label"
-                            >{{$t('jobcreate.employment_type['+indx+']')}}</label>
+                            >{{$t('jobcreate.employment_type['+ index+']')}}</label>
                         </div>
                         </div>
                     </div>
@@ -410,7 +410,7 @@
                     </div>
                     <div class="col-md-8 form-right-block">
                         <div class="row col-12 p-0">
-                        <div class="col-3" v-for="(keyword,indx) in other_keywords" :key="keyword.id">
+                        <div class="col-3" v-for="(keyword, index) in other_keywords" :key="keyword.id">
                             <input
                             type="checkbox"
                             :value="keyword"
@@ -421,7 +421,7 @@
                             <label
                             :for="keyword"
                             class="custom-control-label custom-checkbox-label"
-                            >{{ $t('jobcreate.other_keywords['+indx+']') }}</label>
+                            >{{ $t('jobcreate.other_keywords['+ index+']') }}</label>
                         </div>
                         </div>
                     </div>
@@ -606,6 +606,9 @@ export default {
 
 <style lang="scss">
 @import "public/css/app.scss";
+.invalid-feedback{
+    display: none;
+}
 .form-control.is-invalid,
 .was-validated .form-control:invalid {
     padding-right: calc(1.5em + 0.75rem);

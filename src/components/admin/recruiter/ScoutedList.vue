@@ -73,7 +73,7 @@
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>{{project.management_number}}</td>
-                            <td>{{project.scouted_date}}</td>
+                            <td>{{project.scouted_date| date('%Y-%m-%d')}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>
@@ -226,8 +226,6 @@
 </template>
 
 <script>
-import JQuery from 'jquery'
-let $ = JQuery
 import DataTableServices from "../../DataTable/DataTableServices";
 
     export default {
@@ -407,7 +405,6 @@ import DataTableServices from "../../DataTable/DataTableServices";
             },
             hideToggle() {
                 this.status = false;
-                 $('.scout-toggle').removeClass('expand');
             },
             closeModal () {
 				this.status = false;

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
-                <h5 class="m-b-10 main-header">求⼈⼀覧</h5>
+                <h5 class="m-b-10 main-header">{{ $t('common.recruitment') }}</h5>
                 <div class="content-row">
                     <div class="row">
                         <div class="col-md-3">
@@ -81,8 +81,8 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
-                        <div for>検索結果表示件数: {{ projects.total }}件</div>
-                        <span>{{ projects.current_page }}ページ表示数</span>&nbsp;
+                        <div for>{{ $t('common.total_results') }}: {{ projects.total }}{{ $t('common.item') }}</div>
+                        <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
                         <select v-model="tableData.length" @change="getData()">
                             <option
                                 v-for="(records, index) in perPage"
@@ -181,26 +181,18 @@ export default {
             sortOrders[column.name] = -1;
         });
         let filteredData = {
-            //freeword: "",
-            //jobseeker_recordstatus: [],
             status: []
         };
-        return {//
+        return {
             base_url: "v1/admin/job-list",
             columns: columns,
             sortOrders: sortOrders,
             filteredData: filteredData,
-            /* recordStatus: {
-                1: "非公開",
-                2: "公開",
-                3: "停止"
-            }, */
             recordStatus: [
-                this.$configs.job.private,
                 this.$configs.job.public,
+                this.$configs.job.private,
                 this.$configs.job.stopped
-            ],
-            tblStatus:''
+            ]
         };
     },
     methods: {
