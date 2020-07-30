@@ -1,14 +1,12 @@
 <template>
-  <div class="login row justify-content-center">
-    <div class="col-md-12">
+  <div class="login d-flex justify-content-center">
       <div
         v-if="registeredUser"
         class="text-success"
-      >Thank you {{registeredUser.name}}.You can now login</div>
-      <div class="card">      
+      >Thank you {{registeredUser.name}}.You can now login</div>         
         <div class="login-card-body row">
             <div class="col-12">
-                <img :src="'/images/logo_admin.png'" class="logo-img" alt="ATLETEJOB" />
+                <img :src="'../../images/logo_admin.png'" class="logo-img" alt="ATLETEJOB" />
                 <form class="form-signin" role="form" @submit.prevent="authenticate">
                     <h3 class="form-signin-heading text-center">運営管理者ログイン</h3> 
 
@@ -17,7 +15,7 @@
                     </div>
 
                     <div class="form-group">
-                    <label for="email">ID</label>
+                    <label for="email">メール</label>
                         <div class="input-group">              
                         <input type="email" class="form-control" name="メールアドレス" id="email" placeholder="メールアドレス" autocomplete="off" v-model="formLogin.email"/>
                         </div>
@@ -52,8 +50,6 @@
                 </form>    
             </div>      
         </div>
-      </div>
-    </div>
   </div>
 </template>
 

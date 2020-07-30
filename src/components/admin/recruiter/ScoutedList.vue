@@ -80,7 +80,23 @@
                             <td>{{project.title}}</td>
                             <td>{{project.jobseeker_number}}</td>
                             <td>{{project.jobseeker_name}}</td>
-                            <td>{{project.scout_status}} <span class="btn btn-default" @click="editStatus(project.id, project.scout_status)">{{$t('common.edit')}}</span> </td>
+                            <td>
+                                <div class="scout-box">
+                                    <p class="scout-txt">{{project.scout_status}} </p>
+                                     <p class="btn btn-common" v-on:click="showToggle(index)">
+                                        {{$t('common.edit')}}
+                                        <span class="down-icon">&#9662;</span>
+                                    </p>
+                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'expand': (current === index) && (status == true)}">
+                                        <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
+                                            <input type="radio" :id="status.id+index" name="radio-group" :checked="project.scout_status == status.id" class="custion-radio" 
+												@change="onStatusChange(index, $event)" :value="status.id">
+                                            <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
+                                        </p>
+                                    </div>
+                                   
+                                </div>
+                            </td>
                             <td style="width:200px;">
                                 <span class="btn btn-default" @click="startChat" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
                                 <span class="btn btn-default" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
@@ -117,13 +133,14 @@
                         次へ <i class="fas fa-angle-right"></i>
                     </span>
                 </pagination>
+
             </div>
         </div>
 		<div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
 			<!-- Modal content -->
 			<div class="modal-content">
-				<span class="close" @click="requireInvoiceForm = false">&times;</span>
-				<div class="container-fluid">
+				<span class="close" @click="closeInvoiceModal">&times;</span>
+				<div class="container-fluid vld-parent" ref="invoicePreviewContainer">
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="border">
@@ -164,13 +181,13 @@
 							</dl>
 							<dl class="row">
 								<dt class="col-sm-2 text-right">請求金額</dt>
-								<dd class="col-sm-6 text-right">{{ Number(invoice_amount).toLocaleString() }}</dd>
+								<dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
 								<label class="col-sm-1">円</label>
 							</dl>
 							<div class="form-group row">
 								<label class="col-sm-2 text-right">備考</label>
 								<div class="col-sm-6">
-									<textarea rows="5" class="form-control"></textarea>
+									<textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -183,15 +200,22 @@
 						<div class="col-sm-6" v-if="invoicePreview">
 							<h4>請求書プレビュー</h4>
 							<div class="invoice-preview-area">
-								<iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 70vh;" scrolling="no"></iframe>
+								<iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 60vh;"></iframe>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
 							<button class="btn btn-primary" style="margin-right: 1rem;" @click="closeInvoicePreview">前に戻る</button>
-							<button class="btn btn-danger" style="margin-right: 1rem;" @click="requireInvoiceForm = false">キャンセル</button>
-							<button class="btn btn-primary" style="margin-right: 1rem;" @click="requireInvoiceForm = false">請求書を保存しメールで送付</button>
+							<button class="btn btn-danger" style="margin-right: 1rem;" @click="closeInvoiceModal">キャンセル</button>
+						</div>
+						<div class="col-sm-6 text-right">
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">請求書を保存しメールで送付</button>
+							<!-- <form method="POST" action="http://localhost:8000/api/v1/admin/scout-list/generate-bill" target="_blank">
+								<input type="hidden" name="_token" :value="'Bearer ' + currentUser.token">
+								<button class="btn btn-primary" style="margin-right: 1rem;" v-show="invoicePreview">Open PDF (new tab)</button>
+							</form> -->
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="openInvoice" v-show="invoicePreview">Open PDF (new tab)</button>
 						</div>
 					</div>
 				</div>
@@ -202,6 +226,8 @@
 </template>
 
 <script>
+import JQuery from 'jquery'
+let $ = JQuery
 import DataTableServices from "../../DataTable/DataTableServices";
 
     export default {
@@ -215,10 +241,12 @@ import DataTableServices from "../../DataTable/DataTableServices";
             return {
 				requireInvoiceForm: false,
 				invoicePreview: '',
+                old_index:'',
+                status:false,
+                current: null,
                 base_url: "/v1/admin/scout-list",
                 columns: columns,
                 sortOrders: sortOrders,
-                
                 filteredData:{
 					recruiter_id: '',
 					title: '',
@@ -255,11 +283,13 @@ import DataTableServices from "../../DataTable/DataTableServices";
 					email: '',
 					tax: 20000,
 					default_amount: 200000,
-					invoice_amount: 0,
+					invoice_amount: 220000,
 					remark: '',
-				} 
+				},
+                isToggle : false ,
             }
         },
+       
         methods: {
 			allowChat(status) {
 				return status == this.$configs.scouts.interested || 
@@ -273,54 +303,10 @@ import DataTableServices from "../../DataTable/DataTableServices";
 				return status == this.$configs.scouts.billed;
 			},
 			startChat() {
-				alert("Now will start chatting...");
+                alert("Now will start chatting...");
 			},
-			editStatus(scout_id, scout_status) {
-				this.$swal({
-					allowOutsideClick: false, 
-					title: "Change status",
-					width: 500,
-					text: null,  
-					icon: null,
-					confirmButtonColor: "#ffb700",                       
-					confirmButtonText: "OK",
-					cancelButtonColor: "#0062ff",                       
-					cancelButtonText: "Cancel",
-					customClass: {
-						confirmButton: 'border-style',
-						cancelButton: 'cancelbtn border-style',
-						input: 'd-flex flex-options',
-					},
-					showCloseButton: true,
-					showCancelButton: true,
-					input: 'radio',
-					inputOptions: new Promise((resolve) => {
-						resolve({
-							[this.$configs.scouts.interested]: this.$configs.scouts.interested,
-							[this.$configs.scouts.declined]: this.$configs.scouts.declined,
-							[this.$configs.scouts.expired]: this.$configs.scouts.expired,
-							[this.$configs.scouts.unclaimed]: this.$configs.scouts.unclaimed,
-							[this.$configs.scouts.billed]: this.$configs.scouts.billed,
-							[this.$configs.scouts.payment_confirmed]: this.$configs.scouts.payment_confirmed,
-						})					
-					}),
-					inputValue: scout_status,
-					inputValidator: (value) => {
-						if (!value) {
-							return 'You need to choose something!'
-						}
-					}
-				})
-				.then(r => {
-					if (r.isConfirmed) {
-						// --Todo access api
-
-						let scout = this.$data.projects.data.find(x => {
-							return x.id == scout_id
-						});						
-						scout.scout_status = r.value;
-					}					
-				});
+			onStatusChange(index, e) {
+				this.$data.projects.data[index].scout_status = e.target.value;
 			},
 			generateBill(scoutId, index) {
 				let scout = this.$data.projects.data[index];
@@ -331,9 +317,26 @@ import DataTableServices from "../../DataTable/DataTableServices";
 				this.invoiceForm.recruiter_name = scout.recruiter_name;
 				this.invoiceForm.email = scout.recruiter_email;
 				this.invoiceForm.default_amount = 200000;
-				this.invoiceForm.tax = 20000;
 				this.requireInvoiceForm = true;
-				//this.$data.projects.data[index].scout_status = this.$configs.scouts.billed;
+			},
+			closeInvoiceModal() {
+				// --close any preview
+				this.closeInvoicePreview();
+				// --reset invoice form data
+				this.invoiceForm = {
+					scout_id: 0,
+					management_number: 0,
+					title: 'Sample title',
+					recruiter_number: '',
+					recruiter_name: '',
+					email: '',
+					tax: 20000,
+					default_amount: 200000,
+					invoice_amount: 220000,
+					remark: '',
+				};
+				// --close modal
+				this.requireInvoiceForm = false;
 			},
 			loadInvoicePreview() {
 				this.$api.post('/v1/admin/scout-list/generate-bill', this.invoiceForm)
@@ -348,6 +351,37 @@ import DataTableServices from "../../DataTable/DataTableServices";
 			closeInvoicePreview() {
 				this.invoicePreview = null;
 			},
+			sendInvoiceMail() {
+				this.$api.post('/v1/admin/scout-list/send-invoice-mail', this.invoiceForm)
+				.then((r) => {
+					const scout = r.data.data;
+					this.projects.data
+						.filter(x => x.id == scout.id)
+						.forEach(x => x.scout_status = this.$configs.scouts.billed);
+				})
+				.catch(() => {
+					
+				})
+			},
+			openInvoice() {
+				// const vm = this;
+				// const qs = Object.keys(vm.invoiceForm)
+				// 			.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(vm.invoiceForm[key])}`)
+				// 			.join('&');
+				// window.open(process.env.VUE_APP_API_URL+'v1/admin/scout-list/generate-bill?'+qs, '_blank')
+				this.$api.post('/v1/admin/scout-list/view-invoice', this.invoiceForm, { responseType: 'arraybuffer' })
+				.then(r => {
+					const type = r.headers['content-type']
+					const blob = new Blob([r.data], { type: type, encoding: 'UTF-8' })
+					const filename = r.headers['content-disposition'].split('=')[1].replace(/^"+|"+$/g, '')
+					const link = document.createElement('a')
+					link.href = window.URL.createObjectURL(blob)
+					link.download = filename
+					link.click()
+					
+				})
+
+			},
 			confirmPayment(scoutId, index) {
 				if (confirm("Are you sure?")) {
 					this.$api.post('/v1/admin/scout-list/confirm-payment', {
@@ -361,20 +395,184 @@ import DataTableServices from "../../DataTable/DataTableServices";
 					})
 					
 				}
-			}
+            },
+            showToggle(index) {
+                this.current = index;
+                if(this.status == true) {
+                    if(this.current == this.old_index) this.status = false; 
+                } else {
+                    this.status = true;
+                }
+                this.old_index = index;
+            },
+            hideToggle() {
+                this.status = false;
+                 $('.scout-toggle').removeClass('expand');
+            },
+            closeModal () {
+				this.status = false;
+				this.invoiceForm = {};
+            },
         },
         computed: {
+			currentUser() {
+				return this.$store.getters.currentUser;
+			},
             totalScouts: function() {
                 return this.$data.projects.total;
-			},
-			invoice_amount() {
-				return Number(this.invoiceForm.default_amount) + Number(this.invoiceForm.tax);
-			}
+			}		
 		},
+		watch: {
+			'invoiceForm.default_amount': function() {
+				this.invoiceForm.invoice_amount = Number(this.invoiceForm.default_amount) + Number(this.invoiceForm.tax);
+			}
+		}
 		
     }
 </script>
-<style>
+<style  scoped>
+.btn-common {
+    position: relative;
+    width: 75px;
+    height: 29px;
+    padding: 0 12px;
+    border-color: #A6A6A6;
+    background-color: #fff;
+    box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    color: #000;
+    vertical-align: middle;
+    line-height: 28px;
+    text-align: left;    
+}
+.btn-common .down-icon {
+    position: absolute;
+    right: 5px;
+    font-size: 20px;
+    transition: all ease .3s;
+    border-left: 2px solid #A6A6A6;
+}
+.scout-box {
+    position: relative;
+    display: flex;
+}
+.scout-txt {
+    min-width: 90px;
+}
+.scout-toggle {
+    position: absolute;
+    color: #333;
+    width: 200px;
+    padding: 20px 20px 0 20px;
+    top: 40px;
+    left: 30px;
+    background: #fff;
+    z-index: 999;
+    transform: scaleY(0);    
+    transform-origin: top;
+    transition: transform 0.4s ease;
+     box-shadow: 0 0.2rem 2rem rgba(0, 0, 0, 0.15);
+}
+.scout-toggle:before {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    top: -10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent #fff transparent;
+}
+.expand {
+    transform: scaleY(1);
+}
+.collapse {
+    transform: scaleY(0);    
+}
+
+.custion-radio:checked {
+    position: absolute;
+    left: -9999px;
+}
+
+.custion-radio:checked + .custom-radio-lable {
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    line-height: 30px;
+    display: inline-block;
+}
+
+.custion-radio:checked + .custom-radio-lable:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    border: 1px solid #aab2bd;
+    border-radius: 100%;
+    background: #fff;
+}
+
+.custion-radio:checked + .custom-radio-lable:after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: #91A8BF;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    border-radius: 100%;
+    transition: all 0.2s ease;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.custion-radio:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+
+.custion-radio:not(:checked) + .custom-radio-lable {
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    line-height: 30px;
+    display: inline-block;
+}
+
+.custion-radio:not(:checked) + .custom-radio-lable:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    border: 1px solid #aab2bd;
+    border-radius: 100%;
+    background: #fff;
+}
+
+.custion-radio:not(:checked) + .custom-radio-lable:after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: #91A8BF;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    border-radius: 100%;
+    transition: all 0.2s ease;
+    opacity: 0;
+    transform: scale(0);
+}
+[contenteditable] {
+  outline: 0px solid transparent;
+}
 .flex-options {
 	flex-direction: column;
 	align-items: center;
@@ -440,6 +638,8 @@ import DataTableServices from "../../DataTable/DataTableServices";
 textarea {
 	resize: vertical;
 }
-
+.content-row .row, dl {
+	margin-bottom: 10px;
+}
 
 </style>
