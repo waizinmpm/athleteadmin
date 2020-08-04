@@ -89,7 +89,8 @@
                                     </p>
                                     <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'expand': (current === index) && (status == true)}">
                                         <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
-                                            <input type="radio" :id="status.id+index" name="radio-group" :checked="status.checked" class="custion-radio">
+                                            <input type="radio" :id="status.id+index" name="radio-group" :checked="project.scout_status == status.id" class="custion-radio" 
+												@change="onStatusChange(index, $event)" :value="status.id">
                                             <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
                                         </p>
                                     </div>
@@ -135,6 +136,92 @@
 
             </div>
         </div>
+		<div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
+			<!-- Modal content -->
+			<div class="modal-content">
+				<span class="close" @click="closeInvoiceModal">&times;</span>
+				<div class="container-fluid vld-parent" ref="invoicePreviewContainer">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="border">
+								<h4>仕事</h4>
+								<dl class="row">
+									<dt class="col-sm-2 text-right">管理番号</dt>
+									<dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
+									<dt class="col-sm-2 text-right">タイトル</dt>
+									<dd class="col-sm-9">{{ invoiceForm.title }}</dd>
+								</dl>
+								<h4>請求先企業会員</h4>
+								<dl class="row">
+									<dt class="col-sm-2 text-right">会員番号</dt>
+									<dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
+									<dt class="col-sm-2 text-right">企業名</dt>
+									<dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
+								</dl>
+							</div>		
+							<div class="border">
+								<dl class="row email-box">									
+									<dt class="col-sm-4">請求書送付先メールアドレス</dt>
+									<dd class="col-sm-8">{{ invoiceForm.email }}</dd>
+								</dl>
+							</div>
+							<div class="border">
+							<h4>仲介手数料</h4>
+							<div class="form-group row">
+								<div class="col-sm-2"></div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control text-right" v-model="invoiceForm.default_amount">
+								</div>
+								<label class="col-sm-1">円</label>
+							</div>
+							<dl class="row">
+								<dt class="col-sm-2 text-right">消費税</dt>
+								<dd class="col-sm-6 text-right">{{ Number(invoiceForm.tax).toLocaleString() }}</dd>
+								<label class="col-sm-1">円</label>
+							</dl>
+							<dl class="row">
+								<dt class="col-sm-2 text-right">請求金額</dt>
+								<dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
+								<label class="col-sm-1">円</label>
+							</dl>
+							<div class="form-group row">
+								<label class="col-sm-2 text-right">備考</label>
+								<div class="col-sm-6">
+									<textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-sm-9 text-right">
+									<button class="btn btn-primary" @click="loadInvoicePreview">請求書プレビュー</button>
+								</div>
+							</div>
+							</div>
+						</div>
+						<div class="col-sm-6" v-if="invoicePreview">
+							<h4>請求書プレビュー</h4>
+							<div class="invoice-preview-area">
+								<iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 60vh;"></iframe>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="closeInvoicePreview">前に戻る</button>
+							<button class="btn btn-danger" style="margin-right: 1rem;" @click="closeInvoiceModal">キャンセル</button>
+						</div>
+						<div class="col-sm-6 text-right">
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">請求書を保存しメールで送付</button>
+							<!-- <form method="POST" action="http://localhost:8000/api/v1/admin/scout-list/generate-bill" target="_blank">
+								<input type="hidden" name="_token" :value="'Bearer ' + currentUser.token">
+								<button class="btn btn-primary" style="margin-right: 1rem;" v-show="invoicePreview">Open PDF (new tab)</button>
+							</form> -->
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="openInvoice" v-show="invoicePreview">Open PDF (new tab)</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
     </div>
 </template>
 
@@ -150,6 +237,8 @@ import DataTableServices from "../../DataTable/DataTableServices";
                 sortOrders[column.name] = -1;
             });
             return {
+				requireInvoiceForm: false,
+				invoicePreview: '',
                 old_index:'',
                 status:false,
                 current: null,
@@ -157,7 +246,8 @@ import DataTableServices from "../../DataTable/DataTableServices";
                 columns: columns,
                 sortOrders: sortOrders,
                 filteredData:{
-                    recruiter_id: '',
+					recruiter_id: '',
+					title: '',
                     recruiter_name: '',
                     from_date: '',
                     to_date:'',
@@ -181,14 +271,28 @@ import DataTableServices from "../../DataTable/DataTableServices";
                     placeholder: {
                         date: '年 - 月 - 日',
                     }
-                },   
+				},  
+				invoiceForm: {
+					scout_id: 0,
+					management_number: 0,
+					title: 'Sample title',
+					recruiter_number: '',
+					recruiter_name: '',
+					email: '',
+					tax: 20000,
+					default_amount: 200000,
+					invoice_amount: 220000,
+					remark: '',
+				},
                 isToggle : false ,
             }
         },
        
         methods: {
 			allowChat(status) {
-				return status == this.$configs.scouts.interested;
+				return status == this.$configs.scouts.interested || 
+					status == this.$configs.scouts.unclaimed ||
+					status == this.$configs.scouts.billed;
 			},
 			allowBilling(status) {
 				return status == this.$configs.scouts.unclaimed;
@@ -199,9 +303,82 @@ import DataTableServices from "../../DataTable/DataTableServices";
 			startChat() {
                 alert("Now will start chatting...");
 			},
+			onStatusChange(index, e) {
+				this.$data.projects.data[index].scout_status = e.target.value;
+			},
 			generateBill(scoutId, index) {
-				alert("Bill is successfully generated...");		
-				this.$data.projects.data[index].scout_status = this.$configs.scouts.billed;
+				let scout = this.$data.projects.data[index];
+				this.invoiceForm.scout_id = scout.id;
+				this.invoiceForm.title = scout.title;
+				this.invoiceForm.management_number = scout.management_number;
+				this.invoiceForm.recruiter_number = scout.recruiter_number;
+				this.invoiceForm.recruiter_name = scout.recruiter_name;
+				this.invoiceForm.email = scout.recruiter_email;
+				this.invoiceForm.default_amount = 200000;
+				this.requireInvoiceForm = true;
+			},
+			closeInvoiceModal() {
+				// --close any preview
+				this.closeInvoicePreview();
+				// --reset invoice form data
+				this.invoiceForm = {
+					scout_id: 0,
+					management_number: 0,
+					title: 'Sample title',
+					recruiter_number: '',
+					recruiter_name: '',
+					email: '',
+					tax: 20000,
+					default_amount: 200000,
+					invoice_amount: 220000,
+					remark: '',
+				};
+				// --close modal
+				this.requireInvoiceForm = false;
+			},
+			loadInvoicePreview() {
+				this.$api.post('/v1/admin/scout-list/generate-bill', this.invoiceForm)
+				.then((r) => {
+					let html = r.data;
+					this.invoicePreview = html;
+				})
+				.catch(() => {
+					
+				})
+			},
+			closeInvoicePreview() {
+				this.invoicePreview = null;
+			},
+			sendInvoiceMail() {
+				this.$api.post('/v1/admin/scout-list/send-invoice-mail', this.invoiceForm)
+				.then((r) => {
+					const scout = r.data.data;
+					this.projects.data
+						.filter(x => x.id == scout.id)
+						.forEach(x => x.scout_status = this.$configs.scouts.billed);
+				})
+				.catch(() => {
+					
+				})
+			},
+			openInvoice() {
+				// const vm = this;
+				// const qs = Object.keys(vm.invoiceForm)
+				// 			.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(vm.invoiceForm[key])}`)
+				// 			.join('&');
+				// window.open(process.env.VUE_APP_API_URL+'v1/admin/scout-list/generate-bill?'+qs, '_blank')
+				this.$api.post('/v1/admin/scout-list/view-invoice', this.invoiceForm, { responseType: 'arraybuffer' })
+				.then(r => {
+					const type = r.headers['content-type']
+					const blob = new Blob([r.data], { type: type, encoding: 'UTF-8' })
+					const filename = r.headers['content-disposition'].split('=')[1].replace(/^"+|"+$/g, '')
+					const link = document.createElement('a')
+					link.href = window.URL.createObjectURL(blob)
+					link.download = filename
+					link.click()
+					
+				})
+
 			},
 			confirmPayment(scoutId, index) {
 				if (confirm("Are you sure?")) {
@@ -230,14 +407,24 @@ import DataTableServices from "../../DataTable/DataTableServices";
                 this.status = false;
             },
             closeModal () {
-                this.status = false;
+				this.status = false;
+				this.invoiceForm = {};
             },
         },
         computed: {
+			currentUser() {
+				return this.$store.getters.currentUser;
+			},
             totalScouts: function() {
                 return this.$data.projects.total;
-            }
+			}		
+		},
+		watch: {
+			'invoiceForm.default_amount': function() {
+				this.invoiceForm.invoice_amount = Number(this.invoiceForm.default_amount) + Number(this.invoiceForm.tax);
+			}
 		}
+		
     }
 </script>
 <style  scoped>
@@ -382,6 +569,74 @@ import DataTableServices from "../../DataTable/DataTableServices";
 }
 [contenteditable] {
   outline: 0px solid transparent;
+}
+.flex-options {
+	flex-direction: column;
+	align-items: center;
+	align-content: space-between;
+}
+.flex-options label {
+	flex: 1 1 0px;
+	min-width: 150px;	
+	text-align: left;
+}
+.border {
+	padding: 0px 1rem;
+	margin: 1rem 0px;
+	border: 1px solid #dee2e6!important;
+}
+.email-box {
+	padding-top: 15px;
+}
+/* The Modal (background) */
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-open {
+	display: block;
+}
+
+.modal-close {
+	display: none;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 70px auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+textarea {
+	resize: vertical;
+}
+.content-row .row, dl {
+	margin-bottom: 10px;
 }
 
 </style>

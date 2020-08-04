@@ -12,6 +12,8 @@ import English from '../src/lang/en';
 import 日本語 from './lang/jp';
 import configs from './config';
 import VueFilter from 'vue-filter';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
@@ -19,7 +21,8 @@ Vue.use(require('vue-moment'));
 Vue.use(VueFilter);
 Vue.use(DatePicker);
 Vue.use(Vuelidate);
-Vue.use(api)
+Vue.use(api);
+Vue.use(VueSweetalert2);
 Vue.prototype.$api = api;
 Vue.prototype.$configs = configs;
 Vue.config.productionTip = false;
