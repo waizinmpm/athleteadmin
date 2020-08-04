@@ -13,5 +13,15 @@ export default {
         {"label":"求職者氏名"},
         {"label":"ステータス"},
         {"label":""},
-    ]
+	],
+	"job": "仕事",
+	"billing_recruiter": "請求先企業会員",
+	"billing_mail": "請求書送付先メールアドレス",
+	"brokerage_fee": "仲介手数料",
+	"tax": "消費税",
+	"invoice_amount": "請求金額",
+	"remark": "備考",
+	"invoice_preview": "請求書プレビュー",
+	"send_invoice": "請求書を保存しメールで送付",
+	"mail_is_sent": "メールが送信されます。",
 }

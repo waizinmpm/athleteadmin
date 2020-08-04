@@ -60,8 +60,8 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-12 select text-right">
-                        <span>検索結果表示件数: {{ totalScouts }}件</span><br>
-                        <span>1ページ表示数&nbsp;</span>
+                        <span>{{ $t('common.total_results') }}: {{ totalScouts }}{{ $t('common.item') }}</span><br>
+                        <span>1 {{ $t('common.displayed_page') }}&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
                             <option v-for="(records, index) in perPage" :key="index" :value="records">
                                 {{records}}
@@ -144,61 +144,65 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="border">
-								<h4>仕事</h4>
+								<h4>{{ $t('scouted_list.job') }}</h4>
 								<dl class="row">
-									<dt class="col-sm-2 text-right">管理番号</dt>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.0.label') }}</dt>
 									<dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
-									<dt class="col-sm-2 text-right">タイトル</dt>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.5.label') }}</dt>
 									<dd class="col-sm-9">{{ invoiceForm.title }}</dd>
 								</dl>
-								<h4>請求先企業会員</h4>
+								<h4>{{ $t('scouted_list.billing_recruiter') }}</h4>
 								<dl class="row">
-									<dt class="col-sm-2 text-right">会員番号</dt>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.2.label') }}</dt>
 									<dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
-									<dt class="col-sm-2 text-right">企業名</dt>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.3.label') }}</dt>
 									<dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
 								</dl>
 							</div>		
 							<div class="border">
 								<dl class="row email-box">									
-									<dt class="col-sm-4">請求書送付先メールアドレス</dt>
+									<dt class="col-sm-4">{{ $t('scouted_list.billing_mail') }}</dt>
 									<dd class="col-sm-8">{{ invoiceForm.email }}</dd>
 								</dl>
 							</div>
 							<div class="border">
-							<h4>仲介手数料</h4>
+							<h4>{{ $t('scouted_list.brokerage_fee') }}</h4>
 							<div class="form-group row">
 								<div class="col-sm-2"></div>
 								<div class="col-sm-6">
-									<input type="text" class="form-control text-right" v-model="invoiceForm.default_amount">
+									<input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
+									<div class="invalid-feedback">
+										<div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
+										<div class="error" v-if="!$v.invoiceForm.default_amount.numeric">Amount must be number only</div>
+									</div>
 								</div>
 								<label class="col-sm-1">円</label>
 							</div>
 							<dl class="row">
-								<dt class="col-sm-2 text-right">消費税</dt>
+								<dt class="col-sm-2 text-right">{{ $t('scouted_list.tax') }}</dt>
 								<dd class="col-sm-6 text-right">{{ Number(invoiceForm.tax).toLocaleString() }}</dd>
 								<label class="col-sm-1">円</label>
 							</dl>
 							<dl class="row">
-								<dt class="col-sm-2 text-right">請求金額</dt>
+								<dt class="col-sm-2 text-right">{{ $t('scouted_list.invoice_amount') }}</dt>
 								<dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
 								<label class="col-sm-1">円</label>
 							</dl>
 							<div class="form-group row">
-								<label class="col-sm-2 text-right">備考</label>
+								<label class="col-sm-2 text-right">{{ $t('scouted_list.remark') }}</label>
 								<div class="col-sm-6">
 									<textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
 								</div>
 							</div>
 							<div class="form-group row">
 								<div class="col-sm-9 text-right">
-									<button class="btn btn-primary" @click="loadInvoicePreview">請求書プレビュー</button>
+									<button class="btn btn-primary" @click="loadInvoicePreview">{{ $t('scouted_list.invoice_preview') }}</button>
 								</div>
 							</div>
 							</div>
 						</div>
 						<div class="col-sm-6" v-if="invoicePreview">
-							<h4>請求書プレビュー</h4>
+							<h4>{{ $t('scouted_list.invoice_preview') }}</h4>
 							<div class="invoice-preview-area">
 								<iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 60vh;"></iframe>
 							</div>
@@ -206,16 +210,11 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
-							<button class="btn btn-primary" style="margin-right: 1rem;" @click="closeInvoicePreview">前に戻る</button>
-							<button class="btn btn-danger" style="margin-right: 1rem;" @click="closeInvoiceModal">キャンセル</button>
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="closeInvoicePreview">{{ $t('common.back') }}</button>
+							<button class="btn btn-danger" style="margin-right: 1rem;" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
 						</div>
 						<div class="col-sm-6 text-right">
-							<button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">請求書を保存しメールで送付</button>
-							<!-- <form method="POST" action="http://localhost:8000/api/v1/admin/scout-list/generate-bill" target="_blank">
-								<input type="hidden" name="_token" :value="'Bearer ' + currentUser.token">
-								<button class="btn btn-primary" style="margin-right: 1rem;" v-show="invoicePreview">Open PDF (new tab)</button>
-							</form> -->
-							<button class="btn btn-primary" style="margin-right: 1rem;" @click="openInvoice" v-show="invoicePreview">Open PDF (new tab)</button>
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('scouted_list.send_invoice') }}</button>
 						</div>
 					</div>
 				</div>
@@ -226,206 +225,218 @@
 </template>
 
 <script>
+
 import DataTableServices from "../../DataTable/DataTableServices";
+import { required, numeric } from "vuelidate/lib/validators";
 
-    export default {
-        mixins: [DataTableServices],
-        data(){
-            let sortOrders = {};
-            let columns = [];
-            columns.forEach(column => {
-                sortOrders[column.name] = -1;
-            });
-            return {
-				requireInvoiceForm: false,
-				invoicePreview: '',
-                old_index:'',
-                status:false,
-                current: null,
-                base_url: "/v1/admin/scout-list",
-                columns: columns,
-                sortOrders: sortOrders,
-                filteredData:{
-					recruiter_id: '',
-					title: '',
-                    recruiter_name: '',
-                    from_date: '',
-                    to_date:'',
-                    job_number: '',
-                    job_title: '',
-                    jobseeker_name: '',
-                    scout_status: [],
-                },
-              
-                arr_status: [
-                    { id: this.$configs.scouts.interested, checked: false },
-                    { id: this.$configs.scouts.expired, checked: false },
-                    { id: this.$configs.scouts.declined, checked: false },
-                    { id: this.$configs.scouts.unclaimed, checked: false },
-                    { id: this.$configs.scouts.billed, checked: false },
-                    { id: this.$configs.scouts.payment_confirmed, checked: false }
-                ],
-                lang:{
-                    days: ['日', '月', '火', '水', '木', '金', '土'],
-                    months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                    placeholder: {
-                        date: '年 - 月 - 日',
-                    }
-				},  
-				invoiceForm: {
-					scout_id: 0,
-					management_number: 0,
-					title: 'Sample title',
-					recruiter_number: '',
-					recruiter_name: '',
-					email: '',
-					tax: 20000,
-					default_amount: 200000,
-					invoice_amount: 220000,
-					remark: '',
-				},
-                isToggle : false ,
-            }
-        },
-       
-        methods: {
-			allowChat(status) {
-				return status == this.$configs.scouts.interested || 
-					status == this.$configs.scouts.unclaimed ||
-					status == this.$configs.scouts.billed;
+/**
+ * @component Admin scouted list
+ * @author Lal Hmachhuani @ 2020/08/04
+ * @last_maintained Myo Ko Ko @ 2020/08/04
+ */
+export default {
+	mixins: [DataTableServices],
+	data(){
+		let sortOrders = {};
+		let columns = [];
+		columns.forEach(column => {
+			sortOrders[column.name] = -1;
+		});
+		return {
+			requireInvoiceForm: false,
+			invoicePreview: '',
+			old_index:'',
+			status:false,
+			current: null,
+			base_url: "/v1/admin/scout-list",
+			columns: columns,
+			sortOrders: sortOrders,
+			filteredData:{
+				recruiter_id: '',
+				title: '',
+				recruiter_name: '',
+				from_date: '',
+				to_date:'',
+				job_number: '',
+				job_title: '',
+				jobseeker_name: '',
+				scout_status: [],
 			},
-			allowBilling(status) {
-				return status == this.$configs.scouts.unclaimed;
-			},
-			allowPaymentConfirm(status) {
-				return status == this.$configs.scouts.billed;
-			},
-			startChat() {
-                alert("Now will start chatting...");
-			},
-			onStatusChange(index, e) {
-				this.$data.projects.data[index].scout_status = e.target.value;
-			},
-			generateBill(scoutId, index) {
-				let scout = this.$data.projects.data[index];
-				this.invoiceForm.scout_id = scout.id;
-				this.invoiceForm.title = scout.title;
-				this.invoiceForm.management_number = scout.management_number;
-				this.invoiceForm.recruiter_number = scout.recruiter_number;
-				this.invoiceForm.recruiter_name = scout.recruiter_name;
-				this.invoiceForm.email = scout.recruiter_email;
-				this.invoiceForm.default_amount = 200000;
-				this.requireInvoiceForm = true;
-			},
-			closeInvoiceModal() {
-				// --close any preview
-				this.closeInvoicePreview();
-				// --reset invoice form data
-				this.invoiceForm = {
-					scout_id: 0,
-					management_number: 0,
-					title: 'Sample title',
-					recruiter_number: '',
-					recruiter_name: '',
-					email: '',
-					tax: 20000,
-					default_amount: 200000,
-					invoice_amount: 220000,
-					remark: '',
-				};
-				// --close modal
-				this.requireInvoiceForm = false;
-			},
-			loadInvoicePreview() {
-				this.$api.post('/v1/admin/scout-list/generate-bill', this.invoiceForm)
-				.then((r) => {
-					let html = r.data;
-					this.invoicePreview = html;
-				})
-				.catch(() => {
-					
-				})
-			},
-			closeInvoicePreview() {
-				this.invoicePreview = null;
-			},
-			sendInvoiceMail() {
-				this.$api.post('/v1/admin/scout-list/send-invoice-mail', this.invoiceForm)
-				.then((r) => {
-					const scout = r.data.data;
-					this.projects.data
-						.filter(x => x.id == scout.id)
-						.forEach(x => x.scout_status = this.$configs.scouts.billed);
-				})
-				.catch(() => {
-					
-				})
-			},
-			openInvoice() {
-				// const vm = this;
-				// const qs = Object.keys(vm.invoiceForm)
-				// 			.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(vm.invoiceForm[key])}`)
-				// 			.join('&');
-				// window.open(process.env.VUE_APP_API_URL+'v1/admin/scout-list/generate-bill?'+qs, '_blank')
-				this.$api.post('/v1/admin/scout-list/view-invoice', this.invoiceForm, { responseType: 'arraybuffer' })
-				.then(r => {
-					const type = r.headers['content-type']
-					const blob = new Blob([r.data], { type: type, encoding: 'UTF-8' })
-					const filename = r.headers['content-disposition'].split('=')[1].replace(/^"+|"+$/g, '')
-					const link = document.createElement('a')
-					link.href = window.URL.createObjectURL(blob)
-					link.download = filename
-					link.click()
-					
-				})
-
-			},
-			confirmPayment(scoutId, index) {
-				if (confirm("Are you sure?")) {
-					this.$api.post('/v1/admin/scout-list/confirm-payment', {
-						scoutId: scoutId
-					})
-					.then(() => {
-						this.$data.projects.data[index].scout_status = this.$configs.scouts.payment_confirmed;
-					})
-					.catch(() => {
-						alert("操作時にエラーが発生しました。")
-					})
-					
+			
+			arr_status: [
+				{ id: this.$configs.scouts.interested, checked: false },
+				{ id: this.$configs.scouts.expired, checked: false },
+				{ id: this.$configs.scouts.declined, checked: false },
+				{ id: this.$configs.scouts.unclaimed, checked: false },
+				{ id: this.$configs.scouts.billed, checked: false },
+				{ id: this.$configs.scouts.payment_confirmed, checked: false }
+			],
+			lang:{
+				days: ['日', '月', '火', '水', '木', '金', '土'],
+				months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+				placeholder: {
+					date: '年 - 月 - 日',
 				}
-            },
-            showToggle(index) {
-                this.current = index;
-                if(this.status == true) {
-                    if(this.current == this.old_index) this.status = false; 
-                } else {
-                    this.status = true;
-                }
-                this.old_index = index;
-            },
-            hideToggle() {
-                this.status = false;
-            },
-            closeModal () {
-				this.status = false;
-				this.invoiceForm = {};
-            },
-        },
-        computed: {
-			currentUser() {
-				return this.$store.getters.currentUser;
+			},  
+			invoiceForm: {
+				scout_id: 0,
+				management_number: 0,
+				title: '',
+				recruiter_number: '',
+				recruiter_name: '',
+				email: '',
+				tax: 20000,
+				default_amount: 200000,
+				invoice_amount: 220000,
+				remark: '',
 			},
-            totalScouts: function() {
-                return this.$data.projects.total;
-			}		
+			isToggle : false ,
+		}
+	},
+	
+	methods: {
+		allowChat(status) {
+			return status == this.$configs.scouts.interested || 
+				status == this.$configs.scouts.unclaimed ||
+				status == this.$configs.scouts.billed;
 		},
-		watch: {
-			'invoiceForm.default_amount': function() {
-				this.invoiceForm.invoice_amount = Number(this.invoiceForm.default_amount) + Number(this.invoiceForm.tax);
+		allowBilling(status) {
+			return status == this.$configs.scouts.unclaimed;
+		},
+		allowPaymentConfirm(status) {
+			return status == this.$configs.scouts.billed;
+		},
+		startChat() {
+			alert("Now will start chatting...");
+		},
+		onStatusChange(index, e) {
+			const scout = this.$data.projects.data[index];
+			this.$api.post('/v1/admin/scout-list/change-status', {
+				scout_id: scout.id,
+				status: e.target.value,
+			})
+			.then(() => {
+				this.$data.projects.data[index].scout_status = e.target.value;
+			})
+			.catch(() => {
+				alert("error");
+			})
+		},
+		generateBill(scoutId, index) {
+			// --Set form default value
+			let scout = this.$data.projects.data[index];
+			this.invoiceForm.scout_id = scout.id;
+			this.invoiceForm.title = scout.title;
+			this.invoiceForm.management_number = scout.management_number;
+			this.invoiceForm.recruiter_number = scout.recruiter_number;
+			this.invoiceForm.recruiter_name = scout.recruiter_name;
+			this.invoiceForm.email = scout.recruiter_email;
+			this.invoiceForm.default_amount = 200000;
+			this.requireInvoiceForm = true;
+		},
+		closeInvoiceModal() {
+			// --close any preview
+			this.closeInvoicePreview();
+			// --reset invoice form data
+			this.invoiceForm = {
+				scout_id: 0,
+				management_number: 0,
+				title: '',
+				recruiter_number: '',
+				recruiter_name: '',
+				email: '',
+				tax: 20000,
+				default_amount: 200000,
+				invoice_amount: 220000,
+				remark: '',
+			};
+			// --close modal
+			this.requireInvoiceForm = false;
+		},
+		loadInvoicePreview() {
+			this.$v.invoiceForm.$touch();
+			if (this.$v.invoiceForm.$invalid) {
+				return;
+			}
+			this.$api.post('/v1/admin/scout-list/generate-bill', this.invoiceForm)
+			.then((r) => {
+				let html = r.data;
+				this.invoicePreview = html;
+			})
+			.catch(() => {
+				
+			})
+		},
+		closeInvoicePreview() {
+			this.invoicePreview = null;
+		},
+		sendInvoiceMail() {
+			this.$v.invoiceForm.$touch();
+			if (this.$v.invoiceForm.$invalid) {
+				return;
+			}
+			this.$api.post('/v1/admin/scout-list/send-invoice-mail', this.invoiceForm)
+			.then((r) => {
+				const scout = r.data.data;
+				this.projects.data
+					.filter(x => x.id == scout.id)
+					.forEach(x => x.scout_status = this.$configs.scouts.billed);
+				alert(this.$t('scouted_list.mail_is_sent'));
+			})
+			.catch(() => {
+				
+			})
+		},
+		confirmPayment(scoutId, index) {
+			if (confirm("Are you sure?")) {
+				this.$api.post('/v1/admin/scout-list/confirm-payment', {
+					scoutId: scoutId
+				})
+				.then(() => {
+					this.$data.projects.data[index].scout_status = this.$configs.scouts.payment_confirmed;
+				})
+				.catch(() => {
+					alert("操作時にエラーが発生しました。")
+				})
+			}
+		},
+		showToggle(index) {
+			this.current = index;
+			if(this.status == true) {
+				if(this.current == this.old_index) this.status = false; 
+			} else {
+				this.status = true;
+			}
+			this.old_index = index;
+		},
+		hideToggle() {
+			this.status = false;
+		},
+	},
+	computed: {
+		currentUser() {
+			return this.$store.getters.currentUser;
+		},
+		totalScouts: function() {
+			return this.$data.projects.total;
+		}		
+	},
+	watch: {
+		'invoiceForm.default_amount': function() {
+			let amount = Number(this.invoiceForm.default_amount);
+			if (!isNaN(amount)) {
+				this.invoiceForm.invoice_amount = amount + Number(this.invoiceForm.tax);
+			} else {
+				this.invoiceForm.invoice_amount = 0;
 			}
 		}
-		
-    }
+	},
+	validations: {
+		invoiceForm: {
+			default_amount: { required, numeric }
+		}
+	}		
+}
 </script>
 <style  scoped>
 .btn-common {
@@ -638,5 +649,17 @@ textarea {
 .content-row .row, dl {
 	margin-bottom: 10px;
 }
-
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: #dc3545;
+}
+.invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+.is-invalid~.invalid-feedback, .is-invalid~.invalid-tooltip, .was-validated :invalid~.invalid-feedback, .was-validated :invalid~.invalid-tooltip {
+    display: block;
+}
 </style>

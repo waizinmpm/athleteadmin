@@ -13,5 +13,15 @@ export default {
         {"label":"Jobseeker Name"},
         {"label":"Scout Status"},
         {"label":""},
-    ]
+	],
+	"job": "Job",
+	"billing_recruiter": "Recruiter",
+	"billing_mail": "Billing mail",
+	"brokerage_fee": "Service Fee",
+	"tax": "Tax",
+	"invoice_amount": "Invoice Amount",
+	"remark": "Remark",
+	"invoice_preview": "Invoice Preview",
+	"send_invoice": "Send Mail",
+	"mail_is_sent": "Mail is sent",
 }
