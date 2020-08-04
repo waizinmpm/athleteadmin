@@ -28,8 +28,9 @@ const route = [{
         }
     },
     {
-        path: '/job-list',
-        component: JobList,
+        name: "edit",
+        path: '/job-list/:id',
+        component: JobEdit,
         meta: {
             reqiuresAuth: false,
             admin: true, // for only admin component
@@ -37,8 +38,8 @@ const route = [{
         }
     },
     {
-        path: '/job-list/job/:id/edit',
-        component: JobEdit,
+        path: '/job-list',
+        component: JobList,
         meta: {
             reqiuresAuth: false,
             admin: true, // for only admin component

@@ -134,7 +134,7 @@
                                 >{{ $t('common.change') }}</button>
                             </td>
                             <td>
-                                <router-link :to="'/job-list/job/' + project.id + '/edit'" class="btn custom-btn edit">{{ $t('common.edit')}}</router-link>
+                                <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn custom-btn edit">{{ $t('common.edit')}}</router-link>
                             </td>
                         </tr>
                     </tbody>
@@ -210,9 +210,10 @@ export default {
                     console.log(errors);
                 });
         },
-        editJob(jobId){
-            alert("job id -> "+ jobId);
-        }
+        /* editJob(jobId){
+            //alert("job id -> "+ jobId);
+            this.$router.push({ name: "edit", params: { id: jobId } });
+        } */
         /* reverse: function (jobdate) {
             var job_post_date = new Date(jobdate);
         return job_post_date.setMonth(job_post_date.getMonth()+1);
