@@ -390,7 +390,7 @@ export default {
 		confirmPayment(scoutId, index) {
 			if (confirm("Are you sure?")) {
 				this.$api.post('/v1/admin/scout-list/confirm-payment', {
-					scoutId: scoutId
+					scout_id: scoutId
 				})
 				.then(() => {
 					this.$data.projects.data[index].scout_status = this.$configs.scouts.payment_confirmed;
