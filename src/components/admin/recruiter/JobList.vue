@@ -167,14 +167,14 @@ export default {
     data() {
         let sortOrders = {};
         let columns = [
-            { label: "企業番号", name: "recruiter_id" },
-            { label: "企業名", name: "recruiter_show_name" },
-            { label: "求⼈番号", name: "job_number" },
-            { label: "求⼈タイトル", name: "title" },
-            { label: "求⼈応募者数", name: "application_address" },
-            { label: "スカウト受託者数", name: "message" },
-            { label: "掲載期間", name: "job_post_date" },
-            { label: "ステータス", name: "job_post_status" },
+            { label: "common.recruiter_id", name: "recruiter_id" },
+            { label: "common.recruiter_name", name: "recruiter_show_name" },
+            { label: "common.job_number", name: "job_number" },
+            { label: "common.job_title", name: "title" },
+            { label: "common.no_of_applicants", name: "no_of_applicants" },
+            { label: "common.scout_trust", name: "scout_trustees" },
+            { label: "common.post_period", name: "post_period" },
+            { label: "common.status", name: "job_post_status" },
             { label: "", name: "status_button" }
         ];
         columns.forEach(column => {

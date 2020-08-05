@@ -1,5 +1,5 @@
 export default {
-    "password": "パスワード",
+    "password": "Password",
     "cancel": "Cancel",
     "edit": "Edit",
     "change": "Change",
@@ -24,4 +24,8 @@ export default {
     "jobseeker_name": "JobSeeker Name",
     "jobseeker_member_list": "Job Seeker Member Information List",
     "search_jobseeker_placeholder": "Please enter the job seeker member number and job seeker name",
+    //-- Job table columns
+    "no_of_applicants": "Number of applicants",
+    "scout_trust": "Scout trustees",
+    "post_period": "Post period",
 };
