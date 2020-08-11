@@ -82,4 +82,12 @@ export default {
 		private: 1,
 		public: 0,
 	},
+	payment_job_type : {
+		scout : 'scout',
+		job_apply : 'job-apply',
+	},
+	payment_method : {
+		invoice: '請求書',
+		credit: 'クレカ',
+	},
 }

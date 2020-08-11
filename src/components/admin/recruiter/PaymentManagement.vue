@@ -71,19 +71,20 @@
 				<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
 					<tbody>
 						<tr v-for="(project, index) in projects.data" :key="project.id">
-							<td>{{project.management_number}}</td>
-							<td>{{project.scouted_date| date('%Y-%m-%d')}}</td>
-							<td>{{project.recruiter_number}}</td>
-							<td>{{project.recruiter_name}}</td>
-							<td>{{project.job_number}}</td>
-							<td>{{project.title}}</td>
-							<td>{{project.jobseeker_number}}</td>
-							<td>{{project.jobseeker_name}}</td>
-							<td>
-								{{ index }}
-							</td>
-							<td style="width:200px;">
-								
+							<td>{{ project.payment_job_type == $configs.payment_job_type.scout ? project.scout_management_number : project.jobapply_management_number }}</td>
+							<td>{{ project.payment_method }}</td>
+							<td>{{ project.invoice_number }}</td>
+							<td>{{ project.payment_job_type == $configs.payment_job_type.scout ? project.scout_status : project.job_apply_status }}</td>
+							<td>{{ project.invoice_amount }}</td>
+							<td>{{ project.invoice_date|date('%Y-%m-%d') }}</td>
+							<td>{{ project.payment_amount }}</td>
+							<td>{{ project.actual_payment_date|date('%Y-%m-%d') }}</td>
+							<td>{{ project.recruiter_name }}</td>
+							<td>{{ project.phone1 }}</td>
+							<td>{{ project.email }}</td>
+							<td>{{ project.incharge_name }}</td>
+							<td style="width: 200px;">
+								{{ project.remark }} {{ index }}
 							</td>
 						</tr>
 					</tbody>
@@ -113,7 +114,7 @@ export default {
 		});
 		return {
 			current: null,
-			base_url: "/v1/admin/scout-list",
+			base_url: "/v1/admin/payment-transactions",
 			columns: columns,
 			sortOrders: sortOrders,
 			filteredData:{
