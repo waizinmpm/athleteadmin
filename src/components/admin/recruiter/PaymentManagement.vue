@@ -59,7 +59,7 @@
 			<div class="col-sm-12 p-0">
 				<div class="row">
 					<div class="col-sm-12 select text-right">
-						<span>{{ $t('common.total_results') }}: {{ totalRecords }}{{ $t('common.item') }}</span><br>
+						<span>{{ $t('common.total_results') }}: {{ $tc('common.item', totalRecords, { n:totalRecords }) }}</span><br>
 						<span>1 {{ $t('common.displayed_page') }}&nbsp;</span>
 						<select v-model="tableData.length" @change="getData()">
 							<option v-for="(records, index) in perPage" :key="index" :value="records">

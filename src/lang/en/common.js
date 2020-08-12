@@ -11,7 +11,7 @@ export default {
     "payment_confirm": "Payment Confirmation",
     "invoice_generate": "Invoice Generate",
     "total_results": "Number of searched results",
-    "item": "items",
+    "item": "{n}item | {n}items",
     "displayed_page": "page display",
     //--  Recruiter Fields
     "recruitment": "Recruitment",
