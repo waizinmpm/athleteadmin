@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-6 p-0 searchform-one">
                 <!--advanced search-->
-                <h5 class="m-b-10 main-header">{{ $t('common.jobseeker_member_list') }}</h5>
+                <h5 class="m-b-10 main-header">{{ $t('jobseekerlist.jobseeker_member_list') }}</h5>
                 <div class="content-row" style="padding-bottom:0px;margin-left:0px;">
                     <div class="row">
                         <div class="col-md-12">
@@ -11,7 +11,7 @@
                                 <input 
                                     type="text"
                                     class="form-control"
-                                    :placeholder="$t('common.search_jobseeker_placeholder')"
+                                    :placeholder="$t('jobseekerlist.search_jobseeker_placeholder')"
                                     id="inputGroup"
                                     v-model="filteredData.freeword"
                                     @input="getData()"
@@ -78,7 +78,7 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
-                        <div for>{{ $t('common.total_results') }}: {{ projects.total }}{{ $t('common.item') }}</div>
+                        <div for>{{ $t('common.total_results') }}: {{ $tc('common.item', projects.total, { n:projects.total }) }}</div>
                         <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
                         <select v-model="tableData.length" @change="getData()">
                             <option
@@ -173,9 +173,9 @@ export default {
     data() {
         let sortOrders = {};
         let columns = [
-            { label: "求職者会員番号", name: "custom_id" },
-            { label: "求職者名", name: "jobseeker_name" },
-            { label: "ステータス", name: "status" },
+            { label: "jobseekerlist.jobseeker_number", name: "custom_id" },
+            { label: "jobseekerlist.jobseeker_name", name: "jobseeker_name" },
+            { label: "common.status", name: "status" },
             { label: "", name: "status_button" }
         ];
         columns.forEach(column => {

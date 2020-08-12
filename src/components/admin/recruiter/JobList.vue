@@ -81,7 +81,7 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
-                        <div for>{{ $t('common.total_results') }}: {{ projects.total }}{{ $t('common.item') }}</div>
+                        <div for>{{ $t('common.total_results') }}: {{ $tc('common.item', projects.total, { n:projects.total }) }}</div>
                         <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
                         <select v-model="tableData.length" @change="getData()">
                             <option
@@ -171,9 +171,9 @@ export default {
             { label: "common.recruiter_name", name: "recruiter_show_name" },
             { label: "common.job_number", name: "job_number" },
             { label: "common.job_title", name: "title" },
-            { label: "common.no_of_applicants", name: "no_of_applicants" },
-            { label: "common.scout_trust", name: "scout_trustees" },
-            { label: "common.post_period", name: "post_period" },
+            { label: "joblist.no_of_applicants", name: "no_of_applicants" },
+            { label: "joblist.scout_trust", name: "scout_trustees" },
+            { label: "joblist.post_period", name: "post_period" },
             { label: "common.status", name: "job_post_status" },
             { label: "", name: "status_button" }
         ];
