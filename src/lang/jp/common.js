@@ -8,6 +8,7 @@ export default {
     "status": "ステータス ",
 	"chat": "チャット",
 	"back": "前に戻る",
+	"confirm": "確認",
     "payment_confirm": "入金確認",
     "invoice_generate": "請求書生成",
     "total_results": "検索結果表示件数",

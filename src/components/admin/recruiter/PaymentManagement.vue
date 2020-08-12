@@ -9,22 +9,24 @@
 							<label>請求方法</label>
 							<div class="row">
 							<div class="col-md-6">
-								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" />
-								<label class="custom-control-label custom-checkbox-label">請求書</label>
+								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
+									v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" />
+								<label class="custom-control-label custom-checkbox-label">{{ $configs.payment_method.invoice }}</label>
 							</div>
 							<div class="col-md-6">
-								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" />
-								<label class="custom-control-label custom-checkbox-label">クレカ</label>
+								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
+								v-model="filteredData.payment_status" :value="$configs.payment_method.credit" />
+								<label class="custom-control-label custom-checkbox-label">{{ $configs.payment_method.credit }}</label>
 							</div>
 							</div>
 						</div>
 						<div class="col-md-3 datepicker-wrapper">
-							<label for="スカウト日時">{{ $t('scouted_list.scout_date') }}</label>
-							<date-picker valuetype="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+							<label for="入金期日">入金期日</label>
+							<date-picker v-model="filteredData.invoice_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 						</div>
 						<div class="col-md-3 datepicker-wrapper">
 							<label for></label>
-							<date-picker valuetype="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+							<date-picker v-model="filteredData.invoice_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 						</div>
 					</div>
 					<div class="row">
@@ -39,17 +41,17 @@
 							</div>
 						</div>
 						<div class="col-md-3 datepicker-wrapper">
-							<label for="スカウト日時">入金日</label>
-							<date-picker valuetype="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+							<label for="入金日">入金日</label>
+							<date-picker v-model="filteredData.payment_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 						</div>
 						<div class="col-md-3 datepicker-wrapper">
 							<label for></label>
-							<date-picker valuetype="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+							<date-picker v-model="filteredData.payment_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-3">
-							<button class="btn searchbtn">{{ $t('common.search') }}</button>
+							<button class="btn searchbtn" @click="getData()">{{ $t('common.search') }}</button>
 						</div>
 					</div>
 				</div>
@@ -70,21 +72,50 @@
 				</div>
 				<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
 					<tbody>
-						<tr v-for="(project, index) in projects.data" :key="project.id">
+						<tr v-for="(project) in projects.data" :key="project.id">
 							<td>{{ project.payment_job_type == $configs.payment_job_type.scout ? project.scout_management_number : project.jobapply_management_number }}</td>
 							<td>{{ project.payment_method }}</td>
 							<td>{{ project.invoice_number }}</td>
 							<td>{{ project.payment_job_type == $configs.payment_job_type.scout ? project.scout_status : project.job_apply_status }}</td>
 							<td>{{ project.invoice_amount }}</td>
 							<td>{{ project.invoice_date|date('%Y-%m-%d') }}</td>
-							<td>{{ project.payment_amount }}</td>
-							<td>{{ project.actual_payment_date|date('%Y-%m-%d') }}</td>
+							<td>
+								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project" 
+									@editing-cancel="onEditingCancel($event, project)">
+									<template #display>
+										{{ project.payment_amount }}
+									</template>
+									<template #editor>
+										<input type="number" v-model="project.payment_amount">
+									</template>
+								</PaymentManagementInlineEditor>
+							</td>
+							<td>
+								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project"
+									@editing-cancel="onEditingCancel($event, project)">
+									<template #display>
+										{{ project.actual_payment_date|date('%Y-%m-%d') }}
+									</template>
+									<template #editor>
+										<date-picker v-model="project.actual_payment_date" value-type="format" class="datepicker" :lang="lang" 
+											placeholder="年 - 月 - 日"></date-picker>
+									</template>
+								</PaymentManagementInlineEditor>
+							</td>
 							<td>{{ project.recruiter_name }}</td>
 							<td>{{ project.phone1 }}</td>
 							<td>{{ project.email }}</td>
 							<td>{{ project.incharge_name }}</td>
-							<td style="width: 200px;">
-								{{ project.remark }} {{ index }}
+							<td>
+								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project"
+									@editing-cancel="onEditingCancel($event, project)">
+									<template #display>
+										<p>{{ project.remark }}</p>
+									</template>
+									<template #editor>
+										<textarea rows="3" v-model="project.remark"></textarea>
+									</template>
+								</PaymentManagementInlineEditor>
 							</td>
 						</tr>
 					</tbody>
@@ -104,8 +135,10 @@
 </template>
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
+import PaymentManagementInlineEditor from './PaymentManagementInlineEditor';
 export default {
 	mixins: [ DataTableServices ],
+	components: { PaymentManagementInlineEditor },
 	data() {
 		let sortOrders = {};
 		let columns = [];
@@ -117,7 +150,12 @@ export default {
 			base_url: "/v1/admin/payment-transactions",
 			columns: columns,
 			sortOrders: sortOrders,
-			filteredData:{
+			filteredData: {
+				invoice_from_date: '',
+				invoice_to_date: '',
+				payment_from_date: '',
+				payment_to_date: '',
+				payment_status: [],
 				record_status: [],
 			},
 			record_status: [
@@ -134,6 +172,23 @@ export default {
 			},
 		}
 	},
+	methods: {
+		onEditingComplete(payment) {
+			console.log(payment);
+			this.$api.put('/v1/admin/payment-transactions/'+payment.id, payment)
+			.then(() => {
+				alert('successfully saved.');
+			})
+			.catch((e) => {
+				console.log(e);
+			})
+		}, 
+		onEditingCancel($event, payment) {
+			payment.payment_amount = $event.payment_amount;
+			payment.actual_payment_date = $event.actual_payment_date;
+			payment.remark = $event.remark;
+		}
+	},
 	computed: {
 		currentUser() {
 			return this.$store.getters.currentUser;
@@ -147,5 +202,11 @@ export default {
 <style>
 .custom-checkbox-label {
 	padding-left: 0px;
+}
+textarea {
+	resize: vertical;
+}
+.multiline-cell {
+	white-space: pre;
 }
 </style>

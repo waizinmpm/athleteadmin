@@ -8,6 +8,7 @@ export default {
     "status": "Status",
 	"chat": "Chat",
 	"back": "Back",
+	"confirm": "Confirm",
     "payment_confirm": "Payment Confirmation",
     "invoice_generate": "Invoice Generate",
     "total_results": "Number of searched results",
