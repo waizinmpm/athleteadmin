@@ -24,8 +24,4 @@ export default {
     "jobseeker_name": "アスリート会員氏名",
     "jobseeker_member_list": "求職者会員情報一覧",
     "search_jobseeker_placeholder": "求職者会員番号、求職者名を⼊⼒してください……",
-    //-- Job table columns
-    "no_of_applicants": "求⼈応募者数",
-    "scout_trust": "スカウト受託者数",
-    "post_period": "掲載期間",
 };
