@@ -381,24 +381,26 @@ export default {
 				this.projects.data
 					.filter(x => x.id == scout.id)
 					.forEach(x => x.scout_status = this.$configs.scouts.billed);
-				alert(this.$t('scouted_list.mail_is_sent'));
+				this.$alertService.showSuccessDialog(null, this.$t('scouted_list.mail_is_sent'), this.$t('common.close'));
 			})
 			.catch(() => {
 				
 			})
 		},
 		confirmPayment(scoutId, index) {
-			if (confirm("Are you sure?")) {
-				this.$api.post('/v1/admin/scout-list/confirm-payment', {
-					scout_id: scoutId
-				})
-				.then(() => {
-					this.$data.projects.data[index].scout_status = this.$configs.scouts.payment_confirmed;
-				})
-				.catch(() => {
-					alert("操作時にエラーが発生しました。")
-				})
-			}
+			this.$alertService
+			.showConfirmDialog(null, this.$t('scouted_list.payment_confirmed_question'), this.$t('common.yes'), this.$t('common.no'))
+			.then((dialogResult) => {
+				if (dialogResult.value) {
+					this.$api.post('/v1/admin/scout-list/confirm-payment', { scout_id: scoutId })
+					.then(() => {
+						this.$data.projects.data[index].scout_status = this.$configs.scouts.payment_confirmed;
+					})
+					.catch(() => {
+						alert("操作時にエラーが発生しました。")
+					})
+				}
+			});
 		},
 		showToggle(index) {
 			this.current = index;

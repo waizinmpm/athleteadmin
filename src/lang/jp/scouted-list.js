@@ -23,5 +23,6 @@ export default {
 	"remark": "備考",
 	"invoice_preview": "請求書プレビュー",
 	"send_invoice": "請求書を保存しメールで送付",
-	"mail_is_sent": "メールが送信されます。",
+	"mail_is_sent": "メールが送信されます",
+	"payment_confirmed_question": "支払いを確認しますか",
 }

@@ -14,6 +14,7 @@ import configs from './config';
 import VueFilter from 'vue-filter';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import alertService from './services/AlertService';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
@@ -26,6 +27,7 @@ Vue.use(VueSweetalert2);
 Vue.prototype.$api = api;
 Vue.prototype.$configs = configs;
 Vue.config.productionTip = false;
+Vue.prototype.$alertService = alertService;
 
 const languages = {
     en: English,
