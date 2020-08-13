@@ -1,4 +1,9 @@
 export default {
+	"title": "Payment Management",
+	"payment_method": "Payment Method",
+	"invoice_date": "Invoice Date",
+	"status": "Status",
+	"payment_date": "Payment Date",
 	"columns": [
         {"label":"Management Number"},
         {"label":"Payment Method"},

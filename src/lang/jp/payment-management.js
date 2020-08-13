@@ -1,4 +1,9 @@
 export default {
+	"title": "手数料入金管理",
+	"payment_method": "請求方法",
+	"invoice_date": "入金期日",
+	"status": "ステータス",
+	"payment_date": "入金日",
 	"columns": [
         {"label":"管理番号"},
         {"label":"請求方法"},

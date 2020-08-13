@@ -2,11 +2,11 @@
 	<div>
 		<div class="row">
 			<div class="col-sm-12 p-0 searchform-one">
-				<h5 class="m-b-10 main-header">手数料入金管理</h5>
+				<h5 class="m-b-10 main-header">{{ $t('payment_management.title') }}</h5>
 				<div class="content-row" style="padding-bottom:0px;">
 					<div class="row">
 						<div class="col-md-3">
-							<label>請求方法</label>
+							<label>{{ $t('payment_management.payment_method') }}</label>
 							<div class="row">
 							<div class="col-md-6">
 								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
@@ -21,7 +21,7 @@
 							</div>
 						</div>
 						<div class="col-md-3 datepicker-wrapper">
-							<label for="入金期日">入金期日</label>
+							<label for="入金期日">{{ $t('payment_management.invoice_date') }}</label>
 							<date-picker v-model="filteredData.invoice_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 						</div>
 						<div class="col-md-3 datepicker-wrapper">
@@ -31,7 +31,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3">
-							<label>ステータス</label>
+							<label>{{ $t('payment_management.status') }}</label>
 							<div class="row">
 								<div class="col-md-4" v-for="(status, index) in record_status" :key="index">
 									<input type="checkbox" class="custom-control-input custom-checkbox"
@@ -41,7 +41,7 @@
 							</div>
 						</div>
 						<div class="col-md-3 datepicker-wrapper">
-							<label for="入金日">入金日</label>
+							<label for="入金日">{{ $t('payment_management.payment_date') }}</label>
 							<date-picker v-model="filteredData.payment_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 						</div>
 						<div class="col-md-3 datepicker-wrapper">
@@ -94,7 +94,7 @@
 								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project"
 									@editing-cancel="onEditingCancel($event, project)">
 									<template #display>
-										{{ project.actual_payment_date|date('%Y-%m-%d') }}
+										<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
 									</template>
 									<template #editor>
 										<date-picker v-model="project.actual_payment_date" value-type="format" class="datepicker" :lang="lang" 
@@ -177,7 +177,6 @@ export default {
 			console.log(payment);
 			this.$api.put('/v1/admin/payment-transactions/'+payment.id, payment)
 			.then(() => {
-				alert('successfully saved.');
 			})
 			.catch((e) => {
 				console.log(e);
