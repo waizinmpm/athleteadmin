@@ -4,7 +4,7 @@
 			<slot name="display"></slot>
 		</div>
 		<button v-show="editing == false" type="button" @click="beginEdit">{{ $t('common.edit') }}</button>
-		<div v-show="editing == true">
+		<div v-show="editing == true" @keyup.esc="cancelEdit" ref="editorContainer">
 			<slot name="editor"></slot>
 		</div>		
 		<button v-show="editing == true" type="button" @click="endEdit">{{ $t('common.confirm') }}</button>
@@ -26,6 +26,9 @@ export default {
 	methods: {
 		beginEdit() {
 			this.editing = true;
+			this.$nextTick(() => {
+				this.$refs.editorContainer.children[0].focus();
+			})			
 		},
 		endEdit() {
 			this.editing = false;
