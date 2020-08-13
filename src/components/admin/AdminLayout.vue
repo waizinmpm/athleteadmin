@@ -12,7 +12,7 @@
                 <h3 class="panel-title">
                   <a class="toggle-sidebar">
                     <span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span>
-                  </a> メニューを閉じる
+                  </a>{{$t('menu.close_menu')}}
                 </h3>
               </div>
               <div class="panel-body">

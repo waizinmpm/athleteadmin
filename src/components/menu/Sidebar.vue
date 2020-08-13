@@ -25,7 +25,7 @@
                 <span class="fa fa-cog"></span>{{ $t('scouted_list.title') }}
                 </router-link>
                 <router-link to="/payment-management" class="list-group-item list-group-child-item">
-                <span class="fa fa-file"></span>⼿数料⼊⾦管理
+                <span class="fa fa-file"></span>{{ $t('menu.payment_management') }}
                 </router-link>
             </li>
             </ul>
