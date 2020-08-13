@@ -6,4 +6,8 @@ export default {
     login: 'ログインする',
     logout: 'ログアウト',
     post: '役職',
+    management_screen: '管理画面',
+    recruiter_member: '企業会員',
+    jobseeker_member: '求職者会員',
+    change_password: 'パスワード変更',
 };

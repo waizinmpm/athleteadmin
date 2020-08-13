@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-6 p-0 searchform-one">
                 <!--advanced search-->
-                <h5 class="m-b-10 main-header">{{ $t('jobseekerlist.jobseeker_member_list') }}</h5>
+                <h5 class="m-b-10 main-header">{{ $t('jobseeker_list.jobseeker_member_list') }}</h5>
                 <div class="content-row" style="padding-bottom:0px;margin-left:0px;">
                     <div class="row">
                         <div class="col-md-12">
@@ -11,7 +11,7 @@
                                 <input 
                                     type="text"
                                     class="form-control"
-                                    :placeholder="$t('jobseekerlist.search_jobseeker_placeholder')"
+                                    :placeholder="$t('jobseeker_list.search_jobseeker_placeholder')"
                                     id="inputGroup"
                                     v-model="filteredData.freeword"
                                     @input="getData()"
@@ -100,7 +100,7 @@
 
                 <DataTable
                     ref="datatable"
-                    :columns="columns"
+                    :columns="$t('jobseeker_list.columns')"
                     :sortKey="sortKey"
                     :sortOrders="sortOrders"
                     @check-all="selectAll"
@@ -172,12 +172,13 @@ export default {
     mixins: [DataTableServices],
     data() {
         let sortOrders = {};
-        let columns = [
+        let columns = [];
+        /* let columns = [
             { label: "jobseekerlist.jobseeker_number", name: "custom_id" },
             { label: "jobseekerlist.jobseeker_name", name: "jobseeker_name" },
             { label: "common.status", name: "status" },
             { label: "", name: "status_button" }
-        ];
+        ]; */
         columns.forEach(column => {
             sortOrders[column.name] = -1;
         });

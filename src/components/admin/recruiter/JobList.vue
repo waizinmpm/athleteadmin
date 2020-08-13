@@ -102,7 +102,7 @@
 
                 <DataTable
                     ref="datatable"
-                    :columns="columns"
+                    :columns="$t('job_list.columns')"
                     :sortKey="sortKey"
                     :sortOrders="sortOrders"
                     @check-all="selectAll"
@@ -166,7 +166,7 @@ export default {
     mixins: [DataTableServices],
     data() {
         let sortOrders = {};
-        let columns = [
+        /* let columns = [
             { label: "common.recruiter_id", name: "recruiter_id" },
             { label: "common.recruiter_name", name: "recruiter_show_name" },
             { label: "common.job_number", name: "job_number" },
@@ -176,7 +176,8 @@ export default {
             { label: "joblist.post_period", name: "post_period" },
             { label: "common.status", name: "job_post_status" },
             { label: "", name: "status_button" }
-        ];
+        ]; */
+        let columns = [];
         columns.forEach(column => {
             sortOrders[column.name] = -1;
         });

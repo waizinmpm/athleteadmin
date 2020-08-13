@@ -1,7 +1,8 @@
 import menu from './menu-en';
 import adminPasswordSetting from './admin-password-setting';
-import joblist from './job-list';
-import jobseekerlist from './jobseeker-list';
+import recruiter_list from './recruiter-list';
+import job_list from './job-list';
+import jobseeker_list from './jobseeker-list';
 import scouted_list from './scouted-list';
 import jobapply_list from './jobapply-list';
 import common from './common';
@@ -12,8 +13,9 @@ export default {
 	common: common,
 	menu: menu,
 	admin_password_setting: adminPasswordSetting,
-	joblist: joblist,
-	jobseekerlist: jobseekerlist,
+	recruiter_list: recruiter_list,
+	job_list: job_list,
+	jobseeker_list: jobseeker_list,
 	scouted_list: scouted_list,
 	jobapply_list: jobapply_list,
 	jobcreate: jobcreate,

@@ -2,7 +2,7 @@
 <div>
     <div class="row">
         <div class="col-sm-6 p-0 searchform-one">
-            <h5 class="m-b-10 main-header">企業会員情報一覧</h5>     
+            <h5 class="m-b-10 main-header">{{$t('recruiter_list.recruiter_member_list')}}</h5>     
             <div class="form-group">
                 <!--<label class="control-label" for="inputGroup">Input Group </label>-->
                 <div class="input-group">
@@ -11,7 +11,7 @@
                         <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="会社名、企業コードを⼊⼒してください……"
+                                    :placeholder="$t('recruiter_list.search_recruiter_placeholder')"
                                     id="inputGroup"
                                     v-model="filteredData.freeword"
                                     @input="getData()"
@@ -36,11 +36,11 @@
                     </select>
                 </div>
                 <div class="col-sm-6 select">
-                    <span class="btn custom-btn delete" style="float:right" @click="deleteData()">削除</span>
+                    <span class="btn custom-btn delete" style="float:right" @click="deleteData()">{{$t('common.delete')}}</span>
                 </div>
             </div> 
             <div class="vld-parent" style="width: 100%;" ref="loadingRef"> 
-                <DataTable ref="datatable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @check-all="selectAll" @sort="sortBy" :showCheckbox="true">
+                <DataTable ref="datatable" :columns="$t('recruiter_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @check-all="selectAll" @sort="sortBy" :showCheckbox="true">
                     <tbody>
                         <tr v-for="project in projects.data" :key="project.id"> 
                             <td>
@@ -87,13 +87,14 @@ export default {
     mixins: [DataTableServices],
     data() {
         let sortOrders = {};
-        let columns = [
+        /* let columns = [
             {label: "求職者会員番号", name: "recruiter_number" },
             {label: "求職者名", name: "recruiter_name" },
             {label: "会社名(愛称)", name: "recruiter_nick_name"},
             {label: "ステータス", name: "recruiter_recordstatus" },
             {label: "", name: "status_button" }
-        ];
+        ]; */
+        let columns = [];
         columns.forEach(column => {
             sortOrders[column.name] = -1;
         }); 
