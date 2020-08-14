@@ -86,7 +86,7 @@
 										{{ project.payment_amount }}
 									</template>
 									<template #editor>
-										<input type="number" v-model="project.payment_amount">
+										<input type="text" v-model="project.payment_amount" @keypress="isNumber($event)">
 									</template>
 								</PaymentManagementInlineEditor>
 							</td>
@@ -136,6 +136,7 @@
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
 import PaymentManagementInlineEditor from './PaymentManagementInlineEditor';
+
 export default {
 	mixins: [ DataTableServices ],
 	components: { PaymentManagementInlineEditor },
@@ -186,7 +187,16 @@ export default {
 			payment.payment_amount = $event.payment_amount;
 			payment.actual_payment_date = $event.actual_payment_date;
 			payment.remark = $event.remark;
-		}
+		},
+		isNumber(evt) {
+			evt = (evt) ? evt : window.event;
+			var charCode = (evt.which) ? evt.which : evt.keyCode;
+			if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+				evt.preventDefault();
+				return false;
+			}
+			return true;
+		},
 	},
 	computed: {
 		currentUser() {
