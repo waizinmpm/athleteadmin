@@ -12,6 +12,7 @@ export default {
 	"close": "閉じる",
 	"yes": "はい",
 	"no": "いいえ",
+	"csv_download": "CSVダウンロード",
     "payment_confirm": "入金確認",
     "invoice_generate": "請求書生成",
     "total_results": "検索結果表示件数",

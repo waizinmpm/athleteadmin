@@ -3,7 +3,7 @@
 		<div v-show="editing == false">
 			<slot name="display"></slot>
 		</div>
-		<button v-show="editing == false" type="button" @click="beginEdit">{{ $t('common.edit') }}</button>
+		<button v-show="editing == false" type="button" @click="beginEdit">{{ $t('common.change') }}</button>
 		<div v-show="editing == true" @keyup.esc="cancelEdit" ref="editorContainer">
 			<slot name="editor"></slot>
 		</div>		

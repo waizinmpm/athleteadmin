@@ -52,6 +52,7 @@
 					<div class="row">
 						<div class="col-md-3">
 							<button class="btn searchbtn" @click="getData()">{{ $t('common.search') }}</button>
+							<button class="btn searchbtn btn_csv_download" @click="downloadCSV">{{ $t('common.csv_download') }}</button>
 						</div>
 					</div>
 				</div>
@@ -197,6 +198,24 @@ export default {
 			}
 			return true;
 		},
+		downloadCSV() {
+			let jsonData = {
+                tableData: this.tableData,
+                filteredData: this.filteredData
+            };
+			this.$api.post("/v1/admin/payment-transactions/csv", jsonData, { responseType: "arraybuffer" })
+            .then((r) => {
+				const type = r.headers["content-type"];
+				const blob = new Blob([r.data], { type: type, encoding: "UTF-8" });
+				const filename = r.headers["content-disposition"]
+					.split("=")[1]
+					.replace(/^"+|"+$/g, "");
+				const link = document.createElement("a");
+				link.href = window.URL.createObjectURL(blob);
+				link.download = filename;
+				link.click();
+            });
+		}
 	},
 	computed: {
 		currentUser() {
@@ -217,5 +236,8 @@ textarea {
 }
 .multiline-cell {
 	white-space: pre;
+}
+.btn_csv_download {
+	margin: 0px 3px;
 }
 </style>

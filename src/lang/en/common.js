@@ -12,6 +12,7 @@ export default {
 	"close": "Close",
 	"yes": "Yes",
 	"no": "No",
+	"csv_download": "Download CSV",
     "payment_confirm": "Payment Confirmation",
     "invoice_generate": "Invoice Generate",
     "total_results": "Number of searched results",
