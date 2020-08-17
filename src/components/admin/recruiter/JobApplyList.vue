@@ -73,7 +73,7 @@
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>{{project.jobapply_id}}</td>
-                            <td>{{project.created_at}}</td>
+                            <td>{{project.job_apply_date| date('%Y-%m-%d')}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>
@@ -130,85 +130,85 @@
                 <div class="container-fluid vld-parent" ref="invoicePreviewContainer">
                     <div class="row">
                         <div class="col-sm-6">
-<div class="border">
-<h4>{{ $t('scouted_list.job') }}</h4>
-<dl class="row">
-<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.0.label') }}</dt>
-<dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
-<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.5.label') }}</dt>
-<dd class="col-sm-9">{{ invoiceForm.title }}</dd>
-</dl>
-<h4>{{ $t('scouted_list.billing_recruiter') }}</h4>
-<dl class="row">
-<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.2.label') }}</dt>
-<dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
-<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.3.label') }}</dt>
-<dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
-</dl>
-</div>		
-<div class="border">
-<dl class="row email-box">									
-<dt class="col-sm-4">{{ $t('scouted_list.billing_mail') }}</dt>
-<dd class="col-sm-8">{{ invoiceForm.recruiter_email }}</dd>
-</dl>
-</div>
-<div class="border">
-<h4>{{ $t('scouted_list.brokerage_fee') }}</h4>
-<div class="form-group row">
-<div class="col-sm-2"></div>
-<div class="col-sm-6">
-<input type="text" :classo="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
-<div class="invalid-feedback">
-<div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
-<div class="error" v-if="!$v.invoiceForm.default_amount.numeric">電話番号は数字のみである必須があります</div>
-</div>
-</div>
-<label class="col-sm-1">円</label>
-</div>
-<dl class="row">
-<dt class="col-sm-2 text-right">{{ $t('scouted_list.tax') }}</dt>
-<dd class="col-sm-6 text-right">{{ Number(invoiceForm.tax).toLocaleString() }}</dd>
-<label class="col-sm-1">円</label>
-</dl>
-<dl class="row">
-<dt class="col-sm-2 text-right">{{ $t('scouted_list.invoice_amount') }}</dt>
- <dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
-<label class="col-sm-1">円</label>
-</dl>
-<div class="form-group row">
-<label class="col-sm-2 text-right">{{ $t('scouted_list.remark') }}</label>
-<div class="col-sm-6">
-<textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
-</div>
-</div>
-<div class="form-group row">
-<div class="col-sm-9 text-right">
-<button class="btn btn-primary" @click="loadInvoicePreview">{{ $t('scouted_list.invoice_preview') }}</button>
-</div>
-</div>
-</div>
-</div>
-<div class="col-sm-6" v-if="invoicePreview">
-<h4>{{ $t('scouted_list.invoice_preview') }}</h4>
-<div class="invoice-preview-area">
-<iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 60vh;"></iframe>
-</div>
-</div>
-</div>
-<div class="row"> 
-<div class="col-sm-6">
-<button class="btn btn-primary" style="margin-right: 1rem;" @click="closeInvoicePreview">{{ $t('common.back') }}</button>
-<button class="btn btn-danger" style="margin-right: 1rem;" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
-</div>
-<div class="col-sm-6 text-right">
-<button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('scouted_list.send_invoice') }}</button>
-</div>
-</div>
-</div>
-</div>
-</div>
+                            <div class="border">
+                                <h4>{{ $t('scouted_list.job') }}</h4>
+                                <dl class="row">
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.0.label') }}</dt>
+                                    <dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.5.label') }}</dt>
+                                    <dd class="col-sm-9">{{ invoiceForm.title }}</dd>
+                                </dl>
+                                <h4>{{ $t('scouted_list.billing_recruiter') }}</h4>
+                                <dl class="row">
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.2.label') }}</dt>
+                                    <dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.3.label') }}</dt>
+                                    <dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
+                                </dl>
+                            </div>		
+                            <div class="border">
+                                <dl class="row email-box">									
+                                    <dt class="col-sm-4">{{ $t('scouted_list.billing_mail') }}</dt>
+                                    <dd class="col-sm-8">{{ invoiceForm.recruiter_email }}</dd>
+                                </dl>
+                            </div>
+                            <div class="border">
+                                <h4>{{ $t('scouted_list.brokerage_fee') }}</h4>
+                                <div class="form-group row">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-6">
+                                        <input type="text" :classo="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
+                                        <div class="invalid-feedback">
+                                            <div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
+                                            <div class="error" v-if="!$v.invoiceForm.default_amount.numeric">電話番号は数字のみである必須があります</div>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-1">円</label>
+                                </div>
+                                <dl class="row">
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.tax') }}</dt>
+                                    <dd class="col-sm-6 text-right">{{ Number(invoiceForm.tax).toLocaleString() }}</dd>
+                                    <label class="col-sm-1">円</label>
+                                </dl>
+                                <dl class="row">
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.invoice_amount') }}</dt>
+                                    <dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
+                                    <label class="col-sm-1">円</label>
+                                </dl>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 text-right">{{ $t('scouted_list.remark') }}</label>
+                                    <div class="col-sm-6">
+                                        <textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-9 text-right">
+                                        <button class="btn btn-primary" @click="loadInvoicePreview">{{ $t('scouted_list.invoice_preview') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" v-if="invoicePreview">
+                            <h4>{{ $t('scouted_list.invoice_preview') }}</h4>
+                            <div class="invoice-preview-area">
+                                <iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 60vh;"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"> 
+                        <div class="col-sm-6">
+                            <button class="btn btn-primary" style="margin-right: 1rem;" @click="closeInvoicePreview">{{ $t('common.back') }}</button>
+                            <button class="btn btn-danger" style="margin-right: 1rem;" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('scouted_list.send_invoice') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- End Invoice Area -->
-    </div>
+</div>
 </template>
 
 <script>
@@ -259,7 +259,8 @@ import { required, numeric } from "vuelidate/lib/validators";
                     }
                 },   
                 invoiceForm: {
-                    scout_id: 0,
+                    // scout_id: 0,
+                    jobapply_id: 0,
                     management_number: 0,
                     title: '',
                     recruiter_number: '',
@@ -284,13 +285,24 @@ import { required, numeric } from "vuelidate/lib/validators";
 			},
 			startChat() {
 				alert("Now will start chatting...");
-			},
+            },
+            onStatusChange(index, e) {
+                const job_apply = this.$data.projects.data[index];
+                this.$api.post('/v1/admin/jobapply-list/change-status', {
+                    jobapply_id: job_apply.id,
+                    status: e.target.value,
+                })
+                .then(() => {
+                    this.$data.projects.data[index].job_apply_status = e.target.value;
+                })
+                .catch(() => {
+                    alert("error");
+                })
+            },
 			generateBill(jobapply_id, index) {
-				// alert("Bill is successfully generated...");		
-                // this.$data.projects.data[index].job_apply_status = this.$configs.job_apply.billed;
-                // --Set form default value
                 let jobapply = this.$data.projects.data[index];
-                this.invoiceForm.scout_id = jobapply.jobapply_id;
+              
+                this.invoiceForm.jobapply_id = jobapply.jobapply_id;
                 this.invoiceForm.title = jobapply.title;
                 this.invoiceForm.management_number = jobapply.management_number;
                 this.invoiceForm.recruiter_number = jobapply.recruiter_number;
@@ -300,25 +312,27 @@ import { required, numeric } from "vuelidate/lib/validators";
                 this.requireInvoiceForm = true;
 			},
 			confirmPayment(jobapplyId, index) {
-				if (confirm("Are you sure?")) {
-					this.$api.post('/v1/admin/jobapply-list/confirm-payment', {
-						jobapplyId: jobapplyId
-					})
-					.then(() => {
-						this.$data.projects.data[index].job_apply_status = this.$configs.job_apply.payment_confirmed;
-					})
-					.catch(() => {
-						alert("操作時にエラーが発生しました。")
-					})
-					
-				}
+                this.$alertService
+                    .showConfirmDialog(null, this.$t('scouted_list.payment_confirmed_question'), this.$t('common.yes'), this.$t('common.no'))
+                    .then((dialogResult) => {
+                        if (dialogResult.value) {
+                            this.$api.post('/v1/admin/jobapply-list/confirm-payment', { jobapplyId: jobapplyId })
+                            .then(() => {
+                                this.$data.projects.data[index].job_apply_status = this.$configs.job_apply.payment_confirmed;
+                            })
+                            .catch(() => {
+                                alert("操作時にエラーが発生しました。")
+                            })
+                        }
+                });
             },
             closeInvoiceModal() {
                 // --close any preview
                 this.closeInvoicePreview();
                 // --reset invoice form data
                 this.invoiceForm = {
-                    scout_id: 0,
+                    // scout_id: 0,
+                    jobapply_id: 0,
                     management_number: 0,
                     title: '',
                     recruiter_number: '',
@@ -337,7 +351,7 @@ import { required, numeric } from "vuelidate/lib/validators";
                 if (this.$v.invoiceForm.$invalid) {
                     return;
                 }
-                this.$api.post('/v1/admin/scout-list/generate-bill', this.invoiceForm)
+                this.$api.post('/v1/admin/jobapply-list/generate-bill', this.invoiceForm)
                 .then((r) => {
                     let html = r.data;
                     this.invoicePreview = html;
@@ -354,13 +368,15 @@ import { required, numeric } from "vuelidate/lib/validators";
                 if (this.$v.invoiceForm.$invalid) {
                     return;
                 }
-                this.$api.post('/v1/admin/scout-list/send-invoice-mail', this.invoiceForm)
-                .then(() => {
-                    // const scout = r.data.data;
+                this.$api.post('/v1/admin/jobapply-list/send-invoice-mail', this.invoiceForm)
+                .then((r) => {
+                    const job_apply = r.data.data;
                     this.projects.data
-                        .filter(x => x.jobapply_id == 2)
+                        .filter(x => x.jobapply_id == job_apply.id)
                         .forEach(x => x.job_apply_status = this.$configs.scouts.billed);
-                    alert(this.$t('scouted_list.mail_is_sent'));
+                    this.$alertService.showSuccessDialog(null, this.$t('scouted_list.mail_is_sent'), this.$t('common.close'));
+                    this.requireInvoiceForm = false;
+
                 })
                 .catch(() => {
                     
