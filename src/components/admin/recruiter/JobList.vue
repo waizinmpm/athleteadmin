@@ -120,8 +120,8 @@
                             <td>{{ project.recruiter.recruiter_name }}</td>
                             <td>{{ project.job_number }}</td>
                             <td>{{ project.title }}</td>
-                            <td>{{ project.job_apply.length }}</td>
-                            <td>{{ project.scout.length }}</td>
+                            <td>{{ project.job_apply.length == 0 ? '-' : project.job_apply.length }}</td>
+                            <td>{{ project.scout.length == 0 ? '-' : project.scout.length}}</td>
                             <td>{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
                             <td>
                                 <div v-for="status in recordStatus" :key="status.id">
