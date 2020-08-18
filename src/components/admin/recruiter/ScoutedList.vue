@@ -24,6 +24,10 @@
                             <label for="求人タイトル">{{ $t('common.job_title') }}</label>
                             <input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
                         </div>
+						<div class="col-md-3">
+                            <label for="アスリート会員氏名">{{ $t('common.jobseeker_number') }}</label>
+                            <input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_number">
+                        </div>      
                         <div class="col-md-3">
                             <label for="アスリート会員氏名">{{ $t('common.jobseeker_name') }}</label>
                             <input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
@@ -260,6 +264,7 @@ export default {
 				job_number: '',
 				job_title: '',
 				jobseeker_name: '',
+				jobseeker_number:'',
 				scout_status: [],
 			},
 			
