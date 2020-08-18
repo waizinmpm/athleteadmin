@@ -351,7 +351,7 @@ export default {
 				remark: '',
 			};
 			// --close modal
-			this.requireInvoiceForm = false;
+			this.requireInvoiceForm = false; 
 		},
 		loadInvoicePreview() {
 			this.$v.invoiceForm.$touch();
@@ -586,7 +586,7 @@ export default {
 .flex-options {
 	flex-direction: column;
 	align-items: center;
-	align-content: space-between;
+	align-content: space-between; 
 }
 .flex-options label {
 	flex: 1 1 0px;
