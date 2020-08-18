@@ -53,21 +53,21 @@ export default {
 		},
 	},
 	job: {
-		private: {
-			value: 1,
-			display: '非公開',
+		delete: {
+			value: 0,
+			display: '削除'
 		},
 		public: {
-			value: 2,
+			value: 1,
 			display: '公開'
+		},
+		private: {
+			value: 2,
+			display: '非公開',
 		},
 		stopped: {
 			value: 3,
 			display: '停止'
-		},
-		delete: {
-			value: 0,
-			display: '削除'
 		},
 	},
 	job_post: {
@@ -81,5 +81,13 @@ export default {
 	face_image_private: {
 		private: 1,
 		public: 0,
+	},
+	payment_job_type : {
+		scout : 'scout',
+		job_apply : 'job-apply',
+	},
+	payment_method : {
+		invoice: '請求書',
+		credit: 'クレカ',
 	},
 }

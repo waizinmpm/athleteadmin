@@ -37,7 +37,8 @@ const route = [{
         }
     },
     {
-        path: '/job-list/job/:id/edit',
+        name: "edit",
+        path: '/job-list/:id',
         component: JobEdit,
         meta: {
             reqiuresAuth: false,

@@ -1,0 +1,22 @@
+export default {
+	"title": "Payment Management",
+	"payment_method": "Payment Method",
+	"invoice_date": "Invoice Date",
+	"status": "Status",
+	"payment_date": "Payment Date",
+	"columns": [
+        {"label":"Management Number"},
+        {"label":"Payment Method"},
+        {"label":"Invoice Number"},
+        {"label":"Status"},
+        {"label":"Amount"},
+        {"label":"Invoice Date"},
+        {"label":"Payment Amount"},
+        {"label":"Payment Date"},
+		{"label":"Recruiter Name"},
+		{"label":"Phone"},
+		{"label":"Email"},
+		{"label":"Incharge Name"},
+		{"label":"Remark"},
+	],
+}

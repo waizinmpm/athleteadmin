@@ -3,15 +3,15 @@
         <div class="row">
             <div class="col-sm-6 p-0 searchform-one">
                 <!--advanced search-->
-                <h5 class="m-b-10 main-header">求職者会員情報一覧</h5>
+                <h5 class="m-b-10 main-header">{{ $t('jobseeker_list.jobseeker_member_list') }}</h5>
                 <div class="content-row" style="padding-bottom:0px;margin-left:0px;">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-group">
-                                <input
+                                <input 
                                     type="text"
                                     class="form-control"
-                                    placeholder="求職者会員番号、求職者名を⼊⼒してください……"
+                                    :placeholder="$t('jobseeker_list.search_jobseeker_placeholder')"
                                     id="inputGroup"
                                     v-model="filteredData.freeword"
                                     @input="getData()"
@@ -23,7 +23,7 @@
                         </div>
                     </div>
 
-                    <label for="ステータス">ステータス</label>
+                    <label for="ステータス">{{ $t('common.status') }}</label>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="col-md-2 p-lr0">
@@ -78,8 +78,8 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
-                        <div for>検索結果表示件数: {{ projects.total }}件</div>
-                        <span>{{ projects.current_page }}ページ表示数</span>&nbsp;
+                        <div for>{{ $t('common.total_results') }}: {{ $tc('common.item', projects.total, { n:projects.total }) }}</div>
+                        <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
                         <select v-model="tableData.length" @change="getData()">
                             <option
                                 v-for="(records, index) in perPage"
@@ -93,14 +93,14 @@
                             class="btn custom-btn delete"
                             style="float:right"
                             @click="deleteData()"
-                        >削除</span>
+                        >{{ $t('common.delete') }}</span>
                     </div>
                 </div>
 
 
                 <DataTable
                     ref="datatable"
-                    :columns="columns"
+                    :columns="$t('jobseeker_list.columns')"
                     :sortKey="sortKey"
                     :sortOrders="sortOrders"
                     @check-all="selectAll"
@@ -121,7 +121,7 @@
                             <td>{{project.record_status == 1 ? '有効' : (project.record_status == 0 ? '退会' : '無効')}}</td>
                             <td style="width:20%;">
                                 <div class="toggle" v-if="project.record_status != 0">
-                                    <button @click="edit(project.id)" class="btn btn-info">編集</button>
+                                    <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button>
                                     &nbsp;
                                     <span class="checkbox">
                                         <input
@@ -172,12 +172,13 @@ export default {
     mixins: [DataTableServices],
     data() {
         let sortOrders = {};
-        let columns = [
-            { label: "求職者会員番号", name: "custom_id" },
-            { label: "求職者名", name: "jobseeker_name" },
-            { label: "ステータス", name: "status" },
+        let columns = [];
+        /* let columns = [
+            { label: "jobseekerlist.jobseeker_number", name: "custom_id" },
+            { label: "jobseekerlist.jobseeker_name", name: "jobseeker_name" },
+            { label: "common.status", name: "status" },
             { label: "", name: "status_button" }
-        ];
+        ]; */
         columns.forEach(column => {
             sortOrders[column.name] = -1;
         });

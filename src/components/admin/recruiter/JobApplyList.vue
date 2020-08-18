@@ -71,9 +71,9 @@
                 </div>
                 <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
                     <tbody>
-                        <tr v-for="project in projects.data" :key="project.id">
+                        <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>{{project.jobapply_id}}</td>
-                            <td>{{project.created_at}}</td>
+                            <td>{{project.job_apply_date| date('%Y-%m-%d')}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>
@@ -122,11 +122,98 @@
                 </pagination>
             </div>
         </div>
-    </div>
+        <!-- Invoice Area -->
+        <div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
+			<!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" @click="closeInvoiceModal">&times;</span>
+                <div class="container-fluid vld-parent" ref="invoicePreviewContainer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="border">
+                                <h4>{{ $t('scouted_list.job') }}</h4>
+                                <dl class="row">
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.0.label') }}</dt>
+                                    <dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.5.label') }}</dt>
+                                    <dd class="col-sm-9">{{ invoiceForm.title }}</dd>
+                                </dl>
+                                <h4>{{ $t('scouted_list.billing_recruiter') }}</h4>
+                                <dl class="row">
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.2.label') }}</dt>
+                                    <dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.3.label') }}</dt>
+                                    <dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
+                                </dl>
+                            </div>		
+                            <div class="border">
+                                <dl class="row email-box">									
+                                    <dt class="col-sm-4">{{ $t('scouted_list.billing_mail') }}</dt>
+                                    <dd class="col-sm-8">{{ invoiceForm.recruiter_email }}</dd>
+                                </dl>
+                            </div>
+                            <div class="border">
+                                <h4>{{ $t('scouted_list.brokerage_fee') }}</h4>
+                                <div class="form-group row">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-6">
+                                        <input type="text" :classo="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
+                                        <div class="invalid-feedback">
+                                            <div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
+                                            <div class="error" v-if="!$v.invoiceForm.default_amount.numeric">電話番号は数字のみである必須があります</div>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-1">円</label>
+                                </div>
+                                <dl class="row">
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.tax') }}</dt>
+                                    <dd class="col-sm-6 text-right">{{ Number(invoiceForm.tax).toLocaleString() }}</dd>
+                                    <label class="col-sm-1">円</label>
+                                </dl>
+                                <dl class="row">
+                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.invoice_amount') }}</dt>
+                                    <dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
+                                    <label class="col-sm-1">円</label>
+                                </dl>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 text-right">{{ $t('scouted_list.remark') }}</label>
+                                    <div class="col-sm-6">
+                                        <textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-9 text-right">
+                                        <button class="btn btn-primary" @click="loadInvoicePreview">{{ $t('scouted_list.invoice_preview') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" v-if="invoicePreview">
+                            <h4>{{ $t('scouted_list.invoice_preview') }}</h4>
+                            <div class="invoice-preview-area">
+                                <iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 60vh;"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"> 
+                        <div class="col-sm-6">
+                            <button class="btn btn-primary" style="margin-right: 1rem;" @click="closeInvoicePreview">{{ $t('common.back') }}</button>
+                            <button class="btn btn-danger" style="margin-right: 1rem;" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('scouted_list.send_invoice') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Invoice Area -->
+</div>
 </template>
 
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
+import { required, numeric } from "vuelidate/lib/validators";
 
     export default {
         mixins: [DataTableServices],
@@ -137,6 +224,11 @@ import DataTableServices from "../../DataTable/DataTableServices";
                 sortOrders[column.name] = -1;
             });
             return {
+                requireInvoiceForm: false,
+                invoicePreview: '',
+                old_index:'',
+                status:false,
+                current: null,
                 base_url: "/v1/admin/jobapply-list",
                 columns: columns,
                 sortOrders: sortOrders,
@@ -166,6 +258,19 @@ import DataTableServices from "../../DataTable/DataTableServices";
                         date: '年 - 月 - 日',
                     }
                 },   
+                invoiceForm: {
+                    // scout_id: 0,
+                    jobapply_id: 0,
+                    management_number: 0,
+                    title: '',
+                    recruiter_number: '',
+                    recruiter_name: '',
+                    email: '',
+                    tax: 20000,
+                    default_amount: 200000,
+                    invoice_amount: 220000,
+                    remark: '',
+                },
             }
         },
         methods: {
@@ -180,30 +285,157 @@ import DataTableServices from "../../DataTable/DataTableServices";
 			},
 			startChat() {
 				alert("Now will start chatting...");
-			},
-			generateBill(scoutId, index) {
-				alert("Bill is successfully generated...");		
-				this.$data.projects.data[index].job_apply_status = this.$configs.job_apply.billed;
+            },
+            onStatusChange(index, e) {
+                const job_apply = this.$data.projects.data[index];
+                this.$api.post('/v1/admin/jobapply-list/change-status', {
+                    jobapply_id: job_apply.id,
+                    status: e.target.value,
+                })
+                .then(() => {
+                    this.$data.projects.data[index].job_apply_status = e.target.value;
+                })
+                .catch(() => {
+                    alert("error");
+                })
+            },
+			generateBill(jobapply_id, index) {
+                let jobapply = this.$data.projects.data[index];
+              
+                this.invoiceForm.jobapply_id = jobapply.jobapply_id;
+                this.invoiceForm.title = jobapply.title;
+                this.invoiceForm.management_number = jobapply.management_number;
+                this.invoiceForm.recruiter_number = jobapply.recruiter_number;
+                this.invoiceForm.recruiter_name = jobapply.recruiter_name;
+                this.invoiceForm.email = jobapply.recruiter_email;
+                this.invoiceForm.default_amount = 200000;
+                this.requireInvoiceForm = true;
 			},
 			confirmPayment(jobapplyId, index) {
-				if (confirm("Are you sure?")) {
-					this.$api.post('/v1/admin/jobapply-list/confirm-payment', {
-						jobapplyId: jobapplyId
-					})
-					.then(() => {
-						this.$data.projects.data[index].job_apply_status = this.$configs.job_apply.payment_confirmed;
-					})
-					.catch(() => {
-						alert("操作時にエラーが発生しました。")
-					})
-					
-				}
-			}
+                this.$alertService
+                    .showConfirmDialog(null, this.$t('scouted_list.payment_confirmed_question'), this.$t('common.yes'), this.$t('common.no'))
+                    .then((dialogResult) => {
+                        if (dialogResult.value) {
+                            this.$api.post('/v1/admin/jobapply-list/confirm-payment', { jobapplyId: jobapplyId })
+                            .then(() => {
+                                this.$data.projects.data[index].job_apply_status = this.$configs.job_apply.payment_confirmed;
+                            })
+                            .catch(() => {
+                                alert("操作時にエラーが発生しました。")
+                            })
+                        }
+                });
+            },
+            closeInvoiceModal() {
+                // --close any preview
+                this.closeInvoicePreview();
+                // --reset invoice form data
+                this.invoiceForm = {
+                    // scout_id: 0,
+                    jobapply_id: 0,
+                    management_number: 0,
+                    title: '',
+                    recruiter_number: '',
+                    recruiter_name: '',
+                    email: '',
+                    tax: 20000,
+                    default_amount: 200000,
+                    invoice_amount: 220000,
+                    remark: '',
+                };
+                // --close modal
+                this.requireInvoiceForm = false;
+            },
+            loadInvoicePreview() {
+                this.$v.invoiceForm.$touch();
+                if (this.$v.invoiceForm.$invalid) {
+                    return;
+                }
+                this.$api.post('/v1/admin/jobapply-list/generate-bill', this.invoiceForm)
+                .then((r) => {
+                    let html = r.data;
+                    this.invoicePreview = html;
+                })
+                .catch(() => {
+                    
+                })
+            },
+            closeInvoicePreview() {
+                this.invoicePreview = null;
+            },
+            sendInvoiceMail() {
+                this.$v.invoiceForm.$touch();
+                if (this.$v.invoiceForm.$invalid) {
+                    return;
+                }
+                this.$api.post('/v1/admin/jobapply-list/send-invoice-mail', this.invoiceForm)
+                .then((r) => {
+                    const job_apply = r.data.data;
+                    this.projects.data
+                        .filter(x => x.jobapply_id == job_apply.id)
+                        .forEach(x => x.job_apply_status = this.$configs.scouts.billed);
+                    this.$alertService.showSuccessDialog(null, this.$t('scouted_list.mail_is_sent'), this.$t('common.close'));
+                    this.requireInvoiceForm = false;
+
+                })
+                .catch(() => {
+                    
+                })
+            },
         },
         computed: {
             totaljob_apply: function() {
                 return this.$data.projects.total;
-            }
+            },
+            totalScouts: function() {
+                return this.$data.projects.total;
+            }	
+        },
+        watch: {
+            'invoiceForm.default_amount': function() {
+                let amount = Number(this.invoiceForm.default_amount);
+                if (!isNaN(amount)) {
+                    this.invoiceForm.invoice_amount = amount + Number(this.invoiceForm.tax);
+                } else {
+                this.invoiceForm.invoice_amount = 0;
+			}
 		}
+	},
+	validations: {
+		invoiceForm: {
+			default_amount: { required, numeric }
+		}
+	}		
     }
 </script>
+
+<style scoped>
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-open {
+	display: block;
+}
+
+.modal-close {
+	display: none;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 70px auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+</style>

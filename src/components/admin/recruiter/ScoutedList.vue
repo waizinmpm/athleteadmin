@@ -60,8 +60,8 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-12 select text-right">
-                        <span>検索結果表示件数: {{ totalScouts }}件</span><br>
-                        <span>1ページ表示数&nbsp;</span>
+                        <span>{{ $t('common.total_results') }}: {{ $tc('common.item', totalScouts, { n:totalScouts }) }}</span><br>
+                        <span>1 {{ $t('common.displayed_page') }}&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
                             <option v-for="(records, index) in perPage" :key="index" :value="records">
                                 {{records}}
@@ -73,7 +73,7 @@
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>{{project.management_number}}</td>
-                            <td>{{project.scouted_date}}</td>
+                            <td>{{project.scouted_date| date('%Y-%m-%d')}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>
@@ -89,7 +89,8 @@
                                     </p>
                                     <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'expand': (current === index) && (status == true)}">
                                         <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
-                                            <input type="radio" :id="status.id+index" name="radio-group" :checked="status.checked" class="custion-radio">
+                                            <input type="radio" :id="status.id+index" name="radio-group" :checked="project.scout_status == status.id" class="custion-radio" 
+												@change="onStatusChange(index, $event)" :value="status.id">
                                             <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
                                         </p>
                                     </div>
@@ -135,110 +136,309 @@
 
             </div>
         </div>
+		<div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
+			<!-- Modal content -->
+			<div class="modal-content">
+				<span class="close" @click="closeInvoiceModal">&times;</span>
+				<div class="container-fluid vld-parent" ref="invoicePreviewContainer">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="border">
+								<h4>{{ $t('scouted_list.job') }}</h4>
+								<dl class="row">
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.0.label') }}</dt>
+									<dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.5.label') }}</dt>
+									<dd class="col-sm-9">{{ invoiceForm.title }}</dd>
+								</dl>
+								<h4>{{ $t('scouted_list.billing_recruiter') }}</h4>
+								<dl class="row">
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.2.label') }}</dt>
+									<dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.3.label') }}</dt>
+									<dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
+								</dl>
+							</div>		
+							<div class="border">
+								<dl class="row email-box">									
+									<dt class="col-sm-4">{{ $t('scouted_list.billing_mail') }}</dt>
+									<dd class="col-sm-8">{{ invoiceForm.email }}</dd>
+								</dl>
+							</div>
+							<div class="border">
+							<h4>{{ $t('scouted_list.brokerage_fee') }}</h4>
+							<div class="form-group row">
+								<div class="col-sm-2"></div>
+								<div class="col-sm-6">
+									<input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
+									<div class="invalid-feedback">
+										<div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
+										<div class="error" v-if="!$v.invoiceForm.default_amount.numeric">電話番号は数字のみである必須があります</div>
+									</div>
+								</div>
+								<label class="col-sm-1">円</label>
+							</div>
+							<dl class="row">
+								<dt class="col-sm-2 text-right">{{ $t('scouted_list.tax') }}</dt>
+								<dd class="col-sm-6 text-right">{{ Number(invoiceForm.tax).toLocaleString() }}</dd>
+								<label class="col-sm-1">円</label>
+							</dl>
+							<dl class="row">
+								<dt class="col-sm-2 text-right">{{ $t('scouted_list.invoice_amount') }}</dt>
+								<dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
+								<label class="col-sm-1">円</label>
+							</dl>
+							<div class="form-group row">
+								<label class="col-sm-2 text-right">{{ $t('scouted_list.remark') }}</label>
+								<div class="col-sm-6">
+									<textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-sm-9 text-right">
+									<button class="btn btn-primary" @click="loadInvoicePreview">{{ $t('scouted_list.invoice_preview') }}</button>
+								</div>
+							</div>
+							</div>
+						</div>
+						<div class="col-sm-6" v-if="invoicePreview">
+							<h4>{{ $t('scouted_list.invoice_preview') }}</h4>
+							<div class="invoice-preview-area">
+								<iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 60vh;"></iframe>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="closeInvoicePreview">{{ $t('common.back') }}</button>
+							<button class="btn btn-danger" style="margin-right: 1rem;" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
+						</div>
+						<div class="col-sm-6 text-right">
+							<button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('scouted_list.send_invoice') }}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
     </div>
 </template>
 
 <script>
-import DataTableServices from "../../DataTable/DataTableServices";
 
-    export default {
-        mixins: [DataTableServices],
-        data(){
-            let sortOrders = {};
-            let columns = [];
-            columns.forEach(column => {
-                sortOrders[column.name] = -1;
-            });
-            return {
-                old_index:'',
-                status:false,
-                current: null,
-                base_url: "/v1/admin/scout-list",
-                columns: columns,
-                sortOrders: sortOrders,
-                filteredData:{
-                    recruiter_id: '',
-                    recruiter_name: '',
-                    from_date: '',
-                    to_date:'',
-                    job_number: '',
-                    job_title: '',
-                    jobseeker_name: '',
-                    scout_status: [],
-                },
-              
-                arr_status: [
-                    { id: this.$configs.scouts.interested, checked: false },
-                    { id: this.$configs.scouts.expired, checked: false },
-                    { id: this.$configs.scouts.declined, checked: false },
-                    { id: this.$configs.scouts.unclaimed, checked: false },
-                    { id: this.$configs.scouts.billed, checked: false },
-                    { id: this.$configs.scouts.payment_confirmed, checked: false }
-                ],
-                lang:{
-                    days: ['日', '月', '火', '水', '木', '金', '土'],
-                    months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                    placeholder: {
-                        date: '年 - 月 - 日',
-                    }
-                },   
-                isToggle : false ,
-            }
-        },
-       
-        methods: {
-			allowChat(status) {
-				return status == this.$configs.scouts.interested;
+import DataTableServices from "../../DataTable/DataTableServices";
+import { required, numeric } from "vuelidate/lib/validators";
+
+/**
+ * @component Admin scouted list
+ * @author Lal Hmachhuani @ 2020/08/04
+ * @last_maintained Myo Ko Ko @ 2020/08/04
+ */
+export default {
+	mixins: [DataTableServices],
+	data(){
+		let sortOrders = {};
+		let columns = [];
+		columns.forEach(column => {
+			sortOrders[column.name] = -1;
+		});
+		return {
+			requireInvoiceForm: false,
+			invoicePreview: '',
+			old_index:'',
+			status:false,
+			current: null,
+			base_url: "/v1/admin/scout-list",
+			columns: columns,
+			sortOrders: sortOrders,
+			filteredData:{
+				recruiter_id: '',
+				title: '',
+				recruiter_name: '',
+				from_date: '',
+				to_date:'',
+				job_number: '',
+				job_title: '',
+				jobseeker_name: '',
+				scout_status: [],
 			},
-			allowBilling(status) {
-				return status == this.$configs.scouts.unclaimed;
+			
+			arr_status: [
+				{ id: this.$configs.scouts.interested, checked: false },
+				{ id: this.$configs.scouts.expired, checked: false },
+				{ id: this.$configs.scouts.declined, checked: false },
+				{ id: this.$configs.scouts.unclaimed, checked: false },
+				{ id: this.$configs.scouts.billed, checked: false },
+				{ id: this.$configs.scouts.payment_confirmed, checked: false }
+			],
+			lang:{
+				days: ['日', '月', '火', '水', '木', '金', '土'],
+				months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+				placeholder: {
+					date: '年 - 月 - 日',
+				}
+			},  
+			invoiceForm: {
+				scout_id: 0,
+				management_number: 0,
+				title: '',
+				recruiter_number: '',
+				recruiter_name: '',
+				email: '',
+				tax: 20000,
+				default_amount: 200000,
+				invoice_amount: 220000,
+				remark: '',
 			},
-			allowPaymentConfirm(status) {
-				return status == this.$configs.scouts.billed;
-			},
-			startChat() {
-                alert("Now will start chatting...");
-			},
-			generateBill(scoutId, index) {
-				alert("Bill is successfully generated...");		
-				this.$data.projects.data[index].scout_status = this.$configs.scouts.billed;
-			},
-			confirmPayment(scoutId, index) {
-				if (confirm("Are you sure?")) {
-					this.$api.post('/v1/admin/scout-list/confirm-payment', {
-						scoutId: scoutId
-					})
+			isToggle : false ,
+		}
+	},
+	
+	methods: {
+		allowChat(status) {
+			return status == this.$configs.scouts.interested || 
+				status == this.$configs.scouts.unclaimed ||
+				status == this.$configs.scouts.billed;
+		},
+		allowBilling(status) {
+			return status == this.$configs.scouts.unclaimed;
+		},
+		allowPaymentConfirm(status) {
+			return status == this.$configs.scouts.billed;
+		},
+		startChat() {
+			alert("Now will start chatting...");
+		},
+		onStatusChange(index, e) {
+			const scout = this.$data.projects.data[index];
+			this.$api.post('/v1/admin/scout-list/change-status', {
+				scout_id: scout.id,
+				status: e.target.value,
+			})
+			.then(() => {
+				this.$data.projects.data[index].scout_status = e.target.value;
+			})
+			.catch(() => {
+				alert("error");
+			})
+		},
+		generateBill(scoutId, index) {
+			// --Set form default value
+			let scout = this.$data.projects.data[index];
+			this.invoiceForm.scout_id = scout.id;
+			this.invoiceForm.title = scout.title;
+			this.invoiceForm.management_number = scout.management_number;
+			this.invoiceForm.recruiter_number = scout.recruiter_number;
+			this.invoiceForm.recruiter_name = scout.recruiter_name;
+			this.invoiceForm.email = scout.recruiter_email;
+			this.invoiceForm.default_amount = 200000;
+			this.requireInvoiceForm = true;
+		},
+		closeInvoiceModal() {
+			// --close any preview
+			this.closeInvoicePreview();
+			// --reset invoice form data
+			this.invoiceForm = {
+				scout_id: 0,
+				management_number: 0,
+				title: '',
+				recruiter_number: '',
+				recruiter_name: '',
+				email: '',
+				tax: 20000,
+				default_amount: 200000,
+				invoice_amount: 220000,
+				remark: '',
+			};
+			// --close modal
+			this.requireInvoiceForm = false;
+		},
+		loadInvoicePreview() {
+			this.$v.invoiceForm.$touch();
+			if (this.$v.invoiceForm.$invalid) {
+				return;
+			}
+			this.$api.post('/v1/admin/scout-list/generate-bill', this.invoiceForm)
+			.then((r) => {
+				let html = r.data;
+				this.invoicePreview = html;
+			})
+			.catch(() => {
+				
+			})
+		},
+		closeInvoicePreview() {
+			this.invoicePreview = null;
+		},
+		sendInvoiceMail() {
+			this.$v.invoiceForm.$touch();
+			if (this.$v.invoiceForm.$invalid) {
+				return;
+			}
+			this.$api.post('/v1/admin/scout-list/send-invoice-mail', this.invoiceForm)
+			.then((r) => {
+				const scout = r.data.data;
+				this.projects.data
+					.filter(x => x.id == scout.id)
+					.forEach(x => x.scout_status = this.$configs.scouts.billed);
+				this.$alertService.showSuccessDialog(null, this.$t('scouted_list.mail_is_sent'), this.$t('common.close'));
+			})
+			.catch(() => {
+				
+			})
+		},
+		confirmPayment(scoutId, index) {
+			this.$alertService
+			.showConfirmDialog(null, this.$t('scouted_list.payment_confirmed_question'), this.$t('common.yes'), this.$t('common.no'))
+			.then((dialogResult) => {
+				if (dialogResult.value) {
+					this.$api.post('/v1/admin/scout-list/confirm-payment', { scout_id: scoutId })
 					.then(() => {
 						this.$data.projects.data[index].scout_status = this.$configs.scouts.payment_confirmed;
 					})
 					.catch(() => {
 						alert("操作時にエラーが発生しました。")
 					})
-					
 				}
-            },
-            showToggle(index) {
-                this.current = index;
-                if(this.status == true) {
-                    if(this.current == this.old_index) this.status = false; 
-                } else {
-                    this.status = true;
-                }
-                this.old_index = index;
-            },
-            hideToggle() {
-                this.status = false;
-            },
-            closeModal () {
-                this.status = false;
-            },
-        },
-        computed: {
-            totalScouts: function() {
-                return this.$data.projects.total;
-            }
+			});
+		},
+		showToggle(index) {
+			this.current = index;
+			if(this.status == true) {
+				if(this.current == this.old_index) this.status = false; 
+			} else {
+				this.status = true;
+			}
+			this.old_index = index;
+		},
+		hideToggle() {
+			this.status = false;
+		},
+	},
+	computed: {
+		currentUser() {
+			return this.$store.getters.currentUser;
+		},
+		totalScouts: function() {
+			return this.$data.projects.total;
+		}		
+	},
+	watch: {
+		'invoiceForm.default_amount': function() {
+			let amount = Number(this.invoiceForm.default_amount);
+			if (!isNaN(amount)) {
+				this.invoiceForm.invoice_amount = amount + Number(this.invoiceForm.tax);
+			} else {
+				this.invoiceForm.invoice_amount = 0;
+			}
 		}
-    }
+	},
+	validations: {
+		invoiceForm: {
+			default_amount: { required, numeric }
+		}
+	}		
+}
 </script>
 <style  scoped>
 .btn-common {
@@ -380,6 +580,92 @@ import DataTableServices from "../../DataTable/DataTableServices";
     opacity: 0;
     transform: scale(0);
 }
+<<<<<<< HEAD
 
+=======
+[contenteditable] {
+  outline: 0px solid transparent;
+}
+.flex-options {
+	flex-direction: column;
+	align-items: center;
+	align-content: space-between;
+}
+.flex-options label {
+	flex: 1 1 0px;
+	min-width: 150px;	
+	text-align: left;
+}
+.border {
+	padding: 0px 1rem;
+	margin: 1rem 0px;
+	border: 1px solid #dee2e6!important;
+}
+.email-box {
+	padding-top: 15px;
+}
+/* The Modal (background) */
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+>>>>>>> 9243a17494cf014ab9944549a19530cc64ac0469
 
+.modal-open {
+	display: block;
+}
+
+.modal-close {
+	display: none;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 70px auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+textarea {
+	resize: vertical;
+}
+.content-row .row, dl {
+	margin-bottom: 10px;
+}
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: #dc3545;
+}
+.invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+.is-invalid~.invalid-feedback, .is-invalid~.invalid-tooltip, .was-validated :invalid~.invalid-feedback, .was-validated :invalid~.invalid-tooltip {
+    display: block;
+}
 </style>

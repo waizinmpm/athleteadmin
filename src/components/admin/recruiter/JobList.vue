@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
-                <h5 class="m-b-10 main-header">求⼈⼀覧</h5>
+                <h5 class="m-b-10 main-header">{{ $t('common.recruitment') }}</h5>
                 <div class="content-row">
                     <div class="row">
                         <div class="col-md-3">
@@ -81,8 +81,8 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-6 select">
-                        <div for>検索結果表示件数: {{ projects.total }}件</div>
-                        <span>{{ projects.current_page }}ページ表示数</span>&nbsp;
+                        <div for>{{ $t('common.total_results') }}: {{ $tc('common.item', projects.total, { n:projects.total }) }}</div>
+                        <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
                         <select v-model="tableData.length" @change="getData()">
                             <option
                                 v-for="(records, index) in perPage"
@@ -102,7 +102,7 @@
 
                 <DataTable
                     ref="datatable"
-                    :columns="columns"
+                    :columns="$t('job_list.columns')"
                     :sortKey="sortKey"
                     :sortOrders="sortOrders"
                     @check-all="selectAll"
@@ -134,7 +134,7 @@
                                 >{{ $t('common.change') }}</button>
                             </td>
                             <td>
-                                <router-link :to="'/job-list/job/' + project.id + '/edit'" class="btn custom-btn edit">{{ $t('common.edit')}}</router-link>
+                                <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn custom-btn edit">{{ $t('common.edit')}}</router-link>
                             </td>
                         </tr>
                     </tbody>
@@ -166,41 +166,34 @@ export default {
     mixins: [DataTableServices],
     data() {
         let sortOrders = {};
-        let columns = [
-            { label: "企業番号", name: "recruiter_id" },
-            { label: "企業名", name: "recruiter_show_name" },
-            { label: "求⼈番号", name: "job_number" },
-            { label: "求⼈タイトル", name: "title" },
-            { label: "求⼈応募者数", name: "application_address" },
-            { label: "スカウト受託者数", name: "message" },
-            { label: "掲載期間", name: "job_post_date" },
-            { label: "ステータス", name: "job_post_status" },
+        /* let columns = [
+            { label: "common.recruiter_id", name: "recruiter_id" },
+            { label: "common.recruiter_name", name: "recruiter_show_name" },
+            { label: "common.job_number", name: "job_number" },
+            { label: "common.job_title", name: "title" },
+            { label: "joblist.no_of_applicants", name: "no_of_applicants" },
+            { label: "joblist.scout_trust", name: "scout_trustees" },
+            { label: "joblist.post_period", name: "post_period" },
+            { label: "common.status", name: "job_post_status" },
             { label: "", name: "status_button" }
-        ];
+        ]; */
+        let columns = [];
         columns.forEach(column => {
             sortOrders[column.name] = -1;
         });
         let filteredData = {
-            //freeword: "",
-            //jobseeker_recordstatus: [],
             status: []
         };
-        return {//
+        return {
             base_url: "v1/admin/job-list",
             columns: columns,
             sortOrders: sortOrders,
             filteredData: filteredData,
-            /* recordStatus: {
-                1: "非公開",
-                2: "公開",
-                3: "停止"
-            }, */
             recordStatus: [
-                this.$configs.job.private,
                 this.$configs.job.public,
+                this.$configs.job.private,
                 this.$configs.job.stopped
-            ],
-            tblStatus:''
+            ]
         };
     },
     methods: {
@@ -218,9 +211,10 @@ export default {
                     console.log(errors);
                 });
         },
-        editJob(jobId){
-            alert("job id -> "+ jobId);
-        }
+        /* editJob(jobId){
+            //alert("job id -> "+ jobId);
+            this.$router.push({ name: "edit", params: { id: jobId } });
+        } */
         /* reverse: function (jobdate) {
             var job_post_date = new Date(jobdate);
         return job_post_date.setMonth(job_post_date.getMonth()+1);
