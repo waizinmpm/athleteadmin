@@ -45,7 +45,7 @@
 
                     <div class="fomr-group text-center m-t-30">
                     <button class="btn loginbtn mr" type="submit">ログイン</button>
-                    <button class="btn loginbtn" type="button">{{ $t('common.cancel') }}</button>
+                    <button class="btn cancelbtn" type="button">{{ $t('common.cancel') }}</button>
                     </div>
                 </form>    
             </div>      
@@ -96,19 +96,24 @@ export default {
 
 <style scoped>
 .error {
-  color: red;
+    color: red;
 }
 .logo-img {
-  display: block;
-  width: 50%;
-  margin: 0 auto 50px;  
+    display: block;
+    width: 50%;
+    margin: 0 auto 50px;  
+}
+.btn {
+    color: #fff;
+    width: 140px;
+    padding: 10px 0;
+    border-radius: 0;
 }
 .loginbtn{
-      background-color: #84BE3F;
-      color: #fff;
-      width: 120px;
-      padding: 10px 0;
-      border-radius: 0;
+    background-color: #84BE3F; 
+}
+.cancelbtn {
+    background-color: #919191; 
 }
 .mr {
     margin-right: 20px;
@@ -117,35 +122,35 @@ export default {
     margin-bottom: 2rem;
 }
 .custom-checkbox {
-  height: 18px !important;
-  width: 18px !important;
-  opacity: 0;
+    height: 18px !important;
+    width: 18px !important;
+    opacity: 0;
 }
 
 .custom-checkbox-label {
-  padding-left: 15px;
-  line-height: 20px;
-  font-weight: normal;
+    padding-left: 15px;
+    line-height: 20px;
+    font-weight: normal;
 }
 
 .custom-checkbox-label::before {
-  position: absolute;
-  content: '';
-  top: 0;
-  left: -1.3rem;
-  width: 1.6rem;
-  height: 1.6rem;
-  border: #84BE3F solid 2px;
-  border-radius: 4px;
+    position: absolute;
+    content: '';
+    top: 0;
+    left: -1.3rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: #84BE3F solid 2px;
+    border-radius: 4px;
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
-  color: #fff;
-  background-color: transparent;
-  content: "\2714";
-  color: #84BE3F;
-  font-size: 17px;
-  padding-left: 2px;
-  border-color: #84BE3F;
+    color: #fff;
+    background-color: transparent;
+    content: "\2714";
+    color: #84BE3F;
+    font-size: 17px;
+    padding-left: 2px;
+    border-color: #84BE3F;
 }
 </style>

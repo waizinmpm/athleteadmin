@@ -252,10 +252,6 @@ export default {
 .input-error {
     border: 1px solid red;
 }
-
-
-
-
 .form-content {
     width: 30%;
     height: 100vh;

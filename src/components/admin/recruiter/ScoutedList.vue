@@ -580,6 +580,9 @@ export default {
     opacity: 0;
     transform: scale(0);
 }
+<<<<<<< HEAD
+
+=======
 [contenteditable] {
   outline: 0px solid transparent;
 }
@@ -613,6 +616,7 @@ export default {
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+>>>>>>> 9243a17494cf014ab9944549a19530cc64ac0469
 
 .modal-open {
 	display: block;
