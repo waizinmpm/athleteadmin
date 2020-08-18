@@ -351,7 +351,7 @@ export default {
 				remark: '',
 			};
 			// --close modal
-			this.requireInvoiceForm = false;
+			this.requireInvoiceForm = false; 
 		},
 		loadInvoicePreview() {
 			this.$v.invoiceForm.$touch();
