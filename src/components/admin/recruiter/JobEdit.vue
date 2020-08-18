@@ -604,7 +604,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "public/css/app.scss";
 .form-control.is-invalid,
 .was-validated .form-control:invalid {

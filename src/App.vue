@@ -170,7 +170,6 @@ body {
         color: #fff;
         width: 150px;
         padding: 10px 0;
-        border-radius: 20px;
     }
     .search-btn {
         background-color: color(primary);

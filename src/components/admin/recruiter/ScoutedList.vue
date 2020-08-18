@@ -380,8 +380,6 @@ import DataTableServices from "../../DataTable/DataTableServices";
     opacity: 0;
     transform: scale(0);
 }
-[contenteditable] {
-  outline: 0px solid transparent;
-}
+
 
 </style>
