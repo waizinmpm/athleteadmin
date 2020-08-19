@@ -3,7 +3,7 @@
         <thead>
             <tr>
                <th v-if="showCheckbox">
-                    <input type="checkbox" @click="emitToParent" v-model="checkornot" />
+                    <input type="checkbox" @click="emitToParent" v-model="checkornot" /> 
                </th>
                 <th v-for="column in columns" :key="column.name" @click="$emit('sort', column.name)"
                     :class="sortKey === column.name ? (sortOrders[column.name] > 0 ? 'sorting_asc' : 'sorting_desc') : 'sorting'"

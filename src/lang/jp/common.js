@@ -29,4 +29,5 @@ export default {
     "job_title": "求人タイトル",
     //-- Job Seeker Fields
     "jobseeker_name": "アスリート会員氏名",
+    "jobseeker_number": "求職者番号"
 };

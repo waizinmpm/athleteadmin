@@ -29,4 +29,5 @@ export default {
     "job_title": "Job Title",
     //-- Job Seeker Fields
     "jobseeker_name": "JobSeeker Name",
+    "jobseeker_number": "Job Seeker Member Number"
 };
