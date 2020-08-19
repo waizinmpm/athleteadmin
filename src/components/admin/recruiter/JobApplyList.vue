@@ -131,29 +131,29 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="border">
-                                <h4>{{ $t('scouted_list.job') }}</h4>
+                                <h4>{{ $t('common.job') }}</h4>
                                 <dl class="row">
-                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.0.label') }}</dt>
+                                    <dt class="col-sm-2 text-right">{{ $t('jobapply_list.columns.0.label') }}</dt>
                                     <dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
-                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.5.label') }}</dt>
+                                    <dt class="col-sm-2 text-right">{{ $t('jobapply_list.columns.5.label') }}</dt>
                                     <dd class="col-sm-9">{{ invoiceForm.title }}</dd>
                                 </dl>
-                                <h4>{{ $t('scouted_list.billing_recruiter') }}</h4>
+                                <h4>{{ $t('common.billing_recruiter') }}</h4>
                                 <dl class="row">
-                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.2.label') }}</dt>
+                                    <dt class="col-sm-2 text-right">{{ $t('jobapply_list.columns.2.label') }}</dt>
                                     <dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
-                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.3.label') }}</dt>
+                                    <dt class="col-sm-2 text-right">{{ $t('jobapply_list.columns.3.label') }}</dt>
                                     <dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
                                 </dl>
                             </div>		
                             <div class="border">
                                 <dl class="row email-box">									
-                                    <dt class="col-sm-4">{{ $t('scouted_list.billing_mail') }}</dt>
+                                    <dt class="col-sm-4">{{ $t('common.billing_mail') }}</dt>
                                     <dd class="col-sm-8">{{ invoiceForm.recruiter_email }}</dd>
                                 </dl>
                             </div>
                             <div class="border">
-                                <h4>{{ $t('scouted_list.brokerage_fee') }}</h4>
+                                <h4>{{ $t('common.brokerage_fee') }}</h4>
                                 <div class="form-group row">
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-6">
@@ -166,30 +166,30 @@
                                     <label class="col-sm-1">円</label>
                                 </div>
                                 <dl class="row">
-                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.tax') }}</dt>
+                                    <dt class="col-sm-2 text-right">{{ $t('common.tax') }}</dt>
                                     <dd class="col-sm-6 text-right">{{ Number(invoiceForm.tax).toLocaleString() }}</dd>
                                     <label class="col-sm-1">円</label>
                                 </dl>
                                 <dl class="row">
-                                    <dt class="col-sm-2 text-right">{{ $t('scouted_list.invoice_amount') }}</dt>
+                                    <dt class="col-sm-2 text-right">{{ $t('common.invoice_amount') }}</dt>
                                     <dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
                                     <label class="col-sm-1">円</label>
                                 </dl>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 text-right">{{ $t('scouted_list.remark') }}</label>
+                                    <label class="col-sm-2 text-right">{{ $t('common.remark') }}</label>
                                     <div class="col-sm-6">
                                         <textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-9 text-right">
-                                        <button class="btn btn-primary" @click="loadInvoicePreview">{{ $t('scouted_list.invoice_preview') }}</button>
+                                        <button class="btn btn-primary" @click="loadInvoicePreview">{{ $t('common.invoice_preview') }}</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6" v-if="invoicePreview">
-                            <h4>{{ $t('scouted_list.invoice_preview') }}</h4>
+                            <h4>{{ $t('common.invoice_preview') }}</h4>
                             <div class="invoice-preview-area">
                                 <iframe v-bind:srcdoc="invoicePreview" frameborder="1" style="width: 100%; height: 60vh;"></iframe>
                             </div>
@@ -201,7 +201,7 @@
                             <button class="btn btn-danger" style="margin-right: 1rem;" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('scouted_list.send_invoice') }}</button>
+                            <button class="btn btn-primary" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('common.send_invoice') }}</button>
                         </div>
                     </div>
                 </div>
@@ -296,7 +296,6 @@ import { required, numeric } from "vuelidate/lib/validators";
                     this.$data.projects.data[index].job_apply_status = e.target.value;
                 })
                 .catch(() => {
-                    alert("error");
                 })
             },
 			generateBill(jobapply_id, index) {
@@ -313,7 +312,7 @@ import { required, numeric } from "vuelidate/lib/validators";
 			},
 			confirmPayment(jobapplyId, index) {
                 this.$alertService
-                    .showConfirmDialog(null, this.$t('scouted_list.payment_confirmed_question'), this.$t('common.yes'), this.$t('common.no'))
+                    .showConfirmDialog(null, this.$t('common.payment_confirmed_question'), this.$t('common.yes'), this.$t('common.no'))
                     .then((dialogResult) => {
                         if (dialogResult.value) {
                             this.$api.post('/v1/admin/jobapply-list/confirm-payment', { jobapplyId: jobapplyId })
@@ -321,7 +320,6 @@ import { required, numeric } from "vuelidate/lib/validators";
                                 this.$data.projects.data[index].job_apply_status = this.$configs.job_apply.payment_confirmed;
                             })
                             .catch(() => {
-                                alert("操作時にエラーが発生しました。")
                             })
                         }
                 });
@@ -374,7 +372,7 @@ import { required, numeric } from "vuelidate/lib/validators";
                     this.projects.data
                         .filter(x => x.jobapply_id == job_apply.id)
                         .forEach(x => x.job_apply_status = this.$configs.scouts.billed);
-                    this.$alertService.showSuccessDialog(null, this.$t('scouted_list.mail_is_sent'), this.$t('common.close'));
+                    this.$alertService.showSuccessDialog(null, this.$t('common.mail_is_sent'), this.$t('common.close'));
                     this.requireInvoiceForm = false;
 
                 })
