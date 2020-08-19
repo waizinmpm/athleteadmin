@@ -91,9 +91,9 @@
                                         {{$t('common.edit')}}
                                         <span class="down-icon">&#9662;</span>
                                     </p>
-                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'expand': (current === index) && (status == true)}">
+                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
                                         <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
-                                            <input type="radio" :id="status.id+index" name="radio-group" :checked="project.scout_status == status.id" class="custion-radio" 
+                                            <input type="radio" :id="status.id+index" v-model="project.scout_status" class="custion-radio" 
 												@change="onStatusChange(index, $event)" :value="status.id">
                                             <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
                                         </p>
@@ -327,7 +327,7 @@ export default {
 			})
 		},
 		generateBill(scoutId, index) {
-			// --Set form default value
+            // --Set form default value
 			let scout = this.$data.projects.data[index];
 			this.invoiceForm.scout_id = scout.id;
 			this.invoiceForm.title = scout.title;
@@ -444,158 +444,6 @@ export default {
 }
 </script>
 <style  scoped>
-.btn-common {
-    position: relative;
-    width: 75px;
-    height: 29px;
-    padding: 0 12px;
-    border-color: #A6A6A6;
-    background-color: #fff;
-    box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.15);
-    border-radius: 20px;
-    color: #000;
-    vertical-align: middle;
-    line-height: 28px;
-    text-align: left;    
-}
-.btn-common .down-icon {
-    position: absolute;
-    right: 5px;
-    font-size: 20px;
-    transition: all ease .3s;
-    border-left: 2px solid #A6A6A6;
-}
-.scout-box {
-    position: relative;
-    display: flex;
-}
-.scout-txt {
-    min-width: 90px;
-}
-.scout-toggle {
-    position: absolute;
-    color: #333;
-    width: 200px;
-    padding: 20px 20px 0 20px;
-    top: 40px;
-    left: 30px;
-    background: #fff;
-    z-index: 999;
-    transform: scaleY(0);    
-    transform-origin: top;
-    transition: transform 0.4s ease;
-     box-shadow: 0 0.2rem 2rem rgba(0, 0, 0, 0.15);
-}
-.scout-toggle:before {
-    position: absolute;
-    content: '';
-    width: 0;
-    height: 0;
-    top: -10px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    border-style: solid;
-    border-width: 0 10px 10px 10px;
-    border-color: transparent transparent #fff transparent;
-}
-.expand {
-    transform: scaleY(1);
-}
-.collapse {
-    transform: scaleY(0);    
-}
-
-.custion-radio:checked {
-    position: absolute;
-    left: -9999px;
-}
-
-.custion-radio:checked + .custom-radio-lable {
-    position: relative;
-    padding-left: 35px;
-    cursor: pointer;
-    line-height: 30px;
-    display: inline-block;
-}
-
-.custion-radio:checked + .custom-radio-lable:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 24px;
-    height: 24px;
-    border: 1px solid #aab2bd;
-    border-radius: 100%;
-    background: #fff;
-}
-
-.custion-radio:checked + .custom-radio-lable:after {
-    content: "";
-    width: 12px;
-    height: 12px;
-    background: #91A8BF;
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    border-radius: 100%;
-    transition: all 0.2s ease;
-    opacity: 1;
-    transform: scale(1);
-}
-
-.custion-radio:not(:checked) {
-    position: absolute;
-    left: -9999px;
-}
-
-.custion-radio:not(:checked) + .custom-radio-lable {
-    position: relative;
-    padding-left: 35px;
-    cursor: pointer;
-    line-height: 30px;
-    display: inline-block;
-}
-
-.custion-radio:not(:checked) + .custom-radio-lable:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 24px;
-    height: 24px;
-    border: 1px solid #aab2bd;
-    border-radius: 100%;
-    background: #fff;
-}
-
-.custion-radio:not(:checked) + .custom-radio-lable:after {
-    content: "";
-    width: 12px;
-    height: 12px;
-    background: #91A8BF;
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    border-radius: 100%;
-    transition: all 0.2s ease;
-    opacity: 0;
-    transform: scale(0);
-}
-[contenteditable] {
-  outline: 0px solid transparent;
-}
-.flex-options {
-	flex-direction: column;
-	align-items: center;
-	align-content: space-between; 
-}
-.flex-options label {
-	flex: 1 1 0px;
-	min-width: 150px;	
-	text-align: left;
-}
 .border {
 	padding: 0px 1rem;
 	margin: 1rem 0px;

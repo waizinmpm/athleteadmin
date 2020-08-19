@@ -166,17 +166,6 @@ export default {
     mixins: [DataTableServices],
     data() {
         let sortOrders = {};
-        /* let columns = [
-            { label: "common.recruiter_id", name: "recruiter_id" },
-            { label: "common.recruiter_name", name: "recruiter_show_name" },
-            { label: "common.job_number", name: "job_number" },
-            { label: "common.job_title", name: "title" },
-            { label: "joblist.no_of_applicants", name: "no_of_applicants" },
-            { label: "joblist.scout_trust", name: "scout_trustees" },
-            { label: "joblist.post_period", name: "post_period" },
-            { label: "common.status", name: "job_post_status" },
-            { label: "", name: "status_button" }
-        ]; */
         let columns = [];
         columns.forEach(column => {
             sortOrders[column.name] = -1;
@@ -198,27 +187,26 @@ export default {
     },
     methods: {
         changeStatus(id, status) {
-            let statusData = {};
-            this.$set(statusData, "id", id);
-            this.$set(statusData, "status", status);
-            api.post(this.base_url + `/change-status`, statusData)
-                .then(response => {
-                    console.log("changeStatus", response.data);
-                    let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
-                    this.getData(getpage);
-                })
-                .catch(errors => {
-                    console.log(errors);
-                });
+            this.$alertService
+            .showConfirmDialog(null, this.$t('common.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
+            .then((dialogResult) => {
+                if(dialogResult.value){
+                    let statusData = {};
+                    this.$set(statusData, "id", id);
+                    this.$set(statusData, "status", status);
+                    api.post(this.base_url + `/change-status`, statusData)
+                        .then(response => {
+                            console.log("changeStatus", response.data);
+                            let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
+                            this.getData(getpage);
+                        })
+                        .catch(errors => {
+                            console.log(errors);
+                        });
+                }
+            });
+            
         },
-        /* editJob(jobId){
-            //alert("job id -> "+ jobId);
-            this.$router.push({ name: "edit", params: { id: jobId } });
-        } */
-        /* reverse: function (jobdate) {
-            var job_post_date = new Date(jobdate);
-        return job_post_date.setMonth(job_post_date.getMonth()+1);
-        } */
     },
     mounted() {
         console.log(this.projects);
