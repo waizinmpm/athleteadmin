@@ -223,7 +223,7 @@ export default {
         changeStatus(id, status) {
             
             this.$alertService
-            .showConfirmDialog(null, this.$t('common.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
+            .showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
             .then((dialogResult) => {
                 if(dialogResult.value){
                     let statusData = {};

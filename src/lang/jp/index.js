@@ -8,6 +8,7 @@ import jobapply_list from './jobapply-list';
 import common from './common';
 import jobcreate from './recruiterjobcreate';
 import payment_management from './payment-management';
+import dialog_box from './dialog-box';
 
 export default {
 	common: common,
@@ -20,4 +21,5 @@ export default {
 	jobapply_list: jobapply_list,
 	jobcreate: jobcreate,
 	payment_management: payment_management,
+	dialog_box: dialog_box,
 }

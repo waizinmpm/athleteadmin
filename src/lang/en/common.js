@@ -12,8 +12,6 @@ export default {
 	"close": "Close",
 	"yes": "Yes",
     "no": "No",
-    "confirm_delete_message": "Are you sure to delete ?",
-    "confirm_change_message": "Are you sure to change ?",
 	"csv_download": "Download CSV",
     "payment_confirm": "Payment Confirmation",
     "invoice_generate": "Invoice Generate",

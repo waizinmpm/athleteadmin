@@ -12,8 +12,6 @@ export default {
 	"close": "閉じる",
 	"yes": "はい",
     "no": "いいえ",
-    "confirm_delete_message": "消去してもよろしいですか",
-    "confirm_change_message": "変更してもよろしいですか",
 	"csv_download": "CSVダウンロード",
     "payment_confirm": "入金確認",
     "invoice_generate": "請求書生成",

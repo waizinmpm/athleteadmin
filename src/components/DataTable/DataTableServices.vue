@@ -66,7 +66,7 @@ export default {
         deleteData() {
             if(this.selected.length > 0){
                 this.$alertService
-                .showConfirmDialog(null, this.$t('common.delete_confirm_message'), this.$t('common.yes'), this.$t('common.no'))
+                .showConfirmDialog(null, this.$t('dialog_box.confirm_delete_message'), this.$t('common.yes'), this.$t('common.no'))
                 .then((dialogResult) => {
                     if(dialogResult.value){
                         let checkedData = {};
