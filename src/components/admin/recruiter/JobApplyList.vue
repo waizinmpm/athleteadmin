@@ -80,7 +80,25 @@
                             <td>{{project.title}}</td>
                             <td>{{project.jobseeker_number}}</td>
                             <td>{{project.jobseeker_name}} <span class="btn btn-default">{{$t('common.edit')}}</span> </td>
-                            <td>{{project.job_apply_status}}</td>
+                            <!-- <td>{{project.job_apply_status}}</td> -->
+
+                            <td>
+                                <div class="scout-box">
+                                    <p class="scout-txt">{{project.job_apply_status}} </p>
+                                     <p class="btn btn-common" v-on:click="showToggle(index)">
+                                        {{$t('common.edit')}}
+                                        <span class="down-icon">&#9662;</span>
+                                    </p>
+                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
+                                        <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
+                                            <input type="radio" :id="status.id+index" v-model="project.scout_status" class="custion-radio" 
+												@change="onStatusChange(index, $event)" :value="status.id">
+                                            <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
+                                        </p>
+                                    </div>
+                                   
+                                </div>
+                            </td>
                             <td style="width:200px;">
                                 <span class="btn btn-default" @click="startChat" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
                                 <span class="btn btn-default" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span>
@@ -289,7 +307,7 @@ import { required, numeric } from "vuelidate/lib/validators";
             onStatusChange(index, e) {
                 const job_apply = this.$data.projects.data[index];
                 this.$api.post('/v1/admin/jobapply-list/change-status', {
-                    jobapply_id: job_apply.id,
+                    jobapply_id: job_apply.jobapply_id,
                     status: e.target.value,
                 })
                 .then(() => {
@@ -379,6 +397,18 @@ import { required, numeric } from "vuelidate/lib/validators";
                 .catch(() => {
                     
                 })
+            },
+            showToggle(index) {
+                this.current = index;
+                if(this.status == true) {
+                    if(this.current == this.old_index) this.status = false; 
+                } else {
+                    this.status = true;
+                }
+                this.old_index = index;
+            },
+            hideToggle() {
+                this.status = false;
             },
         },
         computed: {
