@@ -56,7 +56,7 @@
                     <label for="ステータス">{{ $t('common.status') }}</label>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="col-md-2 p-lr0" v-for="status in recordStatus" :key="status.id">
+                            <div class="col-md-2 p-lr0" v-for="status in arr_status" :key="status.id.id">
                                 <input
                                     type="checkbox"
                                     class="custom-control-input custom-checkbox"
@@ -64,12 +64,12 @@
                                     id="record_status"
                                     v-model="filteredData.status"
                                     @change="getData()"
-                                    :value="status.value"
+                                    :value="status.id.value"
                                 />
                                 <label
                                     for="record_status"
                                     class="custom-control-label custom-checkbox-label"
-                                >{{status.display}}</label>
+                                >{{status.id.display}}</label>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                     :showCheckbox="true"
                 >
                     <tbody>
-                        <tr v-for="project in projects.data" :key="project.id">
+                        <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>
                                 <label class="form-checkbox">
                                     <input type="checkbox" :value="project.id" v-model="selected" />
@@ -124,14 +124,40 @@
                             <td>{{ project.scout.length == 0 ? '-' : project.scout.length}}</td>
                             <td>{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
                             <td>
-                                <div v-for="status in recordStatus" :key="status.id">
+                                
+                                <div class="scout-box">
+                                    <p class="scout-txt" >
+                                        <span v-for="status in arr_status" :key="status.id.id">
+                                            {{project.record_status == status.id.value ? status.id.display : ''}}
+                                        </span>
+                                    </p>
+                                    <p class="btn btn-common" v-on:click="showToggle(index)">
+                                        {{$t('common.change')}}
+                                        <span class="down-icon">&#9662;</span>
+                                    </p>
+                                    <!-- <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
+                                        <p class="custom-radio-group mr-3"  v-for="status in arr_status" :key="status.id.id">
+                                            <input type="radio" :id="status.id.value+index" :value="status.id.display" v-model="project.record_status" class="custion-radio" 
+												@change="changeStatus(project.id, status.id.value)">
+                                            <label :for="status.id.display" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id.display }}</label>
+                                        </p>
+                                    </div> -->
+                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
+                                        <p class="custom-radio-group mr-3"  v-for="status in arr_status" :key="status.id.id">
+                                            <input type="radio" :id="status.id.display+index" v-model="project.record_status" class="custion-radio" 
+												@change="changeStatus(project.id, status.id.value)" :value="status.id.value">
+                                            <label :for="status.id.display+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id.display }}</label>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- <div v-for="status in recordStatus" :key="status.id">
                                     <input type="radio" :id="status" :value="status.value" v-model="project.record_status">
                                     <label for="">{{status.display}}</label>
                                 </div>
                                 <button
                                     class="custom-btn change"
                                     @click="changeStatus(project.id, project.record_status)"
-                                >{{ $t('common.change') }}</button>
+                                >{{ $t('common.change') }}</button> -->
                             </td>
                             <td>
                                 <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn custom-btn edit">{{ $t('common.edit')}}</router-link>
@@ -178,15 +204,24 @@ export default {
             columns: columns,
             sortOrders: sortOrders,
             filteredData: filteredData,
-            recordStatus: [
+            current: null,
+            old_index:'',
+            status:false,
+            /* recordStatus: [
                 this.$configs.job.public,
                 this.$configs.job.private,
                 this.$configs.job.stopped
-            ]
+            ], */
+            arr_status: [
+				{ id: this.$configs.job.public, checked: false },
+				{ id: this.$configs.job.private, checked: false },
+				{ id: this.$configs.job.stopped, checked: false },
+			],
         };
     },
     methods: {
         changeStatus(id, status) {
+            
             this.$alertService
             .showConfirmDialog(null, this.$t('common.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
             .then((dialogResult) => {
@@ -203,10 +238,24 @@ export default {
                         .catch(errors => {
                             console.log(errors);
                         });
+                }else{
+                    this.getData(this.projects.current_page);
                 }
             });
-            
         },
+		showToggle(index) {
+			this.current = index;
+			if(this.status == true) {
+                if(this.current == this.old_index)
+                    this.status = false; 
+			} else {
+				this.status = true;
+			}
+			this.old_index = index;
+		},
+		hideToggle() {
+			this.status = false;
+		},
     },
     mounted() {
         console.log(this.projects);
