@@ -29,5 +29,17 @@ export default {
     "job_title": "Job Title",
     //-- Job Seeker Fields
     "jobseeker_name": "JobSeeker Name",
-    "jobseeker_number": "Job Seeker Member Number"
+    "jobseeker_number": "Job Seeker Member Number",
+    // Invoice
+	"job": "Job",
+	"billing_recruiter": "Recruiter",
+	"billing_mail": "Billing mail",
+	"brokerage_fee": "Service Fee",
+	"tax": "Tax",
+	"invoice_amount": "Invoice Amount",
+	"remark": "Remark",
+	"invoice_preview": "Invoice Preview",
+	"send_invoice": "Send Mail",
+	"mail_is_sent": "Mail is sent",
+	"payment_confirmed_question": "Are you sure to confirm payment?",
 };
