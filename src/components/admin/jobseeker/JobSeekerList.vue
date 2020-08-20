@@ -89,11 +89,12 @@
                         </select>
                     </div>
                     <div class="col-sm-6">
-                        <span
+                        <button
                             class="btn custom-btn delete"
                             style="float:right"
+                            :disabled="isDisabled"
                             @click="deleteData()"
-                        >{{ $t('common.delete') }}</span>
+                        >{{ $t('common.delete') }}</button>
                     </div>
                 </div>
 
@@ -193,6 +194,14 @@ export default {
             filteredData: filteredData
         };
     },
+
+    computed: {
+        isDisabled() {
+            //if dont select any row, set disable delete button
+            return this.selected.length > 0 ? false : true;
+      },
+    },
+    
     methods: {
         changeStatus(id, recordstatus) {
             if (recordstatus == 1) {
@@ -206,40 +215,11 @@ export default {
                 console.log(res);
                 this.getData();
             });
-            // this.$swal({
-            //     allowOutsideClick: false,
-            //     text: this.recordstatus_text,
-            //     type: "warning",
-            //     width: 350,
-            //     height: 200,
-            //     showCancelButton: true,
-            //     confirmButtonColor: "#eea025",
-            //     cancelButtonColor: "#b1abab",
-            //     cancelButtonTextColor: "#000",
-            //     confirmButtonText: "はい",
-            //     cancelButtonText: "キャンセル",
-            //     confirmButtonClass: "all-btn",
-            //     cancelButtonClass: "all-btn"
-            // }).then(()=> {
-            //     this.$api
-            //     .post(this.base_url + `/change-status/${id}`)
-            //     .then(() => {
-            //             this.getData();
-            //     });
-
-            // })
-            // .catch(error =>{
-            //     if(recordstatus == 1){
-            //         $("#"+id).prop("checked", true);
-            //     }else{
-            //         $("#"+id).prop("checked", false);
-            //     }
-            // });
         },
+
         edit(id){
             alert("jobseeker id -> "+ id);
         }
-    },
-    mounted() {}
+    }
 };
 </script>

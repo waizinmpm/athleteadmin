@@ -92,11 +92,12 @@
                         </select>
                     </div>
                     <div class="col-sm-6">
-                        <span
+                        <button
                             class="btn custom-btn delete"
                             style="float:right"
+                            :disabled="isDisabled"
                             @click="deleteData()"
-                        >{{ $t('common.delete') }}</span>
+                        >{{ $t('common.delete') }}</button>
                     </div>
                 </div>
 
@@ -135,13 +136,6 @@
                                         {{$t('common.change')}}
                                         <span class="down-icon">&#9662;</span>
                                     </p>
-                                    <!-- <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
-                                        <p class="custom-radio-group mr-3"  v-for="status in arr_status" :key="status.id.id">
-                                            <input type="radio" :id="status.id.value+index" :value="status.id.display" v-model="project.record_status" class="custion-radio" 
-												@change="changeStatus(project.id, status.id.value)">
-                                            <label :for="status.id.display" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id.display }}</label>
-                                        </p>
-                                    </div> -->
                                     <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
                                         <p class="custom-radio-group mr-3"  v-for="status in arr_status" :key="status.id.id">
                                             <input type="radio" :id="status.id.display+index" v-model="project.record_status" class="custion-radio" 
@@ -207,11 +201,6 @@ export default {
             current: null,
             old_index:'',
             status:false,
-            /* recordStatus: [
-                this.$configs.job.public,
-                this.$configs.job.private,
-                this.$configs.job.stopped
-            ], */
             arr_status: [
 				{ id: this.$configs.job.public, checked: false },
 				{ id: this.$configs.job.private, checked: false },
@@ -219,9 +208,16 @@ export default {
 			],
         };
     },
+
+    computed: {
+        isDisabled() {
+            //if dont select any row, set disable delete button
+            return this.selected.length > 0 ? false : true;
+      },
+    },
+
     methods: {
         changeStatus(id, status) {
-            
             this.$alertService
             .showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
             .then((dialogResult) => {
@@ -243,6 +239,7 @@ export default {
                 }
             });
         },
+
 		showToggle(index) {
 			this.current = index;
 			if(this.status == true) {
@@ -252,11 +249,13 @@ export default {
 				this.status = true;
 			}
 			this.old_index = index;
-		},
+        },
+        
 		hideToggle() {
 			this.status = false;
 		},
     },
+
     mounted() {
         console.log(this.projects);
     }
