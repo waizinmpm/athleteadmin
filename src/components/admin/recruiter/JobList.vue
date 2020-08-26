@@ -213,7 +213,7 @@ export default {
         isDisabled() {
             //if dont select any row, set disable delete button
             return this.selected.length > 0 ? false : true;
-      },
+        },
     },
 
     methods: {
