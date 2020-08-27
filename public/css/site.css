@@ -13800,10 +13800,9 @@ a.navbar-brand {
     -ms-flex-align: center!important;
     align-items: center!important;
     justify-content: center;
-    background: #d9e8c3;
+    background: #f8f8f8;
     height: 100vh;
 }
-
 .form-signin {
     width: 375px;
     min-height: 332px;

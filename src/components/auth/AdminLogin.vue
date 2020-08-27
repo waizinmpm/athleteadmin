@@ -101,7 +101,9 @@ export default {
 .logo-img {
     display: block;
     width: 50%;
-    margin: 0 auto 50px;  
+    margin: 0 auto 20px; 
+    padding: 10px;
+    background: #334e12; 
 }
 .btn {
     color: #fff;
