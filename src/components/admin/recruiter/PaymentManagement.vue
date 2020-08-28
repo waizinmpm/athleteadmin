@@ -10,12 +10,12 @@
 							<div class="row">
 							<div class="col-md-6">
 								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
-									v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" />
+									v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" @change="getData()" />
 								<label class="custom-control-label custom-checkbox-label">{{ $configs.payment_method.invoice }}</label>
 							</div>
 							<div class="col-md-6">
 								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
-								v-model="filteredData.payment_status" :value="$configs.payment_method.credit" />
+								v-model="filteredData.payment_status" :value="$configs.payment_method.credit" @change="getData()" />
 								<label class="custom-control-label custom-checkbox-label">{{ $configs.payment_method.credit }}</label>
 							</div>
 							</div>
@@ -35,7 +35,7 @@
 							<div class="row">
 								<div class="col-md-4" v-for="(status, index) in record_status" :key="index">
 									<input type="checkbox" class="custom-control-input custom-checkbox"
-										:value="status.id" :checked="status.checked" v-model="filteredData.record_status" />
+										:value="status.id" :checked="status.checked" v-model="filteredData.record_status" @change="getData()" />
 									<label class="custom-control-label custom-checkbox-label">{{ status.id }}</label>
 								</div>
 							</div>
@@ -79,7 +79,7 @@
 							<td>{{ project.invoice_number }}</td>
 							<td>{{ project.payment_job_type == $configs.payment_job_type.scout ? project.scout_status : project.job_apply_status }}</td>
 							<td>{{ project.invoice_amount }}</td>
-							<td>{{ project.invoice_date|date('%Y-%m-%d') }}</td>
+							<td><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
 							<td>
 								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project" 
 									@editing-cancel="onEditingCancel($event, project)">
@@ -108,15 +108,8 @@
 							<td>{{ project.email }}</td>
 							<td>{{ project.incharge_name }}</td>
 							<td>
-								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project"
-									@editing-cancel="onEditingCancel($event, project)">
-									<template #display>
-										<p>{{ project.remark }}</p>
-									</template>
-									<template #editor>
-										<textarea rows="3" v-model="project.remark"></textarea>
-									</template>
-								</PaymentManagementInlineEditor>
+								<span style="white-space: pre-wrap;">{{ project.remark }}</span>
+								<button type="button" @click="editRemark(project)">{{ $t('common.change') }}</button>
 							</td>
 						</tr>
 					</tbody>
@@ -215,7 +208,32 @@ export default {
 				link.download = filename;
 				link.click();
             });
-		}
+		},
+		editRemark(payment) {
+			const inputDialog = this.$swal({
+				allowOutsideClick: false, 
+				title: null,
+				width: 360,
+				input: 'textarea',		
+				confirmButtonColor: "#ffb700",                       
+				confirmButtonText: this.$t('common.confirm'),
+				cancelButtonColor: "#0062ff",                       
+				cancelButtonText: this.$t('common.cancel'),
+				customClass: {
+					confirmButton: 'border-style',
+					cancelButton: 'cancelbtn border-style'
+				},
+				showCloseButton: true,
+				showCancelButton: true,
+				inputValue: payment.remark,
+			});
+			inputDialog.then(r => {
+				if (r.value !== undefined) {
+					payment.remark = r.value;
+					this.onEditingComplete(payment);
+				}
+			})
+		},
 	},
 	computed: {
 		currentUser() {
