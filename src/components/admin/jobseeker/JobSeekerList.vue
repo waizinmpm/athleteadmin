@@ -226,16 +226,19 @@ export default {
     
     methods: {
         changeStatus(id, recordstatus) {
-            if (recordstatus == '有効') {
-                this.recordstatus_text = "無効にしてよろしいでしょうか。";
-            } else {
-                this.recordstatus_text = "有効してよろしいでしょうか。";
-            }
-
-            this.$api.post(this.base_url + `/change-status/${id}`)
-            .then((res) => {
-                console.log(res.data);
-                this.getData();
+            this.recordstatus_text = recordstatus == '有効' ? "無効にしてよろしいでしょうか。" : "有効してよろしいでしょうか。";
+            this.$alertService
+            .showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
+            .then((dialogResult) => {
+                if(dialogResult.value){
+                    this.$api.post(this.base_url + `/change-status/${id}`)
+                    .then((res) => {
+                        console.log(res.data);
+                        this.getData();
+                    });
+                }else{
+                    this.getData(this.projects.current_page);
+                }
             });
         },
 
