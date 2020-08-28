@@ -79,7 +79,7 @@
                             <td>{{project.job_number}}</td>
                             <td>{{project.title}}</td>
                             <td>{{project.jobseeker_number}}</td>
-                            <td>{{project.jobseeker_name}} <span class="btn btn-default">{{$t('common.edit')}}</span> </td>
+                            <td>{{project.jobseeker_name}}</td>
                             <!-- <td>{{project.job_apply_status}}</td> -->
 
                             <td>
@@ -306,15 +306,21 @@ import { required, numeric } from "vuelidate/lib/validators";
             },
             onStatusChange(index, e) {
                 const job_apply = this.$data.projects.data[index];
-                this.$api.post('/v1/admin/jobapply-list/change-status', {
-                    jobapply_id: job_apply.jobapply_id,
-                    status: e.target.value,
-                })
-                .then(() => {
-                    this.$data.projects.data[index].job_apply_status = e.target.value;
-                })
-                .catch(() => {
-                })
+                this.$alertService.showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
+                .then(r => {
+                    if (r.value) {
+                        this.$api.post('/v1/admin/jobapply-list/change-status', {
+                            jobapply_id: job_apply.jobapply_id,
+                            status: e.target.value,
+                        })
+                        .then(res => {
+                            console.log(res);
+                            this.$data.projects.data[index].job_apply_status = e.target.value;
+                        })
+                        .catch(() => {
+                        })
+                    }
+                });
             },
 			generateBill(jobapply_id, index) {
                 let jobapply = this.$data.projects.data[index];

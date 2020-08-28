@@ -316,15 +316,21 @@ export default {
 		},
 		onStatusChange(index, e) {
 			const scout = this.$data.projects.data[index];
-			this.$api.post('/v1/admin/scout-list/change-status', {
-				scout_id: scout.id,
-				status: e.target.value,
-			})
-			.then(() => {
-				this.$data.projects.data[index].scout_status = e.target.value;
-			})
-			.catch(() => {
-			})
+			this.$alertService.showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
+			.then(r => {
+				if (r.value) {
+					this.$api.post('/v1/admin/scout-list/change-status', { 
+						scout_id: scout.id, 
+						status: e.target.value 
+					})
+					.then(res => {
+						console.log(res);
+						this.$data.projects.data[index].scout_status = e.target.value;
+					})
+					.catch(() => {
+					})
+				}
+			});
 		},
 		generateBill(scoutId, index) {
             // --Set form default value
