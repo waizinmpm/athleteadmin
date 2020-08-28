@@ -109,7 +109,7 @@
 					:showCheckbox="true"
                 >
                     <tbody>
-                        <tr v-for="project in projects.data" :key="project.id">
+                        <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>
                                 <label class="form-checkbox">
                                     <span v-if="project.record_status != 0">
@@ -122,9 +122,8 @@
                             <td>{{project.record_status == 1 ? '有効' : (project.record_status == 0 ? '退会' : '無効')}}</td>
                             <td style="width:20%;">
                                 <div class="toggle" v-if="project.record_status != 0">
-                                    <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button>
-                                    &nbsp;
-                                    <span class="checkbox">
+                                    
+                                    <!-- <span class="checkbox">
                                         <input
                                             type="checkbox"
                                             :id="project.id"
@@ -141,7 +140,23 @@
                                         <label for="checkbox"></label>
                                         <span v-if="project.record_status == 1" class="on">有効</span>
                                         <span v-if="project.record_status == 2" class="on">無効</span>
-                                    </span>
+                                    </span> -->
+                                    <div class="scout-box">
+                                        <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button>
+                                        <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}} </span>
+                                        <span class="btn btn-common" v-on:click="showToggle(index)">
+                                            {{$t('common.edit')}}
+                                            <span class="down-icon">&#9662;</span>
+                                        </span>
+                                        <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
+                                            <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
+                                                <input type="radio" :id="status.id+index" v-model="project.record_status" class="custion-radio" 
+                                                    @change="changeStatus(project.id, status.id)" :value="status.id == '有効' ? 1 : 2">
+                                                <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
+                                            </p>
+                                        </div>
+                                    
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -191,7 +206,14 @@ export default {
             base_url: "/v1/admin/jobseeker-list",
             columns: columns,
             sortOrders: sortOrders,
-            filteredData: filteredData
+            filteredData: filteredData,
+            current: null,
+            old_index:'',
+            status:false,
+            arr_status: [
+				{ id: '有効', checked: false },
+				{ id: '無効', checked: false }
+			],
         };
     },
 
@@ -204,7 +226,7 @@ export default {
     
     methods: {
         changeStatus(id, recordstatus) {
-            if (recordstatus == 1) {
+            if (recordstatus == '有効') {
                 this.recordstatus_text = "無効にしてよろしいでしょうか。";
             } else {
                 this.recordstatus_text = "有効してよろしいでしょうか。";
@@ -212,14 +234,29 @@ export default {
 
             this.$api.post(this.base_url + `/change-status/${id}`)
             .then((res) => {
-                console.log(res);
+                console.log(res.data);
                 this.getData();
             });
         },
 
         edit(id){
             alert("jobseeker id -> "+ id);
-        }
+        },
+
+        showToggle(index) {
+			this.current = index;
+			if(this.status == true) {
+                if(this.current == this.old_index)
+                    this.status = false; 
+			} else {
+				this.status = true;
+			}
+			this.old_index = index;
+        },
+        
+		hideToggle() {
+			this.status = false;
+		},
     }
 };
 </script>
