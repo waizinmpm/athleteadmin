@@ -15,6 +15,7 @@ import VueFilter from 'vue-filter';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import alertService from './services/AlertService';
+import Loading from 'vue-loading-overlay';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
@@ -29,6 +30,17 @@ Vue.prototype.$configs = configs;
 Vue.config.productionTip = false;
 Vue.prototype.$alertService = alertService;
 
+Vue.use(Loading, {
+	color: '#0062ff',
+	loader: process.env.VUE_APP_LOADING_INDICATOR ?? 'dots',
+	backgroundColor: '#ffffff',
+	width: 30,
+	height: 30,
+    opacity: 0.9,
+    fontSize: 12,
+},{
+	after: (new Vue()).$createElement('p', {class: 'loading-text'}, ['送信中'])
+});
 const languages = {
     en: English,
     jp: 日本語,

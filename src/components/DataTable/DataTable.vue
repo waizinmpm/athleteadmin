@@ -5,31 +5,28 @@
                <th v-if="showCheckbox">
                     <input type="checkbox" @click="emitToParent" v-model="checkornot" /> 
                </th>
-                <th v-for="column in columns" :key="column.name" @click="$emit('sort', column.name)"
-                    :class="sortKey === column.name ? (sortOrders[column.name] > 0 ? 'sorting_asc' : 'sorting_desc') : 'sorting'"
+                <th v-for="column in columns" :key="column.id" @click="$emit('sort', column.label)"
+                     :class="sortKey === column.label ? (sortOrders[column.label] > 0 ? 'sorting_asc' : 'sorting_desc') : 'sorting'"
                     :style="'width:'+column.width+';'+'cursor:pointer;'">
-                    {{column.label}}
+                     {{column.name}}
                 </th>
             </tr>
         </thead>
         <slot></slot>
     </table>
 </template>
-
 <script>
 export default {
     props: ["columns", "sortKey", "sortOrders", "removeChecked", 'showCheckbox'],
     data() {
-        return {
-            checkornot: false
-        };
-    },
-    watch: {
-        columns() {
-            console.log("a");
+            return {
+               checkornot:false,
+            }
+        },
+    watch:{
+        'columns'(){
         }
     },
-
     methods: {
         emitToParent() {
             if (this.checkornot == false) {
