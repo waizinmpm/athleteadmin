@@ -228,8 +228,8 @@ export default {
                     api.post(this.base_url + `/change-status`, statusData)
                         .then(response => {
                             console.log("changeStatus", response.data);
-                            let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
-                            this.getData(getpage);
+                            //let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
+                            this.getData(this.projects.current_page);
                         })
                         .catch(errors => {
                             console.log(errors);

@@ -234,7 +234,7 @@ export default {
                     this.$api.post(this.base_url + `/change-status/${id}`)
                     .then((res) => {
                         console.log(res.data);
-                        this.getData();
+                        this.getData(this.projects.current_page);
                     });
                 }else{
                     this.getData(this.projects.current_page);
