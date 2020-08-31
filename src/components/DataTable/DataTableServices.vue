@@ -48,17 +48,24 @@ export default {
             this.tableData.draw++;
             var jsonData = {
                 tableData: this.tableData,
-                filteredData: this.filteredData
+                filteredData: this.filteredData,
+                columns:this.columns
             };
             page = page ?? 1;
+            let loader = this.$loading.show({
+                container: this.$refs.loadingRef,
+                isFullPage: false
+                //-- အထက်ပါ option 2 ခုမပါရင် loading bar ဟာ full page ဖြစ်သွားပါလိမ့်မယ်
+            });
             this.$api
                 .post(this.base_url + "?page=" + page, jsonData)
                 .then(response => {
-                    // console.log("return", response.data);
+                    loader.hide();
                     this.projects = response.data;
                     this.checkedAll = false;
                 })
                 .catch(errors => {
+                    loader.hide();
                     console.log(errors);
                 });
         },
@@ -93,8 +100,7 @@ export default {
         sortBy(key) {
             this.sortKey = key;
             this.sortOrders[key] = this.sortOrders[key] * -1;
-            this.tableData.column = (this.getIndex(this.columns, "name", key) + 1);
-            // add plus 1 to get key0 as a initial state sorting
+            this.tableData.column = this.getIndex(this.columns, "label", key);
             this.tableData.dir = this.sortOrders[key] === 1 ? "asc" : "desc";
             this.getData();
         },

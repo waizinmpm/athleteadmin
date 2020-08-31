@@ -81,7 +81,6 @@
                             <td>{{project.jobseeker_number}}</td>
                             <td>{{project.jobseeker_name}}</td>
                             <!-- <td>{{project.job_apply_status}}</td> -->
-
                             <td>
                                 <div class="scout-box">
                                     <p class="scout-txt">{{project.job_apply_status}} </p>
@@ -96,7 +95,6 @@
                                             <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
                                         </p>
                                     </div>
-                                   
                                 </div>
                             </td>
                             <td style="width:200px;">
@@ -142,7 +140,7 @@
         </div>
         <!-- Invoice Area -->
         <div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
-			<!-- Modal content -->
+            <!-- Modal content -->
             <div class="modal-content">
                 <span class="close" @click="closeInvoiceModal">&times;</span>
                 <div class="container-fluid vld-parent" ref="invoicePreviewContainer">
@@ -163,9 +161,9 @@
                                     <dt class="col-sm-2 text-right">{{ $t('jobapply_list.columns.3.label') }}</dt>
                                     <dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
                                 </dl>
-                            </div>		
+                            </div>      
                             <div class="border">
-                                <dl class="row email-box">									
+                                <dl class="row email-box">                                  
                                     <dt class="col-sm-4">{{ $t('common.billing_mail') }}</dt>
                                     <dd class="col-sm-8">{{ invoiceForm.recruiter_email }}</dd>
                                 </dl>
@@ -228,18 +226,16 @@
         <!-- End Invoice Area -->
 </div>
 </template>
-
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
-
     export default {
         mixins: [DataTableServices],
         data(){
             let sortOrders = {};
-            let columns = [];
+            let columns = this.$i18n.messages.en.jobapply_list.columns;
             columns.forEach(column => {
-                sortOrders[column.name] = -1;
+              sortOrders[column.label] = -1;
             });
             return {
                 change_status: 0,
@@ -251,7 +247,6 @@ import { required, numeric } from "vuelidate/lib/validators";
                 base_url: "/v1/admin/jobapply-list",
                 columns: columns,
                 sortOrders: sortOrders,
-                
                 filteredData:{
                     recruiter_id: '',
                     recruiter_name: '',
@@ -262,7 +257,6 @@ import { required, numeric } from "vuelidate/lib/validators";
                     to_date:'',
                     jobapply_status: [],
                 },
-              
                 arr_status: [
                     { id: this.$configs.job_apply.under_review, checked: false },
                     { id: this.$configs.job_apply.declined, checked: false },
@@ -293,17 +287,17 @@ import { required, numeric } from "vuelidate/lib/validators";
             }
         },
         methods: {
-			allowChat(status) {
-				return status == this.$configs.job_apply.under_review;
-			},
-			allowBilling(status) {
-				return status == this.$configs.job_apply.unclaimed;
-			},
-			allowPaymentConfirm(status) {
-				return status == this.$configs.job_apply.billed;
-			},
-			startChat() {
-				alert("Now will start chatting...");
+            allowChat(status) {
+                return status == this.$configs.job_apply.under_review;
+            },
+            allowBilling(status) {
+                return status == this.$configs.job_apply.unclaimed;
+            },
+            allowPaymentConfirm(status) {
+                return status == this.$configs.job_apply.billed;
+            },
+            startChat() {
+                alert("Now will start chatting...");
             },
             onStatusChange(index, e) {
                 this.change_status = 1;
@@ -327,9 +321,8 @@ import { required, numeric } from "vuelidate/lib/validators";
                     }
                 });
             },
-			generateBill(jobapply_id, index) {
+            generateBill(jobapply_id, index) {
                 let jobapply = this.$data.projects.data[index];
-              
                 this.invoiceForm.jobapply_id = jobapply.jobapply_id;
                 this.invoiceForm.title = jobapply.title;
                 this.invoiceForm.management_number = jobapply.management_number;
@@ -338,8 +331,8 @@ import { required, numeric } from "vuelidate/lib/validators";
                 this.invoiceForm.email = jobapply.recruiter_email;
                 this.invoiceForm.default_amount = 200000;
                 this.requireInvoiceForm = true;
-			},
-			confirmPayment(jobapplyId, index) {
+            },
+            confirmPayment(jobapplyId, index) {
                 this.$alertService
                     .showConfirmDialog(null, this.$t('common.payment_confirmed_question'), this.$t('common.yes'), this.$t('common.no'))
                     .then((dialogResult) => {
@@ -384,7 +377,6 @@ import { required, numeric } from "vuelidate/lib/validators";
                     this.invoicePreview = html;
                 })
                 .catch(() => {
-                    
                 })
             },
             closeInvoicePreview() {
@@ -408,10 +400,8 @@ import { required, numeric } from "vuelidate/lib/validators";
                         .forEach(x => x.job_apply_status = this.$configs.scouts.billed);
                     this.$alertService.showSuccessDialog(null, this.$t('common.mail_is_sent'), this.$t('common.close'));
                     this.requireInvoiceForm = false;
-
                 })
                 .catch(() => {
-                    loading.hide();
                 })
             },
             showToggle(index) {
@@ -433,7 +423,7 @@ import { required, numeric } from "vuelidate/lib/validators";
             },
             totalScouts: function() {
                 return this.$data.projects.total;
-            }	
+            }   
         },
         watch: {
             'invoiceForm.default_amount': function() {
@@ -442,17 +432,16 @@ import { required, numeric } from "vuelidate/lib/validators";
                     this.invoiceForm.invoice_amount = amount + Number(this.invoiceForm.tax);
                 } else {
                 this.invoiceForm.invoice_amount = 0;
-			}
-		}
-	},
-	validations: {
-		invoiceForm: {
-			default_amount: { required, numeric }
-		}
-	}		
+            }
+        }
+    },
+    validations: {
+        invoiceForm: {
+            default_amount: { required, numeric }
+        }
+    }       
     }
 </script>
-
 <style scoped>
 .modal {
   position: fixed; /* Stay in place */
@@ -465,15 +454,12 @@ import { required, numeric } from "vuelidate/lib/validators";
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-
 .modal-open {
-	display: block;
+    display: block;
 }
-
 .modal-close {
-	display: none;
+    display: none;
 }
-
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;

@@ -31,6 +31,17 @@ Vue.prototype.$configs = configs;
 Vue.config.productionTip = false;
 Vue.prototype.$alertService = alertService;
 
+Vue.use(Loading, {
+	color: '#0062ff',
+	loader: process.env.VUE_APP_LOADING_INDICATOR ?? 'dots',
+	backgroundColor: '#ffffff',
+	width: 30,
+	height: 30,
+    opacity: 0.9,
+    fontSize: 12,
+},{
+	after: (new Vue()).$createElement('p', {class: 'loading-text'}, ['送信中'])
+});
 const languages = {
     en: English,
     jp: 日本語,
