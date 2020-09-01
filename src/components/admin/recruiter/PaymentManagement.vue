@@ -74,10 +74,10 @@
 				<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
 					<tbody>
 						<tr v-for="(project) in projects.data" :key="project.id">
-							<td>{{ project.payment_job_type == $configs.payment_job_type.scout ? project.scout_management_number : project.jobapply_management_number }}</td>
+							<td>{{ project.management_number }}</td>
 							<td>{{ project.payment_method }}</td>
 							<td>{{ project.invoice_number }}</td>
-							<td>{{ project.payment_job_type == $configs.payment_job_type.scout ? project.scout_status : project.job_apply_status }}</td>
+							<td>{{ project.status }}</td>
 							<td>{{ project.invoice_amount }}</td>
 							<td><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
 							<td>
@@ -136,9 +136,9 @@ export default {
 	components: { PaymentManagementInlineEditor },
 	data() {
 		let sortOrders = {};
-		let columns = [];
+		let columns = this.$i18n.messages.en.payment_management.columns;
 		columns.forEach(column => {
-			sortOrders[column.name] = -1;
+			sortOrders[column.label] = -1;
 		});
 		return {
 			current: null,
@@ -169,7 +169,6 @@ export default {
 	},
 	methods: {
 		onEditingComplete(payment) {
-			console.log(payment);
 			this.$api.put('/v1/admin/payment-transactions/'+payment.id, payment)
 			.then(() => {
 			})
@@ -194,7 +193,8 @@ export default {
 		downloadCSV() {
 			let jsonData = {
                 tableData: this.tableData,
-                filteredData: this.filteredData
+				filteredData: this.filteredData,
+				columns: this.columns
             };
 			this.$api.post("/v1/admin/payment-transactions/csv", jsonData, { responseType: "arraybuffer" })
             .then((r) => {
