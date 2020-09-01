@@ -117,12 +117,12 @@
                                     <input type="checkbox" :value="project.id" v-model="selected" />
                                 </label>
                             </td>
-                            <td>{{ project.recruiter.recruiter_number }}</td>
-                            <td>{{ project.recruiter.recruiter_name }}</td>
+                            <td>{{ project.recruiter_number }}</td>
+                            <td>{{ project.recruiter_name }}</td>
                             <td>{{ project.job_number }}</td>
                             <td>{{ project.title }}</td>
-                            <td>{{ project.job_apply.length == 0 ? '-' : project.job_apply.length }}</td>
-                            <td>{{ project.scout.length == 0 ? '-' : project.scout.length}}</td>
+                            <td>{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
+                            <td>{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
                             <td>{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
                             <td>
                                 
@@ -180,16 +180,18 @@
 
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
-import api from "../../../api/apiBasePath";
 
 export default {
     mixins: [DataTableServices],
     data() {
         let sortOrders = {};
-        let columns = [];
+        let columns = this.$i18n.messages.en.job_list.columns;
         columns.forEach(column => {
-            sortOrders[column.name] = -1;
+            sortOrders[column.label] = -1;
         });
+        /* columns.forEach(column => {
+            sortOrders[column.name] = -1;
+        }); */
         let filteredData = {
             status: []
         };
@@ -225,7 +227,7 @@ export default {
                     let statusData = {};
                     this.$set(statusData, "id", id);
                     this.$set(statusData, "status", status);
-                    api.post(this.base_url + `/change-status`, statusData)
+                    this.$api.post(this.base_url + `/change-status`, statusData)
                         .then(response => {
                             console.log("changeStatus", response.data);
                             //let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
