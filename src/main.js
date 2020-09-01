@@ -16,6 +16,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import alertService from './services/AlertService';
 import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
@@ -51,6 +52,17 @@ const i18n = new VueI18n({
     locale: 'jp',
     messages: languages,
 })
+
+Vue.use(Loading, {
+	color: '#00AB00',
+	loader: process.env.MIX_LOADING_INDICATOR ?? 'dots',
+	backgroundColor: '#F0F0F0',
+	width: 64,
+	height: 64,
+	opacity: 0.7
+},{
+	after: (new Vue()).$createElement('h3', {class: 'loading-text'}, ['送信中'])
+});
 
 new Vue({
     router,

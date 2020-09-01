@@ -90,8 +90,8 @@
                                     </p>
                                     <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
                                         <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
-                                            <input type="radio" :id="status.id+index" v-model="project.scout_status" class="custion-radio" 
-                                                @change="onStatusChange(index, $event)" :value="status.id">
+                                            <input type="radio" :id="status.id+index" v-model="project.job_apply_status" class="custion-radio" 
+												@change="onStatusChange(index, $event)" :value="status.id">
                                             <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
                                         </p>
                                     </div>
@@ -238,6 +238,7 @@ import { required, numeric } from "vuelidate/lib/validators";
               sortOrders[column.label] = -1;
             });
             return {
+                change_status: 0,
                 requireInvoiceForm: false,
                 invoicePreview: '',
                 old_index:'',
@@ -299,6 +300,7 @@ import { required, numeric } from "vuelidate/lib/validators";
                 alert("Now will start chatting...");
             },
             onStatusChange(index, e) {
+                this.change_status = 1;
                 const job_apply = this.$data.projects.data[index];
                 this.$alertService.showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
                 .then(r => {
@@ -308,11 +310,14 @@ import { required, numeric } from "vuelidate/lib/validators";
                             status: e.target.value,
                         })
                         .then(res => {
-                            console.log(res);
-                            this.$data.projects.data[index].job_apply_status = e.target.value;
+                            console.log("changeStatus", res.data);
+                            this.getData(this.projects.current_page);
                         })
                         .catch(() => {
                         })
+                    }
+                    else {
+                        this.getData(this.projects.current_page);
                     }
                 });
             },
@@ -382,8 +387,13 @@ import { required, numeric } from "vuelidate/lib/validators";
                 if (this.$v.invoiceForm.$invalid) {
                     return;
                 }
+                let loading = this.$loading.show({
+                    container: this.$refs.loadingRef,
+                    isFullPage: false
+                });
                 this.$api.post('/v1/admin/jobapply-list/send-invoice-mail', this.invoiceForm)
                 .then((r) => {
+                    loading.hide();
                     const job_apply = r.data.data;
                     this.projects.data
                         .filter(x => x.jobapply_id == job_apply.id)

@@ -316,20 +316,23 @@ export default {
 		},
 		onStatusChange(index, e) {
 			const scout = this.$data.projects.data[index];
-			this.$alertService.showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
+			this.$alertService.showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no')) 
 			.then(r => {
 				if (r.value) {
 					this.$api.post('/v1/admin/scout-list/change-status', { 
 						scout_id: scout.id, 
-						status: e.target.value 
+						status: e.target.value,
 					})
 					.then(res => {
-						console.log(res);
-						this.$data.projects.data[index].scout_status = e.target.value;
+						console.log("changeStatus", res.data);
+                        this.getData(this.projects.current_page);
 					})
 					.catch(() => {
 					})
 				}
+				else {
+                    this.getData(this.projects.current_page);
+                }
 			});
 		},
 		generateBill(scoutId, index) {
@@ -385,16 +388,23 @@ export default {
 			if (this.$v.invoiceForm.$invalid) {
 				return;
 			}
+			let loading = this.$loading.show({
+                    container: this.$refs.loadingRef,
+                    isFullPage: false
+			});
+			
 			this.$api.post('/v1/admin/scout-list/send-invoice-mail', this.invoiceForm)
 			.then((r) => {
+				loading.hide();
 				const scout = r.data.data;
 				this.projects.data
 					.filter(x => x.id == scout.id)
 					.forEach(x => x.scout_status = this.$configs.scouts.billed);
 				this.$alertService.showSuccessDialog(null, this.$t('common.mail_is_sent'), this.$t('common.close'));
+				this.requireInvoiceForm = false;
 			})
 			.catch(() => {
-				
+				loading.hide();
 			})
 		},
 		confirmPayment(scoutId, index) {
