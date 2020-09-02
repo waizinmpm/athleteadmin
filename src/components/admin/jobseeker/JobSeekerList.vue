@@ -188,7 +188,10 @@ export default {
     mixins: [DataTableServices],
     data() {
         let sortOrders = {};
-        let columns = [];
+        let columns = this.$i18n.messages.en.jobseeker_list.columns;
+        columns.forEach(column => {
+            sortOrders[column.label] = -1;
+        });
         /* let columns = [
             { label: "jobseekerlist.jobseeker_number", name: "custom_id" },
             { label: "jobseekerlist.jobseeker_name", name: "jobseeker_name" },

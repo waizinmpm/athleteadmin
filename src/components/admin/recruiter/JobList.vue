@@ -123,7 +123,7 @@
                             <td @click="textEllipsis($event)"><p class="txt-vertical-ellipsis">{{ project.title }}</p></td>
                             <td>{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
                             <td>{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
-                            <td>{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
+                            <td>{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "2 weeks") | moment('YYYY/MM/D') }}</td>
                             <td>
                                 
                                 <div class="scout-box">
