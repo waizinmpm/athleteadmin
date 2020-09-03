@@ -120,7 +120,7 @@
                             <td>{{ project.recruiter_number }}</td>
                             <td>{{ project.recruiter_name }}</td>
                             <td>{{ project.job_number }}</td>
-                            <td>{{ project.title }}</td>
+                            <td @click="textEllipsis($event)"><p class="txt-vertical-ellipsis">{{ project.title }}</p></td>
                             <td>{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
                             <td>{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
                             <td>{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
@@ -219,6 +219,14 @@ export default {
     },
 
     methods: {
+        textEllipsis(event){
+            if(event.target.className == "txt-vertical-ellipsis") {
+                event.target.className = "";
+            } 
+            else if(event.target.className == "") {
+                event.target.className = "txt-vertical-ellipsis";
+            }
+        },
         changeStatus(id, status) {
             this.$alertService
             .showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))

@@ -45,6 +45,14 @@ $desktop: 1000px;
     padding: 0;
 }
 
+.txt-vertical-ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 body {
     // background-color: #fefefe;
     h5 {
