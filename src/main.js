@@ -53,16 +53,16 @@ const i18n = new VueI18n({
     messages: languages,
 })
 
-Vue.use(Loading, {
-	color: '#00AB00',
-	loader: process.env.MIX_LOADING_INDICATOR ?? 'dots',
-	backgroundColor: '#F0F0F0',
-	width: 64,
-	height: 64,
-	opacity: 0.7
-},{
-	after: (new Vue()).$createElement('h3', {class: 'loading-text'}, ['送信中'])
-});
+// Vue.use(Loading, {
+// 	color: '#00AB00',
+// 	loader: process.env.MIX_LOADING_INDICATOR ?? 'dots',
+// 	backgroundColor: '#F0F0F0',
+// 	width: 64,
+// 	height: 64,
+// 	opacity: 0.7
+// },{
+// 	after: (new Vue()).$createElement('h3', {class: 'loading-text'}, ['送信中'])
+// });
 
 new Vue({
     router,

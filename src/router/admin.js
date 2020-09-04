@@ -1,5 +1,6 @@
 import home from '../components/admin/AdminHome';
 import RecruiterList from '../components/admin/recruiter/RecruiterList';
+import RecruiterEdit from '../components/admin/recruiter/RecruiterEdit';
 import JobList from '../components/admin/recruiter/JobList';
 import JobEdit from '../components/admin/recruiter/JobEdit';
 import JobApplyList from '../components/admin/recruiter/JobApplyList';
@@ -21,6 +22,15 @@ const route = [{
     {
         path: '/admin-recruiter-list',
         component: RecruiterList,
+        meta: {
+            reqiuresAuth: false,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    },
+    {
+        path: '/admin/recruiter-list/:id/edit',
+        component: RecruiterEdit,
         meta: {
             reqiuresAuth: false,
             admin: true, // for only admin component

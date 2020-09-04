@@ -2,26 +2,37 @@
 <div>
     <div class="row">
         <div class="col-sm-6 p-0 searchform-one">
-            <h5 class="m-b-10 main-header">{{$t('recruiter_list.recruiter_member_list')}}</h5>     
+            <h5 class="m-b-10 main-header">{{ $t('recruiter_list.ListofCompany') }}</h5>     
             <div class="form-group">
                 <!--<label class="control-label" for="inputGroup">Input Group </label>-->
                 <div class="input-group">
                     <!-- <input type="text" class="form-control"
                         placeholder="会社名、企業コードを⼊⼒してください……" id="inputGroup"/> -->
-                        <input
-                                    type="text"
-                                    class="form-control"
-                                    :placeholder="$t('recruiter_list.search_recruiter_placeholder')"
-                                    id="inputGroup"
-                                    v-model="filteredData.freeword"
-                                    @input="getData()"
-                        />
-                    <span class="input-group-addon bg-color">
-                        <i class="fa fa-search"></i>
+                    <input type="text" class="form-control" :placeholder="[[$t('recruiter_list.recruiterno') ]]" id="inputGroup" v-model="filteredData.freeword" @input="getData()" />
+                    <span class="input-group-addon bg-color searchicon-btn">
+                        <i class="fa fa-search pr-2"></i>
                     </span>
                 </div>
             </div> 
+               <label for="ステータス">{{ $t('recruiter_list.status') }}</label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2 p-lr0">
+                                <input type="checkbox" class="custom-control-input custom-checkbox" value="1" v-model="filteredData.recruiter_recordstatus" @change="getData()" id="有効" />
+                                <label for="有効" class="custom-control-label custom-checkbox-label"> {{ $t('recruiter_list.valid') }} </label>                               
+                            </div>
+                            <div class="col-md-2 p-lr0">
+                                <input type="checkbox" class="custom-control-input custom-checkbox" value="2" v-model="filteredData.recruiter_recordstatus" @change="getData()" id="無効" />
+                                <label for="無効" class="custom-control-label custom-checkbox-label" >{{ $t('recruiter_list.Invalid') }}</label>
+                            </div>
+                            <div class="col-md-2 p-lr0">
+                                <input type="checkbox" class="custom-control-input custom-checkbox" value="0" v-model="filteredData.recruiter_recordstatus" @change="getData()" id="退会" />
+                                <label for="退会" class="custom-control-label custom-checkbox-label" >{{ $t('recruiter_list.withdrawal') }}</label>
+                            </div>
+                        </div>
+                    </div>   
         </div>
+                 
     </div>
     <div class="row">
         <div class="col-sm-12 p-0">
@@ -36,14 +47,16 @@
                     </select>
                 </div>
                 <div class="col-sm-6 select">
-                    <span class="btn custom-btn delete" style="float:right" @click="deleteData()">{{$t('common.delete')}}</span>
+                    <span class="btn custom-btn delete" style="float:right" 
+                     @click="deleteData()"
+                    :disabled="isDisabled">{{ $t('common.delete') }}</span>
                 </div>
             </div> 
             <div class="vld-parent" style="width: 100%;" ref="loadingRef"> 
-                <DataTable ref="datatable" :columns="$t('recruiter_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @check-all="selectAll" @sort="sortBy" :showCheckbox="true">
+                <DataTable ref="datatable" class="table-check" :columns="$t('recruiter_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @check-all="selectAll" @sort="sortBy" :showCheckbox="true">
                     <tbody>
-                        <tr v-for="project in projects.data" :key="project.id"> 
-                            <td>
+                        <tr v-for="(project, index) in projects.data" :key="project.id"> 
+                            <td class="text-center">
                                 <label class="form-checkbox">
                                     <input type="checkbox" :value="project.id" v-model="selected" />
                                 </label>
@@ -51,18 +64,32 @@
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.recruiter_nick_name}}</td>
-                            <td>{{project.record_status == 1 ? '有効' : project.record_status == 0 ? '退会' : '無効'}}</td>
-                            <td style="width:200px;">
-                                <span class="btn btn-info">編集</span>
-                                <div class="toggle" v-if="project.record_status != 0">
-                                    <span class="checkbox">
-                                        <input type='checkbox' :id="project.id" v-if="project.record_status == 1" @click="changeStatus(project.id,project.record_status)" checked/>
-                                        <input type='checkbox' :id="project.id" v-if="project.record_status == 2" @click="changeStatus(project.id,project.record_status)"  />
-                                        <label for="checkbox"></label>
-                                        <span  v-if="project.record_status == 1" class="on">有効</span>
-                                        <span v-if="project.record_status == 2" class="on">無効</span>
+                            <td>
+                                <div class="scout-box">
+                                <div v-if="project.record_status != 0">
+                                    <span v-for="status in arr_status" :key="status.id.id">
+                                            {{project.record_status == status.id.value ? status.id.display : ''}} 
                                     </span>
-                                </div> 
+                                    <p class="btn btn-common" v-on:click="showToggle(index)">
+                                        {{$t('common.change')}}
+                                        <span class="down-icon">&#9662;</span>
+                                    </p>
+                                    <div class="scout-toggle" :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
+                                        <p class="custom-radio-group mr-3" v-for="status in arr_status" :key="status.id.id">
+                                            <input type="radio" :id="status.id.display+index" v-model="project.record_status" class="custion-radio" 
+                                                @change="changeStatus(project.id, status.id.value)" :value="status.id.value">
+                                            <label :for="status.id.display+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id.display }}</label>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    退会
+                                </div>
+                                
+                                </div>
+                            </td>
+                            <td style="width:200px;">
+                                <router-link :to="'/admin/recruiter-list/' + project.id + '/edit'" class="btn btn-info">{{ $t('common.edit')}}</router-link>
                             </td>
                         </tr>
                     </tbody>       
@@ -70,11 +97,11 @@
             </div>
             <pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc" >
                 <span slot="prev-nav">
-                    <i class="fas fa-angle-left"></i> 前へ
+                    <i class="fa fa-angle-left"></i> 前へ
                 </span>
                 <span slot="next-nav">
                     次へ
-                    <i class="fas fa-angle-right"></i>
+                    <i class="fa fa-angle-right"></i>
                 </span>
             </pagination>
         </div> 
@@ -83,18 +110,13 @@
 </template>
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
+
 export default {
     mixins: [DataTableServices],
     data() {
         let sortOrders = {};
-        /* let columns = [
-            {label: "求職者会員番号", name: "recruiter_number" },
-            {label: "求職者名", name: "recruiter_name" },
-            {label: "会社名(愛称)", name: "recruiter_nick_name"},
-            {label: "ステータス", name: "recruiter_recordstatus" },
-            {label: "", name: "status_button" }
-        ]; */
-        let columns = [];
+        
+        let columns = this.$i18n.messages.en.recruiter_list.columns;
         columns.forEach(column => {
             sortOrders[column.name] = -1;
         }); 
@@ -103,15 +125,91 @@ export default {
             recruiter_recordstatus: []
         };
         return {
+            confirm:'',
+            data:'test',
             base_url: "/v1/admin/recruiter-list",
             columns: columns,
             sortOrders: sortOrders,
-            filteredData: filteredData
+            filteredData: filteredData,
+            current: null,
+            old_index:'',
+            status:false,
+            arr_status: [
+                { id: this.$configs.jobseeker.active, checked: false },
+                { id: this.$configs.jobseeker.inactive, checked: false },
+            ],
         };
     },
+    computed:{
+        isDisabled() {
+            //if dont select any row, set disable delete button
+            return this.selected.length > 0 ? false : true;
+        },
+    },
+
     methods: {
+
+        changeStatus(id, status) {
+         
+            let statusVal = (status == 1? '有効': (status == 2 ? '無効' : '退会'));
+          
+            this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', statusVal, { n:statusVal }), this.$t('common.yes'), this.$t('common.no'))
+            .then((dialogResult) => {
+                if(dialogResult.value){
+                    let statusData = {};
+                    this.$set(statusData, "id", id);
+                    this.$set(statusData, "status", status);
+                    this.$api.post(this.base_url + `/change-status`, statusData)
+                    .then(response => {
+                            console.log("changeStatus", response.data);
+                            let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
+                            this.getData(getpage);
+                        })
+                        .catch(errors => {
+                            console.log(errors);
+                        });
+                }else{
+                 
+                    this.getData(this.projects.current_page);
+                }
+            });
+        },
+
+
+
+        // changeStatus(id, record_status){
+        //     if(record_status == 1)
+        //     {
+        //        this.record_status_text = "無効にしてよろしいでしょうか。";
+        //     }
+        //     else{
+        //         this.record_status_text = "有効してよろしいでしょうか。";
+        //     }
+          
+        //     this.$api
+        //         .post(this.base_url + `/change-status/${id}`)
+        //         .then(() => {
+        //             this.getData();
+        //         });     
+
+            
+        // },
+        showToggle(index) {
+            this.current = index;
+            if(this.status == true) {
+                if(this.current == this.old_index)
+                    this.status = false; 
+            } else {
+                this.status = true;
+            }
+            this.old_index = index;
+        },
+        
+        hideToggle() {
+            this.status = false;
+        },
     },
-    mounted() {
-    },
+    
+    mounted() {}
 };
 </script>

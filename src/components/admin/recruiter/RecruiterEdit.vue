@@ -1,0 +1,493 @@
+<template>
+    <div>
+        <form @submit.prevent="updateProfile">
+            <div class="p-3 border updateProfile" id="information">
+                <div class="form-group">
+                    <label>企業番号</label>
+                    <input type="text" class="form-control" readonly :value="recruiterForm.recruiter_number" />
+                </div>
+
+                <div class="form-group">
+                    <label>企業名 <span class="badge badge-danger">必須</span></label>
+                    <input type="text" :class="['form-control',$v.recruiterForm.recruiter_name.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.recruiter_name.$model" />
+                    <div class="invalid-feedback">
+                        <div class="error" v-if="!$v.recruiterForm.recruiter_name.required">企業名は入力は必須です。</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>企業名(愛称)</label>
+                    <input type="text" class="form-control" v-model.trim="recruiterForm.recruiter_nick_name" />
+                </div>
+
+                <div class="form-group">
+                    <label>設立年月</label>
+                    <div class="row col-12">
+                        <div class="col-md-6">
+                            <select class="form-control" v-model="recruiterForm.establishment_year">
+                                <option disabled value=""></option>
+                                <option v-for="year in 100" :key="year">{{ 1920 + year }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-control" v-model="recruiterForm.establishment_month">
+                                <option disabled value=""></option>
+                                <option v-for="month in 12" :key="month">{{ month }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>代表者名</label>
+                    <input type="text" class="form-control" v-model.trim="recruiterForm.representative_name" />
+                </div>
+
+                <div class="form-group">
+                    <label>従業員数</label>
+                    <input type="text" :class="['form-control',$v.recruiterForm.num_of_employees.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.num_of_employees.$model" />
+                    <div class="invalid-feedback">
+                        <div class="error" v-if="!$v.recruiterForm.num_of_employees.numeric">This field must be number only.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>事業内容</label>
+                    <input type="text" class="form-control" v-model.trim="recruiterForm.business_description" />
+                </div>
+
+                <div class="form-group">
+                    <label>所在地</label>
+                    <textarea name="" id="" class="form-control" rows="5" v-model.trim="recruiterForm.address"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>電話番号 1 <span class="badge badge-danger">必須</span></label>
+                    <input type="text" :class="['form-control',$v.recruiterForm.phone1.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.phone1.$model" />
+                    <div class="invalid-feedback">
+                        <div class="error" v-if="!$v.recruiterForm.phone1.required">Phone number is required</div>
+                        <div class="error" v-else-if="!$v.recruiterForm.phone1.numeric">Phone number must be number only.</div>
+                        <div class="error" v-else-if="!$v.recruiterForm.phone1.minLength || !$v.recruiterForm.phone1.maxLength">Phone number must be between 10 and 14 numbers.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>電話番号 ２</label>
+                    <input type="text" class="form-control" :class="['form-control',$v.recruiterForm.phone2.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.phone2.$model" />
+                    <div class="invalid-feedback">
+                        <div class="error" v-if="!$v.recruiterForm.phone2.numeric">Phone number must be number only.</div>
+                        <div class="error" v-else-if="!$v.recruiterForm.phone2.minLength || !$v.recruiterForm.phone2.maxLength">Phone number must be between 10 and 14 numbers.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>ご担当者様メールアドレス</label>
+                    <input type="text" class="form-control" :value="recruiterForm.email" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label>WEBサイトURL <span class="badge badge-danger">必須</span></label>
+                    <input type="text" :class="['form-control',$v.recruiterForm.website.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.website.$model" />
+                    <div class="invalid-feedback">
+                        <div class="error" v-if="!$v.recruiterForm.website.required && $v.recruiterForm.website.$error">URL is required</div>
+                        <div class="error" v-if="!$v.recruiterForm.website.url">URL is invalid</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>ご担当者名 <span class="badge badge-danger">必須</span></label>
+                    <input type="text" :class="['form-control',$v.recruiterForm.incharge_name.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.incharge_name.$model" />
+                    <div class="invalid-feedback">
+                        <div class="error" v-if="!$v.recruiterForm.incharge_name.required">Incharge name is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>担当者名(フリガナ) <span class="badge badge-danger">必須</span></label>
+                    <input type="text" :class="['form-control',$v.recruiterForm.incharge_name_furigana.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.incharge_name_furigana.$model" />
+                    <div class="invalid-feedback">
+                        <div class="error" v-if="!$v.recruiterForm.incharge_name_furigana.required">Incharge name (furigana) is required</div>
+                        <div class="error" v-if="!$v.recruiterForm.incharge_name_furigana.isFurigana">Incharge name (Furigana) is not furigana</div>
+                    </div>
+                </div>
+
+                <div class="my-3 p-3 border img-block" id="logo">
+                    <div class="form-group">
+                        <label>会社ロゴ</label>
+                            <div @drop.prevent="onLogoChange" @dragover.prevent  :class="['draggable drag', $v.recruiterForm.logo.$error ? 'is-invalid':''] ">
+                                <div class="d-flex align-items-center">
+                                    <i class="fa fa-cloud-upload upload-icon mx-3"></i>
+                                    <label class="mb-0">画像をドラッグ＆ドロップまたは</label>
+                                    <button type="button" class="btn upload-btn mx-3" @click="$refs.logoInput.click()">ファイルを選択</button>
+                                </div>
+                            </div>
+                        <div>
+                            <input type="file" class="hidden upload-file hide" name="logo" @change="onLogoChange" accept="image/x-png,image/gif,image/jpeg" ref="logoInput"/>
+                            <!-- <label class="custom-file-label">ファイルを選択</label> -->
+                        </div>
+                        <div class="invalid-feedback">
+                                <div class="error" v-if="!$v.recruiterForm.logo.isTrueImage">Invalid image file.</div>
+                            </div>
+                    </div>
+                    <div class="form-group">                       
+                        <img :src="recruiterForm.logo_url" class="img-responsive" alt="Recruiter Logo" />
+                        <button v-show="recruiterForm.logo_url != defaultImageUrl" type="button" @click="deleteLogo" class="btn btn-sm btn-danger px-3">画像を削除</button>                    
+                    </div>
+                </div>
+
+                <div class="my-3 p-3 border img-block" id="incharge-photo">
+                    <div class="form-group">
+                        <label>担当者顔写真(スカウトした人材のみ閲覧可)</label>
+                            <div @drop.prevent="onInchargePhotoChange" @dragover.prevent :class="['draggable drag', $v.recruiterForm.incharge_photo.$error ? 'is-invalid':''] ">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa fa-cloud-upload upload-icon mx-3"></i>
+                                        <label class="mb-0">画像をドラッグ＆ドロップまたは</label>
+                                        <button type="button" class="btn upload-btn mx-3" @click="$refs.inchargePhotoInput.click()">ファイルを選択</button>
+                                    </div>
+                            </div>
+                        <div>
+                            <input type="file" class="hidden upload-file hide" accept="image/x-png,image/gif,image/jpeg" @change="onInchargePhotoChange" ref="inchargePhotoInput"/>
+                            <!-- <label class="custom-file-label">ファイルを選択</label> -->
+                        </div>
+                        <div class="invalid-feedback">
+                                <div class="error" v-if="!$v.recruiterForm.incharge_photo.isTrueImage">Invalid image file.</div>
+                            </div>
+                    </div>
+
+                    <div class="form-group">                   
+                            <img :src="recruiterForm.incharge_photo_url" class="img-responsive" alt="Recruiter Incharge Photo" />
+                            <button v-show="recruiterForm.incharge_photo_url != defaultImageUrl" type="button" @click="deleteInchargePhoto" class="btn btn-sm btn-danger px-3">画像を削除</button>                       
+                    </div>
+                </div>
+
+                <div class="my-3 p-3 border clearfix" id="related-photo">
+                    <div class="form-group">
+                        <label>関連画像</label>
+                        <div @drop.prevent="onRelatedImagesChange" @dragover.prevent :class="['draggable drag', $v.temp_related_image.$error ? 'is-invalid':''] ">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa fa-cloud-upload upload-icon mx-3"></i>
+                                        <label class="mb-0">画像をドラッグ＆ドロップまたは</label>
+                                        <button type="button" class="btn upload-btn mx-3" @click="$refs.relatedImagesInput.click()">ファイルを選択</button>
+                                    </div>
+                            </div>
+                        <div class="custom-file">
+                            <input type="file" class="hidden upload-file hide" accept="image/x-png,image/gif,image/jpeg" multiple @change="onRelatedImagesChange" ref="relatedImagesInput"/>
+                            <!-- <label class="custom-file-label">ファイルを選択</label> -->
+                        </div>
+                    </div>
+                    <div class="form-group images-block">
+                        <div class="col-md-3 d-flex flex-column" v-if="showRelatedImage(0)">
+                            <img :src="recruiterForm.related_images[0].file_url" class="img-responsive" alt="Recruiter related image 1" />
+                            <button type="button" @click="deleteRelatedImage(0)" class="btn btn-sm btn-danger">画像を削除</button>
+                        </div>
+                        <div class="col-md-3 d-flex flex-column" v-if="showRelatedImage(1)">
+                            <img :src="recruiterForm.related_images[1].file_url" class="img-responsive" alt="Recruiter related image 2" />
+                            <button type="button" @click="deleteRelatedImage(1)" class="btn btn-sm btn-danger">画像を削除</button>
+                        </div>
+                        <div class="col-md-3 d-flex flex-column" v-if="showRelatedImage(2)">
+                            <img :src="recruiterForm.related_images[2].file_url" class="img-responsive" alt="Recruiter related image 3" />
+                            <button type="button" @click="deleteRelatedImage(2)" class="btn btn-sm btn-danger">画像を削除</button>
+                        </div>
+                        <div class="col-md-3 d-flex flex-column" v-if="showRelatedImage(3)">
+                            <img :src="recruiterForm.related_images[3].file_url" class="img-responsive" alt="Recruiter related image 4" />
+                            <button type="button" @click="deleteRelatedImage(3)" class="btn btn-sm btn-danger">画像を削除</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-3 p-3 border" id="youtube-link">
+                    <div class="form-group">
+                        <label>関連動画</label>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Youtube URL</label>
+                            <div class="col-sm-12">
+                                <input type="text" :class="['form-control',$v.recruiterForm.video.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.video.$model" />
+                                <div class="invalid-feedback">
+                                    <div class="error" v-if="!$v.recruiterForm.video.matchYoutubeUrl">Invalid youtube url.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-3 p-3 border" id="pr">
+                    <div class="form-group">
+                        <label>会社PR等</label>
+                        <textarea class="form-control" rows="10" v-model="recruiterForm.company_pr"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>アカウントID</label>
+                    <input type="text" class="form-control" v-model.trim="recruiterForm.account_id" />
+                </div>
+
+                <div class="form-group">
+                    <label>秘密の質問 <span class="badge badge-danger">必須</span></label>
+                    <select v-model="questionType" @change="onQuestionTypeChange" class="form-control">
+                        <option v-for="(question, key) in $configs.questions" :value="question" :key="key">{{ question }}</option>
+                    </select>
+                    <input type="text" v-model.trim="recruiterForm.question" v-show="questionType == $configs.questions.other" class="form-control" style="margin-top:10px;"/>
+                    <div class="invalid-feedback">
+                        <div class="error" v-if="!$v.recruiterForm.question.required">Secret question is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>秘密の質問の答え <span class="badge badge-danger">必須</span></label>
+                    <input type="text" :class="['form-control',$v.recruiterForm.answer.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.answer.$model" />
+                    <div class="invalid-feedback">
+                        <div class="error" v-if="!$v.recruiterForm.answer.required">Answer is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn searchbtn">保存する</button>
+            </div>
+        </form>
+        
+    </div>
+</template>
+
+<script>
+    import { required, minLength, maxLength, url, numeric } from "vuelidate/lib/validators";
+    // import { required , numeric , minLength , maxLength , url , between , withParams , email , helpers} from 'vuelidate/lib/validators';
+    import { isFurigana, matchYoutubeUrl } from "../../../partials/common";
+
+    const isTrueImage = (value) => {
+        if (!value) {
+            return true;
+        }
+        let file = value;
+        return file.type ? file.type.startsWith("image") : true;
+    };
+
+    function buildFormData(formData, data, parentKey) {
+        if (data && typeof data === "object" && !(data instanceof Date) && !(data instanceof File)) {
+            Object.keys(data).forEach((key) => {
+                buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+            });
+        } else {
+            const value = data == null ? "" : data;
+            formData.append(parentKey, value);
+        }
+    }
+    export default {
+        data() {
+            return {
+                showNavigationPane: true,
+                defaultImageUrl: "",
+                questionType: "",
+                recruiterForm: {
+                    recruiter_name: "",
+                    num_of_employees: 0,
+                    incharge_name_furigana: "",
+                    video: "",
+                    related_images: [],
+                    delete_related_images: [],
+                    delete_logo: false,
+                    delete_incharge_photo: false,
+                },
+                temp_related_image: null,
+            };
+        },
+
+        created() {
+            let loading = this.$loading.show();
+            console.log("waizin"); 
+            this.$api
+                .get("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/edit")
+                .then((r) => {
+                  
+                    this.recruiterForm = r.data.data;
+                    
+                    console.log('recruiter form',this.recruiterForm);
+                    // --split establishment_date into year and month
+                    const establishment_date = new Date(this.recruiterForm.establishment_date);
+                    this.recruiterForm.establishment_year = establishment_date.getFullYear();
+                    this.recruiterForm.establishment_month = establishment_date.getMonth() + 1;
+                    this.recruiterForm.delete_related_images = [];
+
+                    // --map question type
+                    if (Object.values(this.$configs.questions).includes(this.recruiterForm.question)) {
+                        this.questionType = this.recruiterForm.question;
+                    } else {
+                        this.questionType = this.$configs.questions.other;
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                    // this.$alertService.showErrorDialog(null, '情報の取得時にエラーが発生します。');
+                })
+                .finally(() => loading.hide());
+
+            this.$api.get("/v1/default-image").then((r) => {
+                this.defaultImageUrl = r.data.data;
+            });
+        },
+
+        validations: {
+            recruiterForm: {
+                recruiter_name: { required },
+                num_of_employees: { numeric },
+                phone1: { required, numeric, minLength: minLength(10), maxLength: maxLength(14) },
+                phone2: { numeric, minLength: minLength(10), maxLength: maxLength(14) },
+                website: { required, url },
+                incharge_name: { required },
+                incharge_name_furigana: { required, isFurigana },
+                question: { required },
+                answer: { required },
+                video: { matchYoutubeUrl },
+                logo: { isTrueImage },
+                incharge_photo: { isTrueImage },
+            },
+            temp_related_image: { isTrueImage },
+        },
+
+        methods: {
+            showRelatedImage(index) {
+                return this.recruiterForm.related_images[index];
+            },
+
+            onQuestionTypeChange() {
+                if (this.questionType == this.$configs.questions.other) {
+                    this.recruiterForm.question = "";
+                } else {
+                    this.recruiterForm.question = this.questionType;
+                }
+                console.log(this.recruiterForm.question);
+            },
+
+            onLogoChange(e) {
+                const files = e.target.files || e.dataTransfer.files;
+                const file = files[0];
+                this.recruiterForm.logo = file;
+                // console.log('aaaaa',this.recruiterForm.logo)
+                this.$v.recruiterForm.logo.$touch();
+                if (this.$v.recruiterForm.logo.$error) {
+                    return;
+                }
+                this.recruiterForm.logo_url = URL.createObjectURL(file);
+                this.recruiterForm.delete_logo = false;
+            },
+
+            onInchargePhotoChange(e) {
+                const files = e.target.files || e.dataTransfer.files;
+                const file = files[0];
+                this.recruiterForm.incharge_photo = file;
+                this.$v.recruiterForm.incharge_photo.$touch();
+                if (this.$v.recruiterForm.incharge_photo.$error) {
+                    return;
+                }
+                this.recruiterForm.incharge_photo_url = URL.createObjectURL(file);
+                this.recruiterForm.delete_incharge_photo = false;
+            },
+
+            onRelatedImagesChange(e) {
+                console.log(e.target);
+                const files = e.target.files || e.dataTransfer.files;
+                if (files.length + this.recruiterForm.related_images.length > 4) {
+                    // alert("Maximum file allowed exceed.");
+                    this.$alertService.showErrorDialog(null, '許可されている最大ファイル数を超えています。');
+                    return;
+                }
+                // --Validation of files
+			for (let index = 0; index < files.length; index++) {
+				this.temp_related_image = files[index];
+				this.$v.temp_related_image.$touch();
+				if (this.$v.temp_related_image.$error) 
+					return;
+			}
+                let file_names = ["photo_1", "photo_2", "photo_3", "photo_4"];
+                let taken = this.recruiterForm.related_images.map((x) => {
+                    return x.url.slice(6, x.url.indexOf("."));
+                });
+                let availables = file_names.filter((x) => !taken.includes(x));
+                const vm = this;
+                Array.from(files).forEach((file) => {
+                    let relateImagesIndex = file_names.indexOf(availables.shift());
+                    let filename = `${vm.recruiterForm.recruiter_number}_${file_names[relateImagesIndex]}`;
+                    let extension = file.type.split("/").pop();
+                    let entry = {
+                        file: file,
+                        url: `${filename}.${extension}`,
+                        file_url: URL.createObjectURL(file),
+                        file_type: "photo",
+                        user_type: "recruiter",
+                    };
+                    vm.recruiterForm.related_images.splice(relateImagesIndex, 0, entry);
+
+                    let deleteFlagIndex = vm.recruiterForm.delete_related_images.indexOf(filename);
+                    if (deleteFlagIndex == -1) vm.recruiterForm.delete_related_images.splice(deleteFlagIndex, 1);
+                });
+            },
+
+            deleteLogo() {
+                // this.$alertService.showConfirmDialog(null, "Are you sure to delete logo?")
+                // .then(r => {
+                // if (r.value) {
+                this.recruiterForm.logo = "";
+                this.recruiterForm.logo_url = this.defaultImageUrl;
+                this.recruiterForm.delete_logo = true;
+                // }
+                // });
+            },
+
+            deleteInchargePhoto() {
+                // this.$alertService.showConfirmDialog(null, "Are you sure to delete incharge person photo?")
+                // .then(r => {
+                // if (r.value) {
+                this.recruiterForm.incharge_photo = "";
+                this.recruiterForm.incharge_photo_url = this.defaultImageUrl;
+                this.recruiterForm.delete_incharge_photo = true;
+                // }
+                // });
+            },
+
+            deleteRelatedImage(index) {
+                let uploadedFile = this.recruiterForm.related_images.splice(index, 1);
+                let filename = uploadedFile[0].url.slice(0, uploadedFile[0].url.indexOf("."));
+                if (this.recruiterForm.delete_related_images.indexOf(filename) == -1) this.recruiterForm.delete_related_images.push(filename);
+            },
+
+            updateProfile() {
+                this.$v.recruiterForm.$touch();
+                if (this.$v.recruiterForm.$invalid) {
+                    return;
+                }
+                //   console.log(this.recruiterForm.logo)
+                let data = new FormData();
+                buildFormData(data, this.recruiterForm);
+                this.$api
+                    .post("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/update", data)
+                    .then((res) => {
+                        console.log("update:", res.data);
+                        this.$router.push({ path: "/admin-recruiter-list" });
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    })
+                    .finally((f) => {
+                        console.log(f);
+                        this.loading = false;
+                    });
+            },
+        },
+    };
+</script>
+<style>
+.updateProfile .form-group{
+    width: 60%;
+}
+.img-block .form-group{
+    width: 20%;
+}
+.images-block img{
+    width: 205px;
+    height: 86px;
+}
+.drag{
+    border: 3px solid #ae9d9d;
+    padding: 20px;
+    border-style: dotted;
+}
+</style>

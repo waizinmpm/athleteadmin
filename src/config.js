@@ -90,4 +90,12 @@ export default {
 		invoice: '請求書',
 		credit: 'クレカ',
 	},
+	questions: {
+        question_1: 'What is your name?',
+        question_2: 'What is your pet name?',
+        question_3: 'What is your favourite food?',
+        question_4: 'Who is your favourite person?',
+        question_5: 'What is your favourite sport?',
+        other: 'Other'
+    }
 }

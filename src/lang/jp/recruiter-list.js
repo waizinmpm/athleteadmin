@@ -1,11 +1,16 @@
 export default {
     "recruiter_member_list": "企業会員情報一覧",
-    "search_recruiter_placeholder": "会社名、企業コードを⼊⼒してください……",
+    "ListofCompany": "求人応募者一覧",
+    "status":"ステータス",
+    "valid":"有効",
+    "Invalid":"無効",
+    "withdrawal":"退会",
+    "recruiterno":"会社名、企業コードを⼊⼒してください",
     "columns": [
-        {"label":"求職者会員番号"},
-        {"label":"求職者名"},
-        {"label":"会社名(愛称)"},
-        {"label":"ステータス"},
-        {"label":""},
-	],
-}
+        {"label":"Corporate membership number","name":"企業会員番号"},
+        {"label":"Company name","name":"企業名"},
+        {"label":"Company name (nickname)","name":"会社名(愛称)"},
+        {"label":"status","name":"ステータス"},
+        {"label":" "},
+    ]
+};
