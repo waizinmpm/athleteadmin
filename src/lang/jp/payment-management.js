@@ -14,9 +14,9 @@ export default {
 		{"label": "payment_amount", "name":"入金金額"},
 		{"label": "actual_payment_date", "name":"入金日"},
 		{"label": "recruiter_name", "name":"企業名"},
-		{"label": "phone", "name":"電話番号"},
+		{"label": "phone1", "name":"電話番号"},
 		{"label": "email", "name":"メールアドレス"},
-		{"label": "incharger_person_name", "name":"担当者名"},
+		{"label": "incharge_name", "name":"担当者名"},
 		{"label": "remark", "name":"備考"},
 	],
 }

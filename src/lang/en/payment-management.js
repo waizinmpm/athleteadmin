@@ -14,9 +14,9 @@ export default {
 		{"label": "payment_amount", "name":"Payment Amount"},
 		{"label": "actual_payment_date", "name":"Payment Date"},
 		{"label": "recruiter_name", "name":"Recruiter Name"},
-		{"label": "phone", "name":"Phone"},
+		{"label": "phone1", "name":"Phone"},
 		{"label": "email", "name":"Email"},
-		{"label": "incharger_person_name", "name":"Incharge Name"},
+		{"label": "incharge_name", "name":"Incharge Name"},
 		{"label": "remark", "name":"Remark"},
 	],
 }
