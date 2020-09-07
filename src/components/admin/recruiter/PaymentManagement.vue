@@ -10,12 +10,12 @@
 							<div class="row">
 							<div class="col-md-6">
 								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
-									v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" @change="getData()" />
+									v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" />
 								<label class="custom-control-label custom-checkbox-label">{{ $configs.payment_method.invoice }}</label>
 							</div>
 							<div class="col-md-6">
 								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
-								v-model="filteredData.payment_status" :value="$configs.payment_method.credit" @change="getData()" />
+								v-model="filteredData.payment_status" :value="$configs.payment_method.credit" />
 								<label class="custom-control-label custom-checkbox-label">{{ $configs.payment_method.credit }}</label>
 							</div>
 							</div>
