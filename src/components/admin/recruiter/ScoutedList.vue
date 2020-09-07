@@ -7,7 +7,7 @@
                 <div class="content-row" style="padding-bottom:0px;">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="企業番号">{{ $t('common.recruiter_id') }}</label>
+                            <label for="企業番号">{{ $t('common.recruiter_number') }}</label>
                             <input type="text" placeholder="企業番号" class="form-control" v-model.trim="filteredData.recruiter_id">
                         </div>
                         <div class="col-md-3">
@@ -105,26 +105,6 @@
                                 <span class="btn btn-default" @click="startChat" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
                                 <span class="btn btn-default" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
                                 <span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.scout_status)">{{$t('common.invoice_generate')}}</span>
-                                <!-- <div class="toggle" v-if="project.recordstatus != 0">
-                                    <span class="checkbox">
-                                        <input
-                                            type="checkbox"
-                                            :id="project.id"
-                                            v-if="project.recordstatus == 1"
-                                            @click="changeStatus(project.id,project.recordstatus)"
-                                            checked
-                                        />
-                                        <input
-                                            type="checkbox"
-                                            :id="project.id"
-                                            v-if="project.recordstatus == 2"
-                                            @click="changeStatus(project.id,project.recordstatus)"
-                                        />
-                                        <label for="checkbox"></label>
-                                        <span v-if="project.recordstatus == 1" class="on">有効</span>
-                                        <span v-if="project.recordstatus == 2" class="on">無効</span>
-                                    </span>
-                                </div> -->
                             </td>
                         </tr>
                     </tbody>
@@ -140,8 +120,8 @@
 
             </div>
         </div>
-		<div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
 			<!-- Modal content -->
+		<div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
 			<div class="modal-content">
 				<span class="close" @click="closeInvoiceModal">&times;</span>
 				<div class="container-fluid vld-parent" ref="invoicePreviewContainer">
@@ -150,16 +130,16 @@
 							<div class="border">
 								<h4>{{ $t('common.job') }}</h4>
 								<dl class="row">
-									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.0.label') }}</dt>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.0.name') }}</dt>
 									<dd class="col-sm-9">{{ invoiceForm.management_number }}</dd>
-									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.5.label') }}</dt>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.5.name') }}</dt>
 									<dd class="col-sm-9">{{ invoiceForm.title }}</dd>
 								</dl>
 								<h4>{{ $t('common.billing_recruiter') }}</h4>
 								<dl class="row">
-									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.2.label') }}</dt>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.2.name') }}</dt>
 									<dd class="col-sm-9">{{ invoiceForm.recruiter_number }}</dd>
-									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.3.label') }}</dt>
+									<dt class="col-sm-2 text-right">{{ $t('scouted_list.columns.3.name') }}</dt>
 									<dd class="col-sm-9">{{ invoiceForm.recruiter_name }}</dd>
 								</dl>
 							</div>		
@@ -224,20 +204,13 @@
 				</div>
 			</div>
 		</div>
-		
     </div>
 </template>
 
 <script>
-
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
 
-/**
- * @component Admin scouted list
- * @author Lal Hmachhuani @ 2020/08/04
- * @last_maintained Myo Ko Ko @ 2020/08/04
- */
 export default {
 	mixins: [DataTableServices],
 	data(){
@@ -301,9 +274,7 @@ export default {
 	
 	methods: {
 		allowChat(status) {
-			return status == this.$configs.scouts.interested || 
-				status == this.$configs.scouts.unclaimed ||
-				status == this.$configs.scouts.billed;
+			return status == this.$configs.scouts.interested;
 		},
 		allowBilling(status) {
 			return status == this.$configs.scouts.unclaimed;
@@ -459,6 +430,7 @@ export default {
 	}		
 }
 </script>
+
 <style  scoped>
 .border {
 	padding: 0px 1rem;

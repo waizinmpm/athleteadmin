@@ -20,7 +20,7 @@ export default {
     "displayed_page": "ページ表示数",
     //-- Recruiter Fields
     "recruitment": "求⼈⼀覧",
-    "recruiter_id": "企業番号",
+    "recruiter_number": "企業番号",
     "recruiter_name": "企業名",
     //-- Job 
     "job_number": "求人番号",

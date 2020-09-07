@@ -20,7 +20,7 @@ export default {
     "displayed_page": "page display",
     //--  Recruiter Fields
     "recruitment": "Recruitment",
-    "recruiter_id": "Recruiter Id",
+    "recruiter_number": "Recruiter Number",
     "recruiter_name": "Recruiter Name",
     //-- Job Fields
     "job_number": "Job Number",
