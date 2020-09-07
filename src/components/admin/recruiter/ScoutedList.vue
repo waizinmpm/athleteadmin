@@ -242,10 +242,10 @@ export default {
 	mixins: [DataTableServices],
 	data(){
 		let sortOrders = {};
-		let columns = [];
-		columns.forEach(column => {
-			sortOrders[column.name] = -1;
-		});
+        let columns = this.$i18n.messages.en.scouted_list.columns;
+            columns.forEach(column => {
+            sortOrders[column.label] = -1;
+        });
 		return {
 			requireInvoiceForm: false,
 			invoicePreview: '',
