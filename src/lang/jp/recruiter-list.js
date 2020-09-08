@@ -7,10 +7,10 @@ export default {
     "withdrawal":"退会",
     "recruiterno":"会社名、企業コードを⼊⼒してください",
     "columns": [
-        {"label":"Corporate membership number","name":"企業会員番号"},
-        {"label":"Company name","name":"企業名"},
-        {"label":"Company name (nickname)","name":"会社名(愛称)"},
-        {"label":"status","name":"ステータス"},
+        {"label":"recruiter_number","name":"企業会員番号"},
+        {"label":"recruiter_name","name":"企業名"},
+        {"label":"recruiter_nick_name","name":"会社名(愛称)"},
+        {"label":"record_status","name":"ステータス"},
         {"label":" "},
     ]
 };

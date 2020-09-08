@@ -7,10 +7,10 @@ export default {
     "withdrawal":"withdrawal",
     "recruiterno":"Enter the company name and company code",
     "columns": [
-        {"label":"Corporate membership number","name":"Corporate membership number"},
-        {"label":"Company name","name":"Company name"},
-        {"label":"Company name (nickname)","name":"Company name (nickname)"},
-        {"label":"status","name":"Status"},
+        {"label":"recruiter_number","name":"Corporate membership number"},
+        {"label":"recruiter_name","name":"Company name"},
+        {"label":"recruiter_nick_name","name":"Company name (nickname)"},
+        {"label":"record_status","name":"Status"},
         {"label":" "},
     ]
 };
