@@ -1,8 +1,8 @@
 export default {
     admin: '',
     close_menu: 'メニューを閉じる',
-    logoheader: '海外求⼈サイト',
-    logotxt: '世界最⼤級の⽇本⼈向け海外求⼈サイト',
+    logoheader: '元アスリート求人/スカウトサイト',
+    logotxt: '元アスリートのためのセカンドキャリア支援サイト',
     Home: 'マイページ',
     login: 'ログインする',
     logout: 'ログアウト',

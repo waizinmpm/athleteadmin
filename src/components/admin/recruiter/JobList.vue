@@ -7,10 +7,10 @@
                 <div class="content-row">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="企業番号">{{ $t('common.recruiter_id') }}</label>
+                            <label for="企業番号">{{ $t('common.recruiter_number') }}</label>
                             <input
                                 type="text"
-                                :placeholder="$t('common.recruiter_id')"
+                                :placeholder="$t('common.recruiter_number')"
                                 class="form-control mx-input"
                                 name="企業番号"
                                 v-model="filteredData.company_number"
