@@ -2,8 +2,8 @@
     <div>
         <!--sidebar-->
         <ul class="list-group panel">
-        <li class="list-group-item">
-            <i class="glyphicon glyphicon-align-justify"></i>
+        <li class="list-group-item"><router-link to="/admin">
+            <i class="glyphicon glyphicon-align-justify"></i></router-link>
             <b>{{$t('menu.management_screen')}}</b>
         </li>
         <li>

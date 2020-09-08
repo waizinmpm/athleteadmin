@@ -1,75 +1,119 @@
-<template>
-  <div class="container">
-    <h1>Hallo {{ currentUser.name }} . . . welcome to your work space.</h1>
-    <table id="example" class="table table-striped table-bordered" style="width:100%">    
-        <thead>
-            <tr>
-                <th>管理番号</th>
-                <th>応募⽇時</th>
-                <th>企業番号</th>
-                <th>企業名</th>
-                <th>求⼈番号</th>
-                <th>求⼈タイトル</th>
-                <th>求職者会員番号</th>
-                <th>⽒名</th>
-                <th>ステータス</th>
-                <th></th>               
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>K2020-0001</td>
-                <td>2020/03/02 12:30:00</td>
-                <td>00001</td>
-                <td>コロナ会社</td>
-                <td>00001-0001</td>
-                <td>レジ打ち</td>
-                <td>0000001</td>
-                <td>⼭⽥</td>
-                <td class="td-btn"><span>採⽤未請求</span><button class="custom-btn change">変更</button></td>
-                <td>
-                <button class="custom-btn">チャット</button>
-                <button class="custom-btn">請求書⽣成</button>
-                <button class="custom-btn">クレカ請求</button>
-                </td>
-            </tr>    
-            <tr>
-                <td>K2020-0002</td>
-                <td>2020/03/02 12:30:00</td>
-                <td>00001</td>
-                <td>コロナ会社</td>
-                <td>00001-0002</td>
-                <td>レジ打ち</td>
-                <td>0000001</td>
-                <td>タナカ</td>
-                <td class="td-btn"><span>請求済</span><button class="custom-btn change">変更</button></td>
-                <td>
-                <button class="custom-btn">チャット</button>
-                <button class="custom-btn">請求書⽣成</button>
-                <!-- <button class="custom-btn">クレカ請求</button> -->
-                </td>
-            </tr>            
-            
-        </tbody>        
-    </table>
+<template> 
+  <div>   
+   <div class="row">
+    <div class="col-sm-6 p-0 searchform-one">
+        <h5 class="m-b-10 main-header">管理画面</h5>  
+    </div>    
+   </div>
+   <div class="row col-xs-12">
+        <div class="col-md-3">
+            <div class="dashboard-card">
+                <h5>{{count.recruiter}}</h5>
+                <p>企業会員</p>
+                <span class="custom-icon"><i class="fa fa-user color-one" style="font-size:40px;"></i></span>
+            </div>  
+        </div>   
+         <div class="col-md-3">
+            <div class="dashboard-card">
+                <h5>{{count.jobseeker}}</h5>
+                <p>求職者会員</p>
+                <span class="custom-icon"><i class="fa fa-files-o color-three" style="font-size:40px;"></i></span>
+            </div>             
+        </div> 
+        <div class="col-md-3">
+            <div class="dashboard-card">
+                <h5>{{count.job}}</h5>
+                <p>求人</p>
+                <span class="custom-icon"><i class="fa fa-suitcase color-five" style="font-size:40px;"></i></span>
+            </div>             
+        </div>                    
+    </div>
+    <div class="row col-xs-12">
+         <div class="col-md-3">
+            <div class="dashboard-card">
+                <h5>{{count.jobApply}}</h5>
+                <p>求人応募者</p>
+                <span class="custom-icon"><i class="fa fa-file-text color-four" style="font-size:40px;"></i></span>
+            </div>             
+        </div> 
+        <div class="col-md-3">
+            <div class="dashboard-card">
+                <h5>{{count.scout}}</h5>
+                <p>内定未請求</p>
+               <span class="custom-icon"><i class="fa fa-users color-two" style="font-size:40px;"></i></span>
+            </div>  
+        </div>   
+        <div class="col-md-3">
+            <div class="dashboard-card">
+                <h5>{{count.payment_count}}</h5>
+                <p>請求済</p>
+                <span class="custom-icon"><i class="fa fa-credit-card color-six" style="font-size:40px;"></i></span>
+            </div>             
+        </div>     
+    </div>
+    
   </div>
 </template>
 <script>
-
-export default {
-   data() {
-    return {
-      dataTable:null,
-    };
-  },
-     mounted(){       
-               
-           
-    },
-  computed: {
-    currentUser() {
-      return this.$store.getters.currentUser;
+    export default {
+        data(){
+            return {
+                count:[],
+            }
+        },
+        created(){
+            this.getCount();
+        },
+        methods:{
+            getCount(){
+                this.$api.get('/v1/admin/dashboard-count').then(res => {
+                    this.count = res.data
+                    console.log(this.count)
+                })
+            },
+        }
     }
-  }
-};
 </script>
+<style>
+.dashboard-card{
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;        
+    border:1px solid #eee;
+    box-shadow: 0 1px 2px rgb(189, 203, 228);
+    padding: 30px;
+    margin: 0px 10px 30px 10px;
+}
+.dashboard-card h5{
+    font-size: 30px;
+    color: #000;
+    font-weight: bold;
+}
+.dashboard-card p{
+    font-size: 16px;
+    color: #6a7482;
+}
+.color-one{
+    color:#ACA0F3;
+}
+.color-two{
+    color: #F58BD9;
+}
+.color-three{
+    color:#FB7575;
+}
+.color-four{
+    color:#85C49A;
+}
+.color-five{
+    color:#D1CA04;
+}
+.color-six{
+    color:#F8A220;
+}
+.custom-icon{
+    position: absolute;
+    top: 60px;
+    right: 80px;
+}
+</style>
