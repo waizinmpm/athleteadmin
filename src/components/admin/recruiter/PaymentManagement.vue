@@ -119,7 +119,7 @@
 						<i class="fas fa-angle-left"></i> 前へ
 					</span>
 					<span slot="next-nav">
-						次へ <i class="fa fa-angle-right"></i>
+						次へ <i class="fas fa-angle-right"></i>
 					</span>
 				</pagination>
 
