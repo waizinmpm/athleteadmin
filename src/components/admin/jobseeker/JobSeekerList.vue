@@ -25,48 +25,54 @@
 
                     <label for="ステータス">{{ $t('common.status') }}</label>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="col-md-2 p-lr0">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input custom-checkbox"
-                                    value="1"
-                                    v-model="filteredData.jobseeker_recordstatus"
-                                    @change="getData()"
-                                    id="有効"
-                                />
                                 <label
                                     for="有効"
                                     class="custom-control-label custom-checkbox-label"
-                                >有効</label>
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="custom-control-input custom-checkbox"
+                                        value="1"
+                                        v-model="filteredData.jobseeker_recordstatus"
+                                        @change="getData()"
+                                        id="有効"
+                                    />
+                                    <span class="custom-check-label-post">有効</span>
+                                </label>
                             </div>
                             <div class="col-md-2 p-lr0">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input custom-checkbox"
-                                    value="2"
-                                    v-model="filteredData.jobseeker_recordstatus"
-                                    @change="getData()"
-                                    id="無効"
-                                />
                                 <label
                                     for="無効"
                                     class="custom-control-label custom-checkbox-label"
-                                >無効</label>
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="custom-control-input custom-checkbox"
+                                        value="2"
+                                        v-model="filteredData.jobseeker_recordstatus"
+                                        @change="getData()"
+                                        id="無効"
+                                    />
+                                    <span class="custom-check-label-post">無効</span>
+                                </label>
                             </div>
                             <div class="col-md-2 p-lr0">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input custom-checkbox"
-                                    value="0"
-                                    v-model="filteredData.jobseeker_recordstatus"
-                                    @change="getData()"
-                                    id="退会"
-                                />
                                 <label
                                     for="退会"
                                     class="custom-control-label custom-checkbox-label"
-                                >退会</label>
+                                >
+                                    <input
+                                        type="checkbox"
+                                        class="custom-control-input custom-checkbox"
+                                        value="0"
+                                        v-model="filteredData.jobseeker_recordstatus"
+                                        @change="getData()"
+                                        id="退会"
+                                    />
+                                    <span class="custom-check-label-post">退会</span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -173,7 +179,7 @@
                     </span>
                     <span slot="next-nav">
                         次へ
-                        <i class="fas fa-angle-right"></i>
+                        <i class="fa fa-angle-right"></i>
                     </span>
                 </pagination>
             </div>

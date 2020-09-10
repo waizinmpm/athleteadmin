@@ -56,4 +56,8 @@ export default {
     text-align: center;
     vertical-align: middle;
 }
+.table .check-col {
+    width: 30px;
+    text-align: center;
+}
 </style>

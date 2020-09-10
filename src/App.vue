@@ -521,6 +521,7 @@ body {
 .btn-common .down-icon {
     position: absolute;
     right: 5px;
+    padding-left: 2px;
     font-size: 20px;
     transition: all ease .3s;
     border-left: 2px solid #A6A6A6;
@@ -528,6 +529,7 @@ body {
 .scout-box {
     position: relative;
     display: flex;
+    justify-content: center;
 }
 .scout-txt {
     min-width: 90px;
@@ -696,7 +698,9 @@ body {
     text-align: left !important;
 }
 
-
+.fa-angle-right {
+    font-weight: bold;
+}
 // padding & margin
 .mb-0 {
     margin-bottom: 0;
