@@ -1,5 +1,5 @@
 <template>
-    <div class="recruiter-job-list">
+    <div class="recruiter-job-list" @click="handleStatusToggle">
         <div class="row">
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
@@ -192,9 +192,6 @@ export default {
         columns.forEach(column => {
             sortOrders[column.label] = -1;
         });
-        /* columns.forEach(column => {
-            sortOrders[column.name] = -1;
-        }); */
         let filteredData = {
             status: []
         };
@@ -222,6 +219,18 @@ export default {
     },
 
     methods: {
+        handleStatusToggle(e) {
+            let targetClassName = e.target.className;
+            // must be Class Names of changing status dropdown
+            const statusToggleClasses = [
+                'btn btn-common',
+                'down-icon',
+                'custom-radio-lable status-lable',
+                'custion-radio'
+            ];
+            statusToggleClasses.includes(targetClassName) ? '' : this.hideToggle();
+        },
+
         textEllipsis(event){
             if(event.target.className == "txt-vertical-ellipsis") {
                 event.target.className = "";
@@ -230,6 +239,7 @@ export default {
                 event.target.className = "txt-vertical-ellipsis";
             }
         },
+
         changeStatus(id, status) {
             this.$alertService
             .showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
@@ -267,10 +277,6 @@ export default {
 		hideToggle() {
 			this.status = false;
 		},
-    },
-
-    mounted() {
-        console.log(this.projects);
     }
 };
 </script>

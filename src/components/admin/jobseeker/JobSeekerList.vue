@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @click="handleStatusToggle">
         <div class="row">
             <div class="col-sm-6 p-0 searchform-one">
                 <!--advanced search-->
@@ -228,6 +228,18 @@ export default {
     },
     
     methods: {
+        handleStatusToggle(e) {
+            let targetClassName = e.target.className;
+            // must be Class Names of changing status dropdown
+            const statusToggleClasses = [
+                'btn btn-common',
+                'down-icon',
+                'custom-radio-lable status-lable',
+                'custion-radio'
+            ];
+            statusToggleClasses.includes(targetClassName) ? '' : this.hideToggle();
+        },
+
         changeStatus(id, recordstatus) {
             this.recordstatus_text = recordstatus == '有効' ? "無効にしてよろしいでしょうか。" : "有効してよろしいでしょうか。";
             this.$alertService
