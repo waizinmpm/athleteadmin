@@ -245,7 +245,7 @@ export default {
 	},
 };
 </script>
-<style>
+<style scoped>
 .custom-checkbox-label {
 	padding-left: 0px;
 }

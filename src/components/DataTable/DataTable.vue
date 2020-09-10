@@ -1,5 +1,5 @@
 <template>
-    <table class="table table-hover is-bordered data-table">
+    <table class="table is-bordered data-table table-bordered">
         <thead>
             <tr>
                <th v-if="showCheckbox">
@@ -43,3 +43,17 @@ export default {
     }
 };
 </script>
+<style scoped>
+.table-bordered {
+    border: none;
+}
+.table {
+    border-collapse: separate;
+    color: inherit;
+}
+.table>tbody>tr>td , 
+.table-bordered>thead>tr>th {
+    text-align: center;
+    vertical-align: middle;
+}
+</style>

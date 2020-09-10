@@ -3,60 +3,66 @@
         <div class="row">
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
-                <h5 class="m-b-10 main-header">{{ $t('common.recruitment') }}</h5>
-                <div class="content-row">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label for="企業番号">{{ $t('common.recruiter_number') }}</label>
-                            <input
-                                type="text"
-                                :placeholder="$t('common.recruiter_number')"
-                                class="form-control mx-input"
-                                name="企業番号"
-                                v-model="filteredData.company_number"
-                            />
+                <h5 class="main-header">{{ $t('common.recruitment') }}</h5>
+                <div class="content-row col-6 col-md-8">
+                    <div class="inner-wrapper">
+                        <div class="row">
+                            <div class="col-3 col-md-4">
+                                <label for="企業番号">{{ $t('common.recruiter_number') }}</label>
+                                <input
+                                    type="text"
+                                    :placeholder="$t('common.recruiter_number')"
+                                    class="form-control mx-input"
+                                    name="企業番号"
+                                    v-model="filteredData.company_number"
+                                />
+                            </div>
+                            <div class="col-3 col-md-4">
+                                <label for="企業名">{{ $t('common.recruiter_name') }}</label>
+                                <input
+                                    type="text"
+                                    :placeholder="$t('common.recruiter_name')"
+                                    class="form-control mx-input"
+                                    v-model="filteredData.company_name"
+                                />
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <label for="企業名">{{ $t('common.recruiter_name') }}</label>
-                            <input
-                                type="text"
-                                :placeholder="$t('common.recruiter_name')"
-                                class="form-control mx-input"
-                                v-model="filteredData.company_name"
-                            />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label for="求⼈番号">{{ $t('common.job_number') }}</label>
-                            <input
-                                type="text"
-                                :placeholder="$t('common.job_number')"
-                                class="form-control mx-input"
-                                v-model="filteredData.job_number"
-                            />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="求⼈タイトル">{{ $t('common.job_title') }}</label>
-                            <input
-                                type="text"
-                                :placeholder="$t('common.job_title')"
-                                class="form-control mx-input"
-                                v-model="filteredData.job_title"
-                            />
-                        </div>
-                        <div class="col-md-3">
-                            <button
-                                class="btn searchbtn"
-                                style="margin-top:22px;"
-                                @click="getData()"
-                            >{{ $t('common.search') }}</button>
+                        <div class="row">
+                            <div class="col-3 col-md-4">
+                                <label for="求⼈番号">{{ $t('common.job_number') }}</label>
+                                <input
+                                    type="text"
+                                    :placeholder="$t('common.job_number')"
+                                    class="form-control mx-input"
+                                    v-model="filteredData.job_number"
+                                />
+                            </div>
+                            <div class="col-3 col-md-4">
+                                <label for="求⼈タイトル">{{ $t('common.job_title') }}</label>
+                                <input
+                                    type="text"
+                                    :placeholder="$t('common.job_title')"
+                                    class="form-control mx-input"
+                                    v-model="filteredData.job_title"
+                                />
+                            </div>
+                            <div class="col-3 col-md-4">
+                                <button
+                                    class="btn searchbtn"
+                                    style="margin-top:22px;"
+                                    @click="getData()"
+                                >{{ $t('common.search') }}</button>
+                            </div>
                         </div>
                     </div>
                     <label for="ステータス">{{ $t('common.status') }}</label>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="col-md-2 p-lr0" v-for="status in arr_status" :key="status.id.id">
+                                <label
+                                    for="record_status"
+                                    class="custom-control-label custom-checkbox-label"
+                                >
                                 <input
                                     type="checkbox"
                                     class="custom-control-input custom-checkbox"
@@ -66,10 +72,8 @@
                                     @change="getData()"
                                     :value="status.id.value"
                                 />
-                                <label
-                                    for="record_status"
-                                    class="custom-control-label custom-checkbox-label"
-                                >{{status.id.display}}</label>
+                                <span class="custom-check-label-post">{{status.id.display}}</span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -117,15 +121,14 @@
                                     <input type="checkbox" :value="project.id" v-model="selected" />
                                 </label>
                             </td>
-                            <td>{{ project.recruiter_number }}</td>
-                            <td>{{ project.recruiter_name }}</td>
-                            <td>{{ project.job_number }}</td>
-                            <td @click="textEllipsis($event)"><p class="txt-vertical-ellipsis">{{ project.title }}</p></td>
-                            <td>{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
-                            <td>{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
-                            <td>{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
-                            <td>
-                                
+                            <td class="tbl-wxs">{{ project.recruiter_number }}</td>
+                            <td class="tbl-wm">{{ project.recruiter_name }}</td>
+                            <td class="tbl-wm">{{ project.job_number }}</td>
+                            <td class="text-left" style="min-width:200px;" @click="textEllipsis($event)"><p class="txt-vertical-ellipsis">{{ project.title }}</p></td>
+                            <td class="tbl-w110">{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
+                            <td class="tbl-ws">{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
+                            <td class="tbl-ws">{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
+                            <td class="tbl-wm">
                                 <div class="scout-box">
                                     <p class="scout-txt" >
                                         <span v-for="status in arr_status" :key="status.id.id">

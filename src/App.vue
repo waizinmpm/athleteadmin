@@ -20,7 +20,7 @@ second:#FB8C00, secondary-light:#a5a5a5,
 text-color:#000, 
 errorcolor:red, 
 bordercolor:#dee2e6, 
-tablecolor:#91a8bf, 
+tablecolor:#b4c574, 
 listcolor:#f5f5f5, 
 buttoneditcolor:#f5ecd1, 
 buttonchangecolor:#d1f5df, 
@@ -544,7 +544,8 @@ body {
     transform: scaleY(0);    
     transform-origin: top;
     transition: transform 0.4s ease;
-     box-shadow: 0 0.2rem 2rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.2rem 2rem rgba(0, 0, 0, 0.15);
+    text-align: left;
 }
 .scout-toggle:before {
     position: absolute;
@@ -643,4 +644,61 @@ body {
   outline: 0px solid transparent;
 }
 // edit button toggle
+
+.inner-wrapper {
+    padding: 20px 20px 0 20px;
+    border: 1px solid #9b9898;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.custom-checkbox-label {
+    padding-left: 10px;
+    line-height: 20px;
+    font-weight: 400;
+    position: relative;
+    margin-bottom: 0;
+    vertical-align: top;
+    cursor: pointer;
+}
+.custom-check-label-post {
+    position: absolute;
+    top: 0;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    left: 35px;
+}
+.custom-checkbox {
+    height: 20px!important;
+    width: 20px!important;
+    margin: 0!important;
+}
+// table
+.tbl-wxs {
+    width: 80px;
+}
+.tbl-ws {
+    width: 100px;
+}
+.tbl-wm {
+    width: 130px;
+}
+.tbl-wl {
+    width: 160px;
+}
+.tbl-wxl {
+    width: 200px;
+}
+.tbl-w110 {
+    width: 110px;
+}
+.text-left {
+    text-align: left !important;
+}
+
+
+// padding & margin
+.mb-0 {
+    margin-bottom: 0;
+}
 </style>
