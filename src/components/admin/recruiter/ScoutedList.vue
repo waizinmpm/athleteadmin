@@ -164,12 +164,12 @@
 							</div>
 							<dl class="row">
 								<dt class="col-sm-2 text-right">{{ $t('common.tax') }}</dt>
-								<dd class="col-sm-6 text-right">{{ Number(invoiceForm.tax).toLocaleString() }}</dd>
+								<dd class="col-sm-6 text-right">{{ invoiceForm.tax|aj-number }}</dd>
 								<label class="col-sm-1">円</label>
 							</dl>
 							<dl class="row">
 								<dt class="col-sm-2 text-right">{{ $t('common.invoice_amount') }}</dt>
-								<dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
+								<dd class="col-sm-6 text-right">{{ invoiceForm.invoice_amount|aj-number }}</dd>
 								<label class="col-sm-1">円</label>
 							</dl>
 							<div class="form-group row">
@@ -263,12 +263,13 @@ export default {
 				recruiter_number: '',
 				recruiter_name: '',
 				email: '',
-				tax: 20000,
-				default_amount: 200000,
-				invoice_amount: 220000,
+				tax: 0,
+				default_amount: 0,
+				invoice_amount: 0,
 				remark: '',
 			},
 			isToggle : false ,
+			tax: {},
 		}
 	},
 	
@@ -294,8 +295,7 @@ export default {
 						scout_id: scout.id, 
 						status: e.target.value,
 					})
-					.then(res => {
-						console.log("changeStatus", res.data);
+					.then(() => {
                         this.getData(this.projects.current_page);
 					})
 					.catch(() => {
@@ -316,6 +316,7 @@ export default {
 			this.invoiceForm.recruiter_name = scout.recruiter_name;
 			this.invoiceForm.email = scout.recruiter_email;
 			this.invoiceForm.default_amount = 200000;
+			this.invoiceForm.tax_id = this.tax.id;
 			this.requireInvoiceForm = true;
 		},
 		closeInvoiceModal() {
@@ -329,10 +330,10 @@ export default {
 				recruiter_number: '',
 				recruiter_name: '',
 				email: '',
-				tax: 20000,
 				default_amount: 200000,
 				invoice_amount: 220000,
 				remark: '',
+				tax_id: this.tax.id,
 			};
 			// --close modal
 			this.requireInvoiceForm = false; 
@@ -360,8 +361,7 @@ export default {
 				return;
 			}
 			let loading = this.$loading.show({
-                    container: this.$refs.loadingRef,
-                    isFullPage: false
+                isFullPage: true
 			});
 			
 			this.$api.post('/v1/admin/scout-list/send-invoice-mail', this.invoiceForm)
@@ -417,9 +417,13 @@ export default {
 		'invoiceForm.default_amount': function() {
 			let amount = Number(this.invoiceForm.default_amount);
 			if (!isNaN(amount)) {
-				this.invoiceForm.invoice_amount = amount + Number(this.invoiceForm.tax);
+				// Re-value tax
+				this.invoiceForm.tax = amount * (this.tax.percent ?? 0) / 100;
+				// Re-value invoice amout
+				this.invoiceForm.invoice_amount = amount + this.invoiceForm.tax;
 			} else {
 				this.invoiceForm.invoice_amount = 0;
+				this.invoiceForm.tax = 0;
 			}
 		}
 	},
@@ -427,7 +431,17 @@ export default {
 		invoiceForm: {
 			default_amount: { required, numeric }
 		}
-	}		
+	},
+	created() {
+		this.$api.get('/v1/tax/current')
+		.then(r => {
+			this.tax = r.data.data;
+		})
+		.catch(() => {
+			console.log("There was  an error when fetching tax percentage.");
+			this.tax = { percent: 0 };
+		})
+	}
 }
 </script>
 
@@ -476,6 +490,8 @@ export default {
   float: right;
   font-size: 28px;
   font-weight: bold;
+  z-index: 100;
+  position: relative;
 }
 
 .close:hover,

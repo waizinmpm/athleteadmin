@@ -64,6 +64,8 @@ const i18n = new VueI18n({
 // 	after: (new Vue()).$createElement('h3', {class: 'loading-text'}, ['送信中'])
 // });
 
+Vue.filter('aj-number', (value) => Number(value) ? Number(value).toLocaleString('en-US',{ maximumFractionDigits: 0 }) : 0);
+
 new Vue({
     router,
     store,

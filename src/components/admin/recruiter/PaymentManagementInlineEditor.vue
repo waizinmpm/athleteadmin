@@ -45,10 +45,11 @@ export default {
 	.editor-container {
 		display: flex;
 		align-content: space-around;
+		align-items: baseline;
 	}
 	.editor-container * {
 		max-width: 100px;
-		margin: 0px 3px;
+		/* margin: 0px 3px; */
 		padding: 0px 3px;
 	}
 </style>

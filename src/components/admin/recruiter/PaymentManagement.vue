@@ -78,13 +78,13 @@
 							<td>{{ project.payment_method }}</td>
 							<td>{{ project.invoice_number }}</td>
 							<td>{{ project.status }}</td>
-							<td>{{ project.invoice_amount }}</td>
+							<td>{{ project.invoice_amount|aj-number }}</td>
 							<td><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
 							<td>
 								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project" 
 									@editing-cancel="onEditingCancel($event, project)">
 									<template #display>
-										{{ project.payment_amount }}
+										<span class="mw-60px">{{ project.payment_amount|aj-number }}</span>
 									</template>
 									<template #editor>
 										<input type="text" v-model="project.payment_amount" @keypress="isNumber($event)">
@@ -96,6 +96,7 @@
 									@editing-cancel="onEditingCancel($event, project)">
 									<template #display>
 										<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
+										<span class="mw-80px" v-show="!project.actual_payment_date"></span>
 									</template>
 									<template #editor>
 										<date-picker v-model="project.actual_payment_date" value-type="format" class="datepicker" :lang="lang" 
@@ -257,5 +258,13 @@ textarea {
 }
 .btn_csv_download {
 	margin: 0px 3px;
+}
+.mw-60px {
+	display: inline-block;
+	min-width: 60px;
+}
+.mw-80px {
+	display: inline-block;
+	min-width: 88px;
 }
 </style>
