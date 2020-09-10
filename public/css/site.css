@@ -7584,15 +7584,16 @@ blockquote {
 .btn-info.disabled,
 .btn-info:active,
 .btn-info[disabled] {
-    border-color: #37bc9b;
-    background-color: #37bc9b;
+    border-color: #b4c573;
+    background-color: #90a051;
 }
 
 .btn-info:focus,
 .btn-info:hover,
 .open .dropdown-toggle.btn-info {
-    border-color: #48cfad;
-    background-color: #48cfad;
+    border-color: #b4c573;
+    background-color: #90a051;
+    opacity: 0.8;
 }
 
 .btn-success,
@@ -9515,7 +9516,7 @@ a.list-group-item .list-group-item-heading {
 
 a.list-group-item:focus,
 a.list-group-item:hover {
-    background-color: #cddbef;
+    background-color: #afc55a6b;
 }
 
 a.list-group-item.active,

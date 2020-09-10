@@ -528,6 +528,7 @@ body {
 .scout-box {
     position: relative;
     display: flex;
+    justify-content: center;
 }
 .scout-txt {
     min-width: 90px;

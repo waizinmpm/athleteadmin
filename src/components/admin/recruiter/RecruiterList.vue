@@ -14,23 +14,29 @@
                     </span>
                 </div>
             </div> 
-               <label for="ステータス">{{ $t('recruiter_list.status') }}</label>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-md-2 p-lr0">
-                                <input type="checkbox" class="custom-control-input custom-checkbox" value="1" v-model="filteredData.recruiter_recordstatus" @change="getData()" id="有効" />
-                                <label for="有効" class="custom-control-label custom-checkbox-label"> {{ $t('recruiter_list.valid') }} </label>                               
-                            </div>
-                            <div class="col-md-2 p-lr0">
-                                <input type="checkbox" class="custom-control-input custom-checkbox" value="2" v-model="filteredData.recruiter_recordstatus" @change="getData()" id="無効" />
-                                <label for="無効" class="custom-control-label custom-checkbox-label" >{{ $t('recruiter_list.Invalid') }}</label>
-                            </div>
-                            <div class="col-md-2 p-lr0">
-                                <input type="checkbox" class="custom-control-input custom-checkbox" value="0" v-model="filteredData.recruiter_recordstatus" @change="getData()" id="退会" />
-                                <label for="退会" class="custom-control-label custom-checkbox-label" >{{ $t('recruiter_list.withdrawal') }}</label>
-                            </div>
-                        </div>
-                    </div>   
+            <label for="ステータス">{{ $t('recruiter_list.status') }}</label>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2 p-lr0">
+                        <label for="有効" class="custom-control-label custom-checkbox-label">
+                            <input type="checkbox" class="custom-control-input custom-checkbox" value="1" v-model="filteredData.recruiter_recordstatus" @change="getData()" id="有効" />
+                            <span class="custom-check-label-post">{{ $t('recruiter_list.valid') }} </span>
+                         </label>                               
+                    </div>
+                    <div class="col-md-2 p-lr0">
+                        <label for="無効" class="custom-control-label custom-checkbox-label" >
+                            <input type="checkbox" class="custom-control-input custom-checkbox" value="2" v-model="filteredData.recruiter_recordstatus" @change="getData()" id="無効" />
+                            <span class="custom-check-label-post">{{ $t('recruiter_list.Invalid') }}</span>
+                        </label>
+                    </div>
+                    <div class="col-md-2 p-lr0">
+                        <label for="退会" class="custom-control-label custom-checkbox-label" >
+                            <input type="checkbox" class="custom-control-input custom-checkbox" value="0" v-model="filteredData.recruiter_recordstatus" @change="getData()" id="退会" />
+                            <span class="custom-check-label-post">{{ $t('recruiter_list.withdrawal') }}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>   
         </div>
                  
     </div>
@@ -56,15 +62,15 @@
                 <DataTable ref="datatable" class="table-check" :columns="$t('recruiter_list.columns')" :sortKey="sortKey" :sortOrders="sortOrders" @check-all="selectAll" @sort="sortBy" :showCheckbox="true">
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id"> 
-                            <td class="text-center">
+                            <td class="check-col">
                                 <label class="form-checkbox">
                                     <input type="checkbox" :value="project.id" v-model="selected" />
                                 </label>
                             </td>
-                            <td>{{project.recruiter_number}}</td>
-                            <td>{{project.recruiter_name}}</td>
-                            <td>{{project.recruiter_nick_name}}</td>
-                            <td>
+                            <td class="tbl-wm">{{project.recruiter_number}}</td>
+                            <td class="text-left tbl-wxl">{{project.recruiter_name}}</td>
+                            <td class="tbl-wxl">{{project.recruiter_nick_name}}</td>
+                            <td class="text-left tbl-wxl">
                                 <div class="scout-box">
                                 <div v-if="project.record_status != 0">
                                     <span v-for="status in arr_status" :key="status.id.id">
@@ -88,7 +94,7 @@
                                 
                                 </div>
                             </td>
-                            <td style="width:200px;">
+                            <td class="tbl-wm">
                                 <router-link :to="'/admin/recruiter-list/' + project.id + '/edit'" class="btn btn-info">{{ $t('common.edit')}}</router-link>
                             </td>
                         </tr>
