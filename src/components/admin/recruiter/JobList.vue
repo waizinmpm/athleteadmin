@@ -157,7 +157,7 @@
                                 >{{ $t('common.change') }}</button> -->
                             </td>
                             <td>
-                                <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn custom-btn edit">{{ $t('common.edit')}}</router-link>
+                                <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn btn-info">{{ $t('common.edit')}}</router-link>
                             </td>
                         </tr>
                     </tbody>
@@ -173,7 +173,7 @@
                     </span>
                     <span slot="next-nav">
                         次へ
-                        <i class="fas fa-angle-right"></i>
+                        <i class="fa fa-angle-right"></i>
                     </span>
                 </pagination>
             </div>

@@ -2582,7 +2582,7 @@ th {
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>thead>tr>th {
-    padding: 8px;
+    padding: 8px 4px;
     line-height: 1.42857143;
     vertical-align: top;
     border-top: 1px solid #ddd;
@@ -3520,9 +3520,10 @@ fieldset[disabled] .btn-success:hover {
 }
 
 .btn-info {
+    min-width: 80px;
     color: #fff;
-    background-color: #5bc0de;
-    border-color: #46b8da;
+    border-color: #b4c573;
+    background-color: #90a051;
 }
 
 .btn-info.active,
@@ -7540,6 +7541,7 @@ blockquote {
 }
 
 .btn-default {
+    width: 100px;
     color: #434a54;
     border-color: #aab2bd!important;
 }

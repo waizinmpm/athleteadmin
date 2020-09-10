@@ -173,7 +173,7 @@
                     </span>
                     <span slot="next-nav">
                         次へ
-                        <i class="fas fa-angle-right"></i>
+                        <i class="fa fa-angle-right"></i>
                     </span>
                 </pagination>
             </div>
