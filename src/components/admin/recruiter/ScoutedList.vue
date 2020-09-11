@@ -1,5 +1,5 @@
 <template>
-    <div>   
+    <div @click="handleStatusToggle">   
         <div class="row">
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
@@ -95,7 +95,7 @@
                                         {{$t('common.edit')}}
                                         <span class="down-icon">&#9662;</span>
                                     </p>
-                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
+                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
                                         <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
                                             <input type="radio" :id="status.id+index" v-model="project.scout_status" class="custion-radio" 
 												@change="onStatusChange(index, $event)" :value="status.id">
@@ -214,6 +214,7 @@
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
+import { handleStatus } from "../../../partials/common";
 
 export default {
 	mixins: [DataTableServices],
@@ -227,7 +228,7 @@ export default {
 			requireInvoiceForm: false,
 			invoicePreview: '',
 			old_index:'',
-			status:false,
+			toggle_status:false,
 			current: null,
 			base_url: "/v1/admin/scout-list",
 			columns: columns,
@@ -278,6 +279,10 @@ export default {
 	},
 	
 	methods: {
+		handleStatusToggle(e) {
+			if(handleStatus(e.target.className) == false) 
+				this.toggle_status = false;
+        },
 		allowChat(status) {
 			return status == this.$configs.scouts.interested;
 		},
@@ -398,15 +403,15 @@ export default {
 		},
 		showToggle(index) {
 			this.current = index;
-			if(this.status == true) {
-				if(this.current == this.old_index) this.status = false; 
+			if(this.toggle_status == true) {
+				if(this.current == this.old_index) this.toggle_status = false; 
 			} else {
-				this.status = true;
+				this.toggle_status = true;
 			}
 			this.old_index = index;
 		},
 		hideToggle() {
-			this.status = false;
+			this.toggle_status = false;
 		},
 		textEllipsis(event){
             if(event.target.className == "txt-vertical-ellipsis") {
