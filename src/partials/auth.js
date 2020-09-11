@@ -24,7 +24,7 @@ export function login(credentials) {
 }
 
 export function getLoggedinUser() {
-    const userStr = localStorage.getItem('user');
+    const userStr = localStorage.getItem('adminuser');
 
     if (!userStr) {
         return null
