@@ -256,6 +256,9 @@ export default {
                     .then((res) => {
                         console.log(res.data);
                         this.getData(this.projects.current_page);
+                    })
+                    .catch((errors) => {
+                        console.log(errors);
                     });
                 }else{
                     this.getData(this.projects.current_page);
