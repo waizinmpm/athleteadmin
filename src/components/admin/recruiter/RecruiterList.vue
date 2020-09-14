@@ -183,7 +183,7 @@ export default {
 
         let columns = this.$i18n.messages.en.recruiter_list.columns;
         columns.forEach((column) => {
-            sortOrders[column.name] = -1;
+            sortOrders[column.label] = -1;
         });
         let filteredData = {
             freeword: "",
@@ -226,26 +226,23 @@ export default {
             this.$t("common.no")
             )
             .then((dialogResult) => {
-            if (dialogResult.value) {
-                let statusData = {};
-                this.$set(statusData, "id", id);
-                this.$set(statusData, "status", status);
-                this.$api
-                .post(this.base_url + `/change-status`, statusData)
-                .then((response) => {
-                    console.log("changeStatus", response.data);
-                    // let getpage =
-                    // this.projects.to > this.projects.from
-                    //     ? this.projects.current_page
-                    //     : 1;
+                if (dialogResult.value) {
+                    let statusData = {};
+                    this.$set(statusData, "id", id);
+                    this.$set(statusData, "status", status);
+                    this.$api
+                    .post(this.base_url + `/change-status`, statusData)
+                    .then((response) => {
+                        console.log("changeStatus", response.data);
+                        // let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
+                        this.getData(this.projects.current_page);
+                    })
+                    .catch((errors) => {
+                        console.log(errors);
+                    });
+                } else {
                     this.getData(this.projects.current_page);
-                })
-                .catch((errors) => {
-                    console.log(errors);
-                });
-            } else {
-                this.getData(this.projects.current_page);
-            }
+                }
             });
         },
 

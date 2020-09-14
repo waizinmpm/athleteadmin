@@ -204,9 +204,9 @@ export default {
             { label: "common.status", name: "status" },
             { label: "", name: "status_button" }
         ]; */
-        columns.forEach(column => {
+        /* columns.forEach(column => {
             sortOrders[column.name] = -1;
-        });
+        }); */
         let filteredData = {
             freeword: "",
             jobseeker_recordstatus: []
