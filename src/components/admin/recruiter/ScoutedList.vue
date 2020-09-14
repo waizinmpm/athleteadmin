@@ -214,7 +214,7 @@
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
-import { handleStatus } from "../../../partials/common";
+import { showToggle,handleStatus } from "../../../partials/common";
 
 export default {
 	mixins: [DataTableServices],
@@ -403,11 +403,7 @@ export default {
 		},
 		showToggle(index) {
 			this.current = index;
-			if(this.toggle_status == true) {
-				if(this.current == this.old_index) this.toggle_status = false; 
-			} else {
-				this.toggle_status = true;
-			}
+			this.toggle_status = showToggle(index,this.old_index,this.toggle_status);
 			this.old_index = index;
 		},
 		hideToggle() {
