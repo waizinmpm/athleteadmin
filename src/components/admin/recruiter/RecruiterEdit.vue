@@ -261,16 +261,16 @@
         return file.type ? file.type.startsWith("image") : true;
     };
 
-    function buildFormData(formData, data, parentKey) {
-        if (data && typeof data === "object" && !(data instanceof Date) && !(data instanceof File)) {
-            Object.keys(data).forEach((key) => {
-                buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
-            });
-        } else {
-            const value = data == null ? "" : data;
-            formData.append(parentKey, value);
-        }
-    }
+    // function buildFormData(formData, data, parentKey) {
+    //     if (data && typeof data === "object" && !(data instanceof Date) && !(data instanceof File)) {
+    //         Object.keys(data).forEach((key) => {
+    //             buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+    //         });
+    //     } else {
+    //         const value = data == null ? "" : data;
+    //         formData.append(parentKey, value);
+    //     }
+    // }
     export default {
         data() {
             return {
@@ -455,10 +455,11 @@
                     return;
                 }
                 //   console.log(this.recruiterForm.logo)
-                let data = new FormData();
-                buildFormData(data, this.recruiterForm);
+                //  let data = new FormData();
+                //  buildFormData(data, this.recruiterForm);
+                this.$set(this.recruiterForm, "id", this.$route.params.id);
                 this.$api
-                    .post("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/update", data)
+                    .post("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/update", this.recruiterForm)
                     .then((res) => {
                         console.log("update:", res.data);
                         this.$router.push({ path: "/admin-recruiter-list" });
