@@ -64,6 +64,7 @@
                 <!--end advanced search-->     
             </div>
         </div>   
+		<!-- Data table   -->
         <div class="row">
             <div class="col-sm-12 p-0">
                 <div class="row">
