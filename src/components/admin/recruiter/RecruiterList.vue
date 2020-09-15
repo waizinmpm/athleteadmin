@@ -71,6 +71,8 @@
         <div class="col-sm-12 p-0">
             <div class="row">
             <div class="col-sm-6 select">
+                <div for>{{ $t('common.total_results') }}: {{ $tc('common.item', projects.total, { n:projects.total }) }}</div>
+                <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
                 <select v-model="tableData.length" @change="getData()">
                 <option v-for="(records, index) in perPage" :key="index" :value="records">{{records}}</option>
                 </select>
@@ -219,7 +221,7 @@ export default {
         this.$alertService
             .showConfirmDialog(
             null,
-            this.$tc("alertMessage.change_confirm_message", statusVal, {
+            this.$tc("dialog_box.confirm_change_message", statusVal, {
                 n: statusVal,
             }),
             this.$t("common.yes"),
