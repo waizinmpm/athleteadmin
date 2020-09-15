@@ -5,7 +5,7 @@
                 <!--advanced search-->
                 <h5 class="m-b-10 main-header">{{ $t('jobapply_list.title') }}</h5>   
                 <div class="content-row" style="padding-bottom:0px;">
-                    <div class="inner-wrapper col-8 col-md-10">
+                    <div class="inner-wrapper">
                         <div class="row">
                             <div class="col-md-3">
                                 <label for="企業番号">{{ $t('common.recruiter_number') }}</label>
@@ -211,7 +211,7 @@
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
-import { handleStatus,showToggle } from "../../../partials/common";
+import { showToggle,handleStatus } from "../../../partials/common";
 
 export default {
     mixins: [DataTableServices],
