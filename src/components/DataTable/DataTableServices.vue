@@ -15,6 +15,7 @@ export default {
                 type: Number
             },
 
+            delete_ids_transactions: [],
             selected: [],
             parentChecked: false,
             projects: [],
@@ -80,7 +81,11 @@ export default {
                         this.$set(checkedData, "checked_data", this.selected);
                         this.$api.post(this.base_url + "/delete", checkedData)
                             .then(response => {
-                                console.log("delete", response.data);
+                                console.log("delete", response.data.data);
+                                this.delete_ids_transactions = [];
+                                if(Array.isArray(response.data.data) && response.data.data.length > 0){
+                                    this.delete_ids_transactions = response.data.data;
+                                }
                                 let getpage = 1;
                                 if ((this.projects.to - this.selected.length + 1) > this.projects.from) {
                                     getpage = this.projects.current_page;

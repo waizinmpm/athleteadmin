@@ -102,6 +102,10 @@
                     <td class="check-col">
                     <label class="form-checkbox">
                         <input type="checkbox" :value="project.id" v-model="selected" />
+                        <div v-for="undelete_id in delete_ids_transactions" :key="undelete_id.id" style="color:red;">
+                            {{ undelete_id == project.id ? 'cant delete' : ''}}
+                            <!-- show as test -->
+                        </div>
                     </label>
                     </td>
                     <td class="tbl-wm">{{project.recruiter_number}}</td>
