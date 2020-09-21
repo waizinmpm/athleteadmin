@@ -1,0 +1,3801 @@
+<template>
+    <div class="pb-4">
+        <form enctype="multipart/form-data">
+        <!-- self-intro -->
+        <div
+            class="row tab-content introduction-content mb-3 m-0"
+            id="selfIntroEdit"
+            v-if="!selfIntroEdit && showDetails"
+        >
+            <div class="col-12">
+            <div class="intro-tit tit-box">
+                <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
+                <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')">
+                <span class="icon icon-edit"></span>編集
+                </p>
+            </div>
+            <div class="row movie-row">
+                <div class="col-7">
+                <div class="card-carousel row mt-3">
+                    <!--image sliders-->
+                    <transition name="list">
+                    <div class="col-8 pr-0">
+                        <div class="row col-12 face-img-block pr-0">
+                        <div class="img-wrapper">
+                            <img
+                            v-if="currentImage"
+                            :src="currentImage"
+                            alt="faceimage"
+                            class="img-fluid"
+                            />
+                        </div>
+                        </div>
+                        <div class="row col-12 pr-0">
+                        <div class="col-6 p-0">
+                            <p>{{selfIntroDetails.occupation_name}}</p>
+                            <p>{{selfIntroDetails.language_level}}</p>
+                            <p>{{selfIntroDetails.desired_location_1}}</p>
+                        </div>
+                        <div class="col-6 pr-0 align-self-start">
+                            <span
+                            :class="['face-image', (activeImage == 4) ? 'active' : '']"
+                            @click="activateImage('face_image',4) "
+                            >
+                            <img :src="selfIntro.face_image_url" alt />
+                            </span>
+                        </div>
+                        </div>
+
+                        <!--
+                                                <div class="actions">
+                                                    <span @click="prevImage" class="prev">
+                                                        <i class="fas fa-chevron-left"></i>
+                                                    </span>
+                                                    <span @click="nextImage" class="next">
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </span>
+                                                </div>
+                        -->
+                    </div>
+                    </transition>
+                    <div class="thumbnails col-4">
+                    <transition-group tag="span" name="list">
+                        <span
+                        v-for="(image, index) in  selfIntro.related_images"
+                        :key="image.id"
+                        :class="['thumbnail-image', (activeImage == index) ? 'active' : '']"
+                        @click="activateImage('related',index) "
+                        >
+                        <img :src="image.file_url" class />
+                        </span>
+                    </transition-group>
+                    </div>
+                    <!--end image slider-->
+                </div>
+                </div>
+                <div class="col-5">
+                <div class="row mt-3 movie-col">
+                    <div class="col-12">
+                    <div v-if="!selfIntroDetails.video">
+                        <p class="no-video">
+                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>動画は利用できません
+                        </p>
+                    </div>
+                    <div v-if="selfIntroDetails.video">
+                        <iframe class="movie-link" :src="selfIntroDetails.video"></iframe>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                <h6 class="about-tit">自己PR、海外で勤務したい理由等</h6>
+                <pre class="about-box">{{selfIntro.self_pr}}</pre>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="row tab-content introduction-content mb-3 m-0" v-if="selfIntroEdit">
+            <div class="col-12">
+            <div class="tit-box tit-box-edit">
+                <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介 b</h3>
+                <p class="profile-edit-txt" @click="editBox('selfIntroEdit','close')">
+                <span class="icon icon-times"></span>
+                {{$t('common.close')}}
+                </p>
+            </div>
+            <div class="popup-databox">
+                <div class="form-group">
+                <label for class="mb-3">ニックネーム</label>
+                <div class="col-md-6 p-0 m-auto">
+                    <input type="text" class="form-control" v-model="selfIntro.jobseeker_nick_name" />
+                </div>
+                </div>
+            </div>
+            <div class="popup-databox">
+                <div class="form-group">
+                <label for class="mb-3">顔写真</label>
+                <br />
+                <span
+                    class="label-txt"
+                >※ 容量3MB以下のJPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。推奨サイズ :600px x 600px以上</span>
+
+                <div
+                    class="col-md-12 p-0 drag-wrapper mt-2"
+                    @drop.prevent="changeFaceImage($event)"
+                    @dragover.prevent
+                >
+                    <div class="upload-content">
+                    <p>
+                        <span class="icon icon-upload-img">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        </span>
+                    </p>
+                    <label for class="pl-3 pr-3">画像をドラッグ&amp;ドロップまたは</label>
+                    <div class="upload-btn-wrapper">
+                        <span class="btn upload-btn">ファイルを選択</span>
+                        <input
+                        type="file"
+                        class="upload-file hide"
+                        name="face_image"
+                        accept="image/x-png, image/jpeg"
+                        @change="changeFaceImage($event)"
+                        />
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="row">
+                <div class="col-7">
+                    <div class="position-relative d-inline-block img-wrapper">
+                    <img :src="selfIntro.face_image_url" class="img-contain" />
+                    <button
+                        v-show="selfIntro.face_image_url != defaultImageUrl"
+                        type="button"
+                        @click="deleteFacImage"
+                        class="delete-photo"
+                    >X</button>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <h3 class="intro-tit">TOPページでの写真公開可否</h3>
+                    <p class="custom-radio-group">
+                    <input
+                        type="radio"
+                        id="overseas"
+                        value="1"
+                        name="radio-group"
+                        class="custion-radio"
+                        v-model="selfIntro.face_image_private_status"
+                    />
+                    <label for="overseas" class="custom-radio-lable">公開</label>
+                    </p>
+                    <p class="custom-radio-group">
+                    <input
+                        type="radio"
+                        id="japan"
+                        value="0"
+                        name="radio-group"
+                        checked
+                        class="custion-radio"
+                        v-model="selfIntro.face_image_private_status"
+                    />
+                    <label for="japan" class="custom-radio-lable">公開しない</label>
+                    </p>
+                </div>
+                </div>
+            </div>
+            <!-- @drop.prevent="addFile($event,'drop','profile')" @dragover.prevent -->
+            <div class="popup-databox">
+                <div class="form-group">
+                <label for class="mb-3">関連画像</label>
+                <br />
+                <span
+                    class="label-txt"
+                >※ 容量3MB以下のJPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。推奨サイズ :600px x 600px以上</span>
+                <div
+                    class="col-md-12 p-0 mt-2"
+                    @drop.prevent="changeRelatedImages($event)"
+                    @dragover.prevent
+                >
+                    <div class="upload-content">
+                    <p>
+                        <span class="icon icon-upload-img">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        </span>
+                    </p>
+                    <label for class="pl-3 pr-3">画像をドラッグ&amp;ドロップまたは</label>
+
+                    <div class="upload-btn-wrapper">
+                        <button class="upload-btn">ファイルを選択</button>
+                        <input
+                        type="file"
+                        class="upload-file"
+                        name="myfile"
+                        @change="changeRelatedImages($event)"
+                        multiple
+                        />
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="row">
+                <div class="col-3" v-for="(path,indx) in selfIntro.related_images" :key="path.id">
+                    <img
+                    :src="path.file_url"
+                    width="100px;"
+                    height="150px;"
+                    class="profile-edit-img"
+                    alt
+                    />
+                    <button type="button" @click="deleteRelatedImage(indx)" class="delete-photo">X</button>
+                </div>
+                <div v-if="imageError != ''">
+                    <span class="error">{{imageError}}</span>
+                </div>
+                </div>
+            </div>
+            <div class="popup-databox">
+                <div class="form-group">
+                <label for class="mb-3">関連動画</label>
+                <div class="col-md-12 p-0 d-md-flex align-items-center">
+                    <label for class="label-txt">YouTubeURL</label>
+
+                    <input
+                    type="text"
+                    :class="['form-control',$v.selfIntro.video.$error?'is-invalid':'']"
+                    v-model.trim="$v.selfIntro.video.$model"
+                    />
+                    <div class="invalid-feedback">
+                    <div class="error" v-if="!$v.selfIntro.video.matchYoutubeUrl">Invalid youtube url.</div>
+                    </div>
+                    <!-- <input type="text" class="form-control ml-3"  v-model="selfIntro.video"> -->
+                </div>
+                </div>
+            </div>
+
+            <div class="popup-databox">
+                <div class="form-group">
+                <label for class="mb-3">自己PR</label>
+
+                <div class="col-md-12 p-0 d-md-flex align-items-center">
+                    <textarea v-model="selfIntro.self_pr" class="form-control"></textarea>
+                </div>
+                </div>
+            </div>
+            </div>
+            <p class="w-100 text-center mt-3">
+            <span class="btn job-primary-color btn-large border-style" @click="saveSelfIntro">保存する</span>
+            </p>
+        </div>
+        <!-- end self-intro -->
+
+        <!-- basic-info -->
+        <div
+            class="row tab-content information-content mb-3 m-0"
+            id="basicInfoEdit"
+            v-if="!basicInfoEdit && showDetails"
+        >
+            <div class="col-12">
+            <div class="tit-box">
+                <h3 class="profile-edit-tit">{{$t('jobseekerprofile.basicinfo')}}</h3>
+                <p class="profile-edit-txt" @click="editBox('basicInfoEdit','open')">
+                <span class="icon icon-edit"></span>編集
+                </p>
+            </div>
+            <dl class="detail-list clearfix">
+                <dt class="detail-head">
+                {{$t('jobseekerprofile.jobseeker_name')}}
+                <span class="private">{{$t('jobseekerprofile.private')}}</span>
+                </dt>
+                <dd class="detail-data">{{basicInfo.jobseeker_name}}</dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.gender')}}</dt>
+                <dd class="detail-data">{{basicInfo.gender}}</dd>
+                <dt class="detail-head">
+                {{$t('jobseekerprofile.date')}}
+                <span class="private">{{$t('jobseekerprofile.private')}}</span>
+                </dt>
+                <dd
+                class="detail-data"
+                v-if="basicInfo.dob"
+                >{{basicInfo.dob[0]}}年 {{basicInfo.dob[1]}}月 {{basicInfo.dob[2]}}日</dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.Language')}}</dt>
+                <dd class="detail-data" v-if="basicInfo.language_name == null">-</dd>
+                <dd class="detail-data" v-else>{{basicInfo.language_name}}</dd>
+                <dt class="detail-head">
+                {{$t('jobseekerprofile.location')}}
+                <span class="private">{{$t('jobseekerprofile.private')}}</span>
+                </dt>
+                <dd class="detail-data">{{basicInfo.country_name}} , {{basicInfo.city_name}}</dd>
+                <dt class="detail-head">
+                {{$t('jobseekerprofile.phone')}}
+                <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
+                </dt>
+                <dd class="detail-data">{{basicInfo.phone}}</dd>
+                <dt class="detail-head">
+                {{$t('jobseekerprofile.email')}}
+                <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
+                </dt>
+                <dd class="detail-data">
+                {{basicInfo.email}}
+                <br />
+                </dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.skype')}}</dt>
+                <dd class="detail-data">
+                {{basicInfo.skype_account}}
+                <br />
+                </dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.education')}}</dt>
+                <dd class="detail-data" v-if="basicInfo.final_education == null">-</dd>
+                <dd class="detail-data" v-else>{{basicInfo.final_education}}</dd>
+                <dd class="detail-head">{{$t('jobseekerprofile.status')}}</dd>
+                <dd class="detail-data" v-if="basicInfo.current_situation == null">-</dd>
+                <dd class="detail-data" v-else>{{basicInfo.current_situation}}</dd>
+            </dl>
+            <div class="explation-note">
+                <span class="private">{{$t('jobseekerprofile.private')}}</span>
+                {{$t('jobseekerprofile.details')}}
+            </div>
+            </div>
+        </div>
+        <div class="row tab-content information-content mb-3 m-0" v-if="basicInfoEdit">
+            <div class="col-12">
+            <div class="tit-box tit-box-edit">
+                <h3 class="profile-edit-tit">基本情報</h3>
+                <p class="profile-edit-txt" @click="editBox('basicInfoEdit','close')">
+                <span class="icon icon-times"></span>
+                {{$t('common.close')}}
+                </p>
+            </div>
+            <div class="popup-databox">
+                <div class="form-group">
+                <label for>
+                    {{$t('jobseekerprofile.jobseeker_name')}}
+                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                </label>
+                <div class="col-md-8 p-0">
+                    <input
+                    type="text"
+                    class="form-control"
+                    :class="['form-control',$v.basicInfo.jobseeker_name.$error?'is-invalid':'']"
+                    v-model.trim="$v.basicInfo.jobseeker_name.$model"
+                    />
+                    <div class="invalid-feedback">
+                    <div
+                        class="error"
+                        v-if="!$v.basicInfo.jobseeker_name.required"
+                    >{{$t('jobseekerprofile.name_req')}}</div>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>
+                    {{$t('jobseekerprofile.furigana')}}
+                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                </label>
+                <div class="col-md-8 p-0">
+                    <input
+                    type="text"
+                    :class="['form-control',$v.basicInfo.jobseeker_furigana_name.$error?'is-invalid':'']"
+                    v-model.trim="$v.basicInfo.jobseeker_furigana_name.$model"
+                    />
+                    <div class="invalid-feedback">
+                    <div
+                        class="error"
+                        v-if="!$v.basicInfo.jobseeker_furigana_name.required"
+                    >{{$t('jobseekerprofile.furigana_req')}}</div>
+                    <div
+                        class="error"
+                        v-if="!$v.basicInfo.jobseeker_furigana_name.isFurigana"
+                    >{{$t('jobseekerprofile.furigana_type')}}</div>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group gender-group">
+                <label for>{{$t('jobseekerprofile.gender')}}</label>
+                <div class="row col-7 p-0 m-0">
+                    <div class="col-4 pl-0">
+                    <p class="check-item m-0" transition="fade" @click="checkGender('女性')">
+                        <span :class="[basicInfo.gender == '女性'?'fa fa-check':'fa fa-check disabled']"></span>
+                        {{$t('jobseekerprofile.female')}}
+                    </p>
+                    </div>
+                    <div class="col-4 pl-0">
+                    <p class="check-item m-0" transition="fade" @click="checkGender('男性')">
+                        <span :class="[basicInfo.gender == '男性'?'fa fa-check':'fa fa-check disabled']"></span>
+                        {{$t('jobseekerprofile.male')}}
+                    </p>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>
+                    {{$t('jobseekerprofile.date')}}
+                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                </label>
+                <div class="row col-7 p-0 m-0">
+                    <div class="col-md-4 pl-0">
+                    <select class="form-control" v-model="basicInfo.dobyears">
+                        <option disabled value></option>
+                        <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                    </select>
+                    </div>
+                    <div class="col-md-4 pl-0">
+                    <select class="form-control" v-model="basicInfo.dobmonth">
+                        <option disabled value></option>
+                        <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
+                    </select>
+                    </div>
+                    <div class="col-md-4 pl-0">
+                    <select class="form-control" v-model="basicInfo.dobday">
+                        <option disabled value></option>
+                        <option v-for="day in 31" :key="day">{{ day }}{{' 日'}}</option>
+                    </select>
+                    </div>
+                </div>
+                </div>
+
+                <div class="form-group">
+                <label for>{{$t('jobseekerprofile.location')}}</label>
+                <div class="row col-7 p-0 m-0">
+                    <div class="col-md-4 pl-0">
+                    <select
+                        v-model.trim="basicInfo.country_name"
+                        @change="getCity()"
+                        class="form-control"
+                    >
+                        <option value="0" disabled selected>国・地域を選択</option>
+                        <option
+                        v-for="country in countries"
+                        :key="country.id"
+                        v-bind:value="country.country_name"
+                        >{{country.country_name}}</option>
+                    </select>
+                    </div>
+                    <div class="col-md-4 pl-0">
+                    <select class="form-control" v-model.trim="basicInfo.city_name">
+                        <option value="0" disabled selected>都市を選択</option>
+                        <option
+                        v-for="city in city_list"
+                        :key="city.id"
+                        v-bind:value="city.city_name"
+                        >{{city.city_name}}</option>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
+                    </select>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>{{$t('jobseekerprofile.Language')}}</label>
+                <div class="row">
+                    <div class="col-md-6">
+                    <select class="form-control" v-model.trim="basicInfo.language_id">
+                        <option
+                        :value="null"
+                        v-if="basicInfo.language_id  == null"
+                        selected
+                        disabled
+                        >{{$t('jobseekerprofile.selectlang')}}</option>
+                        <option
+                        v-else
+                        :value="null"
+                        selected
+                        disabled
+                        >{{$t('jobseekerprofile.selectlang')}}</option>
+                        <option
+                        v-for="lang in languages"
+                        v-bind:value="lang.id"
+                        :key="lang.id"
+                        >{{lang.language_name}}</option>
+                    </select>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>
+                    {{$t('jobseekerprofile.loca_details')}}
+                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                </label>
+                <div class="col-md-8 p-0">
+                    <textarea name id class="form-control" v-model="basicInfo.address"></textarea>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>
+                    {{$t('jobseekerprofile.phone')}}
+                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                </label>
+                <div class="col-md-8 p-0">
+                    <input
+                    type="text"
+                    :class="['form-control',$v.basicInfo.phone.$error?'is-invalid':'']"
+                    v-model.trim="$v.basicInfo.phone.$model"
+                    />
+                    <div class="invalid-feedback">
+                    <div
+                        class="error"
+                        v-if="!$v.basicInfo.phone.required"
+                    >{{$t('jobseekerprofile.phone_req')}}</div>
+                    <div
+                        class="error"
+                        v-if="!$v.basicInfo.phone.numeric"
+                    >{{$t('jobseekerprofile.number_only')}}</div>
+                    <div
+                        class="error"
+                        v-if="!$v.basicInfo.phone.minLength || !$v.basicInfo.phone.maxLength"
+                    >{{$t('jobseekerprofile.phone_length')}}</div>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>
+                    {{$t('jobseekerprofile.email')}}
+                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                </label>
+                <div class="col-md-8 p-0">
+                    <input
+                    type="text"
+                    :class="['form-control',$v.basicInfo.email.$error?'is-invalid':'']"
+                    v-model.trim="$v.basicInfo.email.$model"
+                    />
+                    <div class="invalid-feedback">
+                    <div
+                        class="error"
+                        v-if="!$v.basicInfo.email.required"
+                    >{{$t('jobseekerprofile.email_req')}}</div>
+                    <div
+                        class="error"
+                        v-if="!$v.basicInfo.email.email"
+                    >{{$t('jobseekerprofile.email_type')}}</div>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>
+                    {{$t('jobseekerprofile.skype')}}
+                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                </label>
+                <div class="col-md-8 p-0">
+                    <input type="text" class="form-control" v-model="basicInfo.skype_account" />
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>{{$t('jobseekerprofile.education')}}</label>
+                <div class="row">
+                    <div class="col-md-4">
+                    <div>
+                        <select class="form-control" v-model.trim="basicInfo.final_education">
+                        <option
+                            :value="null"
+                            v-if="basicInfo.final_education == null"
+                        >{{$t('jobseekerprofile.finaledu')}}</option>
+                        <option :value="null" v-else selected>{{$t('jobseekerprofile.finaledu')}}</option>
+                        <option
+                            v-for="status in finaleducation"
+                            :key="status.id"
+                            v-bind:value="status.id"
+                        >{{status.id}}</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="form-group">
+                <label for>{{$t('jobseekerprofile.status')}}</label>
+                <div class="row">
+                    <div class="col-md-4">
+                    <select class="form-control" v-model.trim="basicInfo.current_situation">
+                        <option
+                        :value="null"
+                        v-if="basicInfo.current_situation  == null"
+                        selected
+                        >{{$t('jobseekerprofile.currentpos')}}</option>
+                        <option v-else :value="null" selected>{{$t('jobseekerprofile.currentpos')}}</option>
+                        <option
+                        v-for="status in currentposition"
+                        :key="status.id"
+                        v-bind:value="status.id"
+                        >{{status.id}}</option>
+                    </select>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <p class="w-100 text-center mt-3">
+            <span class="btn appendbtn btn-large border-style" @click="saveBasicInfo">保存する</span>
+            </p>
+        </div>
+        <!-- End basic-info -->
+
+        <!-- career -->
+        <div
+            class="row tab-content experience-content mb-3 m-0"
+            id="careerEdit"
+            v-if="!careerEdit && showDetails"
+        >
+            <div class="col-12">
+            <div class="tit-box">
+                <h3 class="profile-edit-tit">経歴</h3>
+                <p class="profile-edit-txt" @click="editBox('careerEdit','open')">
+                <span class="icon icon-edit"></span>編集
+                </p>
+            </div>
+            <dl class="detail-list clearfix">
+                <dt class="detail-head">学歴</dt>
+                <dd class="detail-data">
+                <div v-for="edu in educations" :key="edu.id">
+                    <span v-if="edu.school_name">{{edu.school_name}}</span>
+                    <span v-if="edu.school_name && edu.subject">({{edu.subject}})</span>
+                </div>
+                </dd>
+                <dt class="detail-head">経験社数</dt>
+                <dd class="detail-data">
+                <span
+                    v-if="carrers.num_of_experienced_companies"
+                >{{carrers.num_of_experienced_companies}}</span>
+                </dd>
+                <dt class="detail-head">勤務先</dt>
+                <dd class="detail-data">
+                <div v-for="exp in experiences" :key="exp.id">
+                    {{exp.job_location}}
+                    <span class="private" v-if="exp.private_status == 1">非公開</span>
+                </div>
+                </dd>
+                <!-- <dt class="detail-head">勤務先</dt>
+                            <dd class="detail-data">
+                                <div v-for="exp in experiences" :key="exp.id">{{exp.school_name}} ({{exp.subject}})</div>
+                </dd>-->
+                <dt class="detail-head">最終年収</dt>
+                <dd class="detail-data">{{carrers.last_annual_income}} {{carrers.last_currency}}</dd>
+            </dl>
+            <div class="explation-note">
+                <span class="private">非公開</span>は、求人情報への応募、相談、スカウトに返信を行わない限り公開されません。※一部の項目は公開・非公開を編集することも可能です。
+            </div>
+            </div>
+        </div>
+
+        <div class="row tab-content experience-content mb-3 m-0" v-if="careerEdit">
+            <div class="head-wrap col-12">
+            <!-- <h3 class="text-left main-header header" >経歴 <span class="delete-btn" @click="careerEdit = !careerEdit"> <span class="icon icon-times"></span>{{$t('common.close')}} </span></h3> -->
+            <div class="tit-box tit-box-edit">
+                <h3 class="profile-edit-tit">経歴</h3>
+                <p class="profile-edit-txt" @click="editBox('careerEdit','close')">
+                <span class="icon icon-times"></span>
+                {{$t('common.close')}}
+                </p>
+            </div>
+
+            <div class="popup-databox">
+                <h6 class="font-weight-bold">学歴</h6>
+                <!-- education array -->
+                <div class="col-md-12 school-box" v-for="(edu,indx) in educations" :key="edu.id">
+                <p class="delete-btn" @click="deleteEducation(indx)" v-if="educations.length > 1">
+                    <span class="icon icon-times"></span>
+                </p>
+                <div class="form-group">
+                    <label for>学校名</label>
+                    <div class="col-md-8 p-0">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="学校名を入力"
+                        v-model="edu.school_name"
+                    />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for>学部学科</label>
+                    <div class="col-md-8 p-0">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="学部学科を入力"
+                        v-model="edu.subject"
+                    />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for>学位</label>
+                    <div class="row">
+                    <div class="col-md-4">
+                        <select class="form-control" v-model="edu.degree">
+                        <option value="0" selected>学位を選択する</option>
+                        <option
+                            v-for="status in finaleducation"
+                            :key="status.id"
+                            v-bind:value="status.id"
+                        >{{status.id}}</option>
+                        </select>
+                        <!-- <select v-model="edu.degree" id="" class="form-control">
+                                                    <option value="">学位を選択する</option>
+                                                    <option value="大学（学士）">大学（学士）</option>
+                                                    <option value="短期大学">短期大学</option>
+                                                    <option value="大学院（修士）">大学院（修士）</option>
+                                                    <option value="大学院（博士）">大学院（博士）</option>
+                                                    <option value="専門学校">専門学校</option>
+                                                    <option value="高校">高校</option>
+                                                    <option value="高等専門学校">高等専門学校</option>
+                                                    <option value="中学校">中学校</option>
+                                                    <option value="その他">その他</option>
+                        </select>-->
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for>経験職種</label>
+                    <div class="row mb-2 align-items-center">
+                    <div class="col-md-2 pr-1">
+                        <div class="select-wrap">
+                        <!-- <select v-model="edu.from_year" id="" class="form-control">
+                                                    <option value="">年</option>
+                                                    <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
+                        </select>-->
+
+                        <select class="form-control" v-model="edu.from_year">
+                            <option disabled value="年">年</option>
+                            <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="select-wrap">
+                        <!-- <select v-model="edu.from_month" id="" class="form-control">
+                                                    <option value="">月</option>
+                                                    <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
+                        </select>-->
+                        <select class="form-control" v-model="edu.from_month">
+                            <option disabled value="月">月</option>
+                            <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                    </div>
+                    <label for>から</label>
+                    </div>
+                    <div class="row align-items-center">
+                    <div class="col-md-2 pr-1">
+                        <div class="select-wrap">
+                        <!-- <select v-model="edu.to_year" id="" class="form-control">
+                                                    <option value="">年</option>
+                                                    <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
+                        </select>-->
+                        <select class="form-control" v-model="edu.to_year">
+                            <option disabled value="年">年</option>
+                            <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="select-wrap">
+                        <!-- <select v-model="edu.to_month" id="" class="form-control">
+                                                    <option value="">月</option>
+                                                    <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
+                        </select>-->
+                        <select class="form-control" v-model="edu.to_month">
+                            <option disabled value="月">月</option>
+                            <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                    </div>
+                    <label for>まで</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for>ステータス</label>
+                    <div class="row">
+                    <div class="col-4">
+                        <div class="select-wrap">
+                        <select v-model="edu.education_status" id class="form-control">
+                            <option value="0" selected>ステータスを選択する</option>
+                            <option value="卒業">卒業</option>
+                            <option value="卒業予定">卒業予定</option>
+                            <option value="中退">中退</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- end education array -->
+                <p class="text-center mt-4">
+                <span class="btn add-btn" @click="addEducation">+ 追加する</span>
+                </p>
+            </div>
+
+            <div class="popup-databox">
+                <h6 class="font-weight-bold">職歴</h6>
+                <div class="form-group mt-4">
+                <label for>経験者数</label>
+                <div class="col-md-3 p-0">
+                    <input
+                    type="text"
+                    v-model="carrers.num_of_experienced_companies"
+                    class="form-control"
+                    placeholder="経験社数を選択"
+                    />
+                </div>
+                </div>
+
+                <h6 class="font-weight-bold">勤務先</h6>
+                <p class="mb-0">※1社ずつ公開・非公開が選択できます</p>
+                <!-- experience array -->
+                <div class="col-md-12 experience-box" v-for="(exp,indx) in experiences" :key="exp.id">
+                <div class="form-group">
+                    <input
+                    type="checkbox"
+                    :id="'非公開'+indx"
+                    class="custom-control-input custom-checkbox"
+                    v-model="exp.private_status"
+                    />
+                    <label :for="'非公開'+indx" class="custom-control-label custom-checkbox-label">非公開</label>
+                </div>
+
+                <p class="delete-btn" @click="deleteExperience(indx)" v-if="experiences.length > 1">
+                    <span class="icon icon-times"></span>
+                </p>
+
+                <div class="form-group">
+                    <label for>勤務先</label>
+                    <div class="col-md-8 p-0">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="学校名を入力"
+                        v-model="exp.job_location"
+                    />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for>在籍期間</label>
+                    <div class="col-md-8 p-0">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="学部学科を入力"
+                        v-model="exp.main_duty"
+                    />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h6 class="font-weight-bold mb-3">経験職種</h6>
+                    <div class="form-group">
+                    <input
+                        type="checkbox"
+                        :id="'現在も在籍中'+indx"
+                        class="custom-control-input custom-checkbox"
+                        v-model="exp.current"
+                    />
+                    <label
+                        :for="'現在も在籍中'+indx"
+                        class="custom-control-label custom-checkbox-label"
+                    >現在も在籍中</label>
+                    </div>
+                    <div class="form-group">
+                    <div class="row mb-2">
+                        <div class="col-md-2 pr-1">
+                        <!-- <select v-model="exp.from_year" id="" class="form-control">
+                                                    <option value="">年</option>
+                                                    <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
+                        </select>-->
+                        <div class="select-wrap">
+                            <select
+                            class="form-control"
+                            v-model="exp.from_year"
+                            v-bind:disabled="exp.current != 0 && exp.current != null"
+                            >
+                            <option disabled value="年">年</option>
+                            <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="col-md-2 pl-1">
+                        <!-- <select v-model="exp.from_month" id="" class="form-control">
+                                                    <option value="">月</option>
+                                                    <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
+                        </select>-->
+                        <div class="select-wrap">
+                            <select
+                            class="form-control"
+                            v-model="exp.from_month"
+                            v-bind:disabled="exp.current != 0 && exp.current != null"
+                            >
+                            <option disabled value="月">月</option>
+                            <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
+                            </select>
+                        </div>
+                        </div>
+                        <label for>から</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 pr-1">
+                        <!-- <select v-model="exp.to_year" id="" class="form-control">
+                                                    <option value="">年</option>
+                                                    <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
+                        </select>-->
+                        <select
+                            class="form-control"
+                            v-model="exp.to_year"
+                            v-bind:disabled="exp.current != 0 && exp.current != null"
+                        >
+                            <option disabled value="年">年</option>
+                            <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                        </select>
+                        </div>
+                        <div class="col-md-2 pl-1">
+                        <!-- <select v-model="exp.to_month" id="" class="form-control">
+                                                    <option value="">月</option>
+                                                    <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
+                        </select>-->
+                        <select
+                            class="form-control"
+                            v-model="exp.to_month"
+                            v-bind:disabled="exp.current != 0 && exp.current != null"
+                        >
+                            <option disabled value="月">月</option>
+                            <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
+                        </select>
+                        </div>
+                        <label for style="line-height: 35px;">まで</label>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for>ポジション</label>
+                    <div class="col-md-4 pl-0">
+                    <div class="select-wrap">
+                        <select v-model="exp.position_id" id class="form-control">
+                        <option value="0" selected>ポジションを選択する</option>
+                        <option
+                            v-for="pos in positions"
+                            :key="pos.id"
+                            :value="pos.id"
+                        >{{ pos.position_name }}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for>雇用形態</label>
+                    <div class="col-md-4 pl-0">
+                    <div class="select-wrap">
+                        <select v-model="exp.employment_type_id" id class="form-control">
+                        <option value="0" selected>雇用形態を選択</option>
+                        <option
+                            v-for="etype in employment_types"
+                            :key="etype.id"
+                            :value="etype.id"
+                        >{{ etype.employment_type_name }}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for>主な業務内容</label>
+                    <div class="col-md-8 p-0">
+                    <textarea name id class="form-control" placeholder="例)リーダーとしてメンバーをまとめあげました。"></textarea>
+                    </div>
+                </div>
+                </div>
+                <!-- end experience array -->
+                <p class="text-center mt-4">
+                <span class="btn add-btn" @click="addExperience">+ 追加する</span>
+                </p>
+            </div>
+
+            <div class="popup-databox">
+                <h6 class="font-weight-bold">最終年収</h6>
+                <div class="form-group row">
+                <div class="col-6">
+                    <div class="row">
+                    <div class="col-md-6">
+                        <input
+                        type="text"
+                        v-model="carrers.last_annual_income"
+                        placeholder="数字(金額)を入力"
+                        class="form-control"
+                        />
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control" v-model.trim="carrers.last_currency">
+                        <option :value="null" v-if="carrers.last_currency  == null" selected>通貨を選択</option>
+                        <option v-else :value="null" selected>通貨を選択</option>
+                        <option
+                            v-for="status in currency"
+                            :key="status.id"
+                            v-bind:value="status.id"
+                        >{{status.id}}</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- <div class="row underline"></div> -->
+            <p class="w-100 text-center mt-3">
+            <span class="btn job-primary-color btn-large border-style" @click="saveCarrer">保存する</span>
+            </p>
+            <!-- <ul class="button-block">
+                        <li>
+                            <span class="btn searchbtn job-primary-color" @click="saveCarrer">保存する</span>
+                        </li>
+            </ul>-->
+        </div>
+        <!-- End career -->
+
+        <!-- exp-qualification -->
+        <div
+            class="row tab-content qualification-content mb-3 m-0"
+            id="expQualificationEdit"
+            v-if="!expQualificationEdit && showDetails"
+        >
+            <div class="col-12">
+            <div class="tit-box">
+                <h3 class="profile-edit-tit">経験・資格</h3>
+                <p class="profile-edit-txt" @click="editBox('expQualificationEdit','open')">
+                <span class="icon icon-edit"></span>編集
+                </p>
+            </div>
+            <dl class="detail-list clearfix">
+                <dt class="detail-head">経験業種・職種</dt>
+                <dd class="detail-data">
+                <p v-for="exp_job in experience_qualification.experience_jobs" :key="exp_job.id">
+                    <span v-if="exp_job.experience_year != ''">
+                    <span>{{exp_job.experience_year}}年</span>
+                    <span v-for="occupation in occupation_list" :key="'occupation'+occupation.id">
+                        <span
+                        v-if="occupation.id == exp_job.experience_occupation"
+                        >{{occupation.occupation_name}}</span>
+                    </span>・
+                    <span v-for="position in positions" :key="'position'+position.id">
+                        <span
+                        v-if="position.id == exp_job.experience_position"
+                        >{{position.position_name}}</span>
+                    </span>
+                    <span v-for="industry in industry_list" :key="'industry'+industry.id">
+                        <div
+                        v-if="industry.id == exp_job.experience_industry"
+                        >{{industry.industry_name}}</div>
+                    </span>
+                    </span>
+                    <span v-else>未入力</span>
+                </p>
+                </dd>
+                <dt class="detail-head">留学経験</dt>
+                <dd class="detail-data">
+                <p
+                    v-for="study_abroad in experience_qualification.study_abroad_experiences"
+                    :key="study_abroad.id"
+                >
+                    <span v-if="study_abroad.study_abroad_country != ''">
+                    <span v-for="country in country_list" :key="'country'+country.id">
+                        <span
+                        v-if="country.id == study_abroad.study_abroad_country"
+                        >{{country.country_name}}</span>
+                    </span>・
+                    <span>{{study_abroad.study_abroad_period}}</span>・
+                    <span>{{study_abroad.study_abroad_purpose}}</span>
+                    </span>
+                    <span v-else>未入力</span>
+                </p>
+                </dd>
+                <dt class="detail-head">外国での勤務経験</dt>
+                <dd class="detail-data">
+                <p
+                    v-for="working_abroad in experience_qualification.working_abroad_experiences"
+                    :key="working_abroad.id"
+                >
+                    <span v-if="working_abroad.working_abroad_country != ''">
+                    <span v-for="country in country_list" :key="'country'+country.id">
+                        <span
+                        v-if="country.id == working_abroad.working_abroad_country"
+                        >{{country.country_name}}</span>
+                    </span>・
+                    <span>{{working_abroad.working_abroad_period}}</span>・
+                    <span v-for="position in positions" :key="'position'+position.id">
+                        <span
+                        v-if="position.id == working_abroad.working_abroad_position"
+                        >{{position.position_name}}</span>
+                    </span>
+                    </span>
+                    <span v-else>未入力</span>
+                </p>
+                </dd>
+                <dt class="detail-head">就労ビザ</dt>
+                <dd class="detail-data">
+                <p v-if="experience_qualification.work_visa.status == 1">
+                    <span v-for="country in country_list" :key="'country'+country.id">
+                    <span
+                        v-if="country.id == experience_qualification.work_visa.country"
+                    >{{country.country_name}}</span>
+                    </span>
+                </p>
+                <p v-else>無し</p>
+                </dd>
+                <dt class="detail-head">語学レベル</dt>
+                <dd class="detail-data">
+                <p
+                    v-for="foreign_language_level in experience_qualification.foreign_language_level_experiences"
+                    :key="foreign_language_level.id"
+                >
+                    <span v-if="foreign_language_level.foreign_language != ''">
+                    <span v-for="language in languages" :key="'language'+language.id">
+                        <span
+                        v-if="language.id == foreign_language_level.foreign_language"
+                        >{{language.language_name}}</span>
+                    </span>・
+                    <span>{{foreign_language_level.language_level}}</span>
+                    </span>
+                    <span v-else>未入力</span>
+                </p>
+                </dd>
+                <dt class="detail-head">TOEICスコア</dt>
+                <dd
+                class="detail-data"
+                >{{experience_qualification.other_qualifications.TOEIC_score ? experience_qualification.other_qualifications.TOEIC_score : '未入力'}}</dd>
+                <dt class="detail-head">その他語学関連資料</dt>
+                <dd
+                class="detail-data"
+                >{{experience_qualification.other_qualifications.language_qualifications ? experience_qualification.other_qualifications.language_qualifications : '未入力'}}</dd>
+                <dt class="detail-head">その他資格</dt>
+                <dd
+                class="detail-data"
+                >{{experience_qualification.other_qualifications.qualifications ? experience_qualification.other_qualifications.qualifications : '未入力'}}</dd>
+            </dl>
+            </div>
+        </div>
+        <div class="row tab-content qualification-content mb-3 m-0" v-if="expQualificationEdit">
+            <div class="head-wrap col-12">
+            <!-- <h3 class="text-left main-header header" >経歴 <span class="delete-btn" @click="careerEdit = !careerEdit"> <span class="icon icon-times"></span>{{$t('common.close')}} </span></h3> -->
+            <div class="tit-box tit-box-edit">
+                <h3 class="profile-edit-tit">経歴業種・資格</h3>
+                <p class="profile-edit-txt" @click="editBox('expQualificationEdit','close')">
+                <span class="icon icon-times"></span>
+                {{$t('common.close')}}
+                </p>
+            </div>
+
+            <!-- Experienced job type -->
+            <div class="popup-databox">
+                <h6 class="font-weight-bold">{{$t('jobseekerprofile.experience_industry_occupation')}}</h6>
+                <div
+                class="col-md-12 school-box"
+                v-for="(experience_job,index) in $v.experience_qualification.experience_jobs.$each.$iter"
+                :key="experience_job.id"
+                >
+                <p
+                    class="delete-btn"
+                    @click="deleteExpQualification(index, experience_job.$model.industry_history_id)"
+                    v-if="experience_qualification.experience_jobs.length > 1"
+                >
+                    <span class="icon icon-times"></span>
+                </p>
+                <div class="form-group">
+                    <label for>{{$t('jobseekerprofile.experience_year')}}</label>
+                    <div class="col-md-2 p-0">
+                    <div class="select-wrap">
+                        <input
+                        type="number"
+                        v-model="experience_job.experience_year.$model"
+                        class="form-control"
+                        min="0"
+                        maxlength="2"
+                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                        />
+                    </div>
+                    <div class="input-group" v-if="experience_job.experience_year.$dirty">
+                        <div
+                        class="error"
+                        v-if="!experience_job.experience_year.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_year') }) }}</div>
+                        <!-- <div class="error" v-if="!experience_job.experience_year.maxLength">maxlength Error</div> -->
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for>{{$t('jobseekerprofile.experience_industry')}}</label>
+                    <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                        <select
+                        class="form-control"
+                        v-model="experience_job.experience_industry.$model"
+                        >
+                        <option
+                            value
+                            disabled
+                        >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_industry') }) }}</option>
+                        <option
+                            v-for="industry in industry_list"
+                            :key="industry.id"
+                            :value="industry.id"
+                        >{{industry.industry_name}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    <div class="input-group" v-if="experience_job.experience_industry.$dirty">
+                        <div
+                        class="error"
+                        v-if="!experience_job.experience_industry.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_industry') }) }}</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for>{{$t('jobseekerprofile.experience_occupation')}}</label>
+                    <div class="col-md-8 p-0 mb-2">
+                    <div class="select-wrap">
+                        <select
+                        class="form-control"
+                        v-model="experience_job.experience_occupation.$model"
+                        >
+                        <option
+                            value
+                            disabled
+                        >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_occupation') }) }}</option>
+                        <option
+                            v-for="occupation in exp_occupations"
+                            :key="occupation.id"
+                            :value="occupation.id"
+                        >{{occupation.occupation_name}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    <div class="input-group" v-if="experience_job.experience_occupation.$dirty">
+                        <div
+                        class="error"
+                        v-if="!experience_job.experience_occupation.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_occupation') }) }}</div>
+                    </div>
+                    </div>
+                    <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                        <select
+                        class="form-control"
+                        v-model="experience_job.experience_position.$model"
+                        >
+                        <option
+                            value
+                            disabled
+                        >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_position') }) }}</option>
+                        <option
+                            v-for="position in exp_positions"
+                            :key="position.id"
+                            :value="position.id"
+                        >{{position.position_name}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    <div class="input-group" v-if="experience_job.experience_position.$dirty">
+                        <div
+                        class="error"
+                        v-if="!experience_job.experience_position.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_position') }) }}</div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <p class="text-center mt-4">
+                <span
+                    class="btn add-btn"
+                    @click="addExpQualification()"
+                >+&nbsp;{{$t('jobseekerprofile.add')}}</span>
+                </p>
+            </div>
+
+            <!-- Study aboard Experience -->
+            <div class="popup-databox">
+                <h6 class="font-weight-bold">{{$t('jobseekerprofile.experience_study_abroad')}}</h6>
+                <div
+                class="col-md-12 school-box"
+                v-for="(study_abroad_experience, index) in $v.experience_qualification.study_abroad_experiences.$each.$iter"
+                :key="study_abroad_experience.id"
+                >
+                <p
+                    class="delete-btn"
+                    @click="deleteStudyAbroad(index, study_abroad_experience.$model.study_abroad_id)"
+                    v-if="experience_qualification.study_abroad_experiences.length > 1"
+                >
+                    <span class="icon icon-times"></span>
+                </p>
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4">
+                        <label for>{{$t('jobseekerprofile.experience_country')}}</label>
+                        <div class="select-wrap">
+                        <select
+                            class="form-control"
+                            v-model="study_abroad_experience.study_abroad_country.$model"
+                        >
+                            <option
+                            value
+                            disabled
+                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_country') }) }}</option>
+                            <option
+                            v-for="country in country_list"
+                            :key="country.id"
+                            :value="country.id"
+                            >{{country.country_name}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                        <div
+                        class="input-group"
+                        v-if="study_abroad_experience.study_abroad_country.$dirty"
+                        >
+                        <div
+                            class="error"
+                            v-if="!study_abroad_experience.study_abroad_country.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_country') }) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for>{{$t('jobseekerprofile.experience_period')}}</label>
+                        <div class="select-wrap">
+                        <select
+                            class="form-control"
+                            v-model="study_abroad_experience.study_abroad_period.$model"
+                        >
+                            <option
+                            value
+                            disabled
+                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_period') }) }}</option>
+                            <option
+                            v-for="abroad_period in study_abroad_period"
+                            :key="abroad_period.id"
+                            :value="abroad_period"
+                            >{{abroad_period}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                        <div
+                        class="input-group"
+                        v-if="study_abroad_experience.study_abroad_period.$dirty"
+                        >
+                        <div
+                            class="error"
+                            v-if="!study_abroad_experience.study_abroad_period.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_period') }) }}</div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for>{{$t('jobseekerprofile.experience_purpose')}}</label>
+                    <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                        <select
+                        class="form-control"
+                        v-model="study_abroad_experience.study_abroad_purpose.$model"
+                        >
+                        <option
+                            value
+                            disabled
+                        >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_purpose') }) }}</option>
+                        <option
+                            v-for="purpose in purpose_study_abroad"
+                            :key="purpose.id"
+                            :value="purpose"
+                        >{{purpose}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    <div
+                        class="input-group"
+                        v-if="study_abroad_experience.study_abroad_purpose.$dirty"
+                    >
+                        <div
+                        class="error"
+                        v-if="!study_abroad_experience.study_abroad_purpose.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_purpose') }) }}</div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <p class="text-center mt-4">
+                <span
+                    class="btn add-btn"
+                    @click="addStudyAbroadExp()"
+                >+&nbsp;{{$t('jobseekerprofile.add')}}</span>
+                </p>
+            </div>
+
+            <!-- Experience working overseas -->
+            <div class="popup-databox">
+                <h6 class="font-weight-bold">{{$t('jobseekerprofile.experience_working_abroad')}}</h6>
+                <div
+                class="col-md-12 school-box"
+                v-for="(working_abroad_experience, index) in $v.experience_qualification.working_abroad_experiences.$each.$iter"
+                :key="working_abroad_experience.id"
+                >
+                <p
+                    class="delete-btn"
+                    @click="deleteWorkingAbroad(index, working_abroad_experience.$model.working_abroad_id)"
+                    v-if="experience_qualification.working_abroad_experiences.length > 1"
+                >
+                    <span class="icon icon-times"></span>
+                </p>
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4">
+                        <label for>{{$t('jobseekerprofile.experience_country')}}</label>
+                        <div class="select-wrap">
+                        <select
+                            class="form-control"
+                            v-model="working_abroad_experience.working_abroad_country.$model"
+                        >
+                            <option
+                            value
+                            disabled
+                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_country') }) }}</option>
+                            <option
+                            v-for="country in country_list"
+                            :key="country.id"
+                            :value="country.id"
+                            >{{country.country_name}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                        <div
+                        class="input-group"
+                        v-if="working_abroad_experience.working_abroad_country.$dirty"
+                        >
+                        <div
+                            class="error"
+                            v-if="!working_abroad_experience.working_abroad_country.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_country') }) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for>{{$t('jobseekerprofile.experience_period')}}</label>
+                        <div class="select-wrap">
+                        <select
+                            class="form-control"
+                            v-model="working_abroad_experience.working_abroad_period.$model"
+                        >
+                            <option
+                            value
+                            disabled
+                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_period') }) }}</option>
+                            <option
+                            v-for="overseas_period in overseas_working_period"
+                            :key="overseas_period.id"
+                            :value="overseas_period"
+                            >{{overseas_period}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                        <div
+                        class="input-group"
+                        v-if="working_abroad_experience.working_abroad_period.$dirty"
+                        >
+                        <div
+                            class="error"
+                            v-if="!working_abroad_experience.working_abroad_period.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_period') }) }}</div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for>{{$t('jobseekerprofile.experience_working_position')}}</label>
+                    <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                        <select
+                        class="form-control"
+                        v-model="working_abroad_experience.working_abroad_position.$model"
+                        >
+                        <option
+                            value
+                            disabled
+                        >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_working_position') }) }}</option>
+                        <option
+                            v-for="position in positions"
+                            :key="position.id"
+                            :value="position.id"
+                        >{{position.position_name}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    <div
+                        class="input-group"
+                        v-if="working_abroad_experience.working_abroad_position.$dirty"
+                    >
+                        <div
+                        class="error"
+                        v-if="!working_abroad_experience.working_abroad_position.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_working_position') }) }}</div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <p class="text-center mt-4">
+                <span
+                    class="btn add-btn"
+                    @click="addWorkingAbroadExp()"
+                >+&nbsp;{{$t('jobseekerprofile.add')}}</span>
+                </p>
+            </div>
+
+            <!-- work visa -->
+            <div class="popup-databox">
+                <div class="form-group">
+                <label for>{{$t('jobseekerprofile.work_visa')}}</label>
+                <div class="d-flex">
+                    <p class="custom-radio-group mr-3">
+                    <input
+                        type="radio"
+                        id="yes"
+                        name="radio-group"
+                        v-model="experience_qualification.work_visa.status"
+                        value="1"
+                        checked
+                        class="custion-radio"
+                    />
+                    <label for="yes" class="custom-radio-lable">{{$t('jobseekerprofile.yes')}}</label>
+                    </p>
+                    <p class="custom-radio-group">
+                    <input
+                        type="radio"
+                        id="none"
+                        name="radio-group"
+                        v-model="experience_qualification.work_visa.status"
+                        value="0"
+                        class="custion-radio"
+                    />
+                    <label for="none" class="custom-radio-lable">{{$t('jobseekerprofile.none')}}</label>
+                    </p>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>{{$t('jobseekerprofile.experience_country')}}</label>
+                <div class="col-md-4 p-0">
+                    <div class="select-wrap">
+                    <select
+                        class="form-control"
+                        v-model="$v.experience_qualification.work_visa.country.$model"
+                        
+                    >
+                        <option
+                        value
+                        disabled
+                        >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_country') }) }}</option>
+                        <option
+                        v-for="country in country_list"
+                        :key="country.id"
+                        :value="country.id"
+                        >{{country.country_name}}</option>
+                    </select>
+                    <span class="sort-desc r-5">&#9662;</span>
+                    </div>
+                    <div
+                    class="input-group"
+                    v-if="$v.experience_qualification.work_visa.country.$error"
+                    >
+                    <div
+                        class="error"
+                        v-if="!experience_qualification.work_visa.country.required"
+                    >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_country') }) }}</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Foreign Language Level -->
+            <div class="popup-databox">
+                <h6
+                class="font-weight-bold"
+                >{{$t('jobseekerprofile.experience_foreign_language_level')}}</h6>
+                <div
+                class="col-md-12 school-box"
+                v-for="(foreign_language_level_experience, index) in $v.experience_qualification.foreign_language_level_experiences.$each.$iter"
+                :key="foreign_language_level_experience.id"
+                >
+                <p
+                    class="delete-btn"
+                    @click="deleteforeignLanguageLevel(index, foreign_language_level_experience.$model.foreign_language_id)"
+                    v-if="experience_qualification.foreign_language_level_experiences.length > 1"
+                >
+                    <span class="icon icon-times"></span>
+                </p>
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4">
+                        <label for>{{$t('jobseekerprofile.experience_foreign_language')}}</label>
+                        <div class="select-wrap">
+                        <select
+                            class="form-control"
+                            v-model="foreign_language_level_experience.foreign_language.$model"
+                        >
+                            <option
+                            value
+                            disabled
+                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_foreign_language') }) }}</option>
+                            <option
+                            v-for="language in languages"
+                            :key="language.id"
+                            :value="language.id"
+                            >{{language.language_name}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                        <div
+                        class="input-group"
+                        v-if="foreign_language_level_experience.foreign_language.$dirty"
+                        >
+                        <div
+                            class="error"
+                            v-if="!foreign_language_level_experience.foreign_language.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_foreign_language') }) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for>{{$t('jobseekerprofile.experience_language_level')}}</label>
+                        <div class="select-wrap">
+                        <select
+                            class="form-control"
+                            v-model="foreign_language_level_experience.language_level.$model"
+                        >
+                            <option
+                            value
+                            disabled
+                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_language_level') }) }}</option>
+                            <option
+                            v-for="lang_lvl in language_level"
+                            :key="lang_lvl.id"
+                            :value="lang_lvl"
+                            >{{lang_lvl}}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                        <div
+                        class="input-group"
+                        v-if="foreign_language_level_experience.language_level.$dirty"
+                        >
+                        <div
+                            class="error"
+                            v-if="!foreign_language_level_experience.language_level.required"
+                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_language_level') }) }}</div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <p class="text-center mt-4">
+                <span
+                    class="btn add-btn"
+                    @click="addforeignLanguageLevel()"
+                >+&nbsp;{{$t('jobseekerprofile.add')}}</span>
+                </p>
+            </div>
+
+            <!-- qualification -->
+            <div class="popup-databox">
+                <h6 class="font-weight-bold">{{$t('jobseekerprofile.qualifications')}}</h6>
+                <div class="form-group">
+                <label for>{{$t('jobseekerprofile.toeic_score')}}</label>
+                <div class="col-md-4 p-0">
+                    <input
+                    type="text"
+                    placeholder="スコアを入力"
+                    v-model="experience_qualification.other_qualifications.TOEIC_score"
+                    class="form-control"
+                    />
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>{{$t('jobseekerprofile.other_language_qualification')}}</label>
+                <div class="col-md-8 p-0">
+                    <textarea
+                    name
+                    class="form-control"
+                    v-model="experience_qualification.other_qualifications.language_qualifications"
+                    ></textarea>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>{{$t('jobseekerprofile.other_qualifications')}}</label>
+                <div class="col-md-8 p-0">
+                    <textarea
+                    name
+                    class="form-control"
+                    v-model="experience_qualification.other_qualifications.qualifications"
+                    ></textarea>
+                </div>
+                </div>
+            </div>
+            </div>
+            <p class="w-100 text-center mt-3">
+            <span
+                class="btn appendbtn btn-large border-style"
+                @click="saveExpQualification()"
+            >{{$t('jobseekerprofile.save')}}</span>
+            </p>
+        </div>
+        <!-- End exp-qualification -->
+
+        <!-- desired-condition -->
+        <div
+            class="row tab-content condition-content m-0"
+            id="desiredConditionEdit"
+            v-if="!desiredConditionEdit && showDetails"
+        >
+            <div class="col-12">
+            <div class="tit-box">
+                <h3 class="profile-edit-tit">希望条件</h3>
+                <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','open')">
+                <span class="icon icon-edit"></span>編集
+                </p>
+            </div>
+            <dl class="detail-list clearfix">
+                <dt class="detail-head">転職意欲</dt>
+                <dd class="detail-data">{{desired_condition.job_change_reason}}</dd>
+                <dt class="detail-head">転職活動状況</dt>
+                <dd class="detail-data">{{desired_condition.job_search_activity}}</dd>
+                <dt class="detail-head">転臓で最も重視すること</dt>
+                <dd class="detail-data">{{desired_condition.main_fact_when_change}}</dd>
+                <dt class="detail-head">転職希望時期</dt>
+                <dd class="detail-data">{{desired_condition.desired_change_period}}</dd>
+                <dt class="detail-head">希望勤務地</dt>
+                <dd
+                class="detail-data"
+                >{{desired_condition.desired_location_1}} {{desired_condition.desired_location_2}} {{desired_condition.desired_location_3}}</dd>
+                <dt class="detail-head">希望業種</dt>
+                <dd class="detail-data">
+                <span
+                    v-if="desired_condition.js_industry_name != null"
+                >{{desired_condition.js_industry_name}}</span>
+                <span v-if="desired_condition.industry_name != ''">
+                    <span
+                    v-for="industry in desired_condition.industry_name"
+                    v-bind:key="industry.id"
+                    >{{industry.industry_name}}</span>
+                </span>
+                <span
+                    v-if="desired_condition.industry_name == '' && desired_condition.js_industry_name == null"
+                >こだわらない</span>
+                </dd>
+                <dt class="detail-head">希望職種</dt>
+                <dd class="detail-data">
+                <span
+                    v-if="desired_condition.js_occupation_name != null"
+                >{{desired_condition.js_occupation_name}}</span>
+                <span v-if="desired_condition.occupation_name != ''">
+                    <span
+                    v-for="occupation in desired_condition.occupation_name"
+                    v-bind:key="occupation.id"
+                    >{{occupation.occupation_name}}</span>
+                </span>
+                <span
+                    v-if="desired_condition.occupation_name == '' && desired_condition.js_occupation_name == null"
+                >こだわらない</span>
+                </dd>
+                <dt class="detail-head">希望年収</dt>
+                <dd
+                class="detail-data"
+                v-if="!desired_condition.desired_max_annual_income"
+                >{{desired_condition.desired_min_annual_income}}万 円以上</dd>
+                <dd
+                class="detail-data"
+                v-else
+                >{{desired_condition.desired_min_annual_income}}万 ~ {{desired_condition.desired_max_annual_income}}万 {{desired_condition.desired_currency}}</dd>
+            </dl>
+            </div>
+        </div>
+        <div class="row tab-content condition-content m-0" v-if="desiredConditionEdit">
+            <div class="col-12">
+            <div class="tit-box tit-box-edit">
+                <h3 class="profile-edit-tit">希望条件</h3>
+                <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','close')">
+                <span class="icon icon-times"></span>
+                {{$t('common.close')}}
+                </p>
+            </div>
+
+            <div class="popup-databox">
+                <div class="form-group">
+                <label for>転職意欲</label>
+                <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                    <select id class="form-control" v-model="desired_condition.job_change_reason">
+                        <option :value="null">転職意欲を選択</option>
+                        <option
+                        v-for="moti in moitivation"
+                        :key="moti.id"
+                        :value="moti.id"
+                        >{{ moti.id }}</option>
+                    </select>
+
+                    <span class="sort-desc">&#9662;</span>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>転職活動状況</label>
+                <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                    <select id class="form-control" v-model="desired_condition.job_search_activity">
+                        <option :value="null">転職活動状況を選択</option>
+                        <option
+                        v-for="status in activity_status"
+                        :key="status.id"
+                        :value="status.id"
+                        >{{ status.id }}</option>
+                    </select>
+                    <span class="sort-desc">&#9662;</span>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>転職で最も重視すること</label>
+                <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                    <select id class="form-control" v-model="desired_condition.main_fact_when_change">
+                        <option :value="null">転職で最も重視することを選択</option>
+                        <option
+                        v-for="jobs in changing_jobs"
+                        :key="jobs.id"
+                        :value="jobs.id"
+                        >{{ jobs.id }}</option>
+                    </select>
+                    <span class="sort-desc">&#9662;</span>
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for>転職希望時期</label>
+                <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                    <select id class="form-control" v-model="desired_condition.desired_change_period">
+                        <option :value="null">転職希望時期</option>
+                        <option v-for="date in date_list" :key="date.id" :value="date">{{ date }}</option>
+                    </select>
+                    <span class="sort-desc">&#9662;</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="popup-databox">
+                <h6 class="font-weight-bold">勤務希望地</h6>
+
+                <div class="col-md-12 school-box">
+                <div class="form-group">
+                    <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                        <select id class="form-control" v-model="desired_condition.desired_location_1">
+                        <option :value="null">第1希望を選択</option>
+                        <option
+                            v-for="city in desired_city_list"
+                            :key="city.id"
+                            :value="city.country_name"
+                        >{{ city.country_name }}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                        <select id class="form-control" v-model="desired_condition.desired_location_2">
+                        <option :value="null">第2希望を選択</option>
+                        <option
+                            v-for="city in desired_city_list"
+                            :key="city.id"
+                            :value="city.country_name"
+                        >{{ city.country_name }}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-8 p-0">
+                    <div class="select-wrap">
+                        <select id class="form-control" v-model="desired_condition.desired_location_3">
+                        <option :value="null">第3希望を選択</option>
+                        <option
+                            v-for="city in desired_city_list"
+                            :key="city.id"
+                            :value="city.country_name"
+                        >{{ city.country_name }}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="popup-databox">
+                <h6 class="font-weight-bold mb-4">希望業種</h6>
+                <div class="form-group">
+                <input
+                    type="checkbox"
+                    id="非公開0"
+                    class="custom-control-input custom-checkbox"
+                    @change="getData('industry')"
+                    v-model="desired_condition.desired_industry_status"
+                />
+                <label for="非公開0" class="custom-control-label custom-checkbox-label">こだわらない</label>
+                </div>
+                <div class="form-group mb-0">
+                <div
+                    class="error col-12"
+                    v-if="desired_errors.industry_error"
+                >{{desired_errors.industry_error}}</div>
+                <div v-if="!desired_condition.desired_industry_status">
+                    <div class="col-md-12 school-box" v-for="(industry,indx) in industries" :key="indx">
+                    <p v-if="indx != 0" class="delete-btn" @click="removeIndustry(indx)">
+                        <span class="icon icon-times"></span>
+                    </p>
+                    <div class="form-group">
+                        <div class="col-md-8 p-0">
+                        <div class="select-wrap">
+                            <select
+                            id
+                            v-model="industry.id"
+                            @change="getData('industry')"
+                            class="form-control"
+                            >
+                            <option value="0">業種を選択</option>
+                            <option
+                                v-for="(indu,index) in industry_list"
+                                :key="index"
+                                :value="indu.id"
+                            >{{ indu.industry_name }}</option>
+                            </select>
+                            <span class="sort-desc">&#9662;</span>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <p class="text-center mt-4">
+                    <span class="btn add-btn" @click="addIndustry">+ 追加する</span>
+                    </p>
+                </div>
+                </div>
+            </div>
+            <div class="popup-databox">
+                <h6 class="font-weight-bold mb-4">希望職種</h6>
+                <div class="form-group">
+                <input
+                    type="checkbox"
+                    id="非公開1"
+                    class="custom-control-input custom-checkbox"
+                    @change="getData('occupation')"
+                    v-model="desired_condition.desired_occupation_status"
+                />
+                <label for="非公開1" class="custom-control-label custom-checkbox-label">こだわらない</label>
+                </div>
+                <div
+                class="error col-12"
+                v-if="desired_errors.occupation_error"
+                >{{desired_errors.occupation_error}}</div>
+                <div v-if="!desired_condition.desired_occupation_status">
+                <div
+                    class="col-md-12 school-box"
+                    v-for="(occupation,index) in occupations"
+                    :key="index"
+                >
+                    <p v-if="index != 0" class="delete-btn" @click="removeOccupation(index)">
+                    <span class="icon icon-times"></span>
+                    </p>
+                    <div class="form-group">
+                    <div class="col-md-8 p-0">
+                        <div class="select-wrap">
+                        <select
+                            id
+                            class="form-control"
+                            v-model="occupation.id"
+                            @change="getData('occupation')"
+                        >
+                            <option value="0">職種を選択</option>
+                            <option
+                            v-for="(occu,indx) in occupation_list"
+                            :key="indx"
+                            :value="occu.id"
+                            >{{ occu.occupation_name }}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <p class="text-center mt-4">
+                    <span class="btn add-btn" @click="addOccupation">+ 追加する</span>
+                </p>
+                </div>
+            </div>
+            <div class="popup-databox">
+                <h6 class="font-weight-bold mb-5">希望年収</h6>
+                <div class="form-group row">
+                <label for class="col-md-2 pl-5">最低年収</label>
+                <div class="col-md-4">
+                    <input
+                    type="text"
+                    placeholder="数字(金額)を入力"
+                    :class="['form-control',$v.desired_condition.desired_min_annual_income.$error?'is-invalid':'']"
+                    v-model.trim="$v.desired_condition.desired_min_annual_income.$model "
+                    />
+                    <span class="invalid-feedback">
+                    <span v-if="$v.desired_condition.desired_min_annual_income.$error">最低年収が必要です</span>
+                    </span>
+                </div>
+                <div class="col-md-2" style="margin-top:5px;">万</div>
+                </div>
+
+                <div class="form-group row">
+                <label for class="col-md-2 pl-5">最高年収</label>
+                <div class="col-md-4">
+                    <input
+                    type="text"
+                    class="form-control"
+                    placeholder="数字(金額)を入力"
+                    v-model="desired_condition.desired_max_annual_income"
+                    />
+                </div>
+                <div class="col-md-2" style="margin-top:5px;">万</div>
+                </div>
+                <div class="form-group row">
+                <label for class="col-md-2"></label>
+                <div class="col-md-2">
+                    <div class="select-wrap">
+                    <select id class="form-control" v-model="desired_condition.desired_currency">
+                        <option :value="null">通貨を選択</option>
+                        <option v-for="curr in currency" :key="curr.id" :value="curr.id">{{ curr.id }}</option>
+                    </select>
+                    <span class="sort-desc">&#9662;</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <p class="w-100 text-center mt-3">
+            <span class="btn job-primary-color btn-large" @click="saveDesiredCondition()">保存する</span>
+            </p>
+        </div>
+        <!-- End desired-condition -->
+        </form>
+    </div>
+</template>
+<script>
+    import {required, requiredIf, minLength, maxLength, numeric, helpers, email} from "vuelidate/lib/validators";
+    import { matchYoutubeUrl } from "../../../partials/common";
+
+    const isFurigana = (value) => {
+    let allow = true;
+    let charArray = value.split("");
+    for (let i = 0; i < charArray.length; i++) {
+        let code = charArray[i].charCodeAt();
+        if (!(code > 12448 && code < 12543)) {
+        allow = false;
+        break;
+        }
+    }
+    return !helpers.req(value) || allow;
+    };
+    const isTrueImage = (value) => {
+    if (!value) {
+        return true;
+    }
+    let file = value;
+    return file.type ? file.type.startsWith("image") : true;
+    };
+    function buildFormData(formData, data, parentKey) {
+    if (
+        data &&
+        typeof data === "object" &&
+        !(data instanceof Date) &&
+        !(data instanceof File)
+    ) {
+        Object.keys(data).forEach((key) => {
+        buildFormData(
+            formData,
+            data[key],
+            parentKey ? `${parentKey}[${key}]` : key
+        );
+        });
+    } else {
+        const value = data == null ? "" : data;
+        formData.append(parentKey, value);
+    }
+    }
+    export default {
+    data() {
+        return {
+        file_names: [],
+        defaultImageUrl: "",
+        showDetails: true,
+        selfIntroEdit: false,
+        basicInfoEdit: false,
+        careerEdit: false,
+        expQualificationEdit: false,
+        desiredConditionEdit: false,
+        facImageUrl: "",
+        selfIntro: {
+            related_images: [],
+            delete_related_images: [],
+            delete_fac_image: false,
+        },
+        selfIntroDetails: {},
+        currentImage: "",
+        imageError: "",
+        employment_types: [],
+        positions: [],
+        carrers: [
+            {
+            last_annual_income: "",
+            num_of_experienced_companies: "",
+            last_currency: "",
+            },
+        ],
+        educations: [
+            {
+            id: null,
+            jobseeker_id: null,
+            school_name: "",
+            subject: "",
+            degree: 0,
+            from_year: "年",
+            from_month: "月",
+            to_year: "年",
+            to_month: "月",
+            education_status: 0,
+            },
+        ],
+        experiences: [
+            {
+            id: null,
+            jobseeker_id: null,
+            position_id: 0,
+            employment_type_id: 0,
+            job_location: "",
+            main_duty: "",
+            from_year: "年",
+            from_month: "月",
+            to_year: "年",
+            to_month: "月",
+            current: "",
+            private_status: "",
+            },
+        ],
+        //basicInfo
+        basicInfo: {
+            city_name: 0,
+            final_education: "",
+            current_situation: "",
+        },
+        countries: [],
+        city_list: [],
+        languages: [],
+        disabled: 0,
+        finaleducation: [
+            { id: "大学（学士)" },
+            { id: "短期大学" },
+            { id: "大学院（修士）" },
+            { id: "大学院（博士）" },
+            { id: "専門学校" },
+            { id: "高校" },
+            { id: "高等専門学校" },
+            { id: "中学校" },
+            { id: "その他" },
+        ],
+        currentposition: [
+            { id: "会社員" },
+            { id: "大学生/大学院生/専門学校" },
+            { id: "語学留学生" },
+            { id: "主婦" },
+            { id: "経営者/自営業" },
+            { id: "無職" },
+            { id: "定年退職" },
+            { id: "その他" },
+        ],
+        //currency : [{ id: "円"},{ id: "元"},{ id: "USドル"},{ id: "バーツ"}],
+        //basicInfo
+
+        // (start) experience qualification
+        ids_to_del_exp_quali: [],
+        ids_to_del_study_abroad: [],
+        ids_to_del_working_abroad: [],
+        ids_to_del_language_levels: [],
+        //industry_list : [],
+        country_list: [],
+        exp_occupations: [],
+        exp_positions: [],
+        experience_qualification: {
+            experience_jobs: [],
+            study_abroad_experiences: [],
+            working_abroad_experiences: [],
+            //overseas_working_experiences: [],
+            foreign_language_level_experiences: [],
+            //qualifications: [],
+            work_visa: {
+            status: "",
+            country: "",
+            },
+            other_qualifications: {
+            TOEIC_score: "",
+            language_qualifications: "",
+            qualifications: "",
+            },
+        },
+        study_abroad_period: [
+            "半年未満",
+            "半年～1年",
+            "1年～2年",
+            "2年～3年",
+            "4年以上",
+        ],
+        purpose_study_abroad: [
+            "語学留学",
+            "大学",
+            "MBA",
+            "MBA以外の修士号",
+            "その他",
+        ],
+        overseas_working_period: ["1年未満", "1年～2年", "2年～3年", "4年以上"],
+        language_level: [
+            "挨拶程度",
+            "日常会話",
+            "ビジネスレベル",
+            "ネイティブレベル",
+        ],
+        // (end) experience qualification
+
+        desired_industries: [],
+        desired_occupations: [],
+        // images: [],
+        activeImage: 4,
+
+        //desired_condition
+        moitivation: [
+            { id: "積極的に多くの企業と会いたい" },
+            { id: "いいところがあれば会いたい" },
+            { id: "まだ積極的には考えていない" },
+        ],
+        activity_status: [
+            { id: "特に何もしていない" },
+            { id: "情報収集（求人サイト・求人雑誌）" },
+            { id: "情報収集（人材会社等に登録）" },
+            { id: "企業にエントリー済み" },
+            { id: "一次面接・筆記試験予定がある" },
+            { id: "最終面接予定がある" },
+            { id: "既に内定をもらっている" },
+        ],
+        changing_jobs: [
+            { id: "特になし" },
+            { id: "勤務地域（国、都市）" },
+            { id: "経験を活かせる業界、職種で働きたい" },
+            { id: "未経験・異なる業界、職種に挑戦したい" },
+            { id: "有名企業、大手企業で働きたい" },
+            { id: "安定性、将来性がある企業で働きたい" },
+            { id: "新規拠点・事業の立上げに関わりたい" },
+            { id: "給与・待遇面を改善したい" },
+            { id: "駐在案件の海外勤務を希望" },
+        ],
+        currency: [
+            { id: "円" },
+            { id: "元" },
+            { id: "USドル" },
+            { id: "バーツ" },
+        ],
+        desired_city_list: [],
+        industry_list: [],
+        occupation_list: [],
+        date_list: [],
+        industries: [
+            {
+            id: 0,
+            jobseeker_id: null,
+            },
+        ],
+        occupations: [
+            {
+            id: 0,
+            jobseeker_id: null,
+            },
+        ],
+        desired_condition: {
+            desired_min_annual_income: null,
+        },
+        desired_errors: {
+            industry_error: "",
+            occupation_error: "",
+        },
+        //desired_condition
+        };
+    },
+    validations: {
+        selfIntro: {
+        video: { matchYoutubeUrl },
+        face_image: { isTrueImage },
+        },
+        basicInfo: {
+        phone: {
+            required,
+            numeric,
+            minLength: minLength(10),
+            maxLength: maxLength(14),
+        },
+        jobseeker_furigana_name: {
+            required,
+            isFurigana,
+        },
+        jobseeker_name: {
+            required,
+        },
+        email: {
+            required,
+            email,
+        },
+        },
+
+        // (start) experience qualification
+        experience_qualification: {
+        experience_jobs: {
+            $each: {
+            experience_year: { required, numeric, maxLength: maxLength(80) },
+            experience_industry: { required },
+            experience_occupation: { required },
+            experience_position: { required },
+            },
+        },
+        study_abroad_experiences: {
+            $each: {
+            study_abroad_country: { required },
+            study_abroad_period: { required },
+            study_abroad_purpose: { required },
+            },
+        },
+        working_abroad_experiences: {
+            $each: {
+            working_abroad_country: { required },
+            working_abroad_period: { required },
+            working_abroad_position: { required },
+            },
+        },
+        work_visa: {
+            country: {
+            required: requiredIf(function () {
+                return this.experience_qualification.work_visa.status == 1
+                ? true
+                : false;
+            }),
+            },
+        },
+        foreign_language_level_experiences: {
+            $each: {
+            foreign_language: { required },
+            language_level: { required },
+            },
+        },
+        },
+        // (end) experience qualification
+
+        desired_condition: {
+        desired_min_annual_income: { required },
+        },
+    },
+
+    created() {
+        // this.$loading.show();
+        let request_id = {};
+        this.$set(request_id, "id", `${this.$route.params.id}`);
+        this.selfIntro.face_image_private_status = 0;
+        this.getSelfIntroDetails(request_id);
+        this.getCarrerRequiredList();
+        this.getBasicInfoDetails(request_id);
+        this.getCarrerDetails(request_id);
+        this.getDesiredCondition(request_id);
+        this.getJobIndustryExpDetails(request_id);
+    },
+
+    computed: {
+        years() {
+        const year = new Date().getFullYear();
+        return Array.from(
+            { length: year - 1900 },
+            (value, index) => year - index
+        );
+        },
+        months() {
+        return [
+            "1月",
+            "2月",
+            "3月",
+            "4月",
+            "5月",
+            "6月",
+            "7月",
+            "8月",
+            "9月",
+            "10月",
+            "11月",
+            "12月",
+        ];
+        },
+        /* isDisabled() {
+            return this.experience_qualification.work_visa.status == 0
+                ? (true, (this.experience_qualification.work_visa.country = ""))
+                : false;
+        }, */
+    },
+
+    methods: {
+        getData(status) {
+        if (status == "industry") {
+            this.desired_errors.industry_error = "";
+        } else {
+            this.desired_errors.occupation_error = "";
+        }
+        },
+        checkGender(type) {
+        this.basicInfo.gender = type;
+        },
+
+        getCarrerRequiredList() {
+        this.$api.get("/v1/jobseeker/required-list").then((response) => {
+            this.positions = response.data.data.positions;
+            this.employment_types = response.data.data.employment_types;
+        });
+        },
+
+        //su sandy
+        getSelfIntroDetails(request_id) {
+        let loader = this.$loading.show();
+        //console.log("loader",loader);
+        this.$api.get("/v1/default-image").then((r) => {
+            this.defaultImageUrl = r.data.data;
+        });
+
+        this.$api.post("/v1/jobseeker/profile/selfintro", request_id).then((r) => {
+            this.file_names = r.data.data.hashedFile; //hashed for related_images
+
+            this.selfIntro = r.data.data.selfIntro; //rebind selfintro data
+
+            this.selfIntro.delete_related_images = []; //clear deleted images
+
+            this.currentImage = this.selfIntro.face_image_url;
+
+            this.selfIntroDetails = r.data.data.selfIntroDetails; //to show selfintro details
+
+            this.activeImage = 4;
+        });
+        loader.hide();
+        },
+
+        //su sandy
+        activateImage(type, imageIndex) {
+        if (type == "related") {
+            this.activeImage = imageIndex;
+            this.currentImage = this.selfIntro.related_images[imageIndex].file_url;
+        } else {
+            this.activeImage = imageIndex;
+            this.currentImage = this.selfIntro.face_image_url;
+        }
+        },
+
+        //su sandy
+        changeFaceImage(e) {
+        this.$v.selfIntro.face_image.$touch();
+        if (this.$v.selfIntro.face_image.$error) {
+            return;
+        }
+        const files = e.target.files || e.dataTransfer.files;
+        const file = files[0];
+        const ext = file.name.split(".").pop().toLowerCase();
+
+        if (ext == "png" || ext == "jpg" || ext == "jpeg") {
+            if (file.size / 1024 / 1024 <= 3) {
+            this.selfIntro.face_image = file;
+            this.selfIntro.face_image_url = URL.createObjectURL(file);
+            this.selfIntro.delete_fac_image = false;
+            } else {
+            this.$alertService
+                .showWarningDialog(
+                null,
+                this.$t("alertMessage.imageSizeWarning"),
+                this.$t("alertMessage.yes")
+                )
+                .then((r) => {
+                    console.log(r);
+                });
+            }
+        } else {
+            this.$alertService
+            .showWarningDialog(
+                null,
+                this.$t("alertMessage.imageTypeWarning"),
+                this.$t("alertMessage.yes")
+            )
+            .then((r) => {
+                console.log(r);
+            });
+        }
+        },
+
+        //su sandy
+        deleteFacImage() {
+        // this.$alertService.showConfirmDialog(null, "Are you sure to delete logo?").then((r) => {
+        //     if (r.value) {
+        this.selfIntro.face_image = "";
+        this.selfIntro.face_image_url = this.defaultImageUrl;
+        this.selfIntro.delete_fac_image = true;
+        //     }
+        // });
+        },
+
+        //su sandy
+        changeRelatedImages(e) {
+        const files = e.target.files || e.dataTransfer.files;
+        if (files.length + this.selfIntro.related_images.length > 4) {
+            this.$alertService
+            .showWarningDialog(
+                null,
+                this.$t("alertMessage.imageMaximunWarning"),
+                this.$t("alertMessage.yes")
+            )
+            .then((r) => {
+                console.log(r);
+            });
+            return;
+        }
+
+        let taken = this.selfIntro.related_images.map((x) => {
+            return x.url.split(".")[0];
+        });
+        let availables = this.file_names.filter((x) => !taken.includes(x));
+
+        const vm = this;
+        Array.from(files).forEach((file, i) => {
+            const ext = file.name.split(".").pop().toLowerCase();
+
+            if (ext == "png" || ext == "jpg" || ext == "jpeg") {
+            if (file.size / 1024 / 1024 <= 3) {
+                let filename = availables[i];
+                let extension = file.type.split("/").pop();
+                let entry = {
+                file: file,
+                url: `${filename}.${extension}`,
+                file_url: URL.createObjectURL(file),
+                file_type: "photo",
+                user_type: "jobseeker",
+                };
+                vm.selfIntro.related_images.splice(i, 0, entry);
+                let deleteFlagIndex = vm.selfIntro.delete_related_images.indexOf(
+                filename
+                );
+                if (deleteFlagIndex == -1)
+                vm.selfIntro.delete_related_images.splice(deleteFlagIndex, 1);
+            } else {
+                this.$alertService
+                .showWarningDialog(
+                    null,
+                    this.$t("alertMessage.imageSizeWarning"),
+                    this.$t("alertMessage.yes")
+                )
+                .then((r) => {
+                    console.log(r);
+                });
+            }
+            } else {
+            this.$alertService
+                .showWarningDialog(
+                null,
+                this.$t("alertMessage.imageTypeWarning"),
+                this.$t("alertMessage.yes")
+                )
+                .then((r) => {
+                    console.log(r);
+                });
+            }
+        });
+        },
+
+        //su sandy
+        deleteRelatedImage(index) {
+        // this.$alertService.showConfirmDialog(null, "Delete image?").then((r) => {
+        //     if (r.value) {
+        let uploadedFile = this.selfIntro.related_images.splice(index, 1);
+        let filename = uploadedFile[0].url.slice(
+            0,
+            uploadedFile[0].url.indexOf(".")
+        );
+
+        if (this.selfIntro.delete_related_images.indexOf(filename) == -1)
+            this.selfIntro.delete_related_images.push(filename);
+        //     }
+        // });
+        },
+
+        // Edit Button Click
+        editBox(boxName, action) {
+        this.showDetails = !this.showDetails;
+        this[boxName] = !this[boxName];
+        // this.getBasicInfoDetails();
+        this.getSelfIntroDetails();
+        // this.getCarrerDetails();
+        if (action == "open") {
+            //jquery?
+            //$("html, body").animate({ scrollTop: 0 }, "fast");
+        } else {
+            if (boxName == "expQualificationEdit") {
+            this.getJobIndustryExpDetails(); // request_id
+            // call getData func back to clear empty array in data collection
+            }
+            this.$nextTick(() => {
+            var ele = this.$el.querySelector("#" + boxName);
+            window.scrollTo(0, ele.offsetTop);
+            });
+        }
+        },
+
+        // Education
+        addEducation() {
+        this.educations.push({
+            id: null,
+            jobseeker_id: null,
+            school_name: "",
+            subject: "",
+            degree: 0,
+            from_year: "年",
+            from_month: "月",
+            to_year: "年",
+            to_month: "月",
+            education_status: 0,
+        });
+        },
+        deleteEducation(indx) {
+        this.educations.splice(indx, 1);
+        },
+
+        // Experience
+        addExperience() {
+        this.experiences.push({
+            id: null,
+            jobseeker_id: null,
+            position_id: 0,
+            employment_type_id: 0,
+            job_location: "",
+            main_duty: "",
+            from_year: "年",
+            from_month: "月",
+            to_year: "年",
+            to_month: "月",
+            current: null,
+            private_status: "",
+        });
+        },
+        deleteExperience(indx) {
+        this.experiences.splice(indx, 1);
+        },
+
+        //(start) ExpQualification by zayar_phone_naing
+        addExpQualification() {
+        this.experience_qualification.experience_jobs.push({
+            experience_year: "",
+            experience_industry: "",
+            experience_occupation: "",
+            experience_position: "",
+        });
+        },
+
+        addStudyAbroadExp() {
+        this.experience_qualification.study_abroad_experiences.push({
+            study_abroad_country: "",
+            study_abroad_period: "",
+            study_abroad_purpose: "",
+        });
+        },
+
+        addWorkingAbroadExp() {
+        this.experience_qualification.working_abroad_experiences.push({
+            working_abroad_country: "",
+            working_abroad_period: "",
+            working_abroad_position: "",
+        });
+        },
+
+        addforeignLanguageLevel() {
+        this.experience_qualification.foreign_language_level_experiences.push({
+            foreign_language: "",
+            language_level: "",
+        });
+        },
+
+        getJobIndustryExpDetails(request_id) {
+        this.$api
+            .post("/v1/jobseeker/profile/experiences-qualifications", request_id)
+            .then((res) => {
+                console.log(res);
+            let response = res.data.data;
+            this.industry_list = response.industries;
+            this.country_list = response.countries;
+            this.exp_occupations = response.occupations;
+            this.exp_positions = response.positions;
+            let jobseeker_detail = response.jobseeker_detail;
+            let industry_histories = response.industry_histories;
+            let education_overseas = response.education_overseas;
+            let working_overseas = response.working_overseas;
+            let languages_levels = response.languages_levels;
+
+            // experience job type
+            this.experience_qualification.experience_jobs = [];
+            if (industry_histories.length > 0) {
+                for (const industry_history of industry_histories) {
+                this.experience_qualification.experience_jobs.push({
+                    industry_history_id: industry_history.id,
+                    experience_year: industry_history.experience_year,
+                    experience_industry: industry_history.industry_id,
+                    experience_occupation: industry_history.occupation_keyword_id,
+                    experience_position: industry_history.position_id,
+                });
+                }
+            } else {
+                this.experience_qualification.experience_jobs.push({
+                industry_history_id: "",
+                experience_year: "",
+                experience_industry: "",
+                experience_occupation: "",
+                experience_position: "",
+                });
+            }
+
+            // study abroad experience
+            this.experience_qualification.study_abroad_experiences = [];
+            if (education_overseas.length > 0) {
+                for (const education_oversea of education_overseas) {
+                this.experience_qualification.study_abroad_experiences.push({
+                    study_abroad_id: education_oversea.id,
+                    study_abroad_country: education_oversea.country_id,
+                    study_abroad_period: education_oversea.period,
+                    study_abroad_purpose: education_oversea.purpose,
+                });
+                }
+            } else {
+                this.experience_qualification.study_abroad_experiences.push({
+                study_abroad_id: "",
+                study_abroad_country: "",
+                study_abroad_period: "",
+                study_abroad_purpose: "",
+                });
+            }
+
+            // working at overseas/abroad experience
+            this.experience_qualification.working_abroad_experiences = [];
+            if (working_overseas.length > 0) {
+                for (const working_oversea of working_overseas) {
+                this.experience_qualification.working_abroad_experiences.push({
+                    working_abroad_id: working_oversea.id,
+                    working_abroad_country: working_oversea.country_id,
+                    working_abroad_position: working_oversea.position_id,
+                    working_abroad_period: working_oversea.period,
+                });
+                }
+            } else {
+                this.experience_qualification.working_abroad_experiences.push({
+                working_abroad_id: "",
+                working_abroad_country: "",
+                working_abroad_position: "",
+                working_abroad_period: "",
+                });
+            }
+
+            // work visa
+            this.experience_qualification.work_visa.status =
+                jobseeker_detail.visa_status ?? "0";
+            this.experience_qualification.work_visa.country =
+                jobseeker_detail.visa_status !== 0
+                ? jobseeker_detail.visa_country
+                : "";
+
+            // other qualifications
+            this.experience_qualification.other_qualifications.TOEIC_score =
+                jobseeker_detail.toeic_score;
+            this.experience_qualification.other_qualifications.language_qualifications =
+                jobseeker_detail.other_language_certificate;
+            this.experience_qualification.other_qualifications.qualifications =
+                jobseeker_detail.other_certificate;
+
+            // foreign language level
+            this.experience_qualification.foreign_language_level_experiences = [];
+            if (languages_levels.length > 0) {
+                for (const languages_level of languages_levels) {
+                this.experience_qualification.foreign_language_level_experiences.push(
+                    {
+                    foreign_language_id: languages_level.id,
+                    foreign_language: languages_level.language_id,
+                    language_level: languages_level.language_level,
+                    }
+                );
+                }
+            } else {
+                this.experience_qualification.foreign_language_level_experiences.push(
+                {
+                    foreign_language_id: "",
+                    foreign_language: "",
+                    language_level: "",
+                }
+                );
+            }
+            })
+            .catch((errors) => {
+            console.log(errors);
+            });
+        },
+
+        deleteExpQualification(index, industry_history_id) {
+        if (typeof industry_history_id !== "undefined") {
+            this.ids_to_del_exp_quali.push({ industry_history_id });
+        }
+        this.experience_qualification.experience_jobs.splice(index, 1);
+        },
+
+        deleteStudyAbroad(index, study_abroad_id) {
+        if (typeof study_abroad_id !== "undefined") {
+            this.ids_to_del_study_abroad.push({ study_abroad_id });
+        }
+        this.experience_qualification.study_abroad_experiences.splice(index, 1);
+        },
+
+        deleteWorkingAbroad(index, working_abroad_id) {
+        if (typeof working_abroad_id !== "undefined") {
+            this.ids_to_del_working_abroad.push({ working_abroad_id });
+        }
+        this.experience_qualification.working_abroad_experiences.splice(index, 1);
+        },
+
+        deleteforeignLanguageLevel(index, foreign_language_id) {
+        if (typeof foreign_language_id !== "undefined") {
+            this.ids_to_del_language_levels.push({ foreign_language_id });
+        }
+        this.experience_qualification.foreign_language_level_experiences.splice(
+            index,
+            1
+        );
+        },
+
+        saveExpQualification() {
+        this.$v.experience_qualification.$touch();
+        if (this.$v.experience_qualification.$invalid) {
+            return;
+        }
+        this.$alertService
+            .showConfirmDialog(
+            null,
+            this.$t("alertMessage.confirm_save_message"),
+            this.$t("alertMessage.yes"),
+            this.$t("alertMessage.no")
+            )
+            .then((dialogResult) => {
+            if (dialogResult.value) {
+                let loader = this.$loading.show();
+                let request_data = {
+                experienced_jobs: this.experience_qualification.experience_jobs,
+                delete_experience_jobs: this.ids_to_del_exp_quali,
+                study_abroad_experiences: this.experience_qualification
+                    .study_abroad_experiences,
+                delete_study_abroad: this.ids_to_del_study_abroad,
+                working_abroad_experiences: this.experience_qualification
+                    .working_abroad_experiences,
+                delete_working_abroad: this.ids_to_del_working_abroad,
+                work_visa: this.experience_qualification.work_visa,
+                foreign_language_experiences: this.experience_qualification
+                    .foreign_language_level_experiences,
+                delete_foreign_languages_experiences: this
+                    .ids_to_del_language_levels,
+                other_qualifications: this.experience_qualification
+                    .other_qualifications,
+                };
+                this.$api
+                .post(
+                    "/v1/jobseeker/profile/experiences-qualifications/update",
+                    request_data
+                )
+                .then((response) => {
+                    console.log(response.data.data);
+                    loader.hide();
+                    this.editBox("expQualificationEdit", "close");
+                })
+                .catch((errors) => {
+                    console.log(errors);
+                    loader.hide();
+                });
+            } else {
+                this.getData(this.projects.current_page);
+            }
+            });
+        },
+        //(end) ExpQualification by zayar_phone_naing
+
+        //Industry (sus andy)
+        addIndustry() {
+        this.industries.push({
+            id: 0,
+            jobseeker_id: null,
+        });
+        },
+        removeIndustry(index) {
+        this.industries.splice(index, 1);
+        },
+        //occupation
+
+        //occupation (su sandy)
+        addOccupation() {
+        this.occupations.push({
+            id: 0,
+            jobseeker_id: null,
+        });
+        },
+        removeOccupation(index) {
+        this.occupations.splice(index, 1);
+        },
+        //occupation
+
+        //su sandy
+        saveSelfIntro() {
+        this.$v.selfIntro.$touch();
+        if (this.$v.selfIntro.$invalid) {
+            return;
+        }
+        let data = new FormData();
+        buildFormData(data, this.selfIntro);
+        let loading = this.$loading.show();
+        this.$api
+            .post("/v1/jobseeker/profile/selfintro/update", data)
+            .then((r) => {
+                console.log(r);
+            this.$alertService.showSuccessDialog(
+                null,
+                this.$t("alertMessage.updateSuccess"),
+                this.$t("common.close")
+            );
+            this.editBox("selfIntroEdit", "close");
+            this.getSelfIntroDetails();
+            })
+            .catch((e) => {
+            console.log(e);
+            })
+            .finally(() => {
+            loading.hide();
+            });
+        },
+
+        // Zinko
+        saveBasicInfo() {
+        this.$v.basicInfo.$touch();
+        if (this.$v.basicInfo.$invalid) {
+            return;
+        }
+        let data = new FormData();
+        buildFormData(data, this.basicInfo);
+        let loading = this.$loading.show();
+        this.$api
+            .post("/v1/jobseeker/profile/basicinfo", data)
+            .then((r) => {
+                console.log(r);
+            this.$alertService.showSuccessDialog(
+                null,
+                this.$t("alertMessage.updateSuccess"),
+                this.$t("common.close")
+            );
+            this.basicInfoEdit = false;
+            this.showDetails = true;
+            this.getBasicInfoDetails();
+            })
+            .catch((e) => {
+            console.log(e);
+            })
+            .finally(() => {
+            loading.hide();
+            });
+        },
+
+        getBasicInfoDetails(request_id) {
+        this.$api.post("/v1/jobseeker/profile/basicinfo", request_id).then((response) => {
+            this.basicInfo = response.data.data.profile;
+            this.city_list = response.data.data.cities;
+            this.languages = response.data.data.languages;
+            this.countries = response.data.data.countries;
+            const dob = new Date(this.basicInfo.dob);
+            this.basicInfo.dobyears = dob.getFullYear() + " 年";
+            this.basicInfo.dobmonth = dob.getMonth() + 1 + " 月";
+            this.basicInfo.dobday = dob.getDate() + " 日";
+        });
+        },
+
+        getCity() {
+        this.basicInfo.city_name = 0;
+        this.$api
+            .get("/v1/jobseeker/city-list/" + this.basicInfo.country_name)
+            .then((res) => {
+            this.city_list = res.data;
+            });
+        },
+
+        getCarrerDetails(request_id) {
+        this.$api.post("/v1/jobseeker/profile/carrerinfo", request_id).then((response) => {
+            console.log('getCarrerDetails'+response);
+            this.educations = response.data.data.educations;
+            this.experiences = response.data.data.experiences;
+            if (this.educations.length > 0) {
+            this.educations.forEach((element) => {
+                if (element.degree == null) {
+                element.degree = 0;
+                }
+
+                if (element.education_status == null) {
+                element.education_status = 0;
+                }
+
+                if (element.from_year) {
+                element.from_year = element.from_year + 1920 + " 年";
+                } else {
+                element.from_year = "年";
+                }
+
+                if (element.from_month) {
+                element.from_month = element.from_month + 12 + " 月";
+                } else {
+                element.from_month = "月";
+                }
+
+                if (element.to_year) {
+                element.to_year = element.to_year + 1920 + " 年";
+                } else {
+                element.to_year = "年";
+                }
+
+                if (element.to_month) {
+                element.to_month = element.to_month + 12 + " 月";
+                } else {
+                element.to_month = "月";
+                }
+            });
+            } else {
+            this.educations.push({
+                id: null,
+                jobseeker_id: null,
+                school_name: "",
+                subject: "",
+                degree: 0,
+                from_year: "年",
+                from_month: "月",
+                to_year: "年",
+                to_month: "月",
+                education_status: 0,
+            });
+            }
+
+            if (this.experiences.length > 0) {
+            this.experiences.forEach((element) => {
+                if (element.position_id == null) {
+                element.position_id == 0;
+                }
+
+                if (element.employment_type_id == null) {
+                element.employment_type_id == 0;
+                }
+
+                if (element.from_year) {
+                element.from_year = element.from_year + 1920 + " 年";
+                } else {
+                element.from_year = "年";
+                }
+
+                if (element.from_month) {
+                element.from_month = element.from_month + 12 + " 月";
+                } else {
+                element.from_month = "月";
+                }
+
+                if (element.to_year) {
+                element.to_year = element.to_year + 1920 + " 年";
+                } else {
+                element.to_year = "年";
+                }
+
+                if (element.to_month) {
+                element.to_month = element.to_month + 12 + " 月";
+                } else {
+                element.to_month = "月";
+                }
+            });
+            } else {
+            this.experiences.push({
+                id: null,
+                jobseeker_id: null,
+                position_id: 0,
+                employment_type_id: 0,
+                job_location: "",
+                main_duty: "",
+                from_year: "年",
+                from_month: "月",
+                to_year: "年",
+                to_month: "月",
+                current: null,
+                private_status: "",
+            });
+            }
+
+            this.carrers = response.data.data.carrers;
+        });
+        },
+
+        //Zin ko
+
+        // Thuzar
+        saveCarrer() {
+        for (var i = this.experiences.length - 1; i >= 0; i--) {
+            if (this.experiences.length != 1) {
+            if (
+                this.experiences[i].job_location == null ||
+                this.experiences[i].job_location == ""
+            ) {
+                this.experiences.splice(i, 1);
+            }
+            }
+        }
+
+        for (var j = this.educations.length - 1; j >= 0; j--) {
+            if (this.educations.length != 1) {
+            if (
+                this.educations[j].school_name == null ||
+                this.educations[jsonData].school_name == ""
+            ) {
+                this.educations.splice(j, 1);
+            }
+            }
+        }
+
+        let loader = this.$loading.show();
+
+        let jsonData = {
+            educations: this.educations,
+            experiences: this.experiences,
+            carrers: this.carrers,
+        };
+
+        this.$api
+            .post("/v1/jobseeker/profile/carrer", jsonData)
+            .then((response) => {
+            console.log(response);
+            this.$alertService.showSuccessDialog(
+                null,
+                this.$t("alertMessage.updateSuccess"),
+                this.$t("common.close")
+            );
+            this.careerEdit = false;
+            this.showDetails = true;
+            this.getCarrerDetails();
+            loader.hide();
+            })
+            .catch((errors) => {
+                console.log(errors);
+            loader.hide();
+            });
+        },
+        // Thuzar
+
+        //Su Sandy
+        getDesiredCondition(request_id) {
+        this.$api
+            .post("/v1/jobseeker/profile/desired-condition", request_id)
+            .then((response) => {
+            this.desired_city_list = response.data.city_list;
+            this.industry_list = response.data.industry_list;
+            this.occupation_list = response.data.occupation_list;
+            this.date_list = response.data.date_list;
+            this.desired_condition = response.data.desired_condition;
+
+            if (this.desired_condition.desired_industry_id != 0) {
+                this.industries = [
+                {
+                    id: this.desired_condition.desired_industry_id,
+                    jobseeker_id: this.desired_condition.id,
+                },
+                ];
+                this.industries = this.industries.concat(response.data.industries);
+            } else {
+                if (response.data.industries.length) {
+                this.industries = response.data.industries;
+                } else {
+                this.industries = [{ id: 0, jobseeker_id: null }];
+                }
+            }
+
+            if (this.desired_condition.desired_occupation_id != 0) {
+                this.occupations = [
+                {
+                    id: this.desired_condition.desired_occupation_id,
+                    jobseeker_id: this.desired_condition.id,
+                },
+                ];
+                this.occupations = this.occupations.concat(
+                response.data.occupations
+                );
+            } else {
+                if (response.data.occupations.length) {
+                this.occupations = response.data.occupations;
+                } else {
+                this.occupations = [{ id: 0, jobseeker_id: null }];
+                }
+            }
+            });
+        },
+
+        saveDesiredCondition() {
+        let jsonData = {
+            desired_condition: this.desired_condition,
+            industries: this.industries,
+            occupations: this.occupations,
+        };
+        var indexArray = [];
+        //check industry error
+        if (this.desired_condition.desired_industry_status) {
+            jsonData.industries = [];
+        } else {
+            //var indexArray = [];
+            this.industries.forEach(function (value, index) {
+            if (value.id != 0) {
+                indexArray.push(index);
+            }
+            });
+            if (indexArray.length == 0) {
+            this.desired_errors.industry_error = "希望業種を選択してください";
+            }
+        }
+
+        //check occupation error
+        if (this.desired_condition.desired_occupation_status) {
+            jsonData.occupations = [];
+        } else {
+            //var indexArray = [];
+            this.occupations.forEach(function (value, index) {
+            if (value.id != 0) {
+                indexArray.push(index);
+            }
+            });
+            if (indexArray.length == 0) {
+            this.desired_errors.occupation_error = "希望業種を選択してください";
+            }
+        }
+
+        this.$v.desired_condition.desired_min_annual_income.$touch();
+        if (this.$v.desired_condition.desired_min_annual_income.$error) {
+            return;
+        }
+
+        if (
+            this.desired_errors.industry_error == "" &&
+            this.desired_errors.occupation_error == ""
+        ) {
+            let loader = this.$loading.show();
+            this.$api
+            .post("/v1/jobseeker/profile/desired-condition", jsonData)
+            .then((response) => {
+                console.log(response);
+                this.$alertService.showSuccessDialog(
+                null,
+                this.$t("alertMessage.updateSuccess"),
+                this.$t("common.close")
+                );
+                this.desiredConditionEdit = false;
+                this.showDetails = true;
+                this.getDesiredCondition();
+                loader.hide();
+            })
+            .catch((errors) => {
+                console.log(errors);
+                loader.hide();
+            });
+        }
+        },
+        // Su Sandy
+    },
+};
+</script>
+<style lang="scss" scoped>
+.face-img-block {
+  min-height: 240px;
+}
+.face-image-wrapper {
+  position: relative;
+  display: inline-block;
+  .delete-photo {
+    right: -5px;
+  }
+}
+.face-image {
+  height: 115px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top;
+  }
+}
+.img-wrapper {
+  max-height: 245px;
+}
+.img-wrapper img {
+  max-height: 245px;
+}
+/* .list-wrap {
+    background: #fff;
+    padding: 50px 50px 100px 50px;
+}
+.list-group {
+    max-width: 800px;
+}
+.list-group-item {
+    padding: 0.75rem 0;
+    border: none;
+}
+.post-description {
+    width: 50%;
+}
+.post-description .count-no {
+    display: inline-block;
+    margin: 0 2px 0 10px;
+    font-size: 20px;
+    color: #0071b4;
+} */
+.card-carousel p {
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.form-control {
+  border: 1px solid #919191;
+  border-radius: 0;
+}
+/* modal-dialog */
+.popup-databox {
+  border: 1px solid #c4c4c4;
+  border-radius: 8px;
+  padding: 15px 30px;
+  margin-bottom: 20px;
+}
+.popup-databox .form-group {
+  margin-bottom: 1.5rem;
+}
+.school-box,
+.experience-box {
+  margin-bottom: 30px;
+  padding: 30px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  border: 1px solid #c4c4c4;
+}
+.add-btn {
+  padding: 0.7rem 2rem;
+  background: #f0f0f0;
+  color: #222;
+  border: 1px solid #c4c4c4;
+  border-radius: 50px;
+  font-size: 14px;
+}
+.delete-btn {
+  position: absolute;
+  top: -17px;
+  right: -15px;
+  width: 35px;
+  height: 35px;
+  font-size: 16px;
+  text-align: center;
+  background: #fff;
+  border-radius: 50%;
+  color: #919191;
+  border: 1px solid;
+  line-height: 35px;
+  vertical-align: middle;
+}
+
+/* intro edit */
+.upload-content {
+  display: flex;
+  position: relative;
+  padding: 20px 0;
+  background: #fff;
+  color: #333;
+  justify-content: center;
+  align-items: center;
+}
+.upload-content::after {
+  content: "";
+  position: absolute;
+  background: linear-gradient(
+      to right,
+      #b5ccc7f2 50%,
+      rgba(255, 255, 255, 0) 0%
+    ),
+    linear-gradient(#b5ccc7f2 50%, rgba(255, 255, 255, 0) 0%),
+    linear-gradient(to right, #b5ccc7f2 50%, rgba(255, 255, 255, 0) 0%),
+    linear-gradient(#b5ccc7f2 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: top, right, bottom, left;
+  background-repeat: repeat-x, repeat-y;
+  background-size: 25px 4px, 4px 25px;
+  top: -2px;
+  bottom: -2px;
+  left: -2px;
+  right: -2px;
+  z-index: 1;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  z-index: 2;
+}
+
+.upload-btn {
+  border: 1px solid #b5ccc7f2;
+  background-color: #fff;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #333;
+  box-shadow: none;
+}
+
+.upload-file {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 45px;
+}
+.profile-edit-img {
+  width: 100%;
+}
+.intro-tit {
+  margin-bottom: 15px;
+  font-size: 15px;
+  color: #333;
+}
+.custom-radio-lable {
+  font-weight: normal;
+}
+.custion-radio:checked + .custom-radio-lable:before {
+  border: 1px solid #ddd;
+}
+.custion-radio:not(:checked) + .custom-radio-lable:before {
+  border: 1px solid #ddd;
+}
+/*
+.custion-radio:checked + .custom-radio-lable:after {
+        background: #6085A3;
+}
+*/
+.upload-content .icon {
+  font-size: 50px;
+}
+
+.tab-list {
+  margin: 20px 0;
+  background: #fff;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+.tab-list .list-group-item {
+  border: none;
+}
+.list-link {
+  color: #3377b2;
+}
+.tab-content {
+  padding: 50px 20px;
+  background: #fff;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+  border-radius: 5px !important;
+}
+.tit-box {
+  position: relative;
+  display: flex;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #c3c4c3;
+}
+.profile-edit-tit {
+  font-size: 1.2rem;
+  line-height: 0.8;
+}
+.icon-edit {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 40px;
+  color: #619873;
+}
+.profile-edit-txt {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  font-size: 16px;
+  color: #619873;
+  cursor: pointer;
+}
+.tit-box-edit .profile-edit-txt {
+  top: -27px;
+  padding: 8px 20px;
+  border-radius: 50px;
+  color: #919191;
+  border: 1px solid;
+}
+.tit-box-edit .profile-edit-txt .icon {
+  margin-right: 5px;
+  font-size: 14px;
+}
+.about-tit {
+  color: #666766;
+}
+.about-box {
+  min-height: 300px;
+  padding: 10px 20px;
+  line-height: 2;
+  border: 1px solid #ddd;
+  margin: 15px 0 30px 0;
+}
+.intro-tit {
+  margin-bottom: 20px;
+  border-bottom: none;
+}
+.movie-row {
+  padding-bottom: 20px;
+}
+.movie-col {
+  height: 200px;
+}
+.movie-link {
+  width: 100%;
+  height: 100%;
+}
+.detail-list {
+  margin: 0 0 50px 0;
+  padding: 0 20px;
+}
+
+.detail-head,
+.detail-data {
+  padding: 10px 0 15px 0;
+  border-top: 1px solid #ddd;
+  line-height: 1.7;
+}
+.detail-head {
+  display: flex;
+  float: left;
+  width: 40%;
+  margin-right: 6%;
+  align-items: flex-start;
+  font-weight: normal;
+}
+.detail-data {
+  float: left;
+  width: 54%;
+  background-color: #fff;
+}
+.private {
+  margin: 0 20px 0 auto;
+  padding: 0 10px;
+  background: #0071b4;
+  color: #fff;
+}
+.view-permission {
+  margin: 0 20px 0 auto;
+  padding: 0 10px;
+  background: #cc7694;
+  color: #fff;
+}
+.explation-note {
+  margin: 0 20px;
+  padding: 15px 20px;
+  border: 1px solid #ababab;
+  border-radius: 10px;
+  color: #666666;
+  line-height: 1.8;
+}
+.explation-note .private {
+  padding: 3px 10px;
+}
+textarea.form-control {
+  height: 200px;
+  text-align: left;
+}
+.popup-databox .private {
+  padding: 1px 10px 2px 10px;
+  vertical-align: middle;
+  font-weight: normal;
+}
+
+.introduction-content .popup-databox .form-group {
+  margin-bottom: 2rem;
+}
+.gender-choice {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.1rem;
+  border-radius: 0.25rem;
+  border: 1px solid #707070;
+  text-align: center;
+  background: #f0f0f0;
+}
+.gender-choice.disable {
+  color: #d5d5d5;
+  background: #fff;
+}
+.gender-choice .check-icon {
+  padding-right: 10px;
+}
+
+.select-wrap {
+  position: relative;
+  border: 1px solid #919191;
+}
+.select-wrap .form-control {
+  border: none;
+  -webkit-appearance: none;
+}
+
+.sort-desc {
+  position: absolute;
+  top: 0;
+  right: 18px;
+  font-size: 24px;
+  color: #c4c4c4;
+}
+.r-5 {
+  right: 5px !important;
+}
+/*wmo for carousel slider */
+.card-carousel {
+  user-select: none;
+  position: relative;
+}
+.progressbar {
+  display: block;
+  width: 100%;
+  height: 5px;
+  position: absolute;
+  background-color: rgba(221, 221, 221, 0.25);
+  z-index: 1;
+}
+.progressbar > div {
+  background-color: rgba(255, 255, 255, 0.52);
+  height: 100%;
+}
+.thumbnails {
+  display: block;
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+.thumbnail-image {
+  align-items: flex-start;
+  cursor: pointer;
+  width: 145px;
+  height: 82px;
+  display: flex;
+  overflow: hidden;
+  margin: 0px 0px 10px 0px;
+  border: 1px solid #eee;
+  box-shadow: none;
+}
+.thumbnail-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 250ms;
+}
+.thumbnail-image:hover > img,
+.thumbnail-image.active > img {
+  opacity: 0.6;
+  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
+}
+// .face-img-wrap .thumbnail-image {
+// 	width: 115px;
+// }
+.img-contain {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.card-img {
+  position: relative;
+  margin-bottom: 15px;
+}
+.card-img > img {
+  display: block;
+  margin: 0 auto;
+}
+.actions {
+  font-size: 1.5em;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #585858;
+}
+.actions > span {
+  cursor: pointer;
+  transition: all 250ms;
+  font-size: 45px;
+}
+.actions > span.prev {
+  margin-left: 5px;
+}
+.actions > span.next {
+  margin-right: 5px;
+}
+.actions > span:hover {
+  color: #eee;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: opacity 0.25s ease-out;
+}
+
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+}
+.img-wrapper {
+  max-height: 277px;
+}
+.delete-photo {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  line-height: 1.8;
+  background: #8d9498;
+  color: #fff;
+  right: 20px;
+  top: 5px;
+  border-radius: 50%;
+  box-shadow: none;
+  box-sizing: border-box;
+  border: none;
+  font-size: 15px;
+  display: inline-block;
+  font-weight: bold;
+}
+.check-item {
+  position: relative;
+  /* width: 130px; */
+  list-style: none;
+  padding: 10px 20px;
+  margin: 0 10px 10px 0;
+  display: inline-block;
+  color: #999;
+  border: 1px solid #9b9898;
+  /* margin-right: 10px; */
+  background: #eee;
+  border-radius: 5px;
+}
+.check-item .fa {
+  margin-right: 5px;
+}
+.fa-check.disabled {
+  opacity: 0.2;
+}
+</style>

@@ -17,6 +17,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import alertService from './services/AlertService';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import VueScrollTo  from 'vue-scrollto';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
@@ -24,6 +25,7 @@ Vue.use(require('vue-moment'));
 Vue.use(VueFilter);
 Vue.use(DatePicker);
 Vue.use(Vuelidate);
+Vue.use(VueScrollTo)
 Vue.use(api);
 Vue.use(VueSweetalert2);
 Vue.prototype.$api = api;
@@ -51,6 +53,20 @@ Vue.use(VueI18n);
 const i18n = new VueI18n({
     locale: 'jp',
     messages: languages,
+})
+
+Vue.use(VueScrollTo, {
+	container: "body",
+	duration: 500,
+	easing: "ease",
+	offset: 0,
+	force: true,
+	cancelable: true,
+	onStart: false,
+	onDone: false,
+	onCancel: false,
+	x: false,
+	y: true
 })
 
 // Vue.use(Loading, {

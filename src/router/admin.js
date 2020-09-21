@@ -7,6 +7,7 @@ import JobApplyList from '../components/admin/recruiter/JobApplyList';
 import ScoutedList from '../components/admin/recruiter/ScoutedList';
 import PaymentManagement from '../components/admin/recruiter/PaymentManagement';
 import JobSeekerList from '../components/admin/jobseeker/JobSeekerList';
+import JobseekerProfileEdit from '../components/admin/jobseeker/JobseekerProfileEdit';
 import Invoice from '../components/admin/recruiter/Invoice';
 import AdminPasswordSetting from '../components/auth/AdminPasswordSetting';
 
@@ -106,6 +107,15 @@ const route = [{
         component: AdminPasswordSetting,
         meta: {
             reqiuresAuth: true,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    },
+    {
+        path: '/jobseeker/:id/edit',
+        component: JobseekerProfileEdit,
+        meta: {
+            reqiuresAuth: false,
             admin: true, // for only admin component
             jobseeker: false
         }
