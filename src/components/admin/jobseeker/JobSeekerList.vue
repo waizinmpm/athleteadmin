@@ -120,6 +120,10 @@
                                 <label class="form-checkbox">
                                     <span v-if="project.record_status != 0">
                                         <input type="checkbox" :value="project.id" v-model="selected" />
+                                        <div v-for="undelete_id in delete_ids_transactions" :key="undelete_id.id" style="color:red;">
+                                            {{ undelete_id == project.id ? 'cant delete' : ''}}
+                                            <!-- show as test -->
+                                        </div>
                                     </span>
                                 </label>
                             </td>
