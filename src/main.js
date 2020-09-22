@@ -18,6 +18,8 @@ import alertService from './services/AlertService';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import VueScrollTo  from 'vue-scrollto';
+import io from 'socket.io-client';
+import VueChatScroll from 'vue-chat-scroll';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
@@ -25,13 +27,18 @@ Vue.use(require('vue-moment'));
 Vue.use(VueFilter);
 Vue.use(DatePicker);
 Vue.use(Vuelidate);
-Vue.use(VueScrollTo)
+Vue.use(VueScrollTo);
+Vue.use(VueChatScroll);
 Vue.use(api);
 Vue.use(VueSweetalert2);
 Vue.prototype.$api = api;
 Vue.prototype.$configs = configs;
 Vue.config.productionTip = false;
 Vue.prototype.$alertService = alertService;
+
+// --socket.io client init
+window.io = io;
+window.socket = io(process.env.VUE_APP_SOCKET_URL);
 
 Vue.use(Loading, {
 	color: '#0062ff',

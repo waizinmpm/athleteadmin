@@ -107,7 +107,7 @@
                                 </div>
                             </td>
                             <td class="tbl-wm">
-                                <span class="btn btn-default" @click="startChat" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
+                                <span class="btn btn-default" @click="startChat(project)" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
                                 <span class="btn btn-default" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
                                 <span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.scout_status)">{{$t('common.invoice_generate')}}</span>
                             </td>
@@ -125,7 +125,7 @@
 
             </div>
         </div>
-			<!-- Modal content -->
+		<!-- Modal content -->
 		<div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
 			<div class="modal-content">
 				<span class="close" @click="closeInvoiceModal">&times;</span>
@@ -209,6 +209,14 @@
 				</div>
 			</div>
 		</div>
+		<!-- End Modal Content -->
+		<!-- chatbox container -->
+		<div ref="chatboxContainer" class="chatbox-container">
+			<div v-for="(chatbox) in chatBoxes" :key="chatbox.scoutid_or_applyid">
+				<ChatBox :payload="chatbox" @chatboxClosed="onChatboxClosed"></ChatBox>
+			</div>
+		</div>
+		<!-- end chatbox container -->
     </div>
 </template>
 
@@ -216,9 +224,11 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
 import { showToggle,handleStatus } from "../../../partials/common";
+import ChatBox from '../../ChatBox';
 
 export default {
 	mixins: [DataTableServices],
+	components: { ChatBox },
 	data(){
 		let sortOrders = {};
         let columns = this.$i18n.messages.en.scouted_list.columns;
@@ -276,6 +286,7 @@ export default {
 			},
 			isToggle : false ,
 			tax: {},
+			chatBoxes: [],
 		}
 	},
 	
@@ -293,8 +304,27 @@ export default {
 		allowPaymentConfirm(status) {
 			return status == this.$configs.scouts.billed;
 		},
-		startChat() {
-			alert("Now will start chatting...");
+		startChat(scout) {
+			const payload = {
+				recruiter_id: scout.recruiter_id,
+				jobseeker_id: scout.jobseeker_id,
+				scoutid_or_applyid: scout.id,
+				type: 'scout',
+			};
+			if (!this.chatBoxes.find(x => x.scoutid_or_applyid == payload.scoutid_or_applyid && x.type == payload.scoutid_or_applyid)) {
+				this.chatBoxes.push(payload);
+			}
+		},
+		onChatboxClosed(e) {
+			const t = this.chatBoxes.find(x => {
+				return x.scoutid_or_applyid == e.scoutid_or_applyid & x.type == e.type;
+			});
+			if (t) {
+				let i = this.chatBoxes.indexOf(t);
+				if (i > -1) {
+					this.$delete(this.chatBoxes, i);
+				}
+			}
 		},
 		onStatusChange(index, e) {
 			const scout = this.$data.projects.data[index];
@@ -532,5 +562,21 @@ textarea {
 }
 .is-invalid~.invalid-feedback, .is-invalid~.invalid-tooltip, .was-validated :invalid~.invalid-feedback, .was-validated :invalid~.invalid-tooltip {
     display: block;
+}
+.chatbox-container {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	z-index: 100;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;	
+	background: #FFF;
+}
+.chatbox-container * {
+	margin-right: 5px;
+}
+.chatbox-container *:last-child {
+	margin-right: 0px;
 }
 </style>
