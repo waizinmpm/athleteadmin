@@ -1546,6 +1546,7 @@
                         name="radio-group"
                         v-model="experience_qualification.work_visa.status"
                         value="1"
+                        @change="changeVisaStatus(1)"
                         checked
                         class="custion-radio"
                     />
@@ -1558,6 +1559,7 @@
                         name="radio-group"
                         v-model="experience_qualification.work_visa.status"
                         value="0"
+                        @change="changeVisaStatus(0)"
                         class="custion-radio"
                     />
                     <label for="none" class="custom-radio-lable">{{$t('jobseekerprofile.none')}}</label>
@@ -1571,7 +1573,7 @@
                     <select
                         class="form-control"
                         v-model="$v.experience_qualification.work_visa.country.$model"
-                        
+                        :disabled='experience_qualification.work_visa.status == 0'
                     >
                         <option
                         value
@@ -2432,12 +2434,8 @@
             "11月",
             "12月",
         ];
-        },
-        /* isDisabled() {
-            return this.experience_qualification.work_visa.status == 0
-                ? (true, (this.experience_qualification.work_visa.country = ""))
-                : false;
-        }, */
+        }
+        
     },
 
     methods: {
@@ -2631,16 +2629,18 @@
         editBox(boxName, action) {
         this.showDetails = !this.showDetails;
         this[boxName] = !this[boxName];
+        let request_id = {};
+        this.$set(request_id, "id", `${this.$route.params.id}`);
         // this.getBasicInfoDetails();
-        this.getSelfIntroDetails();
+        this.getSelfIntroDetails(request_id);
         // this.getCarrerDetails();
         if (action == "open") {
             //jquery?
             //$("html, body").animate({ scrollTop: 0 }, "fast");
         } else {
             if (boxName == "expQualificationEdit") {
-            this.getJobIndustryExpDetails(); // request_id
-            // call getData func back to clear empty array in data collection
+                this.getJobIndustryExpDetails(request_id); // request_id
+                // call getData func back to clear empty array in data collection
             }
             this.$nextTick(() => {
             var ele = this.$el.querySelector("#" + boxName);
@@ -2690,6 +2690,11 @@
         },
 
         //(start) ExpQualification by zayar_phone_naing
+        changeVisaStatus(status){
+            if(status == 0)
+                this.experience_qualification.work_visa.country = "";
+        },
+
         addExpQualification() {
         this.experience_qualification.experience_jobs.push({
             experience_year: "",
@@ -2882,14 +2887,15 @@
         this.$alertService
             .showConfirmDialog(
             null,
-            this.$t("alertMessage.confirm_save_message"),
-            this.$t("alertMessage.yes"),
-            this.$t("alertMessage.no")
+            this.$t("dialog_box.confirm_save_message"),
+            this.$t("common.yes"),
+            this.$t("common.no")
             )
             .then((dialogResult) => {
             if (dialogResult.value) {
                 let loader = this.$loading.show();
                 let request_data = {
+                request_id: `${this.$route.params.id}`,
                 experienced_jobs: this.experience_qualification.experience_jobs,
                 delete_experience_jobs: this.ids_to_del_exp_quali,
                 study_abroad_experiences: this.experience_qualification
