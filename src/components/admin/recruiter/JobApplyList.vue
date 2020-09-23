@@ -388,6 +388,7 @@ export default {
                     .forEach(x => x.job_apply_status = this.$configs.scouts.billed);
                 this.$alertService.showSuccessDialog(null, this.$t('common.mail_is_sent'), this.$t('common.close'));
                 this.requireInvoiceForm = false;
+                this.closeInvoiceModal();
             })
             .catch(() => {
             })
