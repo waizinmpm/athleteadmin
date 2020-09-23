@@ -34,7 +34,7 @@
 								<input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
 							</div>                        
 						</div>
-						<div class="row">
+						<div class="row date-row">
 							<div class="col-md-3 datepicker-wrapper">
 								<label for="スカウト日時">{{ $t('scouted_list.scout_date') }}</label>
 								<date-picker v-model="filteredData.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
@@ -515,4 +515,9 @@ textarea {
 .is-invalid~.invalid-feedback, .is-invalid~.invalid-tooltip, .was-validated :invalid~.invalid-feedback, .was-validated :invalid~.invalid-tooltip {
     display: block;
 }
+.date-row {
+	display: flex;
+	align-items: flex-end;
+}
 </style>
+

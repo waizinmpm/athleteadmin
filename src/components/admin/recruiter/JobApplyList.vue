@@ -30,7 +30,7 @@
                                 <input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.job_title">
                             </div>                        
                         </div>
-                        <div class="row">
+                        <div class="row date-row">
                             <div class="col-md-3 datepicker-wrapper">
                                 <label for="スカウト日時">{{ $t('jobapply_list.jobapplay_date') }}</label>
                                 <date-picker v-model="filteredData.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
@@ -450,5 +450,9 @@ export default {
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+}
+.date-row {
+	display: flex;
+	align-items: flex-end;
 }
 </style>

@@ -1,5 +1,5 @@
 export default {
-    "recruiter_member_list": "企業会員情報一覧",
+    "recruiter_member_list": "会員情報一覧",
     "ListofCompany": "求人応募者一覧",
     "status":"ステータス",
     "valid":"有効",

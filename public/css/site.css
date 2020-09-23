@@ -7174,6 +7174,7 @@ button.close {
     display: none!important;
 }
 
+
 @media (max-width:767px) {
     .visible-xs {
         display: block!important;
@@ -7207,6 +7208,7 @@ button.close {
         display: inline-block!important;
     }
 }
+
 
 @media (min-width:768px) and (max-width:991px) {
     .visible-sm {
@@ -13807,9 +13809,8 @@ a.navbar-brand {
 }
 .form-signin {
     width: 375px;
-    min-height: 332px;
-    padding: 20px;
     margin: 0 auto;
+    padding: 40px 25px;
     background-color: #fff;
     border: 1px solid #dedede;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
@@ -14080,3 +14081,11 @@ input:-webkit-autofill:focus {
 
 
 /* end toggle checkbox */
+@media (max-width:1400px) {
+    .list-group-child-item {
+        padding-left: 33px !important;
+    }
+    .sidebar-offcanvas i, .sidebar-offcanvas span {
+        margin-right: 5px;
+    }
+}
