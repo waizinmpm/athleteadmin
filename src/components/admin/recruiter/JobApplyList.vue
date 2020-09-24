@@ -77,7 +77,7 @@
                 <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
-                            <td>{{project.jobapply_id}}</td>
+                            <td>{{project.management_number}}</td>
                             <td>{{project.job_apply_date| date('%Y-%m-%d')}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
