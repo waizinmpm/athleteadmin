@@ -3,55 +3,68 @@
 		<div class="row">
 			<div class="col-sm-12 p-0 searchform-one">
 				<h5 class="m-b-10 main-header">{{ $t('payment_management.title') }}</h5>
-				<div class="content-row" style="padding-bottom:0px;">
-					<div class="row">
-						<div class="col-md-3">
-							<label>{{ $t('payment_management.payment_method') }}</label>
-							<div class="row">
-							<div class="col-md-6">
-								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
-									v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" />
-								<label class="custom-control-label custom-checkbox-label">{{ $configs.payment_method.invoice }}</label>
+				<div class="content-row  col-lg-10">
+					<div class="inner-wrapper">
+						<div class="row">
+							<div class="col-md-5">
+								<label class="mb-4">{{ $t('payment_management.payment_method') }}</label>
+								<div class="row">
+									<div class="col-md-4">
+										<label class="custom-control-label custom-checkbox-label">
+											<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
+											v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" />
+											<span class="custom-check-label-post">{{ $configs.payment_method.invoice }}</span>
+										</label>
+									</div>
+									<div class="col-md-4">
+										<label class="custom-control-label custom-checkbox-label">
+											<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
+										v-model="filteredData.payment_status" :value="$configs.payment_method.credit" />
+											<span class="custom-check-label-post">{{ $configs.payment_method.credit }}</span>
+										</label>
+									</div>
+								</div>
 							</div>
-							<div class="col-md-6">
-								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
-								v-model="filteredData.payment_status" :value="$configs.payment_method.credit" />
-								<label class="custom-control-label custom-checkbox-label">{{ $configs.payment_method.credit }}</label>
-							</div>
-							</div>
-						</div>
-						<div class="col-md-3 datepicker-wrapper">
-							<label for="入金期日">{{ $t('payment_management.invoice_date') }}</label>
-							<date-picker v-model="filteredData.invoice_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
-						</div>
-						<div class="col-md-3 datepicker-wrapper">
-							<label for></label>
-							<date-picker v-model="filteredData.invoice_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-3">
-							<label>{{ $t('payment_management.status') }}</label>
-							<div class="row">
-								<div class="col-md-4" v-for="(status, index) in record_status" :key="index">
-									<input type="checkbox" class="custom-control-input custom-checkbox"
-										:value="status.id" :checked="status.checked" v-model="filteredData.record_status" @change="getData()" />
-									<label class="custom-control-label custom-checkbox-label">{{ status.id }}</label>
+							<div class="col-md-7">
+								<div class="col-md-12">
+									<label for="入金期日">{{ $t('payment_management.invoice_date') }}</label>
+								</div>
+								<div class="col-lg-6  datepicker-wrapper">
+									<date-picker v-model="filteredData.invoice_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+								</div>
+								<div class="col-lg-6  datepicker-wrapper">
+									<date-picker v-model="filteredData.invoice_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3 datepicker-wrapper">
-							<label for="入金日">{{ $t('payment_management.payment_date') }}</label>
-							<date-picker v-model="filteredData.payment_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+						<div class="row">
+							<div class="col-md-5">
+								<label class="mb-4">{{ $t('payment_management.status') }}</label>
+								<div class="row">
+									<div class="col-md-4" v-for="(status, index) in record_status" :key="index">
+										<label class="custom-control-label custom-checkbox-label">
+											<input type="checkbox" class="custom-control-input custom-checkbox"
+												:value="status.id" :checked="status.checked" v-model="filteredData.record_status" @change="getData()" />
+											<span class="custom-check-label-post">{{ status.id }}</span>
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-7">
+								<div class="col-md-12">
+									<label for="入金日">{{ $t('payment_management.payment_date') }}</label>
+								</div>
+								<div class="col-md-6 datepicker-wrapper">
+									<date-picker v-model="filteredData.payment_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+								</div>
+								<div class="col-md-6 datepicker-wrapper">
+									<date-picker v-model="filteredData.payment_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+								</div>
+							</div>
+							
 						</div>
-						<div class="col-md-3 datepicker-wrapper">
-							<label for></label>
-							<date-picker v-model="filteredData.payment_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-3">
-							<button class="btn searchbtn" @click="getData()">{{ $t('common.search') }}</button>
+						<div class="d-flex pb-4 justify-content-end">
+							<button class="btn searchbtn  mr-2" @click="getData()">{{ $t('common.search') }}</button>
 							<button class="btn searchbtn btn_csv_download" @click="downloadCSV">{{ $t('common.csv_download') }}</button>
 						</div>
 					</div>
@@ -78,13 +91,13 @@
 							<td>{{ project.payment_method }}</td>
 							<td>{{ project.invoice_number }}</td>
 							<td>{{ project.status }}</td>
-							<td>{{ project.invoice_amount }}</td>
+							<td>{{ project.invoice_amount|aj-number }}</td>
 							<td><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
 							<td>
 								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project" 
 									@editing-cancel="onEditingCancel($event, project)">
 									<template #display>
-										{{ project.payment_amount }}
+										<span class="mw-60px">{{ project.payment_amount|aj-number }}</span>
 									</template>
 									<template #editor>
 										<input type="text" v-model="project.payment_amount" @keypress="isNumber($event)">
@@ -96,6 +109,7 @@
 									@editing-cancel="onEditingCancel($event, project)">
 									<template #display>
 										<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
+										<span class="mw-80px" v-show="!project.actual_payment_date"></span>
 									</template>
 									<template #editor>
 										<date-picker v-model="project.actual_payment_date" value-type="format" class="datepicker" :lang="lang" 
@@ -257,5 +271,13 @@ textarea {
 }
 .btn_csv_download {
 	margin: 0px 3px;
+}
+.mw-60px {
+	display: inline-block;
+	min-width: 60px;
+}
+.mw-80px {
+	display: inline-block;
+	min-width: 88px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="login d-flex justify-content-center">
+  <div class="login">
       <div
         v-if="registeredUser"
         class="text-success"

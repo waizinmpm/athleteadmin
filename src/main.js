@@ -17,6 +17,9 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import alertService from './services/AlertService';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import VueScrollTo  from 'vue-scrollto';
+import io from 'socket.io-client';
+import VueChatScroll from 'vue-chat-scroll';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
@@ -24,12 +27,18 @@ Vue.use(require('vue-moment'));
 Vue.use(VueFilter);
 Vue.use(DatePicker);
 Vue.use(Vuelidate);
+Vue.use(VueScrollTo);
+Vue.use(VueChatScroll);
 Vue.use(api);
 Vue.use(VueSweetalert2);
 Vue.prototype.$api = api;
 Vue.prototype.$configs = configs;
 Vue.config.productionTip = false;
 Vue.prototype.$alertService = alertService;
+
+// --socket.io client init
+window.io = io;
+window.socket = io(process.env.VUE_APP_SOCKET_URL);
 
 Vue.use(Loading, {
 	color: '#0062ff',
@@ -53,6 +62,20 @@ const i18n = new VueI18n({
     messages: languages,
 })
 
+Vue.use(VueScrollTo, {
+	container: "body",
+	duration: 500,
+	easing: "ease",
+	offset: 0,
+	force: true,
+	cancelable: true,
+	onStart: false,
+	onDone: false,
+	onCancel: false,
+	x: false,
+	y: true
+})
+
 // Vue.use(Loading, {
 // 	color: '#00AB00',
 // 	loader: process.env.MIX_LOADING_INDICATOR ?? 'dots',
@@ -63,6 +86,8 @@ const i18n = new VueI18n({
 // },{
 // 	after: (new Vue()).$createElement('h3', {class: 'loading-text'}, ['送信中'])
 // });
+
+Vue.filter('aj-number', (value) => Number(value) ? Number(value).toLocaleString('en-US',{ maximumFractionDigits: 0 }) : 0);
 
 new Vue({
     router,

@@ -1,11 +1,11 @@
 <template>
-    <div>   
+    <div @click="handleStatusToggle">   
         <div class="row">
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
                 <h5 class="m-b-10 main-header">{{ $t('jobapply_list.title') }}</h5>   
                 <div class="content-row" style="padding-bottom:0px;">
-                    <div class="inner-wrapper col-8 col-md-10">
+                    <div class="inner-wrapper">
                         <div class="row">
                             <div class="col-md-3">
                                 <label for="企業番号">{{ $t('common.recruiter_number') }}</label>
@@ -92,7 +92,7 @@
                                         {{$t('common.edit')}}
                                         <span class="down-icon">&#9662;</span>
                                     </p>
-                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
+                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
                                         <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
                                             <input type="radio" :id="status.id+index" v-model="project.job_apply_status" class="custion-radio" 
 												@change="onStatusChange(index, $event, project.recruiter_id)" :value="status.id">
@@ -164,12 +164,12 @@
                                 </div>
                                 <dl class="row">
                                     <dt class="col-sm-2 text-right">{{ $t('common.tax') }}</dt>
-                                    <dd class="col-sm-6 text-right">{{ Number(invoiceForm.tax).toLocaleString() }}</dd>
+                                    <dd class="col-sm-6 text-right">{{ invoiceForm.tax|aj-number }}</dd>
                                     <label class="col-sm-1">円</label>
                                 </dl>
                                 <dl class="row">
                                     <dt class="col-sm-2 text-right">{{ $t('common.invoice_amount') }}</dt>
-                                    <dd class="col-sm-6 text-right">{{ Number(invoiceForm.invoice_amount).toLocaleString() }}</dd>
+                                    <dd class="col-sm-6 text-right">{{ invoiceForm.invoice_amount|aj-number }}</dd>
                                     <label class="col-sm-1">円</label>
                                 </dl>
                                 <div class="form-group row">
@@ -211,6 +211,7 @@
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
+import { showToggle,handleStatus } from "../../../partials/common";
 
 export default {
     mixins: [DataTableServices],
@@ -225,7 +226,7 @@ export default {
             requireInvoiceForm: false,
             invoicePreview: '',
             old_index:'',
-            status:false,
+            toggle_status:false,
             current: null,
             base_url: "/v1/admin/jobapply-list",
             columns: columns,
@@ -261,14 +262,19 @@ export default {
                 recruiter_number: '',
                 recruiter_name: '',
                 email: '',
-                tax: 20000,
-                default_amount: 200000,
-                invoice_amount: 220000,
+                tax: 0,
+                default_amount: 0,
+                invoice_amount: 0,
                 remark: '',
-            },
+			},
+			tax: {},
         }
     },
     methods: {
+        handleStatusToggle(e) {
+			if(handleStatus(e.target.className) == false) 
+				this.toggle_status = false;
+        },
         allowChat(status) {
             return status == this.$configs.job_apply.under_review;
         },
@@ -312,7 +318,8 @@ export default {
             this.invoiceForm.recruiter_number = jobapply.recruiter_number;
             this.invoiceForm.recruiter_name = jobapply.recruiter_name;
             this.invoiceForm.email = jobapply.recruiter_email;
-            this.invoiceForm.default_amount = 200000;
+			this.invoiceForm.default_amount = 200000;
+			this.invoiceForm.tax_id = this.tax.id;
             this.requireInvoiceForm = true;
         },
         confirmPayment(jobapplyId, index) {
@@ -340,10 +347,9 @@ export default {
                 recruiter_number: '',
                 recruiter_name: '',
                 email: '',
-                tax: 20000,
                 default_amount: 200000,
-                invoice_amount: 220000,
-                remark: '',
+				remark: '',
+				tax_id: this.tax.id,
             };
             // --close modal
             this.requireInvoiceForm = false;
@@ -388,15 +394,11 @@ export default {
         },
         showToggle(index) {
             this.current = index;
-            if(this.status == true) {
-                if(this.current == this.old_index) this.status = false; 
-            } else {
-                this.status = true;
-            }
-            this.old_index = index;
+			this.toggle_status = showToggle(index,this.old_index,this.toggle_status);
+			this.old_index = index;
         },
         hideToggle() {
-             this.status = false;
+             this.toggle_status = false;
         },
     },
     computed: {
@@ -411,9 +413,13 @@ export default {
         'invoiceForm.default_amount': function() {
             let amount = Number(this.invoiceForm.default_amount);
             if (!isNaN(amount)) {
-                 this.invoiceForm.invoice_amount = amount + Number(this.invoiceForm.tax);
+				// Re-value tax
+				this.invoiceForm.tax = amount * (this.tax.percent ?? 0) / 100;
+				// Re-value invoice amout
+				this.invoiceForm.invoice_amount = amount + this.invoiceForm.tax;
             } else {
-                this.invoiceForm.invoice_amount = 0;
+				this.invoiceForm.invoice_amount = 0;
+				this.invoiceForm.tax = 0;
             }
         }
     },
@@ -421,7 +427,17 @@ export default {
         invoiceForm: {
             default_amount: { required, numeric }
         }
-    }       
+	},
+	created() {
+		this.$api.get('/v1/tax/current')
+		.then(r => {
+			this.tax = r.data.data;
+		})
+		.catch(() => {
+			console.log("There was  an error when fetching tax percentage.");
+			this.tax = { percent: 0 };
+		})
+	}      
 }
 </script>
 
@@ -451,8 +467,12 @@ export default {
   border: 1px solid #888;
   width: 80%;
 }
-.date-row {
-	display: flex;
-	align-items: flex-end;
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  z-index: 100;
+  position: relative;
 }
 </style>

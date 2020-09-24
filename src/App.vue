@@ -705,4 +705,14 @@ body {
 .mb-0 {
     margin-bottom: 0;
 }
+
+// date
+.date-row {
+	display: flex;
+	align-items: flex-end;
+}
+
+.txt-red {
+    color: #F60D0D;
+}
 </style>

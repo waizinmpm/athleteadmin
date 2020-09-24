@@ -53,14 +53,14 @@ export const mutations = {
         state.isLoggedin = true;
         state.loading = false;
         state.currentUser = Object.assign({}, payload.user, { token: payload.access_token });
-        localStorage.setItem("user", JSON.stringify(state.currentUser));
+        localStorage.setItem("adminuser", JSON.stringify(state.currentUser));
     },
     loginFailed(state, payload) {
         state.loading = false;
         state.auth_error = payload.error;
     },
     logout(state) {
-        localStorage.removeItem("user");
+        localStorage.removeItem("adminuser");
         state.isLoggedin = false;
         state.currentUser = null;
     },

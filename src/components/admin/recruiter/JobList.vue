@@ -183,6 +183,7 @@
 
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
+import { textEllipsis } from "../../../partials/common";
 
 export default {
     mixins: [DataTableServices],
@@ -232,12 +233,7 @@ export default {
         },
 
         textEllipsis(event){
-            if(event.target.className == "txt-vertical-ellipsis") {
-                event.target.className = "";
-            } 
-            else if(event.target.className == "") {
-                event.target.className = "txt-vertical-ellipsis";
-            }
+            event.target.className = textEllipsis(event.target.className);
         },
 
         changeStatus(id, status) {

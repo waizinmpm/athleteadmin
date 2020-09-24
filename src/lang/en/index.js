@@ -9,6 +9,7 @@ import common from './common';
 import jobcreate from './recruiterjobcreate';
 import payment_management from './payment-management';
 import dialog_box from './dialog-box';
+import jobseekerprofile from './jobseeker-profile';
 
 export default {
 	common: common,
@@ -22,4 +23,5 @@ export default {
 	jobcreate: jobcreate,
 	payment_management: payment_management,
 	dialog_box: dialog_box,
+	jobseekerprofile: jobseekerprofile,
 }
