@@ -78,7 +78,7 @@
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>{{project.management_number}}</td>
-                            <td>{{project.job_apply_date| date('%Y-%m-%d')}}</td>
+                            <td>{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>

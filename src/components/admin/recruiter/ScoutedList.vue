@@ -8,7 +8,7 @@
 					<div class="inner-wrapper">
 						<div class="row">
 							<div class="col-md-3">
-								<label for="企業番号">{{ $t('common.recruiter_number') }}</label>
+								<label for="企業番号">{{ $t('common.scout_recruiter_number') }}</label>
 								<input type="text" placeholder="企業番号" class="form-control" v-model.trim="filteredData.recruiter_id">
 							</div>
 							<div class="col-md-3">
@@ -82,7 +82,7 @@
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
                             <td>{{project.management_number}}</td>
-                            <td>{{project.scouted_date| date('%Y-%m-%d')}}</td>
+							<td>{{project.scouted_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>

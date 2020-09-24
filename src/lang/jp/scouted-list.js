@@ -5,7 +5,7 @@ export default {
     "columns": [
         {"label":"management_number","name":"管理番号"},
         {"label":"scouted_date","name":"スカウト日時"},
-        {"label":"recruiter_number","name":"企業会員番号"},
+        {"label":"recruiter_number","name":"企業番号"},
         {"label":"recruiter_name","name":"企業名"},
         {"label":"job_number","name":"求人番号"},
         {"label":"title","name":"求人タイトル"},
