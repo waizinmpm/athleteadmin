@@ -10,6 +10,7 @@ export default {
     management_screen: 'Management Panel',
     recruiter_member: 'Recruiter Member',
     jobseeker_member: 'Job Seeker Member',
+    member_information_list: 'Member Information List',
     payment_management: 'Payment Management',
     change_password: 'Change Password',
 };

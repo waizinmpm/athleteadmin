@@ -2,7 +2,7 @@
     <div>
         <div class="row">
         <div class="col-sm-6 p-0 searchform-one">
-            <h5 class="m-b-10 main-header">{{ $t('recruiter_list.ListofCompany') }}</h5>
+            <h5 class="m-b-10 main-header">{{ $t('recruiter_list.recruiter_member_list') }}</h5>
             <div class="form-group">
             <!--<label class="control-label" for="inputGroup">Input Group </label>-->
             <div class="input-group">

@@ -13,7 +13,7 @@
             <ul>
             <li class="collapse in" id="demo1">
                 <router-link to="/admin-recruiter-list" class="list-group-item list-group-child-item">
-                <span class="fa fa-file-text-o"></span>{{$t('recruiter_list.recruiter_member_list')}}
+                <span class="fa fa-file-text-o"></span>{{$t('menu.member_information_list')}}
                 </router-link>
                 <router-link to="/job-list" class="list-group-item list-group-child-item">
                 <i class="fa fa-suitcase"></i>{{ $t('common.recruitment') }}
@@ -38,7 +38,7 @@
             <ul>
             <li class="collapse in" id="demo2">
                 <router-link to="/admin-jobseeker-list" class="list-group-item list-group-child-item">
-                <i class="glyphicon glyphicon-th-list"></i>{{ $t('jobseeker_list.jobseeker_member_list') }}
+                <i class="glyphicon glyphicon-th-list"></i>{{ $t('menu.member_information_list') }}
                 </router-link>
             </li>
             </ul>

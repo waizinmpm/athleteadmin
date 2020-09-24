@@ -1,9 +1,9 @@
 export default {
-    "jobseeker_member_list": "求職者会員情報一覧",
-    "search_jobseeker_placeholder": "求職者会員番号、求職者名を⼊⼒してください……",
+    "jobseeker_member_list": "アスリート会員情報一覧",
+    "search_jobseeker_placeholder": "アスリート会員番号、求職者名を入力してください…",
     "columns": [
-        {"label":"jobseeker_number", "name": "求職者会員番号"},
-        {"label":"jobseeker_name", "name": "求職者名"},
+        {"label":"jobseeker_number", "name": "アスリート会員番号"},
+        {"label":"jobseeker_name", "name": "アスリート会員氏名"},
         {"label":"record_status", "name": "ステータス"},
         {"label":"", "name": ""},
 	],
