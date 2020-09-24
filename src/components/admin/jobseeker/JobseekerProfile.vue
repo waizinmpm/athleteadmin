@@ -2102,228 +2102,228 @@
     let file = value;
     return file.type ? file.type.startsWith("image") : true;
     };
-    function buildFormData(formData, data, parentKey) {
-    if (
-        data &&
-        typeof data === "object" &&
-        !(data instanceof Date) &&
-        !(data instanceof File)
-    ) {
-        Object.keys(data).forEach((key) => {
-        buildFormData(
-            formData,
-            data[key],
-            parentKey ? `${parentKey}[${key}]` : key
-        );
-        });
-    } else {
-        const value = data == null ? "" : data;
-        formData.append(parentKey, value);
-    }
-    }
+    /* function buildFormData(formData, data, parentKey) {
+        if (
+            data &&
+            typeof data === "object" &&
+            !(data instanceof Date) &&
+            !(data instanceof File)
+        ) {
+            Object.keys(data).forEach((key) => {
+            buildFormData(
+                formData,
+                data[key],
+                parentKey ? `${parentKey}[${key}]` : key
+            );
+            });
+        } else {
+            const value = data == null ? "" : data;
+            formData.append(parentKey, value);
+        }
+    } */
     export default {
     data() {
         return {
-        file_names: [],
-        defaultImageUrl: "",
-        showDetails: true,
-        selfIntroEdit: false,
-        basicInfoEdit: false,
-        careerEdit: false,
-        expQualificationEdit: false,
-        desiredConditionEdit: false,
-        facImageUrl: "",
-        selfIntro: {
-            related_images: [],
-            delete_related_images: [],
-            delete_fac_image: false,
-        },
-        selfIntroDetails: {},
-        currentImage: "",
-        imageError: "",
-        employment_types: [],
-        positions: [],
-        carrers: [
-            {
-            last_annual_income: "",
-            num_of_experienced_companies: "",
-            last_currency: "",
+            file_names: [],
+            defaultImageUrl: "",
+            showDetails: true,
+            selfIntroEdit: false,
+            basicInfoEdit: false,
+            careerEdit: false,
+            expQualificationEdit: false,
+            desiredConditionEdit: false,
+            facImageUrl: "",
+            selfIntro: {
+                related_images: [],
+                delete_related_images: [],
+                delete_fac_image: false,
             },
-        ],
-        educations: [
-            {
-            id: null,
-            jobseeker_id: null,
-            school_name: "",
-            subject: "",
-            degree: 0,
-            from_year: "年",
-            from_month: "月",
-            to_year: "年",
-            to_month: "月",
-            education_status: 0,
+            selfIntroDetails: {},
+            currentImage: "",
+            imageError: "",
+            employment_types: [],
+            positions: [],
+            carrers: [
+                {
+                last_annual_income: "",
+                num_of_experienced_companies: "",
+                last_currency: "",
+                },
+            ],
+            educations: [
+                {
+                id: null,
+                jobseeker_id: null,
+                school_name: "",
+                subject: "",
+                degree: 0,
+                from_year: "年",
+                from_month: "月",
+                to_year: "年",
+                to_month: "月",
+                education_status: 0,
+                },
+            ],
+            experiences: [
+                {
+                id: null,
+                jobseeker_id: null,
+                position_id: 0,
+                employment_type_id: 0,
+                job_location: "",
+                main_duty: "",
+                from_year: "年",
+                from_month: "月",
+                to_year: "年",
+                to_month: "月",
+                current: "",
+                private_status: "",
+                },
+            ],
+            //basicInfo
+            basicInfo: {
+                city_name: 0,
+                final_education: "",
+                current_situation: "",
             },
-        ],
-        experiences: [
-            {
-            id: null,
-            jobseeker_id: null,
-            position_id: 0,
-            employment_type_id: 0,
-            job_location: "",
-            main_duty: "",
-            from_year: "年",
-            from_month: "月",
-            to_year: "年",
-            to_month: "月",
-            current: "",
-            private_status: "",
-            },
-        ],
-        //basicInfo
-        basicInfo: {
-            city_name: 0,
-            final_education: "",
-            current_situation: "",
-        },
-        countries: [],
-        city_list: [],
-        languages: [],
-        disabled: 0,
-        finaleducation: [
-            { id: "大学（学士)" },
-            { id: "短期大学" },
-            { id: "大学院（修士）" },
-            { id: "大学院（博士）" },
-            { id: "専門学校" },
-            { id: "高校" },
-            { id: "高等専門学校" },
-            { id: "中学校" },
-            { id: "その他" },
-        ],
-        currentposition: [
-            { id: "会社員" },
-            { id: "大学生/大学院生/専門学校" },
-            { id: "語学留学生" },
-            { id: "主婦" },
-            { id: "経営者/自営業" },
-            { id: "無職" },
-            { id: "定年退職" },
-            { id: "その他" },
-        ],
-        //currency : [{ id: "円"},{ id: "元"},{ id: "USドル"},{ id: "バーツ"}],
-        //basicInfo
+            countries: [],
+            city_list: [],
+            languages: [],
+            disabled: 0,
+            finaleducation: [
+                { id: "大学（学士)" },
+                { id: "短期大学" },
+                { id: "大学院（修士）" },
+                { id: "大学院（博士）" },
+                { id: "専門学校" },
+                { id: "高校" },
+                { id: "高等専門学校" },
+                { id: "中学校" },
+                { id: "その他" },
+            ],
+            currentposition: [
+                { id: "会社員" },
+                { id: "大学生/大学院生/専門学校" },
+                { id: "語学留学生" },
+                { id: "主婦" },
+                { id: "経営者/自営業" },
+                { id: "無職" },
+                { id: "定年退職" },
+                { id: "その他" },
+            ],
+            //currency : [{ id: "円"},{ id: "元"},{ id: "USドル"},{ id: "バーツ"}],
+            //basicInfo
 
-        // (start) experience qualification
-        ids_to_del_exp_quali: [],
-        ids_to_del_study_abroad: [],
-        ids_to_del_working_abroad: [],
-        ids_to_del_language_levels: [],
-        //industry_list : [],
-        country_list: [],
-        exp_occupations: [],
-        exp_positions: [],
-        experience_qualification: {
-            experience_jobs: [],
-            study_abroad_experiences: [],
-            working_abroad_experiences: [],
-            //overseas_working_experiences: [],
-            foreign_language_level_experiences: [],
-            //qualifications: [],
-            work_visa: {
-            status: "",
-            country: "",
+            // (start) experience qualification
+            ids_to_del_exp_quali: [],
+            ids_to_del_study_abroad: [],
+            ids_to_del_working_abroad: [],
+            ids_to_del_language_levels: [],
+            //industry_list : [],
+            country_list: [],
+            exp_occupations: [],
+            exp_positions: [],
+            experience_qualification: {
+                experience_jobs: [],
+                study_abroad_experiences: [],
+                working_abroad_experiences: [],
+                //overseas_working_experiences: [],
+                foreign_language_level_experiences: [],
+                //qualifications: [],
+                work_visa: {
+                status: "",
+                country: "",
+                },
+                other_qualifications: {
+                TOEIC_score: "",
+                language_qualifications: "",
+                qualifications: "",
+                },
             },
-            other_qualifications: {
-            TOEIC_score: "",
-            language_qualifications: "",
-            qualifications: "",
-            },
-        },
-        study_abroad_period: [
-            "半年未満",
-            "半年～1年",
-            "1年～2年",
-            "2年～3年",
-            "4年以上",
-        ],
-        purpose_study_abroad: [
-            "語学留学",
-            "大学",
-            "MBA",
-            "MBA以外の修士号",
-            "その他",
-        ],
-        overseas_working_period: ["1年未満", "1年～2年", "2年～3年", "4年以上"],
-        language_level: [
-            "挨拶程度",
-            "日常会話",
-            "ビジネスレベル",
-            "ネイティブレベル",
-        ],
-        // (end) experience qualification
+            study_abroad_period: [
+                "半年未満",
+                "半年～1年",
+                "1年～2年",
+                "2年～3年",
+                "4年以上",
+            ],
+            purpose_study_abroad: [
+                "語学留学",
+                "大学",
+                "MBA",
+                "MBA以外の修士号",
+                "その他",
+            ],
+            overseas_working_period: ["1年未満", "1年～2年", "2年～3年", "4年以上"],
+            language_level: [
+                "挨拶程度",
+                "日常会話",
+                "ビジネスレベル",
+                "ネイティブレベル",
+            ],
+            // (end) experience qualification
 
-        desired_industries: [],
-        desired_occupations: [],
-        // images: [],
-        activeImage: 4,
+            desired_industries: [],
+            desired_occupations: [],
+            // images: [],
+            activeImage: 4,
 
-        //desired_condition
-        moitivation: [
-            { id: "積極的に多くの企業と会いたい" },
-            { id: "いいところがあれば会いたい" },
-            { id: "まだ積極的には考えていない" },
-        ],
-        activity_status: [
-            { id: "特に何もしていない" },
-            { id: "情報収集（求人サイト・求人雑誌）" },
-            { id: "情報収集（人材会社等に登録）" },
-            { id: "企業にエントリー済み" },
-            { id: "一次面接・筆記試験予定がある" },
-            { id: "最終面接予定がある" },
-            { id: "既に内定をもらっている" },
-        ],
-        changing_jobs: [
-            { id: "特になし" },
-            { id: "勤務地域（国、都市）" },
-            { id: "経験を活かせる業界、職種で働きたい" },
-            { id: "未経験・異なる業界、職種に挑戦したい" },
-            { id: "有名企業、大手企業で働きたい" },
-            { id: "安定性、将来性がある企業で働きたい" },
-            { id: "新規拠点・事業の立上げに関わりたい" },
-            { id: "給与・待遇面を改善したい" },
-            { id: "駐在案件の海外勤務を希望" },
-        ],
-        currency: [
-            { id: "円" },
-            { id: "元" },
-            { id: "USドル" },
-            { id: "バーツ" },
-        ],
-        desired_city_list: [],
-        industry_list: [],
-        occupation_list: [],
-        date_list: [],
-        industries: [
-            {
-            id: 0,
-            jobseeker_id: null,
+            //desired_condition
+            moitivation: [
+                { id: "積極的に多くの企業と会いたい" },
+                { id: "いいところがあれば会いたい" },
+                { id: "まだ積極的には考えていない" },
+            ],
+            activity_status: [
+                { id: "特に何もしていない" },
+                { id: "情報収集（求人サイト・求人雑誌）" },
+                { id: "情報収集（人材会社等に登録）" },
+                { id: "企業にエントリー済み" },
+                { id: "一次面接・筆記試験予定がある" },
+                { id: "最終面接予定がある" },
+                { id: "既に内定をもらっている" },
+            ],
+            changing_jobs: [
+                { id: "特になし" },
+                { id: "勤務地域（国、都市）" },
+                { id: "経験を活かせる業界、職種で働きたい" },
+                { id: "未経験・異なる業界、職種に挑戦したい" },
+                { id: "有名企業、大手企業で働きたい" },
+                { id: "安定性、将来性がある企業で働きたい" },
+                { id: "新規拠点・事業の立上げに関わりたい" },
+                { id: "給与・待遇面を改善したい" },
+                { id: "駐在案件の海外勤務を希望" },
+            ],
+            currency: [
+                { id: "円" },
+                { id: "元" },
+                { id: "USドル" },
+                { id: "バーツ" },
+            ],
+            desired_city_list: [],
+            industry_list: [],
+            occupation_list: [],
+            date_list: [],
+            industries: [
+                {
+                id: 0,
+                jobseeker_id: null,
+                },
+            ],
+            occupations: [
+                {
+                id: 0,
+                jobseeker_id: null,
+                },
+            ],
+            desired_condition: {
+                desired_min_annual_income: null,
             },
-        ],
-        occupations: [
-            {
-            id: 0,
-            jobseeker_id: null,
+            desired_errors: {
+                industry_error: "",
+                occupation_error: "",
             },
-        ],
-        desired_condition: {
-            desired_min_annual_income: null,
-        },
-        desired_errors: {
-            industry_error: "",
-            occupation_error: "",
-        },
-        //desired_condition
+            //desired_condition
         };
     },
     validations: {
@@ -2332,77 +2332,77 @@
         face_image: { isTrueImage },
         },
         basicInfo: {
-        phone: {
-            required,
-            numeric,
-            minLength: minLength(10),
-            maxLength: maxLength(14),
-        },
-        jobseeker_furigana_name: {
-            required,
-            isFurigana,
-        },
-        jobseeker_name: {
-            required,
-        },
-        email: {
-            required,
-            email,
-        },
+            phone: {
+                required,
+                numeric,
+                minLength: minLength(10),
+                maxLength: maxLength(14),
+            },
+            jobseeker_furigana_name: {
+                required,
+                isFurigana,
+            },
+            jobseeker_name: {
+                required,
+            },
+            email: {
+                required,
+                email,
+            },
         },
 
         // (start) experience qualification
         experience_qualification: {
         experience_jobs: {
             $each: {
-            experience_year: { required, numeric, maxLength: maxLength(80) },
-            experience_industry: { required },
-            experience_occupation: { required },
-            experience_position: { required },
+                experience_year: { required, numeric, maxLength: maxLength(80) },
+                experience_industry: { required },
+                experience_occupation: { required },
+                experience_position: { required },
             },
         },
         study_abroad_experiences: {
             $each: {
-            study_abroad_country: { required },
-            study_abroad_period: { required },
-            study_abroad_purpose: { required },
+                study_abroad_country: { required },
+                study_abroad_period: { required },
+                study_abroad_purpose: { required },
             },
         },
         working_abroad_experiences: {
             $each: {
-            working_abroad_country: { required },
-            working_abroad_period: { required },
-            working_abroad_position: { required },
+                working_abroad_country: { required },
+                working_abroad_period: { required },
+                working_abroad_position: { required },
             },
         },
         work_visa: {
             country: {
-            required: requiredIf(function () {
-                return this.experience_qualification.work_visa.status == 1
-                ? true
-                : false;
-            }),
+                required: requiredIf(function () {
+                    return this.experience_qualification.work_visa.status == 1
+                    ? true
+                    : false;
+                }),
             },
         },
         foreign_language_level_experiences: {
             $each: {
-            foreign_language: { required },
-            language_level: { required },
+                foreign_language: { required },
+                language_level: { required },
+                },
             },
-        },
         },
         // (end) experience qualification
 
         desired_condition: {
-        desired_min_annual_income: { required },
+            desired_min_annual_income: { required },
         },
     },
 
     created() {
         // this.$loading.show();
+        this.selfIntro.face_image_private_status = 0;
         let request_id = {};
         this.$set(request_id, "id", `${this.$route.params.id}`);
-        this.selfIntro.face_image_private_status = 0;
         this.getSelfIntroDetails(request_id);
         this.getCarrerRequiredList();
         this.getBasicInfoDetails(request_id);
@@ -2413,671 +2413,244 @@
 
     computed: {
         years() {
-        const year = new Date().getFullYear();
-        return Array.from(
-            { length: year - 1900 },
-            (value, index) => year - index
-        );
+            const year = new Date().getFullYear();
+            return Array.from(
+                { length: year - 1900 },
+                (value, index) => year - index
+            );
         },
         months() {
-        return [
-            "1月",
-            "2月",
-            "3月",
-            "4月",
-            "5月",
-            "6月",
-            "7月",
-            "8月",
-            "9月",
-            "10月",
-            "11月",
-            "12月",
-        ];
+            return [
+                "1月",
+                "2月",
+                "3月",
+                "4月",
+                "5月",
+                "6月",
+                "7月",
+                "8月",
+                "9月",
+                "10月",
+                "11月",
+                "12月",
+            ];
         }
-        
     },
 
     methods: {
         getData(status) {
-        if (status == "industry") {
-            this.desired_errors.industry_error = "";
-        } else {
-            this.desired_errors.occupation_error = "";
-        }
+            if (status == "industry") {
+                this.desired_errors.industry_error = "";
+            } else {
+                this.desired_errors.occupation_error = "";
+            }
         },
+
         checkGender(type) {
-        this.basicInfo.gender = type;
+            this.basicInfo.gender = type;
         },
 
         getCarrerRequiredList() {
-        this.$api.get("/v1/jobseeker/required-list").then((response) => {
-            this.positions = response.data.data.positions;
-            this.employment_types = response.data.data.employment_types;
-        });
+            this.$api.get("/v1/jobseeker/required-list").then((response) => {
+                this.positions = response.data.data.positions;
+                this.employment_types = response.data.data.employment_types;
+            });
         },
 
         //su sandy
         getSelfIntroDetails(request_id) {
-        let loader = this.$loading.show();
-        //console.log("loader",loader);
-        this.$api.get("/v1/default-image").then((r) => {
-            this.defaultImageUrl = r.data.data;
-        });
+            let loader = this.$loading.show();
+            //console.log("loader",loader);
+            this.$api.get("/v1/default-image").then((r) => {
+                this.defaultImageUrl = r.data.data;
+            });
 
-        this.$api.post("/v1/jobseeker/profile/selfintro", request_id).then((r) => {
-            this.file_names = r.data.data.hashedFile; //hashed for related_images
+            this.$api.post("/v1/jobseeker/profile/selfintro", request_id).then((r) => {
+                this.file_names = r.data.data.hashedFile; //hashed for related_images
 
-            this.selfIntro = r.data.data.selfIntro; //rebind selfintro data
+                this.selfIntro = r.data.data.selfIntro; //rebind selfintro data
 
-            this.selfIntro.delete_related_images = []; //clear deleted images
+                this.selfIntro.delete_related_images = []; //clear deleted images
 
-            this.currentImage = this.selfIntro.face_image_url;
+                this.currentImage = this.selfIntro.face_image_url;
 
-            this.selfIntroDetails = r.data.data.selfIntroDetails; //to show selfintro details
+                this.selfIntroDetails = r.data.data.selfIntroDetails; //to show selfintro details
 
-            this.activeImage = 4;
-        });
-        loader.hide();
+                this.activeImage = 4;
+            });
+            loader.hide();
         },
 
         //su sandy
         activateImage(type, imageIndex) {
-        if (type == "related") {
-            this.activeImage = imageIndex;
-            this.currentImage = this.selfIntro.related_images[imageIndex].file_url;
-        } else {
-            this.activeImage = imageIndex;
-            this.currentImage = this.selfIntro.face_image_url;
-        }
+            if (type == "related") {
+                this.activeImage = imageIndex;
+                this.currentImage = this.selfIntro.related_images[imageIndex].file_url;
+            } else {
+                this.activeImage = imageIndex;
+                this.currentImage = this.selfIntro.face_image_url;
+            }
         },
 
         //su sandy
         changeFaceImage(e) {
-        this.$v.selfIntro.face_image.$touch();
-        if (this.$v.selfIntro.face_image.$error) {
-            return;
-        }
-        const files = e.target.files || e.dataTransfer.files;
-        const file = files[0];
-        const ext = file.name.split(".").pop().toLowerCase();
-
-        if (ext == "png" || ext == "jpg" || ext == "jpeg") {
-            if (file.size / 1024 / 1024 <= 3) {
-            this.selfIntro.face_image = file;
-            this.selfIntro.face_image_url = URL.createObjectURL(file);
-            this.selfIntro.delete_fac_image = false;
-            } else {
-            this.$alertService
-                .showWarningDialog(
-                null,
-                this.$t("alertMessage.imageSizeWarning"),
-                this.$t("alertMessage.yes")
-                )
-                .then((r) => {
-                    console.log(r);
-                });
+            this.$v.selfIntro.face_image.$touch();
+            if (this.$v.selfIntro.face_image.$error) {
+                return;
             }
-        } else {
-            this.$alertService
-            .showWarningDialog(
-                null,
-                this.$t("alertMessage.imageTypeWarning"),
-                this.$t("alertMessage.yes")
-            )
-            .then((r) => {
-                console.log(r);
-            });
-        }
-        },
-
-        //su sandy
-        deleteFacImage() {
-        // this.$alertService.showConfirmDialog(null, "Are you sure to delete logo?").then((r) => {
-        //     if (r.value) {
-        this.selfIntro.face_image = "";
-        this.selfIntro.face_image_url = this.defaultImageUrl;
-        this.selfIntro.delete_fac_image = true;
-        //     }
-        // });
-        },
-
-        //su sandy
-        changeRelatedImages(e) {
-        const files = e.target.files || e.dataTransfer.files;
-        if (files.length + this.selfIntro.related_images.length > 4) {
-            this.$alertService
-            .showWarningDialog(
-                null,
-                this.$t("alertMessage.imageMaximunWarning"),
-                this.$t("alertMessage.yes")
-            )
-            .then((r) => {
-                console.log(r);
-            });
-            return;
-        }
-
-        let taken = this.selfIntro.related_images.map((x) => {
-            return x.url.split(".")[0];
-        });
-        let availables = this.file_names.filter((x) => !taken.includes(x));
-
-        const vm = this;
-        Array.from(files).forEach((file, i) => {
+            const files = e.target.files || e.dataTransfer.files;
+            const file = files[0];
             const ext = file.name.split(".").pop().toLowerCase();
 
             if (ext == "png" || ext == "jpg" || ext == "jpeg") {
-            if (file.size / 1024 / 1024 <= 3) {
-                let filename = availables[i];
-                let extension = file.type.split("/").pop();
-                let entry = {
-                file: file,
-                url: `${filename}.${extension}`,
-                file_url: URL.createObjectURL(file),
-                file_type: "photo",
-                user_type: "jobseeker",
-                };
-                vm.selfIntro.related_images.splice(i, 0, entry);
-                let deleteFlagIndex = vm.selfIntro.delete_related_images.indexOf(
-                filename
-                );
-                if (deleteFlagIndex == -1)
-                vm.selfIntro.delete_related_images.splice(deleteFlagIndex, 1);
+                if (file.size / 1024 / 1024 <= 3) {
+                this.selfIntro.face_image = file;
+                this.selfIntro.face_image_url = URL.createObjectURL(file);
+                this.selfIntro.delete_fac_image = false;
+                } else {
+                this.$alertService
+                    .showWarningDialog(
+                    null,
+                    this.$t("alertMessage.imageSizeWarning"),
+                    this.$t("alertMessage.yes")
+                    )
+                    .then((r) => {
+                        console.log(r);
+                    });
+                }
             } else {
                 this.$alertService
                 .showWarningDialog(
                     null,
-                    this.$t("alertMessage.imageSizeWarning"),
+                    this.$t("alertMessage.imageTypeWarning"),
                     this.$t("alertMessage.yes")
                 )
                 .then((r) => {
                     console.log(r);
                 });
             }
-            } else {
-            this.$alertService
+        },
+
+        //su sandy
+        deleteFacImage() {
+            // this.$alertService.showConfirmDialog(null, "Are you sure to delete logo?").then((r) => {
+            //     if (r.value) {
+            this.selfIntro.face_image = "";
+            this.selfIntro.face_image_url = this.defaultImageUrl;
+            this.selfIntro.delete_fac_image = true;
+            //     }
+            // });
+        },
+
+        //su sandy
+        changeRelatedImages(e) {
+            const files = e.target.files || e.dataTransfer.files;
+            if (files.length + this.selfIntro.related_images.length > 4) {
+                this.$alertService
                 .showWarningDialog(
-                null,
-                this.$t("alertMessage.imageTypeWarning"),
-                this.$t("alertMessage.yes")
+                    null,
+                    this.$t("alertMessage.imageMaximunWarning"),
+                    this.$t("alertMessage.yes")
                 )
                 .then((r) => {
                     console.log(r);
                 });
+                return;
             }
-        });
+
+            let taken = this.selfIntro.related_images.map((x) => {
+                return x.url.split(".")[0];
+            });
+            let availables = this.file_names.filter((x) => !taken.includes(x));
+
+            const vm = this;
+            Array.from(files).forEach((file, i) => {
+                const ext = file.name.split(".").pop().toLowerCase();
+
+                if (ext == "png" || ext == "jpg" || ext == "jpeg") {
+                if (file.size / 1024 / 1024 <= 3) {
+                    let filename = availables[i];
+                    let extension = file.type.split("/").pop();
+                    let entry = {
+                    file: file,
+                    url: `${filename}.${extension}`,
+                    file_url: URL.createObjectURL(file),
+                    file_type: "photo",
+                    user_type: "jobseeker",
+                    };
+                    vm.selfIntro.related_images.splice(i, 0, entry);
+                    let deleteFlagIndex = vm.selfIntro.delete_related_images.indexOf(
+                    filename
+                    );
+                    if (deleteFlagIndex == -1)
+                    vm.selfIntro.delete_related_images.splice(deleteFlagIndex, 1);
+                } else {
+                    this.$alertService
+                    .showWarningDialog(
+                        null,
+                        this.$t("alertMessage.imageSizeWarning"),
+                        this.$t("alertMessage.yes")
+                    )
+                    .then((r) => {
+                        console.log(r);
+                    });
+                }
+                } else {
+                this.$alertService
+                    .showWarningDialog(
+                    null,
+                    this.$t("alertMessage.imageTypeWarning"),
+                    this.$t("alertMessage.yes")
+                    )
+                    .then((r) => {
+                        console.log(r);
+                    });
+                }
+            });
         },
 
         //su sandy
         deleteRelatedImage(index) {
-        // this.$alertService.showConfirmDialog(null, "Delete image?").then((r) => {
-        //     if (r.value) {
-        let uploadedFile = this.selfIntro.related_images.splice(index, 1);
-        let filename = uploadedFile[0].url.slice(
-            0,
-            uploadedFile[0].url.indexOf(".")
-        );
+            // this.$alertService.showConfirmDialog(null, "Delete image?").then((r) => {
+            //     if (r.value) {
+            let uploadedFile = this.selfIntro.related_images.splice(index, 1);
+            let filename = uploadedFile[0].url.slice(
+                0,
+                uploadedFile[0].url.indexOf(".")
+            );
 
-        if (this.selfIntro.delete_related_images.indexOf(filename) == -1)
-            this.selfIntro.delete_related_images.push(filename);
-        //     }
-        // });
+            if (this.selfIntro.delete_related_images.indexOf(filename) == -1)
+                this.selfIntro.delete_related_images.push(filename);
+            //     }
+            // });
         },
 
         // Edit Button Click
         editBox(boxName, action) {
-        this.showDetails = !this.showDetails;
-        this[boxName] = !this[boxName];
-        let request_id = {};
-        this.$set(request_id, "id", `${this.$route.params.id}`);
-        // this.getBasicInfoDetails();
-        this.getSelfIntroDetails(request_id);
-        // this.getCarrerDetails();
-        if (action == "open") {
-            //jquery?
-            //$("html, body").animate({ scrollTop: 0 }, "fast");
-        } else {
-            if (boxName == "expQualificationEdit") {
-                this.getJobIndustryExpDetails(request_id); // request_id
-                // call getData func back to clear empty array in data collection
+            this.showDetails = !this.showDetails;
+            this[boxName] = !this[boxName];
+            let request_id = {};
+            this.$set(request_id, "id", `${this.$route.params.id}`);
+            // this.getBasicInfoDetails();
+            this.getSelfIntroDetails(request_id);
+            // this.getCarrerDetails();
+            if (action == "open") {
+                //jquery?
+                //$("html, body").animate({ scrollTop: 0 }, "fast");
+            } else {
+                if (boxName == "expQualificationEdit") {
+                    this.getJobIndustryExpDetails(request_id); // request_id
+                    // call getData func back to clear empty array in data collection
+                }
+                this.$nextTick(() => {
+                var ele = this.$el.querySelector("#" + boxName);
+                window.scrollTo(0, ele.offsetTop);
+                });
             }
-            this.$nextTick(() => {
-            var ele = this.$el.querySelector("#" + boxName);
-            window.scrollTo(0, ele.offsetTop);
-            });
-        }
         },
 
         // Education
         addEducation() {
-        this.educations.push({
-            id: null,
-            jobseeker_id: null,
-            school_name: "",
-            subject: "",
-            degree: 0,
-            from_year: "年",
-            from_month: "月",
-            to_year: "年",
-            to_month: "月",
-            education_status: 0,
-        });
-        },
-        deleteEducation(indx) {
-        this.educations.splice(indx, 1);
-        },
-
-        // Experience
-        addExperience() {
-        this.experiences.push({
-            id: null,
-            jobseeker_id: null,
-            position_id: 0,
-            employment_type_id: 0,
-            job_location: "",
-            main_duty: "",
-            from_year: "年",
-            from_month: "月",
-            to_year: "年",
-            to_month: "月",
-            current: null,
-            private_status: "",
-        });
-        },
-        deleteExperience(indx) {
-        this.experiences.splice(indx, 1);
-        },
-
-        //(start) ExpQualification by zayar_phone_naing
-        changeVisaStatus(status){
-            if(status == 0)
-                this.experience_qualification.work_visa.country = "";
-        },
-
-        addExpQualification() {
-        this.experience_qualification.experience_jobs.push({
-            experience_year: "",
-            experience_industry: "",
-            experience_occupation: "",
-            experience_position: "",
-        });
-        },
-
-        addStudyAbroadExp() {
-        this.experience_qualification.study_abroad_experiences.push({
-            study_abroad_country: "",
-            study_abroad_period: "",
-            study_abroad_purpose: "",
-        });
-        },
-
-        addWorkingAbroadExp() {
-        this.experience_qualification.working_abroad_experiences.push({
-            working_abroad_country: "",
-            working_abroad_period: "",
-            working_abroad_position: "",
-        });
-        },
-
-        addforeignLanguageLevel() {
-        this.experience_qualification.foreign_language_level_experiences.push({
-            foreign_language: "",
-            language_level: "",
-        });
-        },
-
-        getJobIndustryExpDetails(request_id) {
-        this.$api
-            .post("/v1/jobseeker/profile/experiences-qualifications", request_id)
-            .then((res) => {
-                console.log(res);
-            let response = res.data.data;
-            this.industry_list = response.industries;
-            this.country_list = response.countries;
-            this.exp_occupations = response.occupations;
-            this.exp_positions = response.positions;
-            let jobseeker_detail = response.jobseeker_detail;
-            let industry_histories = response.industry_histories;
-            let education_overseas = response.education_overseas;
-            let working_overseas = response.working_overseas;
-            let languages_levels = response.languages_levels;
-
-            // experience job type
-            this.experience_qualification.experience_jobs = [];
-            if (industry_histories.length > 0) {
-                for (const industry_history of industry_histories) {
-                this.experience_qualification.experience_jobs.push({
-                    industry_history_id: industry_history.id,
-                    experience_year: industry_history.experience_year,
-                    experience_industry: industry_history.industry_id,
-                    experience_occupation: industry_history.occupation_keyword_id,
-                    experience_position: industry_history.position_id,
-                });
-                }
-            } else {
-                this.experience_qualification.experience_jobs.push({
-                industry_history_id: "",
-                experience_year: "",
-                experience_industry: "",
-                experience_occupation: "",
-                experience_position: "",
-                });
-            }
-
-            // study abroad experience
-            this.experience_qualification.study_abroad_experiences = [];
-            if (education_overseas.length > 0) {
-                for (const education_oversea of education_overseas) {
-                this.experience_qualification.study_abroad_experiences.push({
-                    study_abroad_id: education_oversea.id,
-                    study_abroad_country: education_oversea.country_id,
-                    study_abroad_period: education_oversea.period,
-                    study_abroad_purpose: education_oversea.purpose,
-                });
-                }
-            } else {
-                this.experience_qualification.study_abroad_experiences.push({
-                study_abroad_id: "",
-                study_abroad_country: "",
-                study_abroad_period: "",
-                study_abroad_purpose: "",
-                });
-            }
-
-            // working at overseas/abroad experience
-            this.experience_qualification.working_abroad_experiences = [];
-            if (working_overseas.length > 0) {
-                for (const working_oversea of working_overseas) {
-                this.experience_qualification.working_abroad_experiences.push({
-                    working_abroad_id: working_oversea.id,
-                    working_abroad_country: working_oversea.country_id,
-                    working_abroad_position: working_oversea.position_id,
-                    working_abroad_period: working_oversea.period,
-                });
-                }
-            } else {
-                this.experience_qualification.working_abroad_experiences.push({
-                working_abroad_id: "",
-                working_abroad_country: "",
-                working_abroad_position: "",
-                working_abroad_period: "",
-                });
-            }
-
-            // work visa
-            this.experience_qualification.work_visa.status =
-                jobseeker_detail.visa_status ?? "0";
-            this.experience_qualification.work_visa.country =
-                jobseeker_detail.visa_status !== 0
-                ? jobseeker_detail.visa_country
-                : "";
-
-            // other qualifications
-            this.experience_qualification.other_qualifications.TOEIC_score =
-                jobseeker_detail.toeic_score;
-            this.experience_qualification.other_qualifications.language_qualifications =
-                jobseeker_detail.other_language_certificate;
-            this.experience_qualification.other_qualifications.qualifications =
-                jobseeker_detail.other_certificate;
-
-            // foreign language level
-            this.experience_qualification.foreign_language_level_experiences = [];
-            if (languages_levels.length > 0) {
-                for (const languages_level of languages_levels) {
-                this.experience_qualification.foreign_language_level_experiences.push(
-                    {
-                    foreign_language_id: languages_level.id,
-                    foreign_language: languages_level.language_id,
-                    language_level: languages_level.language_level,
-                    }
-                );
-                }
-            } else {
-                this.experience_qualification.foreign_language_level_experiences.push(
-                {
-                    foreign_language_id: "",
-                    foreign_language: "",
-                    language_level: "",
-                }
-                );
-            }
-            })
-            .catch((errors) => {
-            console.log(errors);
-            });
-        },
-
-        deleteExpQualification(index, industry_history_id) {
-        if (typeof industry_history_id !== "undefined") {
-            this.ids_to_del_exp_quali.push({ industry_history_id });
-        }
-        this.experience_qualification.experience_jobs.splice(index, 1);
-        },
-
-        deleteStudyAbroad(index, study_abroad_id) {
-        if (typeof study_abroad_id !== "undefined") {
-            this.ids_to_del_study_abroad.push({ study_abroad_id });
-        }
-        this.experience_qualification.study_abroad_experiences.splice(index, 1);
-        },
-
-        deleteWorkingAbroad(index, working_abroad_id) {
-        if (typeof working_abroad_id !== "undefined") {
-            this.ids_to_del_working_abroad.push({ working_abroad_id });
-        }
-        this.experience_qualification.working_abroad_experiences.splice(index, 1);
-        },
-
-        deleteforeignLanguageLevel(index, foreign_language_id) {
-        if (typeof foreign_language_id !== "undefined") {
-            this.ids_to_del_language_levels.push({ foreign_language_id });
-        }
-        this.experience_qualification.foreign_language_level_experiences.splice(
-            index,
-            1
-        );
-        },
-
-        saveExpQualification() {
-        this.$v.experience_qualification.$touch();
-        if (this.$v.experience_qualification.$invalid) {
-            return;
-        }
-        this.$alertService
-            .showConfirmDialog(
-            null,
-            this.$t("dialog_box.confirm_save_message"),
-            this.$t("common.yes"),
-            this.$t("common.no")
-            )
-            .then((dialogResult) => {
-            if (dialogResult.value) {
-                let loader = this.$loading.show();
-                let request_data = {
-                request_id: `${this.$route.params.id}`,
-                experienced_jobs: this.experience_qualification.experience_jobs,
-                delete_experience_jobs: this.ids_to_del_exp_quali,
-                study_abroad_experiences: this.experience_qualification
-                    .study_abroad_experiences,
-                delete_study_abroad: this.ids_to_del_study_abroad,
-                working_abroad_experiences: this.experience_qualification
-                    .working_abroad_experiences,
-                delete_working_abroad: this.ids_to_del_working_abroad,
-                work_visa: this.experience_qualification.work_visa,
-                foreign_language_experiences: this.experience_qualification
-                    .foreign_language_level_experiences,
-                delete_foreign_languages_experiences: this
-                    .ids_to_del_language_levels,
-                other_qualifications: this.experience_qualification
-                    .other_qualifications,
-                };
-                this.$api
-                .post(
-                    "/v1/jobseeker/profile/experiences-qualifications/update",
-                    request_data
-                )
-                .then((response) => {
-                    console.log(response.data.data);
-                    loader.hide();
-                    this.editBox("expQualificationEdit", "close");
-                })
-                .catch((errors) => {
-                    console.log(errors);
-                    loader.hide();
-                });
-            } else {
-                this.getData(this.projects.current_page);
-            }
-            });
-        },
-        //(end) ExpQualification by zayar_phone_naing
-
-        //Industry (sus andy)
-        addIndustry() {
-        this.industries.push({
-            id: 0,
-            jobseeker_id: null,
-        });
-        },
-        removeIndustry(index) {
-        this.industries.splice(index, 1);
-        },
-        //occupation
-
-        //occupation (su sandy)
-        addOccupation() {
-        this.occupations.push({
-            id: 0,
-            jobseeker_id: null,
-        });
-        },
-        removeOccupation(index) {
-        this.occupations.splice(index, 1);
-        },
-        //occupation
-
-        //su sandy
-        saveSelfIntro() {
-        this.$v.selfIntro.$touch();
-        if (this.$v.selfIntro.$invalid) {
-            return;
-        }
-        let data = new FormData();
-        buildFormData(data, this.selfIntro);
-        let loading = this.$loading.show();
-        this.$api
-            .post("/v1/jobseeker/profile/selfintro/update", data)
-            .then((r) => {
-                console.log(r);
-            this.$alertService.showSuccessDialog(
-                null,
-                this.$t("alertMessage.updateSuccess"),
-                this.$t("common.close")
-            );
-            this.editBox("selfIntroEdit", "close");
-            this.getSelfIntroDetails();
-            })
-            .catch((e) => {
-            console.log(e);
-            })
-            .finally(() => {
-            loading.hide();
-            });
-        },
-
-        // Zinko
-        saveBasicInfo() {
-        this.$v.basicInfo.$touch();
-        if (this.$v.basicInfo.$invalid) {
-            return;
-        }
-        let data = new FormData();
-        buildFormData(data, this.basicInfo);
-        let loading = this.$loading.show();
-        this.$api
-            .post("/v1/jobseeker/profile/basicinfo", data)
-            .then((r) => {
-                console.log(r);
-            this.$alertService.showSuccessDialog(
-                null,
-                this.$t("alertMessage.updateSuccess"),
-                this.$t("common.close")
-            );
-            this.basicInfoEdit = false;
-            this.showDetails = true;
-            this.getBasicInfoDetails();
-            })
-            .catch((e) => {
-            console.log(e);
-            })
-            .finally(() => {
-            loading.hide();
-            });
-        },
-
-        getBasicInfoDetails(request_id) {
-        this.$api.post("/v1/jobseeker/profile/basicinfo", request_id).then((response) => {
-            this.basicInfo = response.data.data.profile;
-            this.city_list = response.data.data.cities;
-            this.languages = response.data.data.languages;
-            this.countries = response.data.data.countries;
-            const dob = new Date(this.basicInfo.dob);
-            this.basicInfo.dobyears = dob.getFullYear() + " 年";
-            this.basicInfo.dobmonth = dob.getMonth() + 1 + " 月";
-            this.basicInfo.dobday = dob.getDate() + " 日";
-        });
-        },
-
-        getCity() {
-        this.basicInfo.city_name = 0;
-        this.$api
-            .get("/v1/jobseeker/city-list/" + this.basicInfo.country_name)
-            .then((res) => {
-            this.city_list = res.data;
-            });
-        },
-
-        getCarrerDetails(request_id) {
-        this.$api.post("/v1/jobseeker/profile/carrerinfo", request_id).then((response) => {
-            console.log('getCarrerDetails'+response);
-            this.educations = response.data.data.educations;
-            this.experiences = response.data.data.experiences;
-            if (this.educations.length > 0) {
-            this.educations.forEach((element) => {
-                if (element.degree == null) {
-                element.degree = 0;
-                }
-
-                if (element.education_status == null) {
-                element.education_status = 0;
-                }
-
-                if (element.from_year) {
-                element.from_year = element.from_year + 1920 + " 年";
-                } else {
-                element.from_year = "年";
-                }
-
-                if (element.from_month) {
-                element.from_month = element.from_month + 12 + " 月";
-                } else {
-                element.from_month = "月";
-                }
-
-                if (element.to_year) {
-                element.to_year = element.to_year + 1920 + " 年";
-                } else {
-                element.to_year = "年";
-                }
-
-                if (element.to_month) {
-                element.to_month = element.to_month + 12 + " 月";
-                } else {
-                element.to_month = "月";
-                }
-            });
-            } else {
             this.educations.push({
                 id: null,
                 jobseeker_id: null,
@@ -3090,43 +2663,14 @@
                 to_month: "月",
                 education_status: 0,
             });
-            }
+        },
 
-            if (this.experiences.length > 0) {
-            this.experiences.forEach((element) => {
-                if (element.position_id == null) {
-                element.position_id == 0;
-                }
+        deleteEducation(indx) {
+            this.educations.splice(indx, 1);
+        },
 
-                if (element.employment_type_id == null) {
-                element.employment_type_id == 0;
-                }
-
-                if (element.from_year) {
-                element.from_year = element.from_year + 1920 + " 年";
-                } else {
-                element.from_year = "年";
-                }
-
-                if (element.from_month) {
-                element.from_month = element.from_month + 12 + " 月";
-                } else {
-                element.from_month = "月";
-                }
-
-                if (element.to_year) {
-                element.to_year = element.to_year + 1920 + " 年";
-                } else {
-                element.to_year = "年";
-                }
-
-                if (element.to_month) {
-                element.to_month = element.to_month + 12 + " 月";
-                } else {
-                element.to_month = "月";
-                }
-            });
-            } else {
+        // Experience
+        addExperience() {
             this.experiences.push({
                 id: null,
                 jobseeker_id: null,
@@ -3141,180 +2685,645 @@
                 current: null,
                 private_status: "",
             });
-            }
+        },
+        deleteExperience(indx) {
+            this.experiences.splice(indx, 1);
+        },
 
-            this.carrers = response.data.data.carrers;
-        });
+        //(start) ExpQualification by zayar_phone_naing
+        changeVisaStatus(status){
+            if(status == 0)
+                this.experience_qualification.work_visa.country = "";
+        },
+
+        addExpQualification() {
+            this.experience_qualification.experience_jobs.push({
+                experience_year: "",
+                experience_industry: "",
+                experience_occupation: "",
+                experience_position: "",
+            });
+        },
+
+        addStudyAbroadExp() {
+            this.experience_qualification.study_abroad_experiences.push({
+                study_abroad_country: "",
+                study_abroad_period: "",
+                study_abroad_purpose: "",
+            });
+        },
+
+        addWorkingAbroadExp() {
+            this.experience_qualification.working_abroad_experiences.push({
+                working_abroad_country: "",
+                working_abroad_period: "",
+                working_abroad_position: "",
+            });
+        },
+
+        addforeignLanguageLevel() {
+            this.experience_qualification.foreign_language_level_experiences.push({
+                foreign_language: "",
+                language_level: "",
+            });
+        },
+
+        getJobIndustryExpDetails(request_id) {
+            this.$api
+                .post("/v1/jobseeker/profile/experiences-qualifications", request_id)
+                .then((res) => {
+                    console.log(res);
+                let response = res.data.data;
+                this.industry_list = response.industries;
+                this.country_list = response.countries;
+                this.exp_occupations = response.occupations;
+                this.exp_positions = response.positions;
+                let jobseeker_detail = response.jobseeker_detail;
+                let industry_histories = response.industry_histories;
+                let education_overseas = response.education_overseas;
+                let working_overseas = response.working_overseas;
+                let languages_levels = response.languages_levels;
+
+                // experience job type
+                this.experience_qualification.experience_jobs = [];
+                if (industry_histories.length > 0) {
+                    for (const industry_history of industry_histories) {
+                    this.experience_qualification.experience_jobs.push({
+                        industry_history_id: industry_history.id,
+                        experience_year: industry_history.experience_year,
+                        experience_industry: industry_history.industry_id,
+                        experience_occupation: industry_history.occupation_keyword_id,
+                        experience_position: industry_history.position_id,
+                    });
+                    }
+                } else {
+                    this.experience_qualification.experience_jobs.push({
+                    industry_history_id: "",
+                    experience_year: "",
+                    experience_industry: "",
+                    experience_occupation: "",
+                    experience_position: "",
+                    });
+                }
+
+                // study abroad experience
+                this.experience_qualification.study_abroad_experiences = [];
+                if (education_overseas.length > 0) {
+                    for (const education_oversea of education_overseas) {
+                    this.experience_qualification.study_abroad_experiences.push({
+                        study_abroad_id: education_oversea.id,
+                        study_abroad_country: education_oversea.country_id,
+                        study_abroad_period: education_oversea.period,
+                        study_abroad_purpose: education_oversea.purpose,
+                    });
+                    }
+                } else {
+                    this.experience_qualification.study_abroad_experiences.push({
+                    study_abroad_id: "",
+                    study_abroad_country: "",
+                    study_abroad_period: "",
+                    study_abroad_purpose: "",
+                    });
+                }
+
+                // working at overseas/abroad experience
+                this.experience_qualification.working_abroad_experiences = [];
+                if (working_overseas.length > 0) {
+                    for (const working_oversea of working_overseas) {
+                    this.experience_qualification.working_abroad_experiences.push({
+                        working_abroad_id: working_oversea.id,
+                        working_abroad_country: working_oversea.country_id,
+                        working_abroad_position: working_oversea.position_id,
+                        working_abroad_period: working_oversea.period,
+                    });
+                    }
+                } else {
+                    this.experience_qualification.working_abroad_experiences.push({
+                    working_abroad_id: "",
+                    working_abroad_country: "",
+                    working_abroad_position: "",
+                    working_abroad_period: "",
+                    });
+                }
+
+                // work visa
+                this.experience_qualification.work_visa.status =
+                    jobseeker_detail.visa_status ?? "0";
+                this.experience_qualification.work_visa.country =
+                    jobseeker_detail.visa_status !== 0
+                    ? jobseeker_detail.visa_country
+                    : "";
+
+                // other qualifications
+                this.experience_qualification.other_qualifications.TOEIC_score =
+                    jobseeker_detail.toeic_score;
+                this.experience_qualification.other_qualifications.language_qualifications =
+                    jobseeker_detail.other_language_certificate;
+                this.experience_qualification.other_qualifications.qualifications =
+                    jobseeker_detail.other_certificate;
+
+                // foreign language level
+                this.experience_qualification.foreign_language_level_experiences = [];
+                if (languages_levels.length > 0) {
+                    for (const languages_level of languages_levels) {
+                    this.experience_qualification.foreign_language_level_experiences.push(
+                        {
+                        foreign_language_id: languages_level.id,
+                        foreign_language: languages_level.language_id,
+                        language_level: languages_level.language_level,
+                        }
+                    );
+                    }
+                } else {
+                    this.experience_qualification.foreign_language_level_experiences.push(
+                    {
+                        foreign_language_id: "",
+                        foreign_language: "",
+                        language_level: "",
+                    }
+                    );
+                }
+            })
+            .catch((errors) => {
+            console.log(errors);
+            });
+        },
+
+        deleteExpQualification(index, industry_history_id) {
+            if (typeof industry_history_id !== "undefined") {
+                this.ids_to_del_exp_quali.push({ industry_history_id });
+            }
+            this.experience_qualification.experience_jobs.splice(index, 1);
+        },
+
+        deleteStudyAbroad(index, study_abroad_id) {
+            if (typeof study_abroad_id !== "undefined") {
+                this.ids_to_del_study_abroad.push({ study_abroad_id });
+            }
+            this.experience_qualification.study_abroad_experiences.splice(index, 1);
+        },
+
+        deleteWorkingAbroad(index, working_abroad_id) {
+            if (typeof working_abroad_id !== "undefined") {
+                this.ids_to_del_working_abroad.push({ working_abroad_id });
+            }
+            this.experience_qualification.working_abroad_experiences.splice(index, 1);
+        },
+
+        deleteforeignLanguageLevel(index, foreign_language_id) {
+            if (typeof foreign_language_id !== "undefined") {
+                this.ids_to_del_language_levels.push({ foreign_language_id });
+            }
+            this.experience_qualification.foreign_language_level_experiences.splice(
+                index,
+                1
+            );
+        },
+
+        saveExpQualification() {
+        this.$v.experience_qualification.$touch();
+        if (this.$v.experience_qualification.$invalid) {
+            return;
+        }
+        this.$alertService.showConfirmDialog(null, this.$t("dialog_box.confirm_save_message"), this.$t("common.yes"),
+            this.$t("common.no"))
+            .then((dialogResult) => {
+                if (dialogResult.value) {
+                    let loader = this.$loading.show();
+                    let request_data = {
+                        request_id: `${this.$route.params.id}`,
+                        experienced_jobs: this.experience_qualification.experience_jobs,
+                        delete_experience_jobs: this.ids_to_del_exp_quali,
+                        study_abroad_experiences: this.experience_qualification
+                            .study_abroad_experiences,
+                        delete_study_abroad: this.ids_to_del_study_abroad,
+                        working_abroad_experiences: this.experience_qualification
+                            .working_abroad_experiences,
+                        delete_working_abroad: this.ids_to_del_working_abroad,
+                        work_visa: this.experience_qualification.work_visa,
+                        foreign_language_experiences: this.experience_qualification
+                            .foreign_language_level_experiences,
+                        delete_foreign_languages_experiences: this
+                            .ids_to_del_language_levels,
+                        other_qualifications: this.experience_qualification
+                            .other_qualifications,
+                    };
+                    this.$api
+                    .post(
+                        "/v1/jobseeker/profile/experiences-qualifications/update",
+                        request_data
+                    )
+                    .then((response) => {
+                        console.log(response.data.data);
+                        loader.hide();
+                        this.editBox("expQualificationEdit", "close");
+                    })
+                    .catch((errors) => {
+                        console.log(errors);
+                        loader.hide();
+                    });
+                } else {
+                    this.getData(this.projects.current_page);
+                }
+            });
+        },
+        //(end) ExpQualification by zayar_phone_naing
+
+        //Industry (sus andy)
+        addIndustry() {
+            this.industries.push({
+                id: 0,
+                jobseeker_id: null,
+            });
+        },
+        removeIndustry(index) {
+            this.industries.splice(index, 1);
+        },
+        //occupation
+
+        //occupation (su sandy)
+        addOccupation() {
+            this.occupations.push({
+                id: 0,
+                jobseeker_id: null,
+            });
+        },
+        removeOccupation(index) {
+            this.occupations.splice(index, 1);
+        },
+        //occupation
+
+        //su sandy
+        saveSelfIntro() {
+            this.$v.selfIntro.$touch();
+            if (this.$v.selfIntro.$invalid) {
+                return;
+            }
+            // let data = new FormData();
+            // buildFormData(data, this.selfIntro);
+            let loading = this.$loading.show();
+            this.$set(this.selfIntro, "id", this.$route.params.id);
+            this.$api
+                .post("/v1/jobseeker/profile/selfintro/update", this.selfIntro)
+                .then((r) => {
+                    console.log(r);
+                this.$alertService.showSuccessDialog(
+                    null,
+                    this.$t("alertMessage.updateSuccess"),
+                    this.$t("common.close")
+                );
+                this.editBox("selfIntroEdit", "close");
+                let request_id = {};
+                this.$set(request_id, "id", `${this.$route.params.id}`);
+                this.getSelfIntroDetails(request_id);
+                })
+                .catch((e) => {
+                console.log(e);
+                })
+                .finally(() => {
+                loading.hide();
+                });
+        },
+
+        // Zinko
+        saveBasicInfo() {
+            this.$v.basicInfo.$touch();
+            if (this.$v.basicInfo.$invalid) {
+                return;
+            }
+            // let data = new FormData();
+            // buildFormData(data, this.basicInfo);
+            this.$set(this.basicInfo, "id", this.$route.params.id);
+            let loading = this.$loading.show();
+            this.$api
+                .post("/v1/jobseeker/profile/basicinfo/update", this.basicInfo)
+                .then((r) => {
+                    console.log(r);
+                this.$alertService.showSuccessDialog(
+                    null,
+                    this.$t("alertMessage.updateSuccess"),
+                    this.$t("common.close")
+                );
+                this.basicInfoEdit = false;
+                this.showDetails = true;
+                let request_id = {};
+                this.$set(request_id, "id", `${this.$route.params.id}`);
+                this.getBasicInfoDetails(request_id);
+                })
+                .catch((e) => {
+                console.log(e);
+                })
+                .finally(() => {
+                loading.hide();
+                });
+        },
+
+        getBasicInfoDetails(request_id) {
+            this.$api.post("/v1/jobseeker/profile/basicinfo", request_id).then((response) => {
+                this.basicInfo = response.data.data.profile;
+                this.city_list = response.data.data.cities;
+                this.languages = response.data.data.languages;
+                this.countries = response.data.data.countries;
+                const dob = new Date(this.basicInfo.dob);
+                this.basicInfo.dobyears = dob.getFullYear() + " 年";
+                this.basicInfo.dobmonth = dob.getMonth() + 1 + " 月";
+                this.basicInfo.dobday = dob.getDate() + " 日";
+            });
+        },
+
+        getCity() {
+            this.basicInfo.city_name = 0;
+            this.$api
+                .get("/v1/jobseeker/city-list/" + this.basicInfo.country_name)
+                .then((res) => {
+                this.city_list = res.data;
+                });
+        },
+
+        getCarrerDetails(request_id) {
+            this.$api.post("/v1/jobseeker/profile/carrerinfo", request_id).then((response) => {
+                console.log('getCarrerDetails'+response);
+                this.educations = response.data.data.educations;
+                this.experiences = response.data.data.experiences;
+                if (this.educations.length > 0) {
+                this.educations.forEach((element) => {
+                    if (element.degree == null) {
+                    element.degree = 0;
+                    }
+
+                    if (element.education_status == null) {
+                    element.education_status = 0;
+                    }
+
+                    if (element.from_year) {
+                    element.from_year = element.from_year + 1920 + " 年";
+                    } else {
+                    element.from_year = "年";
+                    }
+
+                    if (element.from_month) {
+                    element.from_month = element.from_month + 12 + " 月";
+                    } else {
+                    element.from_month = "月";
+                    }
+
+                    if (element.to_year) {
+                    element.to_year = element.to_year + 1920 + " 年";
+                    } else {
+                    element.to_year = "年";
+                    }
+
+                    if (element.to_month) {
+                    element.to_month = element.to_month + 12 + " 月";
+                    } else {
+                    element.to_month = "月";
+                    }
+                });
+                } else {
+                this.educations.push({
+                    id: null,
+                    jobseeker_id: null,
+                    school_name: "",
+                    subject: "",
+                    degree: 0,
+                    from_year: "年",
+                    from_month: "月",
+                    to_year: "年",
+                    to_month: "月",
+                    education_status: 0,
+                });
+                }
+
+                if (this.experiences.length > 0) {
+                this.experiences.forEach((element) => {
+                    if (element.position_id == null) {
+                    element.position_id == 0;
+                    }
+
+                    if (element.employment_type_id == null) {
+                    element.employment_type_id == 0;
+                    }
+
+                    if (element.from_year) {
+                    element.from_year = element.from_year + 1920 + " 年";
+                    } else {
+                    element.from_year = "年";
+                    }
+
+                    if (element.from_month) {
+                    element.from_month = element.from_month + 12 + " 月";
+                    } else {
+                    element.from_month = "月";
+                    }
+
+                    if (element.to_year) {
+                    element.to_year = element.to_year + 1920 + " 年";
+                    } else {
+                    element.to_year = "年";
+                    }
+
+                    if (element.to_month) {
+                    element.to_month = element.to_month + 12 + " 月";
+                    } else {
+                    element.to_month = "月";
+                    }
+                });
+                } else {
+                this.experiences.push({
+                    id: null,
+                    jobseeker_id: null,
+                    position_id: 0,
+                    employment_type_id: 0,
+                    job_location: "",
+                    main_duty: "",
+                    from_year: "年",
+                    from_month: "月",
+                    to_year: "年",
+                    to_month: "月",
+                    current: null,
+                    private_status: "",
+                });
+                }
+
+                this.carrers = response.data.data.carrers;
+            });
         },
 
         //Zin ko
 
         // Thuzar
         saveCarrer() {
-        for (var i = this.experiences.length - 1; i >= 0; i--) {
-            if (this.experiences.length != 1) {
-            if (
-                this.experiences[i].job_location == null ||
-                this.experiences[i].job_location == ""
-            ) {
-                this.experiences.splice(i, 1);
+            for (var i = this.experiences.length - 1; i >= 0; i--) {
+                if (this.experiences.length != 1) {
+                if (
+                    this.experiences[i].job_location == null ||
+                    this.experiences[i].job_location == ""
+                ) {
+                    this.experiences.splice(i, 1);
+                }
+                }
             }
+
+            for (var j = this.educations.length - 1; j >= 0; j--) {
+                if (this.educations.length != 1) {
+                if (
+                    this.educations[j].school_name == null ||
+                    this.educations[jsonData].school_name == ""
+                ) {
+                    this.educations.splice(j, 1);
+                }
+                }
             }
-        }
 
-        for (var j = this.educations.length - 1; j >= 0; j--) {
-            if (this.educations.length != 1) {
-            if (
-                this.educations[j].school_name == null ||
-                this.educations[jsonData].school_name == ""
-            ) {
-                this.educations.splice(j, 1);
-            }
-            }
-        }
+            let loader = this.$loading.show();
 
-        let loader = this.$loading.show();
+            let jsonData = {
+                id : `${this.$route.params.id}`,
+                educations: this.educations,
+                experiences: this.experiences,
+                carrers: this.carrers,
+            };
 
-        let jsonData = {
-            educations: this.educations,
-            experiences: this.experiences,
-            carrers: this.carrers,
-        };
-
-        this.$api
-            .post("/v1/jobseeker/profile/carrer", jsonData)
-            .then((response) => {
-            console.log(response);
-            this.$alertService.showSuccessDialog(
-                null,
-                this.$t("alertMessage.updateSuccess"),
-                this.$t("common.close")
-            );
-            this.careerEdit = false;
-            this.showDetails = true;
-            this.getCarrerDetails();
-            loader.hide();
-            })
-            .catch((errors) => {
-                console.log(errors);
-            loader.hide();
-            });
+            this.$api
+                .post("/v1/jobseeker/profile/carrer/update", jsonData)
+                .then((response) => {
+                    console.log(response);
+                    this.$alertService.showSuccessDialog(
+                        null,
+                        this.$t("alertMessage.updateSuccess"),
+                        this.$t("common.close")
+                    );
+                    this.careerEdit = false;
+                    this.showDetails = true;
+                    let request_id = {};
+                    this.$set(request_id, "id", `${this.$route.params.id}`);
+                    this.getCarrerDetails(request_id);
+                    loader.hide();
+                })
+                .catch((errors) => {
+                    console.log(errors);
+                    loader.hide();
+                });
         },
         // Thuzar
 
         //Su Sandy
         getDesiredCondition(request_id) {
+            console.log(request_id);
         this.$api
             .post("/v1/jobseeker/profile/desired-condition", request_id)
             .then((response) => {
-            this.desired_city_list = response.data.city_list;
-            this.industry_list = response.data.industry_list;
-            this.occupation_list = response.data.occupation_list;
-            this.date_list = response.data.date_list;
-            this.desired_condition = response.data.desired_condition;
+                this.desired_city_list = response.data.city_list;
+                this.industry_list = response.data.industry_list;
+                this.occupation_list = response.data.occupation_list;
+                this.date_list = response.data.date_list;
+                this.desired_condition = response.data.desired_condition;
 
-            if (this.desired_condition.desired_industry_id != 0) {
-                this.industries = [
-                {
-                    id: this.desired_condition.desired_industry_id,
-                    jobseeker_id: this.desired_condition.id,
-                },
-                ];
-                this.industries = this.industries.concat(response.data.industries);
-            } else {
-                if (response.data.industries.length) {
-                this.industries = response.data.industries;
+                if (this.desired_condition.desired_industry_id != 0) {
+                    this.industries = [
+                    {
+                        id: this.desired_condition.desired_industry_id,
+                        jobseeker_id: this.desired_condition.id,
+                    },
+                    ];
+                    this.industries = this.industries.concat(response.data.industries);
                 } else {
-                this.industries = [{ id: 0, jobseeker_id: null }];
+                    if (response.data.industries.length) {
+                    this.industries = response.data.industries;
+                    } else {
+                    this.industries = [{ id: 0, jobseeker_id: null }];
+                    }
                 }
-            }
 
-            if (this.desired_condition.desired_occupation_id != 0) {
-                this.occupations = [
-                {
-                    id: this.desired_condition.desired_occupation_id,
-                    jobseeker_id: this.desired_condition.id,
-                },
-                ];
-                this.occupations = this.occupations.concat(
-                response.data.occupations
-                );
-            } else {
-                if (response.data.occupations.length) {
-                this.occupations = response.data.occupations;
+                if (this.desired_condition.desired_occupation_id != 0) {
+                    this.occupations = [
+                    {
+                        id: this.desired_condition.desired_occupation_id,
+                        jobseeker_id: this.desired_condition.id,
+                    },
+                    ];
+                    this.occupations = this.occupations.concat(
+                    response.data.occupations
+                    );
                 } else {
-                this.occupations = [{ id: 0, jobseeker_id: null }];
+                    if (response.data.occupations.length) {
+                    this.occupations = response.data.occupations;
+                    } else {
+                    this.occupations = [{ id: 0, jobseeker_id: null }];
+                    }
                 }
-            }
             });
         },
 
         saveDesiredCondition() {
-        let jsonData = {
-            desired_condition: this.desired_condition,
-            industries: this.industries,
-            occupations: this.occupations,
-        };
-        var indexArray = [];
-        //check industry error
-        if (this.desired_condition.desired_industry_status) {
-            jsonData.industries = [];
-        } else {
-            //var indexArray = [];
-            this.industries.forEach(function (value, index) {
-            if (value.id != 0) {
-                indexArray.push(index);
+            let jsonData = {
+                id : `${this.$route.params.id}`,
+                desired_condition: this.desired_condition,
+                industries: this.industries,
+                occupations: this.occupations,
+            };
+            var indexArray = [];
+            //check industry error
+            if (this.desired_condition.desired_industry_status) {
+                jsonData.industries = [];
+            } else {
+                //var indexArray = [];
+                this.industries.forEach(function (value, index) {
+                if (value.id != 0) {
+                    indexArray.push(index);
+                }
+                });
+                if (indexArray.length == 0) {
+                this.desired_errors.industry_error = "希望業種を選択してください";
+                }
             }
-            });
-            if (indexArray.length == 0) {
-            this.desired_errors.industry_error = "希望業種を選択してください";
-            }
-        }
 
-        //check occupation error
-        if (this.desired_condition.desired_occupation_status) {
-            jsonData.occupations = [];
-        } else {
-            //var indexArray = [];
-            this.occupations.forEach(function (value, index) {
-            if (value.id != 0) {
-                indexArray.push(index);
+            //check occupation error
+            if (this.desired_condition.desired_occupation_status) {
+                jsonData.occupations = [];
+            } else {
+                //var indexArray = [];
+                this.occupations.forEach(function (value, index) {
+                if (value.id != 0) {
+                    indexArray.push(index);
+                }
+                });
+                if (indexArray.length == 0) {
+                this.desired_errors.occupation_error = "希望業種を選択してください";
+                }
             }
-            });
-            if (indexArray.length == 0) {
-            this.desired_errors.occupation_error = "希望業種を選択してください";
+
+            this.$v.desired_condition.desired_min_annual_income.$touch();
+            if (this.$v.desired_condition.desired_min_annual_income.$error) {
+                return;
             }
-        }
 
-        this.$v.desired_condition.desired_min_annual_income.$touch();
-        if (this.$v.desired_condition.desired_min_annual_income.$error) {
-            return;
-        }
-
-        if (
-            this.desired_errors.industry_error == "" &&
-            this.desired_errors.occupation_error == ""
-        ) {
-            let loader = this.$loading.show();
-            this.$api
-            .post("/v1/jobseeker/profile/desired-condition", jsonData)
-            .then((response) => {
-                console.log(response);
-                this.$alertService.showSuccessDialog(
-                null,
-                this.$t("alertMessage.updateSuccess"),
-                this.$t("common.close")
-                );
-                this.desiredConditionEdit = false;
-                this.showDetails = true;
-                this.getDesiredCondition();
-                loader.hide();
-            })
-            .catch((errors) => {
-                console.log(errors);
-                loader.hide();
-            });
-        }
+            if (
+                this.desired_errors.industry_error == "" &&
+                this.desired_errors.occupation_error == ""
+            ) {
+                let loader = this.$loading.show();
+                this.$api
+                .post("/v1/jobseeker/profile/desired-condition/update", jsonData)
+                .then((response) => {
+                    console.log(response);
+                    this.$alertService.showSuccessDialog(
+                    null,
+                    this.$t("alertMessage.updateSuccess"),
+                    this.$t("common.close")
+                    );
+                    this.desiredConditionEdit = false;
+                    this.showDetails = true;
+                    let request_id = {};
+                    this.$set(request_id, "id", `${this.$route.params.id}`);
+                    this.getDesiredCondition(request_id);
+                    loader.hide();
+                })
+                .catch((errors) => {
+                    console.log(errors);
+                    loader.hide();
+                });
+            }
         },
         // Su Sandy
     },

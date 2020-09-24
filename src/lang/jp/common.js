@@ -20,14 +20,15 @@ export default {
     "displayed_page": "ページ表示数",
     //-- Recruiter Fields
     "recruitment": "求⼈⼀覧",
-    "recruiter_number": "企業番号",
+    "scout_recruiter_number": "企業番号",
+    "recruiter_number": "企業会員番号",
     "recruiter_name": "企業名",
     //-- Job 
     "job_number": "求人番号",
     "job_title": "求人タイトル",
     //-- Job Seeker Fields
     "jobseeker_name": "アスリート会員氏名",
-    "jobseeker_number": "求職者番号",
+    "jobseeker_number": "アスリート会員番号",
     // Invoice
 	"job": "仕事",
 	"billing_recruiter": "請求先企業会員",

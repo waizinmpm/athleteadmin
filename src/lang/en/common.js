@@ -19,7 +19,7 @@ export default {
     "item": "{n}item | {n}items",
     "displayed_page": "page display",
     //--  Recruiter Fields
-    "recruitment": "Recruitment",
+    "recruitment": "Job List",
     "recruiter_number": "Recruiter Number",
     "recruiter_name": "Recruiter Name",
     //-- Job Fields

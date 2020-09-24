@@ -77,8 +77,8 @@
                 <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
-                            <td>{{project.jobapply_id}}</td>
-                            <td>{{project.job_apply_date| date('%Y-%m-%d')}}</td>
+                            <td>{{project.management_number}}</td>
+                            <td>{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
                             <td>{{project.recruiter_number}}</td>
                             <td>{{project.recruiter_name}}</td>
                             <td>{{project.job_number}}</td>
@@ -388,6 +388,7 @@ export default {
                     .forEach(x => x.job_apply_status = this.$configs.scouts.billed);
                 this.$alertService.showSuccessDialog(null, this.$t('common.mail_is_sent'), this.$t('common.close'));
                 this.requireInvoiceForm = false;
+                this.closeInvoiceModal();
             })
             .catch(() => {
             })
