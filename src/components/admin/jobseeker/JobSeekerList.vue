@@ -72,165 +72,158 @@
         </div>
         </div>
         <div class="row">
-        <div class="col-sm-12 p-0">
-            <div class="row">
-            <div class="col-sm-6 select">
-                <div
-                for
-                >{{ $t('common.total_results') }}: {{ $tc('common.item', projects.total, { n:projects.total }) }}</div>
-                <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
-                <select v-model="tableData.length" @change="getData()">
-                <option v-for="(records, index) in perPage" :key="index" :value="records">{{records}}</option>
-                </select>
-            </div>
-            <div class="col-sm-6">
-                <button
-                class="btn custom-btn delete"
-                style="float:right"
-                :disabled="isDisabled"
-                @click="deleteData()"
-                >{{ $t('common.delete') }}</button>
-            </div>
-            </div>
+            <div class="col-sm-12 p-0">
+                <div class="row">
+                <div class="col-sm-6 select">
+                    <div
+                    for
+                    >{{ $t('common.total_results') }}: {{ $tc('common.item', projects.total, { n:projects.total }) }}</div>
+                    <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
+                    <select v-model="tableData.length" @change="getData()">
+                    <option v-for="(records, index) in perPage" :key="index" :value="records">{{records}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <button
+                    class="btn custom-btn delete"
+                    style="float:right"
+                    :disabled="isDisabled"
+                    @click="deleteData()"
+                    >{{ $t('common.delete') }}</button>
+                </div>
+                </div>
 
-            <DataTable
-            ref="datatable"
-            :columns="$t('jobseeker_list.columns')"
-            :sortKey="sortKey"
-            :sortOrders="sortOrders"
-            @check-all="selectAll"
-            @sort="sortBy"
-            :showCheckbox="true"
-            >
-            <tbody>
-                <tr v-for="(project, index) in projects.data" :key="project.id">
-                <td>
-                    <label class="form-checkbox">
-                    <span v-if="project.record_status != 0">
-                        <input type="checkbox" :value="project.id" v-model="selected" />
-                        <div
-                        v-for="undelete_id in delete_ids_transactions"
-                        :key="undelete_id.id"
-                        style="color:red;"
-                        >
-                        {{ undelete_id == project.id ? 'cant delete' : ''}}
-                        <!-- show as test -->
-                        </div>
-                    </span>
-                    </label>
-                </td>
-                <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_number}}</a></td>
-                <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_name}}</a></td>
-                <td>
-                    <div class="toggle" v-if="project.record_status != 0">
-                        <div class="scout-box">
-                            <a @click="showBasicInfoModal(project.id)">
-                                <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
-                            </a>
-                            <span class="btn btn-common" v-on:click="showToggle(index)">
-                            {{$t('common.edit')}}
-                            <span class="down-icon">&#9662;</span>
-                            </span>
+                <DataTable
+                ref="datatable"
+                :columns="$t('jobseeker_list.columns')"
+                :sortKey="sortKey"
+                :sortOrders="sortOrders"
+                @check-all="selectAll"
+                @sort="sortBy"
+                :showCheckbox="true"
+                >
+                <tbody>
+                    <tr v-for="(project, index) in projects.data" :key="project.id">
+                    <td>
+                        <label class="form-checkbox">
+                        <span v-if="project.record_status != 0">
+                            <input type="checkbox" :value="project.id" v-model="selected" />
                             <div
-                            class="scout-toggle"
-                            :id="'scout-status'+index"
-                            v-bind:class="{'scout-expand': (current === index) && (status == true)}"
+                            v-for="undelete_id in delete_ids_transactions"
+                            :key="undelete_id.id"
+                            style="color:red;"
                             >
-                            <p
-                                class="custom-radio-group mr-3"
-                                v-for="status in arr_status"
-                                v-bind:key="status.id"
-                            >
-                                <input
-                                type="radio"
-                                :id="status.id+index"
-                                v-model="project.record_status"
-                                class="custion-radio"
-                                @change="changeStatus(project.id, status.id)"
-                                :value="status.id == '有効' ? 1 : 2"
-                                />
-                                <label
-                                :for="status.id+index"
-                                class="custom-radio-lable status-lable"
-                                @click="hideToggle"
-                                >{{ status.id }}</label>
-                            </p>
+                            {{ undelete_id == project.id ? 'cant delete' : ''}}
+                            <!-- show as test -->
+                            </div>
+                        </span>
+                        </label>
+                    </td>
+                    <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_number}}</a></td>
+                    <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_name}}</a></td>
+                    <td>
+                        <div class="toggle" v-if="project.record_status != 0">
+                            <div class="scout-box">
+                                <a @click="showBasicInfoModal(project.id)">
+                                    <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
+                                </a>
+                                <span class="btn btn-common" v-on:click="showToggle(index)">
+                                {{$t('common.edit')}}
+                                <span class="down-icon">&#9662;</span>
+                                </span>
+                                <div
+                                class="scout-toggle"
+                                :id="'scout-status'+index"
+                                v-bind:class="{'scout-expand': (current === index) && (status == true)}"
+                                >
+                                <p
+                                    class="custom-radio-group mr-3"
+                                    v-for="status in arr_status"
+                                    v-bind:key="status.id"
+                                >
+                                    <input
+                                    type="radio"
+                                    :id="status.id+index"
+                                    v-model="project.record_status"
+                                    class="custion-radio"
+                                    @change="changeStatus(project.id, status.id)"
+                                    :value="status.id == '有効' ? 1 : 2"
+                                    />
+                                    <label
+                                    :for="status.id+index"
+                                    class="custom-radio-lable status-lable"
+                                    @click="hideToggle"
+                                    >{{ status.id }}</label>
+                                </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-                <td>
-                    <router-link :to="'/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
-                    <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
-                </td>
-                </tr>
-            </tbody>
-            </DataTable>
-            <pagination
-            v-if="projects.length != 0"
-            :data="projects"
-            @pagination-change-page="getData"
-            :limit="limitpc"
-            >
-            <span slot="prev-nav">
-                <i class="fas fa-angle-left"></i> 前へ
-            </span>
-            <span slot="next-nav">
-                次へ
-                <i class="fa fa-angle-right"></i>
-            </span>
-            </pagination>
-        </div>
+                    </td>
+                    <td>
+                        <router-link :to="'/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
+                        <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
+                    </td>
+                    </tr>
+                </tbody>
+                </DataTable>
+                <pagination
+                v-if="projects.length != 0"
+                :data="projects"
+                @pagination-change-page="getData"
+                :limit="limitpc"
+                >
+                <span slot="prev-nav">
+                    <i class="fas fa-angle-left"></i> 前へ
+                </span>
+                <span slot="next-nav">
+                    次へ
+                    <i class="fa fa-angle-right"></i>
+                </span>
+                </pagination>
+            </div>
         </div>
 
         <!-- Modal content -->
-		<div id="myModal" :class="['modal',showModalFlag ? 'modal-open' : 'modal-close' ]">
-			<div class="modal-content">
-				<span class="close" @click="closeModal">&times;</span>
-				<div class="container vld-parent" ref="invoicePreviewContainer">
-                    <h4>基本情報</h4>
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="col-md-6">{{$t('jobseekerprofile.jobseeker_name')}}</div>
-                            <div class="col-md-6">{{basicInfo.jobseeker_name}}</div>
-                            <div class="col-md-6">{{$t('jobseekerprofile.gender')}}</div>
-                            <div class="col-md-6">{{basicInfo.gender ? basicInfo.gender : '-'}}</div>
-                            <div class="col-md-6">{{$t('jobseekerprofile.date')}}</div>
-                            <div class="col-md-6" v-if="basicInfo.dob">{{basicInfo.dob.length > 1 ? basicInfo.dob[0]+'年 '+ basicInfo.dob[1]+'月 '+ basicInfo.dob[2]+'日' : '-'}}</div>
-                            <div class="col-md-6">{{$t('jobseekerprofile.Language')}}</div>
-                            <div class="col-md-6">{{basicInfo.language_name ? basicInfo.language_name : '-'}}</div>
-                            <div class="col-md-6">{{$t('jobseekerprofile.location')}}</div>
-                            <div class="col-md-6">{{basicInfo.country_name + ', ' + basicInfo.city_name}}</div>
-                            <div class="col-md-6">{{$t('jobseekerprofile.phone')}}</div>
-                            <div class="col-md-6">{{basicInfo.phone ? basicInfo.phone : '-'}}</div>
-                            <div class="col-md-6">{{$t('jobseekerprofile.email')}}</div>
-                            <div class="col-md-6">{{basicInfo.email ? basicInfo.email : '-'}}</div>
-                            <div class="col-md-6">{{$t('jobseekerprofile.skype')}}</div>
-                            <div class="col-md-6">{{basicInfo.skype_account ? basicInfo.skype_account : '-'}}</div>
-                            <div class="col-md-6">{{$t('jobseekerprofile.education')}}</div>
-                            <div class="col-md-6">{{basicInfo.final_education ? basicInfo.final_education : '-'}}</div>
-                            <div class="col-md-6">{{$t('jobseekerprofile.status')}}</div>
-                            <div class="col-md-6">{{basicInfo.current_situation ? basicInfo.current_situation : '-'}}</div>
-                        </div>
-                        
-                    </div>
-					<div class="row">
-						<div class="col-md-12 text-center">
-							<button class="btn btn-info" @click="closeModal">{{ $t('common.cancel') }}</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+        <modal ref="modalbox">
+            <template #header>
+                <h4 class="modal-title">{{$t('jobseekerprofile.basicinfo')}}</h4>
+            </template>
+            <template #body>
+                <div class="row">
+                    <div class="col-md-6">{{$t('jobseekerprofile.jobseeker_name')}}</div>
+                    <div class="col-md-6">{{basicInfo.jobseeker_name}}</div>
+                    <div class="col-md-6">{{$t('jobseekerprofile.gender')}}</div>
+                    <div class="col-md-6">{{basicInfo.gender ? basicInfo.gender : '-'}}</div>
+                    <div class="col-md-6">{{$t('jobseekerprofile.date')}}</div>
+                    <div class="col-md-6" v-if="basicInfo.dob">{{basicInfo.dob.length > 1 ? basicInfo.dob[0]+'年 '+ basicInfo.dob[1]+'月 '+ basicInfo.dob[2]+'日' : '-'}}</div>
+                    <div class="col-md-6">{{$t('jobseekerprofile.Language')}}</div>
+                    <div class="col-md-6">{{basicInfo.language_name ? basicInfo.language_name : '-'}}</div>
+                    <div class="col-md-6">{{$t('jobseekerprofile.location')}}</div>
+                    <div class="col-md-6">{{basicInfo.country_name + ', ' + basicInfo.city_name}}</div>
+                    <div class="col-md-6">{{$t('jobseekerprofile.phone')}}</div>
+                    <div class="col-md-6">{{basicInfo.phone ? basicInfo.phone : '-'}}</div>
+                    <div class="col-md-6">{{$t('jobseekerprofile.email')}}</div>
+                    <div class="col-md-6">{{basicInfo.email ? basicInfo.email : '-'}}</div>
+                    <div class="col-md-6">{{$t('jobseekerprofile.skype')}}</div>
+                    <div class="col-md-6">{{basicInfo.skype_account ? basicInfo.skype_account : '-'}}</div>
+                    <div class="col-md-6">{{$t('jobseekerprofile.education')}}</div>
+                    <div class="col-md-6">{{basicInfo.final_education ? basicInfo.final_education : '-'}}</div>
+                    <div class="col-md-6">{{$t('jobseekerprofile.status')}}</div>
+                    <div class="col-md-6">{{basicInfo.current_situation ? basicInfo.current_situation : '-'}}</div>
+                </div>
+            </template>
+        </modal>
 
     </div>
 </template>
 
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
+import modal from "../../ModalBox";
 
 export default {
-    mixins: [DataTableServices],
+    mixins: [ DataTableServices ],
+    components: { modal },
     data() {
         let sortOrders = {};
         let columns = this.$i18n.messages.en.jobseeker_list.columns;
@@ -246,7 +239,6 @@ export default {
             countries: [],
             city_list: [],
             languages: [],
-            showModalFlag : false,
             base_url: "/v1/admin/jobseeker-list",
             columns: columns,
             sortOrders: sortOrders,
@@ -300,14 +292,9 @@ export default {
                 this.basicInfo.dobyears = dob.getFullYear() + " 年";
                 this.basicInfo.dobmonth = dob.getMonth() + 1 + " 月";
                 this.basicInfo.dobday   = dob.getDate() + " 日";
-                this.showModalFlag = true;
+                this.$refs.modalbox.showModal();
             });
         },
-
-        closeModal(){
-            this.showModalFlag = false;
-        },
-
         
         handleStatusToggle(e) {
             let targetClassName = e.target.className;
@@ -341,34 +328,5 @@ export default {
 <style scoped>
 a {
     cursor: pointer;
-}
-/* The Modal (background) */
-.modal {
-  position: fixed; /* Stay in place */
-  z-index: 10; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-.modal-open {
-	display: block;
-}
-
-.modal-close {
-	display: none;
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 70px auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
 }
 </style>
