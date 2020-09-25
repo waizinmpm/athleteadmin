@@ -14224,6 +14224,10 @@ input:-webkit-autofill:focus {
   .mx-5 {
     margin-left: 3rem !important;
   }
+  .ml-auto,
+  .mx-auto {
+    margin-left: auto !important;
+  }
   
   .p-0 {
     padding: 0 !important;
@@ -14370,6 +14374,19 @@ input:-webkit-autofill:focus {
   }
 /* padding & margin  */
 
+/* float */
+.float-left {
+    float: left !important;
+  }
+  
+  .float-right {
+    float: right !important;
+  }
+  
+  .float-none {
+    float: none !important;
+  }
+/* float */
 /* display */
  .d-flex {
     display: -ms-flexbox !important;

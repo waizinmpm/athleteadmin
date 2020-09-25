@@ -176,8 +176,8 @@ body {
     .searchbtn {
         background-color: color(primary);
         color: #fff;
-        width: 150px;
-        padding: 10px 0;
+        width: 140px;
+        padding: 8px 0;
     }
     .search-btn {
         background-color: color(primary);
@@ -648,7 +648,7 @@ body {
 // edit button toggle
 
 .inner-wrapper {
-    width: 70%;
+    width: 65%;
     padding: 20px 20px 0 20px;
     border: 1px solid #9b9898;
     border-radius: 5px;
@@ -719,7 +719,7 @@ body {
 }
 @media (max-width:1400px) {
     .inner-wrapper {
-        width: 80%;
+        width: 70%;
     }
 }
 </style>
