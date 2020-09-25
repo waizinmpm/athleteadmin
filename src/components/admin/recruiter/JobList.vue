@@ -4,10 +4,10 @@
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
                 <h5 class="main-header">{{ $t('common.recruitment') }}</h5>
-                <div class="content-row col-6 col-md-8">
+                <div class="content-row">
                     <div class="inner-wrapper">
                         <div class="row">
-                            <div class="col-3 col-md-4">
+                            <div class="col-md-3">
                                 <label for="企業番号">{{ $t('common.recruiter_number') }}</label>
                                 <input
                                     type="text"
@@ -17,7 +17,7 @@
                                     v-model="filteredData.company_number"
                                 />
                             </div>
-                            <div class="col-3 col-md-4">
+                            <div class="col-md-3">
                                 <label for="企業名">{{ $t('common.recruiter_name') }}</label>
                                 <input
                                     type="text"
@@ -27,8 +27,8 @@
                                 />
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3 col-md-4">
+                        <div class="row d-flex align-items-end">
+                            <div class="col-md-3">
                                 <label for="求⼈番号">{{ $t('common.job_number') }}</label>
                                 <input
                                     type="text"
@@ -37,7 +37,7 @@
                                     v-model="filteredData.job_number"
                                 />
                             </div>
-                            <div class="col-3 col-md-4">
+                            <div class="col-md-3">
                                 <label for="求⼈タイトル">{{ $t('common.job_title') }}</label>
                                 <input
                                     type="text"
@@ -46,10 +46,9 @@
                                     v-model="filteredData.job_title"
                                 />
                             </div>
-                            <div class="col-3 col-md-4">
+                            <div class="col-md-3 ml-auto">
                                 <button
                                     class="btn searchbtn"
-                                    style="margin-top:22px;"
                                     @click="getData()"
                                 >{{ $t('common.search') }}</button>
                             </div>

@@ -3,12 +3,14 @@
 		<div class="row">
 			<div class="col-sm-12 p-0 searchform-one">
 				<h5 class="m-b-10 main-header">{{ $t('payment_management.title') }}</h5>
-				<div class="content-row  col-lg-10">
+				<div class="content-row">
 					<div class="inner-wrapper">
 						<div class="row">
-							<div class="col-md-5">
-								<label class="mb-4">{{ $t('payment_management.payment_method') }}</label>
-								<div class="row">
+							<div class="col-md-7">
+								<div class="col-md-12">
+									<label>{{ $t('payment_management.payment_method') }}</label>
+								</div>
+								<div class="row m-0">
 									<div class="col-md-4">
 										<label class="custom-control-label custom-checkbox-label">
 											<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
@@ -25,6 +27,8 @@
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-7">
 								<div class="col-md-12">
 									<label for="入金期日">{{ $t('payment_management.invoice_date') }}</label>
@@ -37,19 +41,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-5">
-								<label class="mb-4">{{ $t('payment_management.status') }}</label>
-								<div class="row">
-									<div class="col-md-4" v-for="(status, index) in record_status" :key="index">
-										<label class="custom-control-label custom-checkbox-label">
-											<input type="checkbox" class="custom-control-input custom-checkbox"
-												:value="status.id" :checked="status.checked" v-model="filteredData.record_status" @change="getData()" />
-											<span class="custom-check-label-post">{{ status.id }}</span>
-										</label>
-									</div>
-								</div>
-							</div>
+						<div class="row d-flex align-items-end">
 							<div class="col-md-7">
 								<div class="col-md-12">
 									<label for="入金日">{{ $t('payment_management.payment_date') }}</label>
@@ -61,11 +53,21 @@
 									<date-picker v-model="filteredData.payment_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
 							</div>
-							
+							<div class="col-md-3 ml-auto">
+								<button class="btn searchbtn  mr-2" @click="getData()">{{ $t('common.search') }}</button>
+							</div>
 						</div>
-						<div class="d-flex pb-4 justify-content-end">
-							<button class="btn searchbtn  mr-2" @click="getData()">{{ $t('common.search') }}</button>
-							<button class="btn searchbtn btn_csv_download" @click="downloadCSV">{{ $t('common.csv_download') }}</button>
+					</div>
+					<label class="mb-4">{{ $t('payment_management.status') }}</label>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="col-md-2 p-lr0" v-for="(status, index) in record_status" :key="index">
+								<label class="custom-control-label custom-checkbox-label">
+									<input type="checkbox" class="custom-control-input custom-checkbox"
+										:value="status.id" :checked="status.checked" v-model="filteredData.record_status" @change="getData()" />
+									<span class="custom-check-label-post">{{ status.id }}</span>
+								</label>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -74,7 +76,7 @@
 		<div class="row">
 			<div class="col-sm-12 p-0">
 				<div class="row">
-					<div class="col-sm-12 select text-right">
+					<div class="col-sm-6 select">
 						<span>{{ $t('common.total_results') }}: {{ $tc('common.item', totalRecords, { n:totalRecords }) }}</span><br>
 						<span>1 {{ $t('common.displayed_page') }}&nbsp;</span>
 						<select v-model="tableData.length" @change="getData()">
@@ -82,6 +84,9 @@
 								{{records}}
 							</option>
 						</select>
+					</div>
+					<div class="col-sm-6">
+						<button class="btn searchbtn btn_csv_download float-right" @click="downloadCSV">{{ $t('common.csv_download') }}</button>
 					</div>
 				</div>
 				<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
