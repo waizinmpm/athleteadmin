@@ -191,25 +191,25 @@
                     <h4>基本情報</h4>
                     <div class="row">
                         <div class="col-md-10">
-                            <div class="col-md-6">Fullname</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.jobseeker_name')}}</div>
                             <div class="col-md-6">{{basicInfo.jobseeker_name}}</div>
-                            <div class="col-md-6">Gender</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.gender')}}</div>
                             <div class="col-md-6">{{basicInfo.gender ? basicInfo.gender : '-'}}</div>
-                            <div class="col-md-6">Birthday</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.date')}}</div>
                             <div class="col-md-6" v-if="basicInfo.dob">{{basicInfo.dob.length > 1 ? basicInfo.dob[0]+'年 '+ basicInfo.dob[1]+'月 '+ basicInfo.dob[2]+'日' : '-'}}</div>
-                            <div class="col-md-6">Native Language</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.Language')}}</div>
                             <div class="col-md-6">{{basicInfo.language_name ? basicInfo.language_name : '-'}}</div>
-                            <div class="col-md-6">Current Address</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.location')}}</div>
                             <div class="col-md-6">{{basicInfo.country_name + ', ' + basicInfo.city_name}}</div>
-                            <div class="col-md-6">Phone Number</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.phone')}}</div>
                             <div class="col-md-6">{{basicInfo.phone ? basicInfo.phone : '-'}}</div>
-                            <div class="col-md-6">Mail Address</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.email')}}</div>
                             <div class="col-md-6">{{basicInfo.email ? basicInfo.email : '-'}}</div>
-                            <div class="col-md-6">Skype Name</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.skype')}}</div>
                             <div class="col-md-6">{{basicInfo.skype_account ? basicInfo.skype_account : '-'}}</div>
-                            <div class="col-md-6">Fianl Education</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.education')}}</div>
                             <div class="col-md-6">{{basicInfo.final_education ? basicInfo.final_education : '-'}}</div>
-                            <div class="col-md-6">Current Situation</div>
+                            <div class="col-md-6">{{$t('jobseekerprofile.status')}}</div>
                             <div class="col-md-6">{{basicInfo.current_situation ? basicInfo.current_situation : '-'}}</div>
                         </div>
                         
@@ -290,7 +290,6 @@ export default {
         showBasicInfoModal(id) {
             let request_id = {};
             this.$set(request_id, "id", id);
-            this.showModalFlag = true;
             this.$api.post("/v1/jobseeker/profile/basicinfo", request_id).then((r) => {
                 let response    = r.data.data;
                 this.basicInfo  = response.profile;
@@ -301,6 +300,7 @@ export default {
                 this.basicInfo.dobyears = dob.getFullYear() + " 年";
                 this.basicInfo.dobmonth = dob.getMonth() + 1 + " 月";
                 this.basicInfo.dobday   = dob.getDate() + " 日";
+                this.showModalFlag = true;
             });
         },
 
