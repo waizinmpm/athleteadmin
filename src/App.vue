@@ -648,6 +648,7 @@ body {
 // edit button toggle
 
 .inner-wrapper {
+    width: 70%;
     padding: 20px 20px 0 20px;
     border: 1px solid #9b9898;
     border-radius: 5px;
@@ -697,7 +698,6 @@ body {
 .text-left {
     text-align: left !important;
 }
-
 .fa-angle-right {
     font-weight: bold;
 }
@@ -711,8 +711,15 @@ body {
 	display: flex;
 	align-items: flex-end;
 }
-
+.mx-input {
+    height: 40px !important;
+}
 .txt-red {
     color: #F60D0D;
+}
+@media (max-width:1400px) {
+    .inner-wrapper {
+        width: 80%;
+    }
 }
 </style>
