@@ -4,7 +4,7 @@
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
                 <h5 class="m-b-10 main-header">{{ $t('scouted_list.title') }}</h5>   
-                <div class="content-row" style="padding-bottom:0px;">
+                <div class="content-row">
 					<div class="inner-wrapper">
 						<div class="row">
 							<div class="col-md-3">
@@ -155,39 +155,39 @@
 								</dl>
 							</div>
 							<div class="border">
-							<h5>{{ $t('common.brokerage_fee') }}</h5>
-							<div class="form-group row">
-								<div class="col-sm-2"></div>
-								<div class="col-sm-6 pr-0">
-									<input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
-									<div class="invalid-feedback">
-										<div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
-										<div class="error" v-if="!$v.invoiceForm.default_amount.numeric">電話番号は数字のみである必須があります</div>
+								<h5>{{ $t('common.brokerage_fee') }}</h5>
+								<div class="form-group row">
+									<div class="col-sm-2"></div>
+									<div class="col-sm-6 pr-0">
+										<input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
+										<div class="invalid-feedback">
+											<div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
+											<div class="error" v-if="!$v.invoiceForm.default_amount.numeric">電話番号は数字のみである必須があります</div>
+										</div>
+									</div>
+									<label class="pl-1 pt-2">円</label>
+								</div>
+								<dl class="row">
+									<dt class="col-sm-2 text-right">{{ $t('common.tax') }}</dt>
+									<dd class="col-sm-6 text-right">{{ invoiceForm.tax|aj-number }}</dd>
+									<label class="pl-1">円</label>
+								</dl>
+								<dl class="row">
+									<dt class="col-sm-2 pr-0 txt-red">{{ $t('common.invoice_amount') }}</dt>
+									<dd class="col-sm-6 text-right txt-red">{{ invoiceForm.invoice_amount|aj-number }}</dd>
+									<label class="pl-1 txt-red">円</label>
+								</dl>
+								<div class="form-group row">
+									<label class="col-sm-2 pr-0">{{ $t('common.remark') }}</label>
+									<div class="col-sm-9">
+										<textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
 									</div>
 								</div>
-								<label class="pl-1 pt-2">円</label>
-							</div>
-							<dl class="row">
-								<dt class="col-sm-2 text-right">{{ $t('common.tax') }}</dt>
-								<dd class="col-sm-6 text-right">{{ invoiceForm.tax|aj-number }}</dd>
-								<label class="pl-1">円</label>
-							</dl>
-							<dl class="row">
-								<dt class="col-sm-2 pr-0 txt-red">{{ $t('common.invoice_amount') }}</dt>
-								<dd class="col-sm-6 text-right txt-red">{{ invoiceForm.invoice_amount|aj-number }}</dd>
-								<label class="pl-1 txt-red">円</label>
-							</dl>
-							<div class="form-group row">
-								<label class="col-sm-2 pr-0">{{ $t('common.remark') }}</label>
-								<div class="col-sm-9">
-									<textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
+								<div class="form-group row">
+									<div class="col-sm-11 text-right">
+										<button class="btn scouted-btn" @click="loadInvoicePreview">{{ $t('common.invoice_preview') }}</button>
+									</div>
 								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-sm-11 text-right">
-									<button class="btn scouted-btn" @click="loadInvoicePreview">{{ $t('common.invoice_preview') }}</button>
-								</div>
-							</div>
 							</div>
 						</div>
 						<div class="col-sm-6" v-if="invoicePreview">
@@ -501,15 +501,14 @@ export default {
 }
 /* The Modal (background) */
 .modal {
-  position: fixed; /* Stay in place */
-  z-index: 10; /* Sit on top */
+  position: fixed;
+  z-index: 10;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%; 
+  height: 100%;
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.4); 
 }
 
 .modal-open {
