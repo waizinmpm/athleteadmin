@@ -119,67 +119,49 @@
                     </span>
                     </label>
                 </td>
-                <td>{{project.jobseeker_number}}</td>
-                <td>{{project.jobseeker_name}}</td>
-                <td>{{project.record_status == 1 ? '有効' : (project.record_status == 0 ? '退会' : '無効')}}</td>
-                <td style="width:20%;">
+                <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_number}}</a></td>
+                <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_name}}</a></td>
+                <td>
                     <div class="toggle" v-if="project.record_status != 0">
-                    <!-- <span class="checkbox">
-                                            <input
-                                                type="checkbox"
-                                                :id="project.id"
-                                                v-if="project.record_status == 1"
-                                                @click="changeStatus(project.id,project.record_status)"
-                                                checked
-                                            />
-                                            <input
-                                                type="checkbox"
-                                                :id="project.id"
-                                                v-if="project.record_status == 2"
-                                                @click="changeStatus(project.id,project.record_status)"
-                                            />
-                                            <label for="checkbox"></label>
-                                            <span v-if="project.record_status == 1" class="on">有効</span>
-                                            <span v-if="project.record_status == 2" class="on">無効</span>
-                    </span>-->
-                    <div class="scout-box">
-                        <router-link
-                        :to="'/jobseeker/' + project.id + '/edit'"
-                        class="btn btn-info"
-                        >{{ $t('common.edit') }}</router-link>
-                        <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
-                        <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
-                        <span class="btn btn-common" v-on:click="showToggle(index)">
-                        {{$t('common.edit')}}
-                        <span class="down-icon">&#9662;</span>
-                        </span>
-                        <div
-                        class="scout-toggle"
-                        :id="'scout-status'+index"
-                        v-bind:class="{'scout-expand': (current === index) && (status == true)}"
-                        >
-                        <p
-                            class="custom-radio-group mr-3"
-                            v-for="status in arr_status"
-                            v-bind:key="status.id"
-                        >
-                            <input
-                            type="radio"
-                            :id="status.id+index"
-                            v-model="project.record_status"
-                            class="custion-radio"
-                            @change="changeStatus(project.id, status.id)"
-                            :value="status.id == '有効' ? 1 : 2"
-                            />
-                            <label
-                            :for="status.id+index"
-                            class="custom-radio-lable status-lable"
-                            @click="hideToggle"
-                            >{{ status.id }}</label>
-                        </p>
+                        <div class="scout-box">
+                            <a @click="showBasicInfoModal(project.id)">
+                                <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
+                            </a>
+                            <span class="btn btn-common" v-on:click="showToggle(index)">
+                            {{$t('common.edit')}}
+                            <span class="down-icon">&#9662;</span>
+                            </span>
+                            <div
+                            class="scout-toggle"
+                            :id="'scout-status'+index"
+                            v-bind:class="{'scout-expand': (current === index) && (status == true)}"
+                            >
+                            <p
+                                class="custom-radio-group mr-3"
+                                v-for="status in arr_status"
+                                v-bind:key="status.id"
+                            >
+                                <input
+                                type="radio"
+                                :id="status.id+index"
+                                v-model="project.record_status"
+                                class="custion-radio"
+                                @change="changeStatus(project.id, status.id)"
+                                :value="status.id == '有効' ? 1 : 2"
+                                />
+                                <label
+                                :for="status.id+index"
+                                class="custom-radio-lable status-lable"
+                                @click="hideToggle"
+                                >{{ status.id }}</label>
+                            </p>
+                            </div>
                         </div>
                     </div>
-                    </div>
+                </td>
+                <td>
+                    <router-link :to="'/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
+                    <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
                 </td>
                 </tr>
             </tbody>
@@ -200,6 +182,47 @@
             </pagination>
         </div>
         </div>
+
+        <!-- Modal content -->
+		<div id="myModal" :class="['modal',showModalFlag ? 'modal-open' : 'modal-close' ]">
+			<div class="modal-content">
+				<span class="close" @click="closeModal">&times;</span>
+				<div class="container vld-parent" ref="invoicePreviewContainer">
+                    <h4>基本情報</h4>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="col-md-6">Fullname</div>
+                            <div class="col-md-6">{{basicInfo.jobseeker_name}}</div>
+                            <div class="col-md-6">Gender</div>
+                            <div class="col-md-6">{{basicInfo.gender ? basicInfo.gender : '-'}}</div>
+                            <div class="col-md-6">Birthday</div>
+                            <div class="col-md-6" v-if="basicInfo.dob">{{basicInfo.dob.length > 1 ? basicInfo.dob[0]+'年 '+ basicInfo.dob[1]+'月 '+ basicInfo.dob[2]+'日' : '-'}}</div>
+                            <div class="col-md-6">Native Language</div>
+                            <div class="col-md-6">{{basicInfo.language_name ? basicInfo.language_name : '-'}}</div>
+                            <div class="col-md-6">Current Address</div>
+                            <div class="col-md-6">{{basicInfo.country_name + ', ' + basicInfo.city_name}}</div>
+                            <div class="col-md-6">Phone Number</div>
+                            <div class="col-md-6">{{basicInfo.phone ? basicInfo.phone : '-'}}</div>
+                            <div class="col-md-6">Mail Address</div>
+                            <div class="col-md-6">{{basicInfo.email ? basicInfo.email : '-'}}</div>
+                            <div class="col-md-6">Skype Name</div>
+                            <div class="col-md-6">{{basicInfo.skype_account ? basicInfo.skype_account : '-'}}</div>
+                            <div class="col-md-6">Fianl Education</div>
+                            <div class="col-md-6">{{basicInfo.final_education ? basicInfo.final_education : '-'}}</div>
+                            <div class="col-md-6">Current Situation</div>
+                            <div class="col-md-6">{{basicInfo.current_situation ? basicInfo.current_situation : '-'}}</div>
+                        </div>
+                        
+                    </div>
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<button class="btn btn-info" @click="closeModal">{{ $t('common.cancel') }}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
     </div>
 </template>
 
@@ -212,102 +235,140 @@ export default {
         let sortOrders = {};
         let columns = this.$i18n.messages.en.jobseeker_list.columns;
         columns.forEach((column) => {
-        sortOrders[column.label] = -1;
+            sortOrders[column.label] = -1;
         });
-        /* let columns = [
-                { label: "jobseekerlist.jobseeker_number", name: "custom_id" },
-                { label: "jobseekerlist.jobseeker_name", name: "jobseeker_name" },
-                { label: "common.status", name: "status" },
-                { label: "", name: "status_button" }
-            ]; */
-        /* columns.forEach(column => {
-                sortOrders[column.name] = -1;
-            }); */
         let filteredData = {
-        freeword: "",
-        jobseeker_recordstatus: [],
+            freeword: "",
+            jobseeker_recordstatus: [],
         };
         return {
-        base_url: "/v1/admin/jobseeker-list",
-        columns: columns,
-        sortOrders: sortOrders,
-        filteredData: filteredData,
-        current: null,
-        old_index: "",
-        status: false,
-        arr_status: [
-            { id: "有効", checked: false },
-            { id: "無効", checked: false },
-        ],
+            basicInfo: {},
+            countries: [],
+            city_list: [],
+            languages: [],
+            showModalFlag : false,
+            base_url: "/v1/admin/jobseeker-list",
+            columns: columns,
+            sortOrders: sortOrders,
+            filteredData: filteredData,
+            current: null,
+            old_index: "",
+            status: false,
+            arr_status: [
+                { id: "有効", checked: false },
+                { id: "無効", checked: false },
+            ],
         };
     },
 
     computed: {
         isDisabled() {
-        //if dont select any row, set disable delete button
-        return this.selected.length > 0 ? false : true;
+            //if dont select any row, set disable delete button
+            return this.selected.length > 0 ? false : true;
         },
     },
 
     methods: {
-        handleStatusToggle(e) {
-        let targetClassName = e.target.className;
-        // must be Class Names of changing status dropdown
-        const statusToggleClasses = [
-            "btn btn-common",
-            "down-icon",
-            "custom-radio-lable status-lable",
-            "custion-radio",
-        ];
-        statusToggleClasses.includes(targetClassName) ? "" : this.hideToggle();
-        },
-
-        changeStatus(id, recordstatus) {
-        this.recordstatus_text =
-            recordstatus == "有効"
-            ? "無効にしてよろしいでしょうか。"
-            : "有効してよろしいでしょうか。";
-        this.$alertService
-            .showConfirmDialog(
-            null,
-            this.$t("dialog_box.confirm_change_message"),
-            this.$t("common.yes"),
-            this.$t("common.no")
-            )
-            .then((dialogResult) => {
-            if (dialogResult.value) {
-                this.$api
-                .post(this.base_url + `/change-status/${id}`)
-                .then((res) => {
-                    console.log(res.data);
+        changeStatus(id) {
+            this.$alertService.showConfirmDialog(null, this.$t("dialog_box.confirm_change_message"), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
+                if (dialogResult.value) {
+                    this.$api
+                    .post(this.base_url + `/change-status/${id}`)
+                    .then((res) => {
+                        console.log(res.data);
+                        this.getData(this.projects.current_page);
+                    })
+                    .catch((errors) => {
+                        console.log(errors);
+                    });
+                } else {
                     this.getData(this.projects.current_page);
-                })
-                .catch((errors) => {
-                    console.log(errors);
-                });
-            } else {
-                this.getData(this.projects.current_page);
-            }
+                }
             });
         },
 
-        // edit(id) {
-        // alert("jobseeker id -> " + id);
-        // },
+        showBasicInfoModal(id) {
+            let request_id = {};
+            this.$set(request_id, "id", id);
+            this.showModalFlag = true;
+            this.$api.post("/v1/jobseeker/profile/basicinfo", request_id).then((r) => {
+                let response    = r.data.data;
+                this.basicInfo  = response.profile;
+                this.city_list  = response.cities;
+                this.languages  = response.languages;
+                this.countries  = response.countries;
+                const dob       = new Date(this.basicInfo.dob);
+                this.basicInfo.dobyears = dob.getFullYear() + " 年";
+                this.basicInfo.dobmonth = dob.getMonth() + 1 + " 月";
+                this.basicInfo.dobday   = dob.getDate() + " 日";
+            });
+        },
+
+        closeModal(){
+            this.showModalFlag = false;
+        },
+
+        
+        handleStatusToggle(e) {
+            let targetClassName = e.target.className;
+            // must be Class Names of changing status dropdown
+            const statusToggleClasses = [
+                "btn btn-common",
+                "down-icon",
+                "custom-radio-lable status-lable",
+                "custion-radio",
+            ];
+            statusToggleClasses.includes(targetClassName) ? "" : this.hideToggle();
+        },
 
         showToggle(index) {
-        this.current = index;
-        if (this.status == true) {
-            if (this.current == this.old_index) this.status = false;
-        } else {
-            this.status = true;
-        }
-        this.old_index = index;
+            this.current = index;
+            if (this.status == true) {
+                if (this.current == this.old_index) this.status = false;
+            } else {
+                this.status = true;
+            }
+            this.old_index = index;
         },
 
         hideToggle() {
-        this.status = false;
+            this.status = false;
         },
     },
 };
 </script>
+
+<style scoped>
+a {
+    cursor: pointer;
+}
+/* The Modal (background) */
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-open {
+	display: block;
+}
+
+.modal-close {
+	display: none;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 70px auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+</style>
