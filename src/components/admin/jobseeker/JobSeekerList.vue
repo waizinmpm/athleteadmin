@@ -121,16 +121,14 @@
                 </td>
                 <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_number}}</a></td>
                 <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_name}}</a></td>
-                <td><a @click="showBasicInfoModal(project.id)">{{project.record_status == 1 ? '有効' : (project.record_status == 0 ? '退会' : '無効')}}</a></td>
+                <!-- <td><a @click="showBasicInfoModal(project.id)">{{project.record_status == 1 ? '有効' : (project.record_status == 0 ? '退会' : '無効')}}</a>
+                </td> -->
                 <td style="width:20%;">
                     <div class="toggle" v-if="project.record_status != 0">
                         <div class="scout-box">
-                            <router-link
-                            :to="'/jobseeker/' + project.id + '/edit'"
-                            class="btn btn-info"
-                            >{{ $t('common.edit') }}</router-link>
-                            <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
-                            <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
+                            <a @click="showBasicInfoModal(project.id)">
+                                <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
+                            </a> &nbsp;
                             <span class="btn btn-common" v-on:click="showToggle(index)">
                             {{$t('common.edit')}}
                             <span class="down-icon">&#9662;</span>
@@ -162,6 +160,10 @@
                             </div>
                         </div>
                     </div>
+                </td>
+                <td>
+                    <router-link :to="'/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
+                    <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
                 </td>
                 </tr>
             </tbody>
@@ -235,33 +237,12 @@ export default {
         let sortOrders = {};
         let columns = this.$i18n.messages.en.jobseeker_list.columns;
         columns.forEach((column) => {
-        sortOrders[column.label] = -1;
+            sortOrders[column.label] = -1;
         });
-        /* let columns = [
-                { label: "jobseekerlist.jobseeker_number", name: "custom_id" },
-                { label: "jobseekerlist.jobseeker_name", name: "jobseeker_name" },
-                { label: "common.status", name: "status" },
-                { label: "", name: "status_button" }
-            ]; */
-        /* columns.forEach(column => {
-                sortOrders[column.name] = -1;
-            }); */
         let filteredData = {
             freeword: "",
             jobseeker_recordstatus: [],
         };
-        /* let cols = {
-            jobseeker_name : 'Full Name',
-            jobseeker_name : 'Full Name',
-            jobseeker_name : 'Full Name',
-            jobseeker_name : 'Full Name',
-            jobseeker_name : 'Full Name',
-            jobseeker_name : 'Full Name',
-            jobseeker_name : 'Full Name',
-            jobseeker_name : 'Full Name',
-            jobseeker_name : 'Full Name',
-            jobseeker_name : 'Full Name'
-        }; */
         return {
             basicInfo: {},
             countries: [],
@@ -284,50 +265,27 @@ export default {
 
     computed: {
         isDisabled() {
-        //if dont select any row, set disable delete button
-        return this.selected.length > 0 ? false : true;
+            //if dont select any row, set disable delete button
+            return this.selected.length > 0 ? false : true;
         },
     },
 
     methods: {
-        handleStatusToggle(e) {
-        let targetClassName = e.target.className;
-        // must be Class Names of changing status dropdown
-        const statusToggleClasses = [
-            "btn btn-common",
-            "down-icon",
-            "custom-radio-lable status-lable",
-            "custion-radio",
-        ];
-        statusToggleClasses.includes(targetClassName) ? "" : this.hideToggle();
-        },
-
         changeStatus(id, recordstatus) {
-        this.recordstatus_text =
-            recordstatus == "有効"
-            ? "無効にしてよろしいでしょうか。"
-            : "有効してよろしいでしょうか。";
-        this.$alertService
-            .showConfirmDialog(
-            null,
-            this.$t("dialog_box.confirm_change_message"),
-            this.$t("common.yes"),
-            this.$t("common.no")
-            )
-            .then((dialogResult) => {
-            if (dialogResult.value) {
-                this.$api
-                .post(this.base_url + `/change-status/${id}`)
-                .then((res) => {
-                    console.log(res.data);
+            this.$alertService.showConfirmDialog(null, this.$t("dialog_box.confirm_change_message"), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
+                if (dialogResult.value) {
+                    this.$api
+                    .post(this.base_url + `/change-status/${id}`)
+                    .then((res) => {
+                        console.log(res.data);
+                        this.getData(this.projects.current_page);
+                    })
+                    .catch((errors) => {
+                        console.log(errors);
+                    });
+                } else {
                     this.getData(this.projects.current_page);
-                })
-                .catch((errors) => {
-                    console.log(errors);
-                });
-            } else {
-                this.getData(this.projects.current_page);
-            }
+                }
             });
         },
 
@@ -352,18 +310,31 @@ export default {
             this.showModalFlag = false;
         },
 
+        
+        handleStatusToggle(e) {
+            let targetClassName = e.target.className;
+            // must be Class Names of changing status dropdown
+            const statusToggleClasses = [
+                "btn btn-common",
+                "down-icon",
+                "custom-radio-lable status-lable",
+                "custion-radio",
+            ];
+            statusToggleClasses.includes(targetClassName) ? "" : this.hideToggle();
+        },
+
         showToggle(index) {
-        this.current = index;
-        if (this.status == true) {
-            if (this.current == this.old_index) this.status = false;
-        } else {
-            this.status = true;
-        }
-        this.old_index = index;
+            this.current = index;
+            if (this.status == true) {
+                if (this.current == this.old_index) this.status = false;
+            } else {
+                this.status = true;
+            }
+            this.old_index = index;
         },
 
         hideToggle() {
-        this.status = false;
+            this.status = false;
         },
     },
 };
