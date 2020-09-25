@@ -121,14 +121,12 @@
                 </td>
                 <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_number}}</a></td>
                 <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_name}}</a></td>
-                <!-- <td><a @click="showBasicInfoModal(project.id)">{{project.record_status == 1 ? '有効' : (project.record_status == 0 ? '退会' : '無効')}}</a>
-                </td> -->
-                <td style="width:20%;">
+                <td>
                     <div class="toggle" v-if="project.record_status != 0">
                         <div class="scout-box">
                             <a @click="showBasicInfoModal(project.id)">
                                 <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
-                            </a> &nbsp;
+                            </a>
                             <span class="btn btn-common" v-on:click="showToggle(index)">
                             {{$t('common.edit')}}
                             <span class="down-icon">&#9662;</span>
@@ -271,7 +269,7 @@ export default {
     },
 
     methods: {
-        changeStatus(id, recordstatus) {
+        changeStatus(id) {
             this.$alertService.showConfirmDialog(null, this.$t("dialog_box.confirm_change_message"), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
                 if (dialogResult.value) {
                     this.$api
