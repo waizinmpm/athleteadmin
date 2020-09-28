@@ -297,8 +297,8 @@ export default {
         startChat(jobapply) {
 			const payload = {
 				recruiter_id: jobapply.recruiter_id,
-				jobseeker_id: jobapply.jobseeker_id,
-				scoutid_or_applyid: jobapply.jobapply_id,
+				jobseeker_id: jobapply.jobseeker_id, 
+				scoutid_or_applyid: jobapply.jobapply_id, 
 				type: 'job-apply',
 			};
 			if (!this.chatBoxes.find(x => x.scoutid_or_applyid == payload.scoutid_or_applyid && x.type == payload.scoutid_or_applyid)) {
@@ -312,7 +312,7 @@ export default {
 			if (t) {
 				let i = this.chatBoxes.indexOf(t);
 				if (i > -1) {
-					this.$delete(this.chatBoxes, i);
+					this.$delete(this.chatBoxes, i); 
 				}
 			}
 		},
