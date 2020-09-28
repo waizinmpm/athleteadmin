@@ -119,14 +119,14 @@
                         </span>
                         </label>
                     </td>
-                    <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_number}}</a></td>
-                    <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_name}}</a></td>
+                    <td><router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
+                    <td><router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
                     <td>
                         <div class="toggle" v-if="project.record_status != 0">
                             <div class="scout-box">
-                                <a @click="showBasicInfoModal(project.id)">
+                                <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">
                                     <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
-                                </a>
+                                </router-link>
                                 <span class="btn btn-common" v-on:click="showToggle(index)">
                                 {{$t('common.edit')}}
                                 <span class="down-icon">&#9662;</span>
@@ -184,7 +184,7 @@
         </div>
 
         <!-- Modal content -->
-        <modal ref="modalbox">
+        <!-- <modal ref="modalbox">
             <template #header>
                 <h4 class="modal-title">{{$t('jobseekerprofile.basicinfo')}}</h4>
             </template>
@@ -212,18 +212,18 @@
                     <div class="col-md-6">{{basicInfo.current_situation ? basicInfo.current_situation : '-'}}</div>
                 </div>
             </template>
-        </modal>
+        </modal> -->
 
     </div>
 </template>
 
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
-import modal from "../../ModalBox";
+//import modal from "../../ModalBox";
 
 export default {
     mixins: [ DataTableServices ],
-    components: { modal },
+    //components: { modal },
     data() {
         let sortOrders = {};
         let columns = this.$i18n.messages.en.jobseeker_list.columns;
@@ -279,7 +279,7 @@ export default {
             });
         },
 
-        showBasicInfoModal(id) {
+        /* showBasicInfoModal(id) {
             let request_id = {};
             this.$set(request_id, "id", id);
             this.$api.post("/v1/jobseeker/profile/basicinfo", request_id).then((r) => {
@@ -294,7 +294,7 @@ export default {
                 this.basicInfo.dobday   = dob.getDate() + " 日";
                 this.$refs.modalbox.showModal();
             });
-        },
+        }, */
         
         handleStatusToggle(e) {
             let targetClassName = e.target.className;
@@ -326,7 +326,7 @@ export default {
 </script>
 
 <style scoped>
-a {
+/* a {
     cursor: pointer;
-}
+} */
 </style>

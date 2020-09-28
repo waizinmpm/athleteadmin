@@ -119,6 +119,16 @@ const route = [{
             admin: true, // for only admin component
             jobseeker: false
         }
+    },
+    {
+        name: 'jobseeker-detail',
+        path: '/jobseeker/:id/detail',
+        component: JobseekerProfileEdit,
+        meta: {
+            reqiuresAuth: false,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
     }
 ];
 
