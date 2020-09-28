@@ -104,23 +104,23 @@
             >
             <tbody>
                 <tr v-for="(project, index) in projects.data" :key="project.id">
-                <td>
+                <td class="check-col">
                     <label class="form-checkbox">
-                    <span v-if="project.record_status != 0">
-                        <input type="checkbox" :value="project.id" v-model="selected" />
-                        <div
-                        v-for="undelete_id in delete_ids_transactions"
-                        :key="undelete_id.id"
-                        style="color:red;"
-                        >
-                        {{ undelete_id == project.id ? 'cant delete' : ''}}
-                        <!-- show as test -->
-                        </div>
-                    </span>
+                        <span v-if="project.record_status != 0">
+                            <input type="checkbox" :value="project.id" v-model="selected" />
+                            <div
+                            v-for="undelete_id in delete_ids_transactions"
+                            :key="undelete_id.id"
+                            style="color:red;"
+                            >
+                            {{ undelete_id == project.id ? 'cant delete' : ''}}
+                            <!-- show as test -->
+                            </div>
+                        </span>
                     </label>
                 </td>
-                <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_number}}</a></td>
-                <td><a @click="showBasicInfoModal(project.id)">{{project.jobseeker_name}}</a></td>
+                <td><a @click="showBasicInfoModal(project.id)" class="txt-underline">{{project.jobseeker_number}}</a></td>
+                <td><a @click="showBasicInfoModal(project.id)" class="txt-underline">{{project.jobseeker_name}}</a></td>
                 <td>
                     <div class="toggle" v-if="project.record_status != 0">
                         <div class="scout-box">
@@ -159,7 +159,7 @@
                         </div>
                     </div>
                 </td>
-                <td>
+                <td class="tbl-wm">
                     <router-link :to="'/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
                     <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
                 </td>

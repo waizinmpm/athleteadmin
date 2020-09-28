@@ -467,6 +467,10 @@ body {
         background-color: color(tablecolor);
         color: #fff;
     }
+    table>thead>tr input[type=checkbox] {
+        width: 14px;
+        height: 14px;
+    }
     .page-link {
         color: color(tablecolor) !important;
     }
@@ -701,6 +705,9 @@ body {
 .fa-angle-right {
     font-weight: bold;
 }
+.check-col {
+    width: 40px;
+}
 // padding & margin
 .mb-0 {
     margin-bottom: 0;
@@ -716,6 +723,10 @@ body {
 }
 .txt-red {
     color: #F60D0D;
+}
+.txt-underline {
+    color: #90a051;
+    border-bottom: 1px solid;
 }
 @media (max-width:1400px) {
     .inner-wrapper {
