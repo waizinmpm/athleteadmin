@@ -1,6 +1,11 @@
 <template>
     <div class="user-main">
-        <h3>プロフィール編集</h3>       
+        <div class="d-flex align-items-end">
+            <h3 class="mb-0">プロフィール編集</h3> 
+             <router-link to="/admin-jobseeker-list" class="ml-auto">
+                <span class="btn back-btn">会員情報一覧へ戻る</span>
+            </router-link>
+        </div>      
             <div class="col-12 tab-list sticky-top">
                 <ul class="tab-list-row">   
                     <li v-for="(item, index) in items" class="list-item" :key="index.id">                                          
@@ -87,5 +92,9 @@
     box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
     border-radius: 5px !important;
     border: 1px solid #f3efef;
+}
+.back-btn {
+    border-color: #919191;
+    background-color: #919191;
 }
 </style>

@@ -19,8 +19,8 @@
                     <div class="card-carousel row mt-3">
                         <!--image sliders-->
                         <transition name="list">
-                        <div class="col-md-md-8 pr-0">
-                            <div class="row col-12 face-img-block pr-0">
+                        <div class="col-md-8 pr-0">
+                            <div class="row col-md-12 face-img-block pr-0">
                             <div class="img-wrapper">
                                 <img
                                 v-if="currentImage"
@@ -106,11 +106,11 @@
                 </p>
             </div>
             <div class="popup-databox">
-                <div class="form-group">
                 <label for class="mb-3">ニックネーム</label>
-                <div class="col-md-6 p-0 m-auto">
-                    <input type="text" class="form-control" v-model="selfIntro.jobseeker_nick_name" />
-                </div>
+                <div class="form-group"> 
+                    <div class="col-md-6 float-none m-auto">
+                        <input type="text" class="form-control" v-model="selfIntro.jobseeker_nick_name" />
+                    </div>
                 </div>
             </div>
             <div class="popup-databox">
@@ -122,7 +122,7 @@
                 >※ 容量3MB以下のJPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。推奨サイズ :600px x 600px以上</span>
 
                 <div
-                    class="col-md-12 p-0 drag-wrapper mt-2"
+                    class="col-md-12 p-0 drag-wrapper mt-2 float-none"
                     @drop.prevent="changeFaceImage($event)"
                     @dragover.prevent
                 >
@@ -138,7 +138,7 @@
                         <span class="btn upload-btn">ファイルを選択</span>
                         <input
                         type="file"
-                        class="upload-file hide"
+                        class="upload-file"
                         name="face_image"
                         accept="image/x-png, image/jpeg"
                         @change="changeFaceImage($event)"
@@ -149,7 +149,7 @@
                 </div>
 
                 <div class="row">
-                <div class="col-7">
+                <div class="col-md-7">
                     <div class="position-relative d-inline-block img-wrapper">
                     <img :src="selfIntro.face_image_url" class="img-contain" />
                     <button
@@ -160,7 +160,7 @@
                     >X</button>
                     </div>
                 </div>
-                <div class="col-5">
+                <div class="col-md-5">
                     <h3 class="intro-tit">TOPページでの写真公開可否</h3>
                     <p class="custom-radio-group">
                     <input
@@ -225,25 +225,25 @@
                 </div>
 
                 <div class="row">
-                <div class="col-3" v-for="(path,indx) in selfIntro.related_images" :key="path.id">
-                    <img
-                    :src="path.file_url"
-                    width="100px;"
-                    height="150px;"
-                    class="profile-edit-img"
-                    alt
-                    />
-                    <button type="button" @click="deleteRelatedImage(indx)" class="delete-photo">X</button>
-                </div>
-                <div v-if="imageError != ''">
-                    <span class="error">{{imageError}}</span>
-                </div>
+                    <div class="col-md-3" v-for="(path,indx) in selfIntro.related_images" :key="path.id">
+                        <img
+                        :src="path.file_url"
+                        width="100px;"
+                        height="150px;"
+                        class="profile-edit-img"
+                        alt
+                        />
+                        <button type="button" @click="deleteRelatedImage(indx)" class="delete-photo">X</button>
+                    </div>
+                    <div v-if="imageError != ''">
+                        <span class="error">{{imageError}}</span>
+                    </div>
                 </div>
             </div>
             <div class="popup-databox">
-                <div class="form-group">
+                <div class="form-group mb-1">
                 <label for class="mb-3">関連動画</label>
-                <div class="col-md-12 p-0 d-md-flex align-items-center">
+                <div class="col-md-12 p-0 d-flex align-items-center float-none">
                     <label for class="label-txt">YouTubeURL</label>
 
                     <input
@@ -260,17 +260,17 @@
             </div>
 
             <div class="popup-databox">
-                <div class="form-group">
+                <div class="form-group  mb-1">
                 <label for class="mb-3">自己PR</label>
 
-                <div class="col-md-12 p-0 d-md-flex align-items-center">
+                <div class="col-md-12 p-0 d-flex align-items-center float-none">
                     <textarea v-model="selfIntro.self_pr" class="form-control"></textarea>
                 </div>
                 </div>
             </div>
             </div>
             <p class="w-100 text-center mt-3">
-            <span class="btn job-primary-color btn-large border-style" @click="saveSelfIntro">保存する</span>
+            <span class="btn save-btn" @click="saveSelfIntro">保存する</span>
             </p>
         </div>
         <!-- end self-intro -->
@@ -300,10 +300,11 @@
                 {{$t('jobseekerprofile.date')}}
                 <span class="private">{{$t('jobseekerprofile.private')}}</span>
                 </dt>
-                <dd
-                class="detail-data"
-                v-if="basicInfo.dob"
-                >{{basicInfo.dob[0]}}年 {{basicInfo.dob[1]}}月 {{basicInfo.dob[2]}}日</dd>
+                <dd class="detail-data">
+                    <span v-if="basicInfo.dob">
+                        {{basicInfo.dob[0]}}年 {{basicInfo.dob[1]}}月 {{basicInfo.dob[2]}}日
+                    </span>
+                </dd>
                 <dt class="detail-head">{{$t('jobseekerprofile.Language')}}</dt>
                 <dd class="detail-data" v-if="basicInfo.language_name == null">-</dd>
                 <dd class="detail-data" v-else>{{basicInfo.language_name}}</dd>
@@ -3333,6 +3334,12 @@
 };
 </script>
 <style lang="scss" scoped>
+.position-relative {
+    position: relative!important;
+}
+.d-inline-block {
+    display: inline-block!important;
+}
 .face-img-block {
   min-height: 240px;
 }
@@ -3482,6 +3489,7 @@
   opacity: 0;
   width: 100%;
   height: 45px;
+  
 }
 .profile-edit-img {
   width: 100%;
@@ -3614,6 +3622,7 @@
   float: left;
   width: 54%;
   background-color: #fff;
+  min-height: 50px;
 }
 .private {
   margin: 0 20px 0 auto;
@@ -3639,6 +3648,7 @@
   padding: 3px 10px;
 }
 textarea.form-control {
+  width: 82%;
   height: 200px;
   text-align: left;
 }
@@ -3830,4 +3840,23 @@ textarea.form-control {
     font-size: 20px;
     color: #fff;
 }   
+.custion-radio:checked + .custom-radio-lable:after {
+    width: 12px;
+    height: 12px;
+    background: #2f2d2c;
+}
+.label-txt {
+    min-width: 50px;
+    padding-right: 1.5rem;
+    font-size: 15px;
+}
+.form-control {
+    width: 70%;
+}
+.save-btn {
+    width: 140px;
+    padding: 9px;
+    border-color: #b4c574;
+    background-color: #9fb746;
+}
 </style>
