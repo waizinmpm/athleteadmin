@@ -102,7 +102,7 @@
                                 </div>
                             </td>
                             <td class="tbl-wm">
-                                <span class="btn btn-default" @click="startChat" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
+                                <span class="btn btn-default" @click="startChat(project)" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
                                 <span class="btn btn-default" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span>
                                 <span class="btn btn-default" @click="generateBill(project.jobapply_id, index)" v-if="allowBilling(project.job_apply_status)">{{$t('common.invoice_generate')}}</span>
                             </td>
@@ -205,6 +205,13 @@
             </div>
         </div>
         <!-- End Invoice Area -->
+		<!-- Chatbox container -->
+		<div ref="chatboxContainer" class="chatbox-container">
+			<div v-for="(chatbox) in chatBoxes" :key="chatbox.scoutid_or_applyid">
+				<ChatBox :payload="chatbox" @chatboxClosed="onChatboxClosed"></ChatBox>
+			</div>
+		</div>
+		<!-- End chatbox container -->
 </div>
 </template>
 
@@ -212,9 +219,11 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
 import { showToggle,handleStatus } from "../../../partials/common";
+import ChatBox from '../../ChatBox';
 
 export default {
-    mixins: [DataTableServices],
+	mixins: [DataTableServices],
+	components: { ChatBox },
         data(){
             let sortOrders = {};
             let columns = this.$i18n.messages.en.jobapply_list.columns;
@@ -268,6 +277,7 @@ export default {
                 remark: '',
 			},
 			tax: {},
+			chatBoxes: [],
         }
     },
     methods: {
@@ -284,9 +294,28 @@ export default {
         allowPaymentConfirm(status) {
             return status == this.$configs.job_apply.billed;
         },
-        startChat() {
-            alert("Now will start chatting...");
-        },
+        startChat(jobapply) {
+			const payload = {
+				recruiter_id: jobapply.recruiter_id,
+				jobseeker_id: jobapply.jobseeker_id,
+				scoutid_or_applyid: jobapply.jobapply_id,
+				type: 'job-apply',
+			};
+			if (!this.chatBoxes.find(x => x.scoutid_or_applyid == payload.scoutid_or_applyid && x.type == payload.scoutid_or_applyid)) {
+				this.chatBoxes.push(payload);
+			}
+		},
+		onChatboxClosed(e) {
+			const t = this.chatBoxes.find(x => {
+				return x.scoutid_or_applyid == e.scoutid_or_applyid & x.type == e.type;
+			});
+			if (t) {
+				let i = this.chatBoxes.indexOf(t);
+				if (i > -1) {
+					this.$delete(this.chatBoxes, i);
+				}
+			}
+		},
         onStatusChange(index,e,recruiter_id) {
             this.change_status = 1;
             const job_apply = this.$data.projects.data[index];
@@ -513,5 +542,24 @@ export default {
 .cancel-btn {
 	border-color: #919191;
     background-color: #919191;
+}
+.chatbox-container {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	z-index: 100;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;	
+	background: #FFF;
+	max-width: calc(100vw - 20px);
+	overflow-y: hidden;
+	overflow-x: auto;
+}
+.chatbox-container * {
+	margin-right: 5px;
+}
+.chatbox-container *:last-child {
+	margin-right: 0px;
 }
 </style>

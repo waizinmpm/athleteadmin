@@ -8,7 +8,7 @@
             v-if="!selfIntroEdit && showDetails"
         >
             <div class="col-12">
-            <div class="intro-tit tit-box">
+            <div class="intro-tit tit-box" v-show="edit_page">
                 <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
                 <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')">
                     <span class="icon icon-edit"></span>編集
@@ -97,9 +97,9 @@
             </div>
         </div>
         <div class="row tab-content introduction-content mb-3 m-0" v-if="selfIntroEdit">
-            <div class="col-md-12">
-            <div class="tit-box tit-box-edit">
-                <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介 b</h3>
+            <div class="col-12">
+            <div class="tit-box tit-box-edit" v-show="edit_page">
+                <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
                 <p class="profile-edit-txt" @click="editBox('selfIntroEdit','close')">
                 <span class="icon icon-times"></span>
                 {{$t('common.close')}}
@@ -282,7 +282,7 @@
             v-if="!basicInfoEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box">
+            <div class="tit-box" v-show="edit_page">
                 <h3 class="profile-edit-tit">{{$t('jobseekerprofile.basicinfo')}}</h3>
                 <p class="profile-edit-txt" @click="editBox('basicInfoEdit','open')">
                 <span class="icon icon-edit"></span>編集
@@ -621,7 +621,7 @@
             v-if="!careerEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box">
+            <div class="tit-box" v-show="edit_page">
                 <h3 class="profile-edit-tit">経歴</h3>
                 <p class="profile-edit-txt" @click="editBox('careerEdit','open')">
                 <span class="icon icon-edit"></span>編集
@@ -1048,7 +1048,7 @@
             v-if="!expQualificationEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box">
+            <div class="tit-box" v-show="edit_page">
                 <h3 class="profile-edit-tit">経験・資格</h3>
                 <p class="profile-edit-txt" @click="editBox('expQualificationEdit','open')">
                 <span class="icon icon-edit"></span>編集
@@ -1740,7 +1740,7 @@
             v-if="!desiredConditionEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box">
+            <div class="tit-box" v-show="edit_page">
                 <h3 class="profile-edit-tit">希望条件</h3>
                 <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','open')">
                 <span class="icon icon-edit"></span>編集
@@ -2124,6 +2124,7 @@
     export default {
     data() {
         return {
+            edit_page : true,
             file_names: [],
             defaultImageUrl: "",
             showDetails: true,
@@ -2400,14 +2401,18 @@
 
     created() {
         // this.$loading.show();
+        let jobseeker_id = `${this.$route.params.id}`;
+        this.edit_page = this.$route.name == 'jobseeker-detail' ? false : true;
         this.selfIntro.face_image_private_status = 0;
+        
+        this.getSelfIntroDetails(jobseeker_id);
+        this.getCarrerRequiredList();
+        this.getBasicInfoDetails(jobseeker_id);
+        this.getCarrerDetails(jobseeker_id);
+        this.getDesiredCondition(jobseeker_id);
+
         let request_id = {};
         this.$set(request_id, "id", `${this.$route.params.id}`);
-        this.getSelfIntroDetails(request_id);
-        this.getCarrerRequiredList();
-        this.getBasicInfoDetails(request_id);
-        this.getCarrerDetails(request_id);
-        this.getDesiredCondition(request_id);
         this.getJobIndustryExpDetails(request_id);
     },
 
@@ -2465,7 +2470,7 @@
                 this.defaultImageUrl = r.data.data;
             });
 
-            this.$api.post("/v1/jobseeker/profile/selfintro", request_id).then((r) => {
+            this.$api.get(`/v1/jobseeker/profile/selfintro/?id=${request_id}`).then((r) => {
                 this.file_names = r.data.data.hashedFile; //hashed for related_images
 
                 this.selfIntro = r.data.data.selfIntro; //rebind selfintro data
@@ -2632,7 +2637,7 @@
             let request_id = {};
             this.$set(request_id, "id", `${this.$route.params.id}`);
             // this.getBasicInfoDetails();
-            this.getSelfIntroDetails(request_id);
+            this.getSelfIntroDetails(`${this.$route.params.id}`);
             // this.getCarrerDetails();
             if (action == "open") {
                 //jquery?
@@ -2733,16 +2738,16 @@
                 .post("/v1/jobseeker/profile/experiences-qualifications", request_id)
                 .then((res) => {
                     console.log(res);
-                let response = res.data.data;
-                this.industry_list = response.industries;
-                this.country_list = response.countries;
-                this.exp_occupations = response.occupations;
-                this.exp_positions = response.positions;
-                let jobseeker_detail = response.jobseeker_detail;
-                let industry_histories = response.industry_histories;
-                let education_overseas = response.education_overseas;
-                let working_overseas = response.working_overseas;
-                let languages_levels = response.languages_levels;
+                let response            = res.data.data;
+                this.industry_list      = response.industries;
+                this.country_list       = response.countries;
+                this.exp_occupations    = response.occupations;
+                this.exp_positions      = response.positions;
+                let jobseeker_detail    = response.jobseeker_detail;
+                let industry_histories  = response.industry_histories;
+                let education_overseas  = response.education_overseas;
+                let working_overseas    = response.working_overseas;
+                let languages_levels    = response.languages_levels;
 
                 // experience job type
                 this.experience_qualification.experience_jobs = [];
@@ -2810,7 +2815,7 @@
                 this.experience_qualification.work_visa.status =
                     jobseeker_detail.visa_status ?? "0";
                 this.experience_qualification.work_visa.country =
-                    jobseeker_detail.visa_status !== 0
+                    jobseeker_detail.visa_status
                     ? jobseeker_detail.visa_country
                     : "";
 
@@ -2922,8 +2927,6 @@
                         console.log(errors);
                         loader.hide();
                     });
-                } else {
-                    this.getData(this.projects.current_page);
                 }
             });
         },
@@ -2964,7 +2967,7 @@
             let loading = this.$loading.show();
             this.$set(this.selfIntro, "id", this.$route.params.id);
             this.$api
-                .post("/v1/jobseeker/profile/selfintro/update", this.selfIntro)
+                .post("/v1/jobseeker/profile/selfintro", this.selfIntro)
                 .then((r) => {
                     console.log(r);
                 this.$alertService.showSuccessDialog(
@@ -2996,7 +2999,7 @@
             this.$set(this.basicInfo, "id", this.$route.params.id);
             let loading = this.$loading.show();
             this.$api
-                .post("/v1/jobseeker/profile/basicinfo/update", this.basicInfo)
+                .post("/v1/jobseeker/profile/basicinfo", this.basicInfo)
                 .then((r) => {
                     console.log(r);
                 this.$alertService.showSuccessDialog(
@@ -3019,7 +3022,7 @@
         },
 
         getBasicInfoDetails(request_id) {
-            this.$api.post("/v1/jobseeker/profile/basicinfo", request_id).then((response) => {
+            this.$api.get(`/v1/jobseeker/profile/basicinfo/?id=${request_id}`).then((response) => {
                 this.basicInfo = response.data.data.profile;
                 this.city_list = response.data.data.cities;
                 this.languages = response.data.data.languages;
@@ -3041,7 +3044,7 @@
         },
 
         getCarrerDetails(request_id) {
-            this.$api.post("/v1/jobseeker/profile/carrerinfo", request_id).then((response) => {
+            this.$api.get(`/v1/jobseeker/profile/carrerinfo/?id=${request_id}`).then((response) => {
                 console.log('getCarrerDetails'+response);
                 this.educations = response.data.data.educations;
                 this.experiences = response.data.data.experiences;
@@ -3185,7 +3188,7 @@
             };
 
             this.$api
-                .post("/v1/jobseeker/profile/carrer/update", jsonData)
+                .post("/v1/jobseeker/profile/carrer", jsonData)
                 .then((response) => {
                     console.log(response);
                     this.$alertService.showSuccessDialog(
@@ -3211,7 +3214,7 @@
         getDesiredCondition(request_id) {
             console.log(request_id);
         this.$api
-            .post("/v1/jobseeker/profile/desired-condition", request_id)
+            .get(`/v1/jobseeker/profile/desired-condition/?id=${request_id}`)
             .then((response) => {
                 this.desired_city_list = response.data.city_list;
                 this.industry_list = response.data.industry_list;
@@ -3304,7 +3307,7 @@
             ) {
                 let loader = this.$loading.show();
                 this.$api
-                .post("/v1/jobseeker/profile/desired-condition/update", jsonData)
+                .post("/v1/jobseeker/profile/desired-condition", jsonData)
                 .then((response) => {
                     console.log(response);
                     this.$alertService.showSuccessDialog(
