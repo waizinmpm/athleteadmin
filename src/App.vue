@@ -65,10 +65,10 @@ body {
         background-color: color(primary);
     }
     .custom-btn {
-        border-radius: none !important;
+        border-radius: 0 !important;
         color: color(text-color);
         width: 100px;
-        padding: 5px 0;
+        padding: 7px 0;
     }
     .edit {
         background-color: color(buttoneditcolor);
@@ -532,8 +532,8 @@ body {
 }
 .scout-box {
     position: relative;
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
 }
 .scout-txt {
     min-width: 90px;
@@ -598,7 +598,7 @@ body {
     content: "";
     width: 12px;
     height: 12px;
-    background: #91A8BF;
+    background: #90a051;
     position: absolute;
     top: 6px;
     left: 6px;
@@ -705,9 +705,6 @@ body {
 .fa-angle-right {
     font-weight: bold;
 }
-.check-col {
-    width: 40px;
-}
 // padding & margin
 .mb-0 {
     margin-bottom: 0;
@@ -725,9 +722,15 @@ body {
     color: #F60D0D;
 }
 .txt-underline {
-    color: #90a051;
+    padding: 0 2px;
+    color: #000;
     border-bottom: 1px solid;
 }
+.txt-underline:hover {
+    color: #000;
+    opacity: 0.8;
+}
+
 @media (max-width:1400px) {
     .inner-wrapper {
         width: 70%;

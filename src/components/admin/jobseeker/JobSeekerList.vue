@@ -5,182 +5,181 @@
             <!--advanced search-->
             <h5 class="m-b-10 main-header">{{ $t('jobseeker_list.jobseeker_member_list') }}</h5>
             <div class="content-row" style="padding-bottom:0px;margin-left:0px;">
-            <div class="row">
-                <div class="col-md-12">
-                <div class="input-group">
-                    <input
-                    type="text"
-                    class="form-control"
-                    :placeholder="$t('jobseeker_list.search_jobseeker_placeholder')"
-                    id="inputGroup"
-                    v-model="filteredData.freeword"
-                    @input="getData()"
-                    />
-                    <span class="input-group-addon bg-color">
-                    <i class="fa fa-search"></i>
-                    </span>
+                <div class="row">
+                    <div class="col-md-12">
+                    <div class="input-group">
+                        <input
+                        type="text"
+                        class="form-control"
+                        :placeholder="$t('jobseeker_list.search_jobseeker_placeholder')"
+                        id="inputGroup"
+                        v-model="filteredData.freeword"
+                        @input="getData()"
+                        />
+                        <span class="input-group-addon bg-color">
+                        <i class="fa fa-search"></i>
+                        </span>
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
 
-            <label for="ステータス">{{ $t('common.status') }}</label>
-            <div class="row">
-                <div class="col-md-12">
-                <div class="col-md-2 p-lr0">
-                    <label for="有効" class="custom-control-label custom-checkbox-label">
-                    <input
-                        type="checkbox"
-                        class="custom-control-input custom-checkbox"
-                        value="1"
-                        v-model="filteredData.jobseeker_recordstatus"
-                        @change="getData()"
-                        id="有効"
-                    />
-                    <span class="custom-check-label-post">有効</span>
-                    </label>
+                <label for="ステータス">{{ $t('common.status') }}</label>
+                <div class="row">
+                    <div class="col-md-12">
+                    <div class="col-md-2 p-lr0">
+                        <label for="有効" class="custom-control-label custom-checkbox-label">
+                        <input
+                            type="checkbox"
+                            class="custom-control-input custom-checkbox"
+                            value="1"
+                            v-model="filteredData.jobseeker_recordstatus"
+                            @change="getData()"
+                            id="有効"
+                        />
+                        <span class="custom-check-label-post">有効</span>
+                        </label>
+                    </div>
+                    <div class="col-md-2 p-lr0">
+                        <label for="無効" class="custom-control-label custom-checkbox-label">
+                        <input
+                            type="checkbox"
+                            class="custom-control-input custom-checkbox"
+                            value="2"
+                            v-model="filteredData.jobseeker_recordstatus"
+                            @change="getData()"
+                            id="無効"
+                        />
+                        <span class="custom-check-label-post">無効</span>
+                        </label>
+                    </div>
+                    <div class="col-md-2 p-lr0">
+                        <label for="退会" class="custom-control-label custom-checkbox-label">
+                        <input
+                            type="checkbox"
+                            class="custom-control-input custom-checkbox"
+                            value="0"
+                            v-model="filteredData.jobseeker_recordstatus"
+                            @change="getData()"
+                            id="退会"
+                        />
+                        <span class="custom-check-label-post">退会</span>
+                        </label>
+                    </div>
+                    </div>
                 </div>
-                <div class="col-md-2 p-lr0">
-                    <label for="無効" class="custom-control-label custom-checkbox-label">
-                    <input
-                        type="checkbox"
-                        class="custom-control-input custom-checkbox"
-                        value="2"
-                        v-model="filteredData.jobseeker_recordstatus"
-                        @change="getData()"
-                        id="無効"
-                    />
-                    <span class="custom-check-label-post">無効</span>
-                    </label>
-                </div>
-                <div class="col-md-2 p-lr0">
-                    <label for="退会" class="custom-control-label custom-checkbox-label">
-                    <input
-                        type="checkbox"
-                        class="custom-control-input custom-checkbox"
-                        value="0"
-                        v-model="filteredData.jobseeker_recordstatus"
-                        @change="getData()"
-                        id="退会"
-                    />
-                    <span class="custom-check-label-post">退会</span>
-                    </label>
-                </div>
-                </div>
-            </div>
             </div>
             <!--end advanced search-->
         </div>
         </div>
         <div class="row">
-        <div class="col-sm-12 p-0">
-            <div class="row">
-            <div class="col-sm-6 select">
-                <div
-                for
-                >{{ $t('common.total_results') }}: {{ $tc('common.item', projects.total, { n:projects.total }) }}</div>
-                <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
-                <select v-model="tableData.length" @change="getData()">
-                <option v-for="(records, index) in perPage" :key="index" :value="records">{{records}}</option>
-                </select>
-            </div>
-            <div class="col-sm-6">
-                <button
-                class="btn custom-btn delete"
-                style="float:right"
-                :disabled="isDisabled"
-                @click="deleteData()"
-                >{{ $t('common.delete') }}</button>
-            </div>
-            </div>
-
-            <DataTable
-            ref="datatable"
-            :columns="$t('jobseeker_list.columns')"
-            :sortKey="sortKey"
-            :sortOrders="sortOrders"
-            @check-all="selectAll"
-            @sort="sortBy"
-            :showCheckbox="true"
-            >
-            <tbody>
-                <tr v-for="(project, index) in projects.data" :key="project.id">
-                <td class="check-col">
-                    <label class="form-checkbox">
-                        <span v-if="project.record_status != 0">
-                            <input type="checkbox" :value="project.id" v-model="selected" />
-                            <div
-                            v-for="undelete_id in delete_ids_transactions"
-                            :key="undelete_id.id"
-                            style="color:red;"
-                            >
-                            {{ undelete_id == project.id ? 'cant delete' : ''}}
-                            <!-- show as test -->
-                            </div>
-                        </span>
-                    </label>
-                </td>
-                <td><a @click="showBasicInfoModal(project.id)" class="txt-underline">{{project.jobseeker_number}}</a></td>
-                <td><a @click="showBasicInfoModal(project.id)" class="txt-underline">{{project.jobseeker_name}}</a></td>
-                <td>
-                    <div class="toggle" v-if="project.record_status != 0">
-                        <div class="scout-box">
-                            <a @click="showBasicInfoModal(project.id)">
-                                <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
-                            </a>
-                            <span class="btn btn-common" v-on:click="showToggle(index)">
-                            {{$t('common.edit')}}
-                            <span class="down-icon">&#9662;</span>
-                            </span>
-                            <div
-                            class="scout-toggle"
-                            :id="'scout-status'+index"
-                            v-bind:class="{'scout-expand': (current === index) && (status == true)}"
-                            >
-                            <p
-                                class="custom-radio-group mr-3"
-                                v-for="status in arr_status"
-                                v-bind:key="status.id"
-                            >
-                                <input
-                                type="radio"
-                                :id="status.id+index"
-                                v-model="project.record_status"
-                                class="custion-radio"
-                                @change="changeStatus(project.id, status.id)"
-                                :value="status.id == '有効' ? 1 : 2"
-                                />
-                                <label
-                                :for="status.id+index"
-                                class="custom-radio-lable status-lable"
-                                @click="hideToggle"
-                                >{{ status.id }}</label>
-                            </p>
-                            </div>
-                        </div>
+            <div class="col-sm-12 p-0">
+                <div class="row d-flex align-items-end">
+                    <div class="col-sm-6 select">
+                        <div
+                        for
+                        >{{ $t('common.total_results') }}: {{ $tc('common.item', projects.total, { n:projects.total }) }}</div>
+                        <span>{{ projects.current_page }}{{ $t('common.displayed_page') }}</span>&nbsp;
+                        <select v-model="tableData.length" @change="getData()">
+                        <option v-for="(records, index) in perPage" :key="index" :value="records">{{records}}</option>
+                        </select>
                     </div>
-                </td>
-                <td class="tbl-wm">
-                    <router-link :to="'/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
-                    <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
-                </td>
-                </tr>
-            </tbody>
-            </DataTable>
-            <pagination
-            v-if="projects.length != 0"
-            :data="projects"
-            @pagination-change-page="getData"
-            :limit="limitpc"
-            >
-            <span slot="prev-nav">
-                <i class="fas fa-angle-left"></i> 前へ
-            </span>
-            <span slot="next-nav">
-                次へ
-                <i class="fa fa-angle-right"></i>
-            </span>
-            </pagination>
-        </div>
+                    <div class="col-sm-6">
+                        <button
+                        class="btn custom-btn float-right"
+                        :disabled="isDisabled"
+                        @click="deleteData()"
+                        >{{ $t('common.delete') }}</button>
+                    </div>
+                </div>
+
+                <DataTable
+                ref="datatable"
+                :columns="$t('jobseeker_list.columns')"
+                :sortKey="sortKey"
+                :sortOrders="sortOrders"
+                @check-all="selectAll"
+                @sort="sortBy"
+                :showCheckbox="true"
+                >
+                    <tbody>
+                        <tr v-for="(project, index) in projects.data" :key="project.id">
+                        <td class="check-col">
+                            <label class="form-checkbox">
+                                <span v-if="project.record_status != 0">
+                                    <input type="checkbox" :value="project.id" v-model="selected" />
+                                    <div
+                                    v-for="undelete_id in delete_ids_transactions"
+                                    :key="undelete_id.id"
+                                    style="color:red;"
+                                    >
+                                    {{ undelete_id == project.id ? 'cant delete' : ''}}
+                                    <!-- show as test -->
+                                    </div>
+                                </span>
+                            </label>
+                        </td>
+                        <td><a @click="showBasicInfoModal(project.id)" class="txt-underline">{{project.jobseeker_number}}</a></td>
+                        <td><a @click="showBasicInfoModal(project.id)" class="txt-underline">{{project.jobseeker_name}}</a></td>
+                        <td class="tbl-wxl"> 
+                            <div class="toggle-row" v-if="project.record_status != 0">
+                                <div class="scout-box">
+                                    <a @click="showBasicInfoModal(project.id)" class="txt-underline">
+                                        <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
+                                    </a><br>
+                                    <span class="btn btn-common" v-on:click="showToggle(index)">
+                                    {{$t('common.edit')}}
+                                    <span class="down-icon">&#9662;</span>
+                                    </span>
+                                    <div
+                                    class="scout-toggle"
+                                    :id="'scout-status'+index"
+                                    v-bind:class="{'scout-expand': (current === index) && (status == true)}"
+                                    >
+                                    <p
+                                        class="custom-radio-group mr-3"
+                                        v-for="status in arr_status"
+                                        v-bind:key="status.id"
+                                    >
+                                        <input
+                                        type="radio"
+                                        :id="status.id+index"
+                                        v-model="project.record_status"
+                                        class="custion-radio"
+                                        @change="changeStatus(project.id, status.id)"
+                                        :value="status.id == '有効' ? 1 : 2"
+                                        />
+                                        <label
+                                        :for="status.id+index"
+                                        class="custom-radio-lable status-lable"
+                                        @click="hideToggle"
+                                        >{{ status.id }}</label>
+                                    </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="tbl-wm">
+                            <router-link :to="'/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
+                            <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
+                        </td>
+                        </tr>
+                    </tbody>
+                </DataTable>
+                <pagination
+                v-if="projects.length != 0"
+                :data="projects"
+                @pagination-change-page="getData"
+                :limit="limitpc"
+                >
+                    <span slot="prev-nav">
+                        <i class="fas fa-angle-left"></i> 前へ
+                    </span>
+                    <span slot="next-nav">
+                        次へ
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </pagination>
+            </div>
         </div>
 
         <!-- Modal content -->

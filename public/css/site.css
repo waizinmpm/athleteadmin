@@ -3521,6 +3521,7 @@ fieldset[disabled] .btn-success:hover {
 
 .btn-info {
     min-width: 80px;
+    padding: 4px 0;
     color: #fff;
     border-color: #b4c573;
     background-color: #90a051;
@@ -9883,8 +9884,8 @@ a.list-group-item-danger:hover {
 
 .panel-default>.panel-heading {
     color: #434a54;
-    background-color: #e6e9ed;
-    border-color: #e6e9ed;
+    background-color: #e6ede8;
+    border-color: #e6ede8;
 }
 
 .panel-primary {
@@ -12598,6 +12599,182 @@ a.list-group-item-danger:hover {
     content: ""
 }
 
+/* fontawesome */
+
+
+/* custom font */
+@font-face {
+    font-family: 'icomoon';
+    src:  url('fonts/icomoon.eot?ak2vm7');
+    src:  url('fonts/icomoon.eot?ak2vm7#iefix') format('embedded-opentype'),
+      url('fonts/icomoon.ttf?ak2vm7') format('truetype'),
+      url('fonts/icomoon.woff?ak2vm7') format('woff'),
+      url('fonts/icomoon.svg?ak2vm7#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
+  
+  [class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .icon-angle-down:before {
+    content: "\e91f";
+    color: #97a5b4;
+  }
+  .icon-times:before {
+    content: "\e91e";
+    color: #c4c4c4;
+  }
+  .icon-upload-img .path1:before {
+    content: "\e91c";
+    color: #b5ccc7f2;
+  }
+  .icon-upload-img .path2:before {
+    content: "\e91d";
+    margin-left: -1.914063em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-upload-file .path1:before {
+    content: "\e914";
+    color: #b5ccc7f2;
+  }
+  .icon-upload-file .path2:before {
+    content: "\e915";
+    margin-left: -0.8388671875em;
+    color: #b5ccc7f2;
+  }
+  .icon-upload-file .path3:before {
+    content: "\e916";
+    margin-left: -0.8388671875em;
+    color: #b5ccc7f2;
+  }
+  .icon-upload-file .path4:before {
+    content: "\e917";
+    margin-left: -0.8388671875em;
+    color: #b5ccc7f2;
+  }
+  .icon-upload-file .path5:before {
+    content: "\e918";
+    margin-left: -0.8388671875em;
+    color: #b5ccc7f2;
+  }
+  .icon-upload-file .path6:before {
+    content: "\e919";
+    margin-left: -0.8388671875em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-upload-file .path7:before {
+    content: "\e91a";
+    margin-left: -0.8388671875em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-upload-file .path8:before {
+    content: "\e91b";
+    margin-left: -0.8388671875em;
+    color: #b5ccc7f2;
+  }
+  .icon-edit:before {
+    content: "\e913";
+    /* color: #9cba77; */
+  }
+  .icon-language:before {
+    content: "\e912";
+    /* color: #9cba77; */
+  }
+  .icon-book:before {
+    content: "\e900";
+    /* color: #9cba77; */
+  }
+  .icon-mail:before {
+    content: "\e901";
+    /* color: #9cba77; */
+  }
+  .icon-profile:before {
+    content: "\e902";
+    /* color: #9cba77; */
+  }
+  .icon-speaker:before {
+    content: "\e903";
+  }
+  .icon-note:before {
+    content: "\e904";
+  }
+  .icon-brain:before {
+    content: "\e905";
+  }
+  .icon-search:before {
+    content: "\e906";
+    color: #fff;
+  }
+  .icon-login:before {
+    content: "\e907";
+  }
+  .icon-logo .path1:before {
+    content: "\e908";
+    color: rgb(255, 255, 255);
+  }
+  .icon-logo .path2:before {
+    content: "\e909";
+    margin-left: -6.3388671875em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-logo .path3:before {
+    content: "\e90a";
+    margin-left: -6.3388671875em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-logo .path4:before {
+    content: "\e90b";
+    margin-left: -6.3388671875em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-logo .path5:before {
+    content: "\e90c";
+    margin-left: -6.3388671875em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-logo .path6:before {
+    content: "\e90d";
+    margin-left: -6.3388671875em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-logo .path7:before {
+    content: "\e90e";
+    margin-left: -6.3388671875em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-logo .path8:before {
+    content: "\e90f";
+    margin-left: -6.3388671875em;
+    color: rgb(132, 190, 63);
+  }
+  .icon-logo .path9:before {
+    content: "\e910";
+    margin-left: -6.3388671875em;
+    color: rgb(132, 190, 63);
+  }
+  .icon-logo .path10:before {
+    content: "\e911";
+    margin-left: -6.3388671875em;
+    color: rgb(132, 190, 63);
+  }
+
+
+
+
+
 .home {
     /* background: url(../img/index.png) no-repeat 50% 100px; */
 }
@@ -12620,7 +12797,7 @@ a.list-group-item-danger:hover {
     font-weight: 400;
     font-style: normal;
     text-decoration: none;
-    vertical-align: top;
+    /* vertical-align: top; */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -12910,7 +13087,7 @@ a.list-group-item-danger:hover {
 .navbar-custom {
     border: none;
     border-radius: 0;
-    background-color: #6a7482;
+    background-color: #555b55;
     width: 100%;
     font-size: 12px;
     margin-bottom: 0px;
@@ -14228,6 +14405,9 @@ input:-webkit-autofill:focus {
   .mx-auto {
     margin-left: auto !important;
   }
+  .m-auto {
+    margin: auto!important;
+   }
   
   .p-0 {
     padding: 0 !important;

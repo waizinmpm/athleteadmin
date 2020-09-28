@@ -17,7 +17,7 @@
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
-          <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
+          <!-- <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
               <li class="form-group" style="margin-top:15px;margin-right:15px;margin-left:15px;">
                 <select v-model="$i18n.locale" class="form-control input-sm">
@@ -26,7 +26,8 @@
               </li>
               <li class="active" style="min-width:90px;"><a>{{$t('menu.Home')}}</a></li>              
             </ul>
-          </div><!-- /.navbar-collapse -->
+          </div> -->
+          <!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
     <!--nav-->  

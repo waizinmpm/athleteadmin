@@ -1,14 +1,14 @@
 <template>
     <div class="user-main">
         <h3>プロフィール編集</h3>       
-            <div class="col-12 tab-list sticky-top w-100">
-                <ul class="list-group list-group-horizontal">   
-                <li v-for="(item, index) in items" class="list-group-item" :key="index.id">                                          
-                    <a  v-scroll-to="{el:'#'+(item,index),offset:-70}"
-                    @click="ScrollTab(index)"                            
-                    :class="{isActive: activeIndex === index ? 'active':''}"                       
-                    class="list-link">{{ item.text }}</a> 
-                </li>
+            <div class="col-12 tab-list sticky-top">
+                <ul class="tab-list-row">   
+                    <li v-for="(item, index) in items" class="list-item" :key="index.id">                                          
+                        <a  v-scroll-to="{el:'#'+(item,index),offset:-70}"
+                        @click="ScrollTab(index)"                            
+                        :class="{isActive: activeIndex === index ? 'active':''}"                       
+                        class="list-link">{{ item.text }}</a> 
+                    </li>
                 </ul>  
             </div>    
         <JobseekerProfile></JobseekerProfile>
@@ -45,25 +45,47 @@
     }
 </script>
 <style scoped>
-    .isActive{
-        color: #195b2e !important;
-        font-weight: bold;
-        border-bottom: 1px solid #195b2e;   
-    }
-    .tab-list {
-        margin: 20px 0;
-        padding: 0;
-        background: #fff;
-        box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-    }
-    .tab-list .list-group-item {
-        padding: 20px 40px;
-        border: none;
-    }
-    .list-link {
-        color: #619873;
-    }
-   
-
+.tab-list-row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    padding-left: 0;
+    margin-bottom: 0;
+    border-radius: .25rem;
+}
+.isActive{
+    color: #195b2e !important;
+    font-weight: bold;
+    border-bottom: 1px solid #195b2e;   
+}
+.tab-list {
+    margin: 20px 0;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    border: 1px solid #f3efef;
+}
+.tab-list .list-item {
+    padding: 20px 40px;
+    list-style: none;
+}
+.list-link {
+    color: #619873;
+}
+.sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 60px;
+    width: 100%!important;
+    z-index: 1020;
+}
+.tab-content {
+    padding: 50px 20px;
+    background: #fff;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+    border-radius: 5px !important;
+    border: 1px solid #f3efef;
+}
 </style>

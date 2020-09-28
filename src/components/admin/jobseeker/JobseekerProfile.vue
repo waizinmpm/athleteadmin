@@ -11,85 +11,85 @@
             <div class="intro-tit tit-box">
                 <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
                 <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')">
-                <span class="icon icon-edit"></span>編集
+                    <span class="icon icon-edit"></span>編集
                 </p>
             </div>
             <div class="row movie-row">
-                <div class="col-7">
-                <div class="card-carousel row mt-3">
-                    <!--image sliders-->
-                    <transition name="list">
-                    <div class="col-8 pr-0">
-                        <div class="row col-12 face-img-block pr-0">
-                        <div class="img-wrapper">
-                            <img
-                            v-if="currentImage"
-                            :src="currentImage"
-                            alt="faceimage"
-                            class="img-fluid"
-                            />
-                        </div>
-                        </div>
-                        <div class="row col-12 pr-0">
-                        <div class="col-6 p-0">
-                            <p>{{selfIntroDetails.occupation_name}}</p>
-                            <p>{{selfIntroDetails.language_level}}</p>
-                            <p>{{selfIntroDetails.desired_location_1}}</p>
-                        </div>
-                        <div class="col-6 pr-0 align-self-start">
-                            <span
-                            :class="['face-image', (activeImage == 4) ? 'active' : '']"
-                            @click="activateImage('face_image',4) "
-                            >
-                            <img :src="selfIntro.face_image_url" alt />
-                            </span>
-                        </div>
-                        </div>
+                <div class="col-md-7">
+                    <div class="card-carousel row mt-3">
+                        <!--image sliders-->
+                        <transition name="list">
+                        <div class="col-md-md-8 pr-0">
+                            <div class="row col-12 face-img-block pr-0">
+                            <div class="img-wrapper">
+                                <img
+                                v-if="currentImage"
+                                :src="currentImage"
+                                alt="faceimage"
+                                class="img-fluid"
+                                />
+                            </div>
+                            </div>
+                            <div class="row col-md-12 pr-0">
+                            <div class="col-md-6 p-0">
+                                <p>{{selfIntroDetails.occupation_name}}</p>
+                                <p>{{selfIntroDetails.language_level}}</p>
+                                <p>{{selfIntroDetails.desired_location_1}}</p>
+                            </div>
+                            <div class="col-md-6 pr-0 align-self-start">
+                                <span
+                                :class="['face-image', (activeImage == 4) ? 'active' : '']"
+                                @click="activateImage('face_image',4) "
+                                >
+                                <img :src="selfIntro.face_image_url" alt />
+                                </span>
+                            </div>
+                            </div>
 
-                        <!--
-                                                <div class="actions">
-                                                    <span @click="prevImage" class="prev">
-                                                        <i class="fas fa-chevron-left"></i>
-                                                    </span>
-                                                    <span @click="nextImage" class="next">
-                                                        <i class="fas fa-chevron-right"></i>
-                                                    </span>
-                                                </div>
-                        -->
-                    </div>
-                    </transition>
-                    <div class="thumbnails col-4">
-                    <transition-group tag="span" name="list">
-                        <span
-                        v-for="(image, index) in  selfIntro.related_images"
-                        :key="image.id"
-                        :class="['thumbnail-image', (activeImage == index) ? 'active' : '']"
-                        @click="activateImage('related',index) "
-                        >
-                        <img :src="image.file_url" class />
-                        </span>
-                    </transition-group>
-                    </div>
-                    <!--end image slider-->
-                </div>
-                </div>
-                <div class="col-5">
-                <div class="row mt-3 movie-col">
-                    <div class="col-12">
-                    <div v-if="!selfIntroDetails.video">
-                        <p class="no-video">
-                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>動画は利用できません
-                        </p>
-                    </div>
-                    <div v-if="selfIntroDetails.video">
-                        <iframe class="movie-link" :src="selfIntroDetails.video"></iframe>
-                    </div>
+                            <!--
+                                                    <div class="actions">
+                                                        <span @click="prevImage" class="prev">
+                                                            <i class="fas fa-chevron-left"></i>
+                                                        </span>
+                                                        <span @click="nextImage" class="next">
+                                                            <i class="fas fa-chevron-right"></i>
+                                                        </span>
+                                                    </div>
+                            -->
+                        </div>
+                        </transition>
+                        <div class="thumbnails col-md-4">
+                            <transition-group tag="span" name="list">
+                                <span
+                                v-for="(image, index) in  selfIntro.related_images"
+                                :key="image.id"
+                                :class="['thumbnail-image', (activeImage == index) ? 'active' : '']"
+                                @click="activateImage('related',index) "
+                                >
+                                <img :src="image.file_url" class />
+                                </span>
+                            </transition-group>
+                        </div>
+                        <!--end image slider-->
                     </div>
                 </div>
+                <div class="col-md-5">
+                    <div class="row mt-3 movie-col">
+                        <div class="col-md-12">
+                        <div v-if="!selfIntroDetails.video">
+                            <p class="no-video">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>動画は利用できません
+                            </p>
+                        </div>
+                        <div v-if="selfIntroDetails.video">
+                            <iframe class="movie-link" :src="selfIntroDetails.video"></iframe>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-12">
                 <h6 class="about-tit">自己PR、海外で勤務したい理由等</h6>
                 <pre class="about-box">{{selfIntro.self_pr}}</pre>
                 </div>
@@ -97,7 +97,7 @@
             </div>
         </div>
         <div class="row tab-content introduction-content mb-3 m-0" v-if="selfIntroEdit">
-            <div class="col-12">
+            <div class="col-md-12">
             <div class="tit-box tit-box-edit">
                 <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介 b</h3>
                 <p class="profile-edit-txt" @click="editBox('selfIntroEdit','close')">
@@ -3511,6 +3511,7 @@
   background: #fff;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  border: 1px solid #f3efef;
 }
 .tab-list .list-group-item {
   border: none;
@@ -3523,6 +3524,7 @@
   background: #fff;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
   border-radius: 5px !important;
+  border: 1px solid #f3efef;
 }
 .tit-box {
   position: relative;
@@ -3533,12 +3535,15 @@
 .profile-edit-tit {
   font-size: 1.2rem;
   line-height: 0.8;
+  margin: 0 0 1rem 0;
 }
 .icon-edit {
   display: inline-block;
   margin-right: 5px;
   font-size: 40px;
   color: #619873;
+  font-weight: 500;
+  vertical-align: baseline;
 }
 .profile-edit-txt {
   position: absolute;
@@ -3778,39 +3783,48 @@ textarea.form-control {
   max-height: 277px;
 }
 .delete-photo {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  line-height: 1.8;
-  background: #8d9498;
-  color: #fff;
-  right: 20px;
-  top: 5px;
-  border-radius: 50%;
-  box-shadow: none;
-  box-sizing: border-box;
-  border: none;
-  font-size: 15px;
-  display: inline-block;
-  font-weight: bold;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    line-height: 1.8;
+    background: #8d9498;
+    color: #fff;
+    right: 20px;
+    top: 5px;
+    border-radius: 50%;
+    box-shadow: none;
+    box-sizing: border-box;
+    border: none;
+    font-size: 15px;
+    display: inline-block;
+    font-weight: bold;
 }
 .check-item {
-  position: relative;
-  /* width: 130px; */
-  list-style: none;
-  padding: 10px 20px;
-  margin: 0 10px 10px 0;
-  display: inline-block;
-  color: #999;
-  border: 1px solid #9b9898;
-  /* margin-right: 10px; */
-  background: #eee;
-  border-radius: 5px;
+    position: relative;
+    /* width: 130px; */
+    list-style: none;
+    padding: 10px 20px;
+    margin: 0 10px 10px 0;
+    display: inline-block;
+    color: #999;
+    border: 1px solid #9b9898;
+    /* margin-right: 10px; */
+    background: #eee;
+    border-radius: 5px;
 }
 .check-item .fa {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 .fa-check.disabled {
-  opacity: 0.2;
+    opacity: 0.2;
 }
+.no-video {
+    display: flex;
+    background: #000;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 20px;
+    color: #fff;
+}   
 </style>
