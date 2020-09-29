@@ -158,8 +158,8 @@
                             </div>
                         </div>
                     </td>
-                    <td>
-                        <router-link :to="'/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
+                    <td class="tbl-wm">
+                        <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
                         <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
                     </td>
                     </tr>

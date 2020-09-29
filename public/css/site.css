@@ -20,7 +20,7 @@ body {
 }
 
 .router-link-exact-active {
-    background-color: #e6e9ed !important;
+    background-color: #e6ede8 !important;
 }
 
 article,
@@ -6034,8 +6034,11 @@ a.list-group-item-danger.active:hover {
 
 .panel-title>a {
     color: inherit;
+    cursor: pointer;
 }
-
+.panel-title>a:hover {
+    color: #636f36;
+}
 .panel-footer {
     padding: 10px 15px;
     background-color: #f5f5f5;
@@ -9522,7 +9525,7 @@ a.list-group-item .list-group-item-heading {
 
 a.list-group-item:focus,
 a.list-group-item:hover {
-    background-color: #afc55a6b;
+    background-color: #c5d8ca;
 }
 
 a.list-group-item.active,
@@ -14688,6 +14691,9 @@ input:-webkit-autofill:focus {
 
 /* max-width:1400px */
 @media (max-width:1400px) {
+    .list-group-item {
+        padding-left: 15px;
+    }
     .list-group-child-item {
         padding-left: 33px !important;
     }

@@ -3,6 +3,7 @@ import RecruiterList from '../components/admin/recruiter/RecruiterList';
 import RecruiterEdit from '../components/admin/recruiter/RecruiterEdit';
 import JobList from '../components/admin/recruiter/JobList';
 import JobEdit from '../components/admin/recruiter/JobEdit';
+import JobDetail from '../components/admin/recruiter/JobDetail';
 import JobApplyList from '../components/admin/recruiter/JobApplyList';
 import ScoutedList from '../components/admin/recruiter/ScoutedList';
 import PaymentManagement from '../components/admin/recruiter/PaymentManagement';
@@ -10,6 +11,7 @@ import JobSeekerList from '../components/admin/jobseeker/JobSeekerList';
 import JobseekerProfileEdit from '../components/admin/jobseeker/JobseekerProfileEdit';
 import Invoice from '../components/admin/recruiter/Invoice';
 import AdminPasswordSetting from '../components/auth/AdminPasswordSetting';
+import RecruiterProfileDetail from '../components/admin/recruiter/RecruiterProfileDetail';
 
 const route = [{
         path: '/',
@@ -112,7 +114,7 @@ const route = [{
         }
     },
     {
-        path: '/jobseeker/:id/edit',
+        path: '/admin-jobseeker-list/jobseeker/:id/edit',
         component: JobseekerProfileEdit,
         meta: {
             reqiuresAuth: false,
@@ -122,8 +124,28 @@ const route = [{
     },
     {
         name: 'jobseeker-detail',
-        path: '/jobseeker/:id/detail',
+        path: '/admin-jobseeker-list/jobseeker/:id/detail',
         component: JobseekerProfileEdit,
+        meta: {
+            reqiuresAuth: false,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    },
+    {
+        name: 'recruiter-detail',
+        path: '/admin-recruiter-list/recruiter/:id/detail',
+        component: RecruiterProfileDetail,
+        meta: {
+            reqiuresAuth: false,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    },
+    {
+        name: 'recruiter-job-detail',
+        path: '/job-list/:id/detail',
+        component: JobDetail,
         meta: {
             reqiuresAuth: false,
             admin: true, // for only admin component
