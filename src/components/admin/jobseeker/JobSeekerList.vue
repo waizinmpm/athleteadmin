@@ -159,7 +159,7 @@
                         </div>
                     </td>
                     <td>
-                        <router-link :to="'/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
+                        <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
                         <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
                     </td>
                     </tr>
@@ -260,8 +260,8 @@ export default {
     },
 
     methods: {
-        changeStatus(id) {
-            this.$alertService.showConfirmDialog(null, this.$t("dialog_box.confirm_change_message"), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
+        changeStatus(id,status) {
+            this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', status, { n:status }), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
                 if (dialogResult.value) {
                     this.$api
                     .post(this.base_url + `/change-status/${id}`)
