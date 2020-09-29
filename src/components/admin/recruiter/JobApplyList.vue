@@ -146,7 +146,7 @@
                             <div class="border">
                                 <dl class="row email-box">                                  
                                     <dt class="col-sm-6">{{ $t('common.billing_mail') }}</dt>
-                                    <dd class="col-sm-6">{{ invoiceForm.recruiter_email }}</dd>
+                                    <dd class="col-sm-6">{{ invoiceForm.email }}</dd>
                                 </dl>
                             </div>
                             <div class="border">
@@ -340,7 +340,7 @@ export default {
             });
         },
         generateBill(jobapply_id, index) {
-            let jobapply = this.$data.projects.data[index];
+			let jobapply = this.$data.projects.data[index];
             this.invoiceForm.jobapply_id = jobapply.jobapply_id;
             this.invoiceForm.title = jobapply.title;
             this.invoiceForm.management_number = jobapply.management_number;
