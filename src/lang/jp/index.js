@@ -10,6 +10,7 @@ import jobcreate from './recruiterjobcreate';
 import payment_management from './payment-management';
 import dialog_box from './dialog-box';
 import jobseekerprofile from './jobseeker-profile';
+import alert_messages from './alert-messages'; 
 
 export default {
 	common: common,
@@ -24,4 +25,5 @@ export default {
 	payment_management: payment_management,
 	dialog_box: dialog_box,
 	jobseekerprofile: jobseekerprofile,
+	alertMessage: alert_messages,
 }

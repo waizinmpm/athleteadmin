@@ -220,12 +220,12 @@ export default {
 
     methods: {
         changeStatus(id, status) {
-        let statusVal = status == 1 ? "有効" : status == 2 ? "無効" : "退会";
+        let statusVal = (status == 1? '公開':'停止')
 
         this.$alertService
             .showConfirmDialog(
             null,
-            this.$tc("dialog_box.confirm_change_message", statusVal, {
+            this.$tc('alertMessage.change_confirm_message', statusVal, {
                 n: statusVal,
             }),
             this.$t("common.yes"),
@@ -252,22 +252,7 @@ export default {
             });
         },
 
-        // changeStatus(id, record_status){
-        //     if(record_status == 1)
-        //     {
-        //        this.record_status_text = "無効にしてよろしいでしょうか。";
-        //     }
-        //     else{
-        //         this.record_status_text = "有効してよろしいでしょうか。";
-        //     }
-
-        //     this.$api
-        //         .post(this.base_url + `/change-status/${id}`)
-        //         .then(() => {
-        //             this.getData();
-        //         });
-
-        // },
+       
         showToggle(index) {
             this.current = index;
             if (this.status == true) {

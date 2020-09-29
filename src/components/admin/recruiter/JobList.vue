@@ -236,8 +236,9 @@ export default {
         },
 
         changeStatus(id, status) {
-            this.$alertService
-            .showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
+            
+            let statusVal = (status == 1? '公開': (status == 2 ? '非公開' : '停止'));
+            this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', statusVal, { n:statusVal }), this.$t('common.yes'), this.$t('common.no'))
             .then((dialogResult) => {
                 if(dialogResult.value){
                     let statusData = {};

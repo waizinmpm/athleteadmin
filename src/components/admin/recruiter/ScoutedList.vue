@@ -328,7 +328,7 @@ export default {
 		},
 		onStatusChange(index, e) {
 			const scout = this.$data.projects.data[index];
-			this.$alertService.showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no')) 
+			this.$alertService.showConfirmDialog(null,this.$tc('alertMessage.change_confirm_message', e.target.value, { n:e.target.value }), this.$t('common.yes'), this.$t('common.no')) 
 			.then(r => {
 				if (r.value) {
 					this.$api.post('/v1/admin/scout-list/change-status', { 

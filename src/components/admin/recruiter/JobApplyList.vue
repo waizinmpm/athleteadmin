@@ -319,7 +319,7 @@ export default {
         onStatusChange(index,e,recruiter_id) {
             this.change_status = 1;
             const job_apply = this.$data.projects.data[index];
-            this.$alertService.showConfirmDialog(null, this.$t('dialog_box.confirm_change_message'), this.$t('common.yes'), this.$t('common.no'))
+            this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', e.target.value, { n:e.target.value }), this.$t('common.yes'), this.$t('common.no'))
             .then(r => {
                 if (r.value) {
                     this.$api.post('/v1/admin/jobapply-list/change-status', {
