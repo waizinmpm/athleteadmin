@@ -74,15 +74,17 @@ export default {
           console.log("res login",res);
           this.$store.commit("loginSuccess", res);          
           this.$router.push({ path: "/admin" });
+        }, error => {
+			let message = error.response.data.msg;
+          this.$store.commit("loginFailed", { error: message });
         })
-        .catch(error => {
-          this.$store.commit("loginFailed", { error });
-        });
+        .catch();
     }
   },
   computed: {
     
     authError() { 
+		
       return this.$store.getters.authError;
     },
     registeredUser() {
