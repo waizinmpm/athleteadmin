@@ -12,13 +12,13 @@ export function registerUser(credentials) {
 }
 
 export function login(credentials) {
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
         api.post('/v1/auth/login', credentials)
             .then(response => {                
-                res(response.data);
+                resolve(response.data);
             })
             .catch(err => {
-                rej('Wrong Email/Password combination.' + err)
+                reject(err);
             })
     })
 }

@@ -14688,6 +14688,9 @@ input:-webkit-autofill:focus {
 
 /* max-width:1400px */
 @media (max-width:1400px) {
+    .list-group-item {
+        padding-left: 15px;
+    }
     .list-group-child-item {
         padding-left: 33px !important;
     }
