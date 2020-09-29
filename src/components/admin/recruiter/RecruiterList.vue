@@ -108,45 +108,44 @@
                         </div>
                     </label>
                     </td>
-                    <td class="tbl-wm">{{project.recruiter_number}}</td>
-                    <td class="text-left tbl-wxl">{{project.recruiter_name}}</td>
-                    <td class="tbl-wxl">{{project.recruiter_nick_name}}</td>
+                    <td class="tbl-wm"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_number}}</router-link></td>
+                    <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_name}}</router-link></td>
+                    <td class="tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td>
+                    
                     <td class="text-left tbl-wxl">
                     <div class="scout-box">
                         <div v-if="project.record_status != 0">
-                        <span
-                            v-for="status in arr_status"
-                            :key="status.id.id"
-                        >{{project.record_status == status.id.value ? status.id.display : ''}}</span>
-                        <p class="btn btn-common" v-on:click="showToggle(index)">
-                            {{$t('common.change')}}
-                            <span class="down-icon">&#9662;</span>
-                        </p>
-                        <div
-                            class="scout-toggle"
-                            :id="'scout-status'+index"
-                            v-bind:class="{'scout-expand': (current === index) && (status == true)}"
-                        >
-                            <p
-                            class="custom-radio-group mr-3"
-                            v-for="status in arr_status"
-                            :key="status.id.id"
-                            >
-                            <input
-                                type="radio"
-                                :id="status.id.display+index"
-                                v-model="project.record_status"
-                                class="custion-radio"
-                                @change="changeStatus(project.id, status.id.value)"
-                                :value="status.id.value"
-                            />
-                            <label
-                                :for="status.id.display+index"
-                                class="custom-radio-lable status-lable"
-                                @click="hideToggle"
-                            >{{ status.id.display }}</label>
+                            <router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">
+                                <span
+                                    v-for="status in arr_status"
+                                    :key="status.id.id"
+                                >{{project.record_status == status.id.value ? status.id.display : ''}}</span>
+                            </router-link>
+                            <p class="btn btn-common" v-on:click="showToggle(index)">
+                                {{$t('common.change')}}
+                                <span class="down-icon">&#9662;</span>
                             </p>
-                        </div>
+                            <div class="scout-toggle" :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}" >
+                                <p
+                                class="custom-radio-group mr-3"
+                                v-for="status in arr_status"
+                                :key="status.id.id"
+                                >
+                                <input
+                                    type="radio"
+                                    :id="status.id.display+index"
+                                    v-model="project.record_status"
+                                    class="custion-radio"
+                                    @change="changeStatus(project.id, status.id.value)"
+                                    :value="status.id.value"
+                                />
+                                <label
+                                    :for="status.id.display+index"
+                                    class="custom-radio-lable status-lable"
+                                    @click="hideToggle"
+                                >{{ status.id.display }}</label>
+                                </p>
+                            </div>
                         </div>
                         <div v-else>退会</div>
                     </div>
