@@ -2842,6 +2842,7 @@ label {
     max-width: 100%;
     margin-bottom: 5px;
     font-weight: 700;
+    color: #666;
 }
 
 input[type=search] {
@@ -12643,7 +12644,7 @@ a.list-group-item-danger:hover {
   }
   .icon-upload-img .path2:before {
     content: "\e91d";
-    margin-left: -1.914063em;
+    margin-left: -1.414063em;
     color: rgb(255, 255, 255);
   }
   .icon-upload-file .path1:before {
@@ -14571,6 +14572,9 @@ input:-webkit-autofill:focus {
  .d-flex {
     display: -ms-flexbox !important;
     display: flex !important;
+  }
+  .d-block {
+    display: block !important;
   }
  .justify-content-start {
     -ms-flex-pack: start !important;

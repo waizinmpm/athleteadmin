@@ -120,13 +120,13 @@
                     </td>
                     <td><router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
                     <td><router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
-                    <td>
+                    <td class="tbl-wm">
                         <div class="toggle-box" v-if="project.record_status != 0">
                             <div class="scout-box">
                                 <router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">
                                     <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
-                                </router-link>
-                                <span class="btn btn-common" v-on:click="showToggle(index)">
+                                </router-link><br>
+                                <span class="btn btn-common mt-2" v-on:click="showToggle(index)">
                                 {{$t('common.edit')}}
                                 <span class="down-icon">&#9662;</span>
                                 </span>

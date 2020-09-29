@@ -296,7 +296,7 @@ export default {
 				this.toggle_status = false;
         },
 		allowChat(status) {
-			return status == this.$configs.scouts.interested;
+			return (status == this.$configs.scouts.interested || status == this.$configs.scouts.unclaimed ||  status == this.$configs.scouts.billed);
 		},
 		allowBilling(status) {
 			return status == this.$configs.scouts.unclaimed;
@@ -408,6 +408,7 @@ export default {
 			.then((r) => {
 				loading.hide();
 				const scout = r.data.data;
+				console.log(r);
 				this.projects.data
 					.filter(x => x.id == scout.id)
 					.forEach(x => x.scout_status = this.$configs.scouts.billed);
