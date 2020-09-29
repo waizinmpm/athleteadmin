@@ -49,7 +49,7 @@
                             @change="getData()"
                             id="無効"
                         />
-                        <span class="custom-check-label-post">無効</span>
+                        <span class="custom-check-label-post">停止</span>
                         </label>
                     </div>
                     <div class="col-md-2 p-lr0">

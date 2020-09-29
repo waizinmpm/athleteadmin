@@ -3,7 +3,7 @@ export default {
     "ListofCompany": "求人応募者一覧",
     "status":"ステータス",
     "valid":"有効",
-    "Invalid":"無効",
+    "Invalid":"停止",
     "withdrawal":"退会",
     "recruiterno":"会社名、企業コードを⼊⼒してください",
     "columns": [

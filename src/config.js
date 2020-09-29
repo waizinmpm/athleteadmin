@@ -23,7 +23,7 @@ export default {
 		},
 		inactive: {
 			value: 2,
-			display: '無効',
+			display: '停止',
 		},
 		stopped: {
 			value: 3,
