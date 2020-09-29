@@ -44,7 +44,7 @@
 								<date-picker v-model="filteredData.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
 							</div>                     
 							<div class="col-md-3">                        
-								<button class="btn searchbtn" style="margin-top:22px;" @click="getData()">{{ $t('common.search') }}</button>
+								<button class="btn searchbtn"  @click="getData()">{{ $t('common.search') }}</button>
 							</div>                
 						</div>
 					</div>
@@ -107,8 +107,8 @@
                                 </div>
                             </td>
                             <td class="tbl-wm">
-                                <span class="btn btn-default" @click="startChat(project)" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
-                                <span class="btn btn-default" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
+                                <span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
+                                <span class="btn btn-default mb-1" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
                                 <span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.scout_status)">{{$t('common.invoice_generate')}}</span>
                             </td>
                         </tr>
