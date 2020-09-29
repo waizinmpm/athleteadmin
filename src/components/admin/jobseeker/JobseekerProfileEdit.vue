@@ -94,7 +94,7 @@
     border: 1px solid #f3efef;
 }
 .back-btn {
-    border-color: #919191;
-    background-color: #919191;
+    border-color: #aab2bd;
+    background-color: #aab2bd;
 }
 </style>
