@@ -40,7 +40,7 @@
                                 <date-picker v-model="filteredData.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
                             </div>                     
                             <div class="col-md-3">                        
-                                <button class="btn searchbtn" style="margin-top:22px;" @click="getData()">{{ $t('common.search') }}</button>
+                                <button class="btn searchbtn"  @click="getData()">{{ $t('common.search') }}</button>
                             </div>                
                         </div>
                     </div>
@@ -64,7 +64,7 @@
         <div class="row">
             <div class="col-sm-12 p-0">
                 <div class="row">
-                    <div class="col-sm-12 select text-right">
+                    <div class="col-sm-12 select">
                         <span>検索結果表示件数: {{ totalScouts }}件</span><br>
                         <span>1ページ表示数&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
@@ -102,8 +102,8 @@
                                 </div>
                             </td>
                             <td class="tbl-wm">
-                                <span class="btn btn-default" @click="startChat(project)" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
-                                <span class="btn btn-default" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span>
+                                <span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
+                                <span class="btn btn-default mb-1" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span>
                                 <span class="btn btn-default" @click="generateBill(project.jobapply_id, index)" v-if="allowBilling(project.job_apply_status)">{{$t('common.invoice_generate')}}</span>
                             </td>
                         </tr>

@@ -11,8 +11,10 @@
               <div class="panel-heading">
                 <h3 class="panel-title">
                   <a class="toggle-sidebar">
-                    <span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span>
-                  </a>{{$t('menu.close_menu')}}
+                    <span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel">
+                      <span style="font-size: 14px;margin-left: 10px;">{{$t('menu.close_menu')}}</span>
+                     </span>
+                  </a>
                 </h3>
               </div>
               <div class="panel-body">

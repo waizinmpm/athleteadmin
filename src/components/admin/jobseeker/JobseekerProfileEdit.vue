@@ -78,6 +78,7 @@
 }
 .list-link {
     color: #619873;
+    cursor: pointer;
 }
 .sticky-top {
     position: -webkit-sticky;

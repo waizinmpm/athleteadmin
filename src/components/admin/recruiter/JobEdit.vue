@@ -93,8 +93,8 @@
                             <label for="name">{{ $t('jobcreate.Employment_status') }}</label>
                         </div>
                         <div class="col-md-8 form-right-block">
-                            <div class="row col-12 p-0">
-                            <div class="col-md-4 mb-2" v-for="(result, index) in employment_types" :key="result.id">
+                            <div class="row col-12 p-0 m-0">
+                            <div class="col-md-4" v-for="(result, index) in employment_types" :key="result.id">
                                 <input
                                 type="checkbox"
                                 v-bind:value="result.employment_type_name"
@@ -400,8 +400,8 @@
                             <label for="name" style="line-height: 22px;">{{ $t('jobcreate.other_keyword') }}</label>
                         </div>
                         <div class="col-md-8 form-right-block">
-                            <div class="row col-12 p-0">
-                            <div class="col-md-4 mb-2" v-for="(keyword, index) in other_keywords" :key="keyword.id">
+                            <div class="row col-12 p-0 m-0">
+                            <div class="col-md-4" v-for="(keyword, index) in other_keywords" :key="keyword.id">
                                 <input
                                 type="checkbox"
                                 :value="keyword"
@@ -602,7 +602,6 @@ export default {
 }
 .custom-checkbox-label {
     padding-left: 30px;
-    line-height: 20px;
 }
 .custom-control-input {
     position: absolute;
@@ -613,7 +612,7 @@ export default {
 .custom-checkbox-label::before {
     position: absolute;
     content: '';
-    top: -0.15rem;
+    top: 0;
     left: 0;
     width: 1.4rem;
     height: 1.4rem;
