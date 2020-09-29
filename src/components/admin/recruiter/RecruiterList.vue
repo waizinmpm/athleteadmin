@@ -121,11 +121,11 @@
                                     :key="status.id.id"
                                 >{{project.record_status == status.id.value ? status.id.display : ''}}</span>
                             </router-link>
-                            <p class="btn btn-common" v-on:click="showToggle(index)">
+                            <p class="btn btn-common" v-on:click="showToggle(index)" v-show="project.record_status != 3">
                                 {{$t('common.change')}}
                                 <span class="down-icon">&#9662;</span>
                             </p>
-                            <div class="scout-toggle" :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}" >
+                            <div class="scout-toggle" :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
                                 <p
                                 class="custom-radio-group mr-3"
                                 v-for="status in arr_status"
@@ -207,6 +207,7 @@ export default {
             arr_status: [
                 { id: this.$configs.jobseeker.active, checked: false },
                 { id: this.$configs.jobseeker.inactive, checked: false },
+                { id: this.$configs.jobseeker.stopped, checked: false },
             ],
         };
     },

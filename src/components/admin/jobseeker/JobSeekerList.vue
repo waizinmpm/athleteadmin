@@ -124,10 +124,10 @@
                         <div class="toggle-box" v-if="project.record_status != 0">
                             <div class="scout-box">
                                 <router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">
-                                    <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
+                                    <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}</span>
                                 </router-link><br>
-                                <span class="btn btn-common mt-2" v-on:click="showToggle(index)">
-                                {{$t('common.edit')}}
+                                <span class="btn btn-common mt-2" v-on:click="showToggle(index)" v-show="project.record_status != 3">
+                                {{$t('common.change')}}
                                 <span class="down-icon">&#9662;</span>
                                 </span>
                                 <div
@@ -247,7 +247,8 @@ export default {
             status: false,
             arr_status: [
                 { id: "有効", checked: false },
-                { id: "無効", checked: false },
+                { id: "停止", checked: false },
+                { id: "退会", checked: false },
             ],
         };
     },
