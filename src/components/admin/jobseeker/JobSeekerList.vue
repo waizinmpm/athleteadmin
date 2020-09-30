@@ -14,11 +14,16 @@
                         :placeholder="$t('jobseeker_list.search_jobseeker_placeholder')"
                         id="inputGroup"
                         v-model="filteredData.freeword"
-                        @input="getData()"
                         />
                         <span class="input-group-addon bg-color">
-                        <i class="fa fa-search"></i>
+                            <button type="button" class="btn btn-info" @click="getData()">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </span>
+                        
+                        <!-- <span class="input-group-addon bg-color">
+                        <i class="fa fa-search"></i>
+                        </span> -->
                     </div>
                     </div>
                 </div>
@@ -49,7 +54,7 @@
                             @change="getData()"
                             id="無効"
                         />
-                        <span class="custom-check-label-post">無効</span>
+                        <span class="custom-check-label-post">停止</span>
                         </label>
                     </div>
                     <div class="col-md-2 p-lr0">
@@ -124,10 +129,10 @@
                         <div class="toggle-box" v-if="project.record_status != 0">
                             <div class="scout-box">
                                 <router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">
-                                    <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : '無効'}}</span>
+                                    <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}</span>
                                 </router-link><br>
-                                <span class="btn btn-common mt-2" v-on:click="showToggle(index)">
-                                {{$t('common.edit')}}
+                                <span class="btn btn-common mt-2" v-on:click="showToggle(index)" v-show="project.record_status != 3">
+                                {{$t('common.change')}}
                                 <span class="down-icon">&#9662;</span>
                                 </span>
                                 <div
@@ -135,24 +140,15 @@
                                 :id="'scout-status'+index"
                                 v-bind:class="{'scout-expand': (current === index) && (status == true)}"
                                 >
-                                <p
-                                    class="custom-radio-group mr-3"
-                                    v-for="status in arr_status"
-                                    v-bind:key="status.id"
-                                >
-                                    <input
-                                    type="radio"
-                                    :id="status.id+index"
-                                    v-model="project.record_status"
-                                    class="custion-radio"
-                                    @change="changeStatus(project.id, status.id)"
-                                    :value="status.id == '有効' ? 1 : 2"
-                                    />
+                                <p class="custom-radio-group mr-3" v-for="status in arr_status"                  v-bind:key="status.id.id" >
+                                    <input type="radio" :id="status.id.display+index" v-model="project.record_status"
+                                    class="custion-radio" @change="changeStatus(project.id, status.id.value)"
+                                    :value="status.id.display == '有効' ? 1 : 2 " />
                                     <label
-                                    :for="status.id+index"
+                                    :for="status.id.display+index"
                                     class="custom-radio-lable status-lable"
                                     @click="hideToggle"
-                                    >{{ status.id }}</label>
+                                    >{{ status.id.display }}</label>
                                 </p>
                                 </div>
                             </div>
@@ -160,7 +156,6 @@
                     </td>
                     <td class="tbl-wm">
                         <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
-                        <!-- <button @click="edit(project.id)" class="btn btn-info">{{ $t('common.edit') }}</button> -->
                     </td>
                     </tr>
                 </tbody>
@@ -246,8 +241,8 @@ export default {
             old_index: "",
             status: false,
             arr_status: [
-                { id: "有効", checked: false },
-                { id: "無効", checked: false },
+                { id: this.$configs.jobseeker.active, checked: false },
+                { id: this.$configs.jobseeker.inactive, checked: false },
             ],
         };
     },
@@ -261,10 +256,13 @@ export default {
 
     methods: {
         changeStatus(id,status) {
+            console.log(status);
             this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', status, { n:status }), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
                 if (dialogResult.value) {
-                    this.$api
-                    .post(this.base_url + `/change-status/${id}`)
+                    let statusData = {};
+                    this.$set(statusData, "id", id);
+                    this.$set(statusData, "status", status);
+                    this.$api.post(this.base_url + "/change-status", statusData)
                     .then((res) => {
                         console.log(res.data);
                         this.getData(this.projects.current_page);

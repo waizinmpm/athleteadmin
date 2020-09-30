@@ -3,6 +3,7 @@ import RecruiterList from '../components/admin/recruiter/RecruiterList';
 import RecruiterEdit from '../components/admin/recruiter/RecruiterEdit';
 import JobList from '../components/admin/recruiter/JobList';
 import JobEdit from '../components/admin/recruiter/JobEdit';
+import JobDetail from '../components/admin/recruiter/JobDetail';
 import JobApplyList from '../components/admin/recruiter/JobApplyList';
 import ScoutedList from '../components/admin/recruiter/ScoutedList';
 import PaymentManagement from '../components/admin/recruiter/PaymentManagement';
@@ -135,6 +136,16 @@ const route = [{
         name: 'recruiter-detail',
         path: '/admin-recruiter-list/recruiter/:id/detail',
         component: RecruiterProfileDetail,
+        meta: {
+            reqiuresAuth: false,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    },
+    {
+        name: 'recruiter-job-detail',
+        path: '/job-list/:id/detail',
+        component: JobDetail,
         meta: {
             reqiuresAuth: false,
             admin: true, // for only admin component

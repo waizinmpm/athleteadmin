@@ -459,7 +459,6 @@
 
 <script>
 import { required, email } from "vuelidate/lib/validators";
-import api from "../../../api/apiBasePath";
 export default {
     data() {
         return {
@@ -515,7 +514,7 @@ export default {
         this.formRegister.job_post_date = new Date().toISOString().slice(0, 10);
 
         if (this.$route.params.id) {
-        api.get("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/edit")
+        this.$api.get("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/edit")
             .then((res) => {
             this.formRegister = res.data.data;
             this.formRegister.employment_types = this.formRegister.employment_types.split(
@@ -530,7 +529,7 @@ export default {
         this.formRegister.recruiter_show_name = "正式名称で表示";
         this.formRegister.application_address = this.$store.getters.currentUser.email;
 
-        api.get("/v1/recruiter/getalldata").then((response) => {
+        this.$api.get("/v1/recruiter/getalldata").then((response) => {
         this.occupations = response.data.occupation;
         this.countries = response.data.country;
         this.employment_types = response.data.employment;
@@ -551,7 +550,7 @@ export default {
             return;
         }
         if (this.$route.params.id) {
-            api.post("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/update", this.formRegister)
+            this.$api.post("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/update", this.formRegister)
             .then(res => {
                 console.log('Update:'+ res);
                 this.$router.push({ path: "/job-list" });
@@ -565,7 +564,7 @@ export default {
             });
         }
         /* else {
-            api.post("/v1/recruiter/jobs/add", this.formRegister)
+            this.$api.post("/v1/recruiter/jobs/add", this.formRegister)
             .then(
                 this.$router.push({
                 path:
