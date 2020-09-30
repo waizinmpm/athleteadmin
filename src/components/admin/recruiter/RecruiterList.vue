@@ -210,8 +210,8 @@ export default {
             old_index: "",
             status: false,
             arr_status: [
-                { id: this.$configs.jobseeker.active, checked: false },
-                { id: this.$configs.jobseeker.inactive, checked: false },
+                { id: this.$configs.recruiter.active, checked: false },
+                { id: this.$configs.recruiter.inactive, checked: false },
             ],
         };
     },
@@ -224,7 +224,7 @@ export default {
 
     methods: {
         changeStatus(id, status) {
-        let statusVal = (status == 1? '公開':'停止')
+        let statusVal = (status == 1? '有効':'停止')
 
         this.$alertService
             .showConfirmDialog(
