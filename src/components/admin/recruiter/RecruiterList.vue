@@ -14,11 +14,15 @@
                 :placeholder="[[$t('recruiter_list.recruiterno') ]]"
                 id="inputGroup"
                 v-model="filteredData.freeword"
-                @input="getData()"
                 />
-                <span class="input-group-addon bg-color searchicon-btn">
-                <i class="fa fa-search pr-2"></i>
+                <span class="input-group-addon bg-color">
+                    <button type="button" class="btn btn-info" @click="getData()">
+                        <i class="fa fa-search"></i>
+                    </button>
                 </span>
+                <!-- <span class="input-group-addon bg-color searchicon-btn">
+                <i class="fa fa-search pr-2"></i>
+                </span> -->
             </div>
             </div>
             <label for="ステータス">{{ $t('recruiter_list.status') }}</label>
@@ -116,10 +120,11 @@
                     <div class="scout-box">
                         <div v-if="project.record_status != 0">
                             <router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">
-                                <span
+                                {{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}
+                                <!-- <span
                                     v-for="status in arr_status"
                                     :key="status.id.id"
-                                >{{project.record_status == status.id.value ? status.id.display : ''}}</span>
+                                >{{project.record_status == status.id.value ? status.id.display : ''}}</span> -->
                             </router-link>
                             <p class="btn btn-common" v-on:click="showToggle(index)" v-show="project.record_status != 3">
                                 {{$t('common.change')}}
@@ -207,14 +212,13 @@ export default {
             arr_status: [
                 { id: this.$configs.jobseeker.active, checked: false },
                 { id: this.$configs.jobseeker.inactive, checked: false },
-                { id: this.$configs.jobseeker.stopped, checked: false },
             ],
         };
     },
     computed: {
         isDisabled() {
-        //if dont select any row, set disable delete button
-        return this.selected.length > 0 ? false : true;
+            //if dont select any row, set disable delete button
+            return this.selected.length > 0 ? false : true;
         },
     },
 
