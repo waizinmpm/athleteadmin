@@ -155,7 +155,7 @@
                         </div>
                     </td>
                     <td class="tbl-wm">
-                        <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" >{{ $t('common.edit') }}</router-link>
+                        <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" v-show="project.record_status != 3" >{{ $t('common.edit') }}</router-link>
                     </td>
                     </tr>
                 </tbody>

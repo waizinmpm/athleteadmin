@@ -158,6 +158,7 @@
                     <router-link
                         :to="'/admin/recruiter-list/' + project.id + '/edit'"
                         class="btn btn-info"
+                        v-show="project.record_status != 3"
                     >{{ $t('common.edit')}}</router-link>
                     </td>
                 </tr>
