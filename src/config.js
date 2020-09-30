@@ -35,21 +35,21 @@ export default {
 		},
 	},
 	recruiter: {
-		private: {
-			value: 1, 
-			display: '非公開',
+		active: {
+			value: 1,
+			display: '有効',
 		},
-		public: {
+		inactive: {
 			value: 2,
-			display: '公開',
+			display: '停止',
 		},
 		stopped: {
 			value: 3,
-			display: '停止'
+			display: '退会',
 		},
-		delete: {
+		deleted: {
 			value: 0,
-			display: '削除'
+			display: '削除',
 		},
 	},
 	job: {
