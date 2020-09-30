@@ -377,6 +377,8 @@ export default {
                 recruiter_name: '',
                 email: '',
                 default_amount: 200000,
+                invoice_amount: 220000,
+                tax:20000,
 				remark: '',
 				tax_id: this.tax.id,
             };

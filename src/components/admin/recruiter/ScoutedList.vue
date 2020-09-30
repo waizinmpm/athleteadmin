@@ -372,6 +372,7 @@ export default {
 				email: '',
 				default_amount: 200000,
 				invoice_amount: 220000,
+				tax:20000,
 				remark: '',
 				tax_id: this.tax.id,
 			};
@@ -462,15 +463,15 @@ export default {
 	watch: {
 		'invoiceForm.default_amount': function() {
 			let amount = Number(this.invoiceForm.default_amount);
-			if (!isNaN(amount)) {
+			// if (!isNaN(amount)) {
 				// Re-value tax
 				this.invoiceForm.tax = amount * (this.tax.percent ?? 0) / 100;
 				// Re-value invoice amout
 				this.invoiceForm.invoice_amount = amount + this.invoiceForm.tax;
-			} else {
-				this.invoiceForm.invoice_amount = 0;
-				this.invoiceForm.tax = 0;
-			}
+			// } else {
+			// 	this.invoiceForm.invoice_amount = 0;
+			// 	this.invoiceForm.tax = 0;
+			// }
 		}
 	},
 	validations: {
@@ -485,7 +486,7 @@ export default {
 		})
 		.catch(() => {
 			console.log("There was  an error when fetching tax percentage.");
-			this.tax = { percent: 0 };
+			this.tax = { percent: 2 };
 		})
 	}
 }
