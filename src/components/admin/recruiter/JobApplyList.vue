@@ -331,7 +331,11 @@ export default {
                         console.log("changeStatus", res.data);
                         this.getData(this.projects.current_page);
                     })
-                    .catch(() => {
+                    .catch((r) => {
+						const data = r.response.data;
+						this.$alertService.showErrorDialog(null,data.error.message);
+						// --Rebind original status
+						this.getData(this.projects.current_page);
                     })
                 }
                 else {
