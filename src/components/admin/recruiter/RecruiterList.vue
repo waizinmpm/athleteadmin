@@ -79,8 +79,7 @@
             </div>
             <div class="col-sm-6 select">
                 <span
-                class="btn custom-btn delete"
-                style="float:right"
+                class="btn custom-btn float-right"
                 @click="deleteData()"
                 :disabled="isDisabled"
                 >{{ $t('common.delete') }}</span>
