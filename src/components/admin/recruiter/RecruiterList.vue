@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @click="handleStatusToggle">
         <div class="row">
         <div class="col-sm-6 p-0 searchform-one">
             <h5 class="m-b-10 main-header">{{ $t('recruiter_list.recruiter_member_list') }}</h5>
@@ -256,6 +256,17 @@ export default {
             });
         },
 
+        handleStatusToggle(e) {
+            let targetClassName = e.target.className;
+            // must be Class Names of changing status dropdown
+            const statusToggleClasses = [
+                "btn btn-common",
+                "down-icon",
+                "custom-radio-lable status-lable",
+                "custion-radio",
+            ];
+            statusToggleClasses.includes(targetClassName) ? "" : this.hideToggle();
+        },
        
         showToggle(index) {
             this.current = index;
