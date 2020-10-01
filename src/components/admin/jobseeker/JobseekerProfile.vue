@@ -1508,7 +1508,7 @@
                             disabled
                         >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_working_position') }) }}</option>
                         <option
-                            v-for="position in positions"
+                            v-for="position in exp_positions"
                             :key="position.id"
                             :value="position.id"
                         >{{position.position_name}}</option>
@@ -3334,6 +3334,9 @@
 };
 </script>
 <style lang="scss" scoped>
+.error {
+    color: red;
+}
 .position-relative {
     position: relative!important;
 }
