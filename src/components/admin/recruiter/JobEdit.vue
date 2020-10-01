@@ -3,7 +3,7 @@
     <h2 class="user-head-tit">{{ $t('jobcreate.title') }}</h2>
     <div class="content-wrap">
         <form @submit.prevent="jobpostcreate">
-            <div class="row">
+            <div class="row m-0">
                 <div class="col-md-12 form-bordered">
                     <div class="row form-bottom-bordered">
                         <div class="col-md-4 form-left-block text-center">
@@ -440,18 +440,23 @@
                 </div>
             </div>
         </form>
-        <div class="d-flex justify-content-end">
-            <div class="form-group text-center mt-3 ml-5">
-                <!-- <router-link to="/job-list" class="btn back-btn mr-4">{{ $t('common.cancel') }}</router-link> -->
-                <router-link to="/job-list" class="btn back-btn mr-4">求⼈⼀覧 へ戻る</router-link>
+        <div class="d-flex justify-content-end mt-5">
+                <router-link to="/job-list" class="btn back-btn mr-4">{{ $t('common.cancel') }}</router-link>
+                <!-- <router-link to="/job-list" class="btn back-btn mr-4">求⼈⼀覧 へ戻る</router-link> -->
+                <!-- <button
+                    type="submit"
+                    id="post"
+                    value="確認"
+                    class="btn save-btn"
+                    @click="changeStatus('post')"
+                >{{$t('jobcreate.confirm')}}</button> -->
                 <button
                     type="submit"
                     id="post"
                     value="確認"
                     class="btn save-btn"
                     @click="changeStatus('post')"
-                >{{$t('jobcreate.confirm')}}</button>
-            </div>
+                >保存する</button>
         </div>
     </div>
   </div>
@@ -734,18 +739,6 @@ export default {
     color: #fff;
     border-radius: 5px 5px 0px 0px;
     background-color: #b4c574;
-}
-.save-btn{
-    width: 140px;
-    padding: 9px;
-    border-color: #b4c574;
-    background-color: #9fb746;
-}
-.back-btn {
-    width: 140px;
-    padding: 9px;
-    border-color:#aab2bd;
-    background-color:#aab2bd;
 }
 
 

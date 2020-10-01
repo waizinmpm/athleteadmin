@@ -680,6 +680,21 @@ body {
     width: 20px!important;
     margin: 0!important;
 }
+
+// Button
+.save-btn{
+    width: 140px;
+    padding: 9px;
+    border-color: #b4c574;
+    background-color: #9fb746;
+}
+.back-btn {
+    width: 140px;
+    padding: 9px;
+    border-color:#aab2bd;
+    background-color:#aab2bd;
+}
+
 // table
 .tbl-wxs {
     width: 80px;

@@ -15,10 +15,8 @@
                 id="inputGroup"
                 v-model="filteredData.freeword"
                 />
-                <span class="input-group-addon bg-color">
-                    <button type="button" class="btn btn-info" @click="getData()">
-                        <i class="fa fa-search"></i>
-                    </button>
+                <span class="input-group-addon bg-color"  @click="getData()">
+                    <i class="fa fa-search"></i>
                 </span>
                 <!-- <span class="input-group-addon bg-color searchicon-btn">
                 <i class="fa fa-search pr-2"></i>
