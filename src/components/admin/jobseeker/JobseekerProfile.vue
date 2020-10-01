@@ -2891,44 +2891,36 @@
         if (this.$v.experience_qualification.$invalid) {
             return;
         }
-        this.$alertService.showConfirmDialog(null, this.$t("dialog_box.confirm_save_message"), this.$t("common.yes"),
-            this.$t("common.no"))
-            .then((dialogResult) => {
-                if (dialogResult.value) {
-                    let loader = this.$loading.show();
-                    let request_data = {
-                        request_id: `${this.$route.params.id}`,
-                        experienced_jobs: this.experience_qualification.experience_jobs,
-                        delete_experience_jobs: this.ids_to_del_exp_quali,
-                        study_abroad_experiences: this.experience_qualification
-                            .study_abroad_experiences,
-                        delete_study_abroad: this.ids_to_del_study_abroad,
-                        working_abroad_experiences: this.experience_qualification
-                            .working_abroad_experiences,
-                        delete_working_abroad: this.ids_to_del_working_abroad,
-                        work_visa: this.experience_qualification.work_visa,
-                        foreign_language_experiences: this.experience_qualification
-                            .foreign_language_level_experiences,
-                        delete_foreign_languages_experiences: this
-                            .ids_to_del_language_levels,
-                        other_qualifications: this.experience_qualification
-                            .other_qualifications,
-                    };
-                    this.$api
-                    .post(
-                        "/v1/jobseeker/profile/experiences-qualifications/update",
-                        request_data
-                    )
-                    .then((response) => {
-                        console.log(response.data.data);
-                        loader.hide();
-                        this.editBox("expQualificationEdit", "close");
-                    })
-                    .catch((errors) => {
-                        console.log(errors);
-                        loader.hide();
-                    });
-                }
+        // this.$alertService.showConfirmDialog(null, this.$t("dialog_box.confirm_save_message"), this.$t("common.yes"),
+        //     this.$t("common.no"))
+        //     .then((dialogResult) => {
+        //     if (dialogResult.value) {
+        //     }
+        // });
+            let loader = this.$loading.show();
+            let request_data = {
+                request_id:                 `${this.$route.params.id}`,
+                experienced_jobs:           this.experience_qualification.experience_jobs,
+                delete_experience_jobs:     this.ids_to_del_exp_quali,
+                study_abroad_experiences:   this.experience_qualification.study_abroad_experiences,
+                delete_study_abroad:        this.ids_to_del_study_abroad,
+                working_abroad_experiences: this.experience_qualification.working_abroad_experiences,
+                delete_working_abroad:      this.ids_to_del_working_abroad,
+                work_visa:                  this.experience_qualification.work_visa,
+                foreign_language_experiences:           this.experience_qualification.foreign_language_level_experiences,
+                delete_foreign_languages_experiences:   this.ids_to_del_language_levels,
+                other_qualifications:                   this.experience_qualification.other_qualifications,
+            };
+            this.$api.post("/v1/jobseeker/profile/experiences-qualifications/update", request_data)
+            .then((response) => {
+                console.log(response.data.data);
+                loader.hide();
+                this.$alertService.showSuccessDialog(null, this.$t('alertMessage.updateSuccess'), this.$t('common.close'));
+                this.editBox("expQualificationEdit", "close");
+            })
+            .catch((errors) => {
+                console.log(errors);
+                loader.hide();
             });
         },
         //(end) ExpQualification by zayar_phone_naing
