@@ -4,63 +4,61 @@
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
                 <h5 class="m-b-10 main-header">{{ $t('scouted_list.title') }}</h5>   
-                <div class="content-row">
-					<div class="inner-wrapper">
-						<div class="row">
-							<div class="col-md-3">
-								<label for="企業番号">{{ $t('common.scout_recruiter_number') }}</label>
-								<input type="text" placeholder="企業番号" class="form-control" v-model.trim="filteredData.recruiter_id">
-							</div>
-							<div class="col-md-3">
-								<label for="企業名">{{ $t('common.recruiter_name') }}</label>
-								<input type="text" placeholder="企業名" class="form-control" v-model.trim="filteredData.recruiter_name">
-							</div>
+				<div class="inner-wrapper">
+					<div class="row">
+						<div class="col-md-3">
+							<label for="企業番号">{{ $t('common.scout_recruiter_number') }}</label>
+							<input type="text" placeholder="企業番号" class="form-control" v-model.trim="filteredData.recruiter_id">
 						</div>
-						<div class="row">
-							<div class="col-md-3">
-								<label for="求人番号">{{ $t('common.job_number') }}</label>
-								<input type="text" placeholder="求人番号" class="form-control" v-model.trim="filteredData.job_number">
-							</div>
-							<div class="col-md-3">
-								<label for="求人タイトル">{{ $t('common.job_title') }}</label>
-								<input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
-							</div>
-							<div class="col-md-3">
-								<label for="アスリート会員氏名">{{ $t('common.jobseeker_number') }}</label>
-								<input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_number">
-							</div>      
-							<div class="col-md-3">
-								<label for="アスリート会員氏名">{{ $t('common.jobseeker_name') }}</label>
-								<input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
-							</div>                        
-						</div>
-						<div class="row date-row">
-							<div class="col-md-3 datepicker-wrapper">
-								<label for="スカウト日時">{{ $t('scouted_list.scout_date') }}</label>
-								<date-picker v-model="filteredData.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
-							</div>  
-							<div class="col-md-3 datepicker-wrapper">
-								<label for=""></label>
-								<date-picker v-model="filteredData.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
-							</div>                     
-							<div class="col-md-3">                        
-								<button class="btn searchbtn"  @click="getData()">{{ $t('common.search') }}</button>
-							</div>                
+						<div class="col-md-3">
+							<label for="企業名">{{ $t('common.recruiter_name') }}</label>
+							<input type="text" placeholder="企業名" class="form-control" v-model.trim="filteredData.recruiter_name">
 						</div>
 					</div>
-                    <!-- Search by Status -->
-                    <label for="ステータス">{{ $t('common.status') }}</label>
-                    <div class="row">
-                        <div class="col-md-12">                     
-                            <div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.id">    
-								<label class="custom-control-label custom-checkbox-label">                      
-									<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status" @change="getData()">
-									<span class="custom-check-label-post">{{status.id}}</span>
-								</label>                          
-                            </div>  
-                        </div>                    
-                    </div>
-                </div>
+					<div class="row">
+						<div class="col-md-3">
+							<label for="求人番号">{{ $t('common.job_number') }}</label>
+							<input type="text" placeholder="求人番号" class="form-control" v-model.trim="filteredData.job_number">
+						</div>
+						<div class="col-md-3">
+							<label for="求人タイトル">{{ $t('common.job_title') }}</label>
+							<input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
+						</div>
+						<div class="col-md-3">
+							<label for="アスリート会員氏名">{{ $t('common.jobseeker_number') }}</label>
+							<input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_number">
+						</div>      
+						<div class="col-md-3">
+							<label for="アスリート会員氏名">{{ $t('common.jobseeker_name') }}</label>
+							<input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
+						</div>                        
+					</div>
+					<div class="row date-row">
+						<div class="col-md-3 datepicker-wrapper">
+							<label for="スカウト日時">{{ $t('scouted_list.scout_date') }}</label>
+							<date-picker v-model="filteredData.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
+						</div>  
+						<div class="col-md-3 datepicker-wrapper">
+							<label for=""></label>
+							<date-picker v-model="filteredData.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
+						</div>                     
+						<div class="col-md-3">                        
+							<button class="btn searchbtn"  @click="getData()">{{ $t('common.search') }}</button>
+						</div>                
+					</div>
+				</div>
+				<!-- Search by Status -->
+				<label for="ステータス">{{ $t('common.status') }}</label>
+				<div class="row">
+					<div class="col-md-12">                     
+						<div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.id">    
+							<label class="custom-control-label custom-checkbox-label">                      
+								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status" @change="getData()">
+								<span class="custom-check-label-post">{{status.id}}</span>
+							</label>                          
+						</div>  
+					</div>                    
+				</div>
                 <!--end advanced search-->     
             </div>
         </div>   

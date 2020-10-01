@@ -3,36 +3,36 @@
 		<div class="row">
 			<div class="col-sm-12 p-0 searchform-one">
 				<h5 class="m-b-10 main-header">{{ $t('payment_management.title') }}</h5>
-				<div class="content-row">
-					<div class="inner-wrapper">
-						<div class="row">
-							<div class="col-md-7">
-								<div class="col-md-12">
-									<label>{{ $t('payment_management.payment_method') }}</label>
+				<div class="inner-wrapper">
+					<div class="row mb-1">
+						<div class="col-md-7">
+							<div class="col-md-12 p-0">
+								<label>{{ $t('payment_management.payment_method') }}</label>
+							</div>
+							<div class="row mb-0">
+								<div class="col-md-4">
+									<label class="custom-control-label custom-checkbox-label">
+										<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
+										v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" />
+										<span class="custom-check-label-post">{{ $configs.payment_method.invoice }}</span>
+									</label>
 								</div>
-								<div class="row m-0">
-									<div class="col-md-4">
-										<label class="custom-control-label custom-checkbox-label">
-											<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
-											v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" />
-											<span class="custom-check-label-post">{{ $configs.payment_method.invoice }}</span>
-										</label>
-									</div>
-									<div class="col-md-4">
-										<label class="custom-control-label custom-checkbox-label">
-											<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
-										v-model="filteredData.payment_status" :value="$configs.payment_method.credit" />
-											<span class="custom-check-label-post">{{ $configs.payment_method.credit }}</span>
-										</label>
-									</div>
+								<div class="col-md-4">
+									<label class="custom-control-label custom-checkbox-label">
+										<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
+									v-model="filteredData.payment_status" :value="$configs.payment_method.credit" />
+										<span class="custom-check-label-post">{{ $configs.payment_method.credit }}</span>
+									</label>
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-7">
-								<div class="col-md-12">
-									<label for="入金期日">{{ $t('payment_management.invoice_date') }}</label>
-								</div>
+					</div>
+					<div class="row mb-2">
+						<div class="col-md-7">
+							<div class="col-md-12 p-0">
+								<label for="入金期日">{{ $t('payment_management.invoice_date') }}</label>
+							</div>
+							<div class="row mb-0">
 								<div class="col-lg-6  datepicker-wrapper">
 									<date-picker v-model="filteredData.invoice_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
@@ -41,11 +41,13 @@
 								</div>
 							</div>
 						</div>
-						<div class="row d-flex align-items-end">
-							<div class="col-md-7">
-								<div class="col-md-12">
-									<label for="入金日">{{ $t('payment_management.payment_date') }}</label>
-								</div>
+					</div>
+					<div class="row d-flex align-items-end mb-2">
+						<div class="col-md-7">
+							<div class="col-md-12 p-0">
+								<label for="入金日">{{ $t('payment_management.payment_date') }}</label>
+							</div>
+							<div class="row  mb-0">
 								<div class="col-md-6 datepicker-wrapper">
 									<date-picker v-model="filteredData.payment_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
@@ -53,21 +55,21 @@
 									<date-picker v-model="filteredData.payment_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
 							</div>
-							<div class="col-md-3 ml-auto">
-								<button class="btn searchbtn  mr-2" @click="getData()">{{ $t('common.search') }}</button>
-							</div>
+						</div>
+						<div class="col-md-3 ml-auto">
+							<button class="btn searchbtn  mr-2" @click="getData()">{{ $t('common.search') }}</button>
 						</div>
 					</div>
-					<label class="mb-4">{{ $t('payment_management.status') }}</label>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="col-md-2 p-lr0" v-for="(status, index) in record_status" :key="index">
-								<label class="custom-control-label custom-checkbox-label">
-									<input type="checkbox" class="custom-control-input custom-checkbox"
-										:value="status.id" :checked="status.checked" v-model="filteredData.record_status" @change="getData()" />
-									<span class="custom-check-label-post">{{ status.id }}</span>
-								</label>
-							</div>
+				</div>
+				<label class="mb-4">{{ $t('payment_management.status') }}</label>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="col-md-2 p-lr0" v-for="(status, index) in record_status" :key="index">
+							<label class="custom-control-label custom-checkbox-label">
+								<input type="checkbox" class="custom-control-input custom-checkbox"
+									:value="status.id" :checked="status.checked" v-model="filteredData.record_status" @change="getData()" />
+								<span class="custom-check-label-post">{{ status.id }}</span>
+							</label>
 						</div>
 					</div>
 				</div>

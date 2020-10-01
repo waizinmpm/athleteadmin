@@ -2,26 +2,26 @@
     <div @click="handleStatusToggle">
         <div class="row">
         <div class="col-sm-6 p-0 searchform-one">
-            <h5 class="m-b-10 main-header">{{ $t('recruiter_list.recruiter_member_list') }}</h5>
-            <div class="form-group">
+            <h5 class="main-header">{{ $t('recruiter_list.recruiter_member_list') }}</h5>
+            <div class="form-group p-0">
             <!--<label class="control-label" for="inputGroup">Input Group </label>-->
-            <div class="input-group">
-                <!-- <input type="text" class="form-control"
-                placeholder="会社名、企業コードを⼊⼒してください……" id="inputGroup"/>-->
-                <input
-                type="text"
-                class="form-control"
-                :placeholder="[[$t('recruiter_list.recruiterno') ]]"
-                id="inputGroup"
-                v-model="filteredData.freeword"
-                />
-                <span class="input-group-addon bg-color"  @click="getData()">
-                    <i class="fa fa-search"></i>
-                </span>
-                <!-- <span class="input-group-addon bg-color searchicon-btn">
-                <i class="fa fa-search pr-2"></i>
-                </span> -->
-            </div>
+                <div class="input-group">
+                    <!-- <input type="text" class="form-control"
+                    placeholder="会社名、企業コードを⼊⼒してください……" id="inputGroup"/>-->
+                    <input
+                    type="text"
+                    class="form-control"
+                    :placeholder="[[$t('recruiter_list.recruiterno') ]]"
+                    id="inputGroup"
+                    v-model="filteredData.freeword"
+                    />
+                    <span class="input-group-addon bg-color"  @click="getData()">
+                        <i class="fa fa-search"></i>
+                    </span>
+                    <!-- <span class="input-group-addon bg-color searchicon-btn">
+                    <i class="fa fa-search pr-2"></i>
+                    </span> -->
+                </div>
             </div>
             <label for="ステータス">{{ $t('recruiter_list.status') }}</label>
             <div class="row">
