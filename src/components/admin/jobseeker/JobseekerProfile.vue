@@ -3334,6 +3334,9 @@
 };
 </script>
 <style lang="scss" scoped>
+.error {
+    color: red;
+}
 .position-relative {
     position: relative!important;
 }
