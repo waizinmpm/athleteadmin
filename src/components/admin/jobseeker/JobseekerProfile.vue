@@ -2413,7 +2413,7 @@
         this.getDesiredCondition(jobseeker_id);
 
         let request_id = {};
-        this.$set(request_id, "id", `${this.$route.params.id}`);
+        this.$set(request_id, "id", jobseeker_id);
         this.getJobIndustryExpDetails(request_id);
     },
 
@@ -2969,9 +2969,7 @@
                     this.$t("common.close")
                 );
                 this.editBox("selfIntroEdit", "close");
-                let request_id = {};
-                this.$set(request_id, "id", `${this.$route.params.id}`);
-                this.getSelfIntroDetails(request_id);
+                this.getSelfIntroDetails(`${this.$route.params.id}`);
                 })
                 .catch((e) => {
                 console.log(e);
@@ -3189,9 +3187,7 @@
                     );
                     this.careerEdit = false;
                     this.showDetails = true;
-                    let request_id = {};
-                    this.$set(request_id, "id", `${this.$route.params.id}`);
-                    this.getCarrerDetails(request_id);
+                    this.getCarrerDetails(`${this.$route.params.id}`);
                     loader.hide();
                 })
                 .catch((errors) => {
@@ -3308,9 +3304,7 @@
                     );
                     this.desiredConditionEdit = false;
                     this.showDetails = true;
-                    let request_id = {};
-                    this.$set(request_id, "id", `${this.$route.params.id}`);
-                    this.getDesiredCondition(request_id);
+                    this.getDesiredCondition(`${this.$route.params.id}`);
                     loader.hide();
                 })
                 .catch((errors) => {
