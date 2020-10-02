@@ -3002,9 +3002,7 @@
                 );
                 this.basicInfoEdit = false;
                 this.showDetails = true;
-                let request_id = {};
-                this.$set(request_id, "id", `${this.$route.params.id}`);
-                this.getBasicInfoDetails(request_id);
+                this.getBasicInfoDetails(`${this.$route.params.id}`);
                 })
                 .catch((e) => {
                 console.log(e);
