@@ -411,7 +411,6 @@ export default {
 			.then((r) => {
 				loading.hide();
 				const scout = r.data.data;
-				console.log(r);
 				this.projects.data
 					.filter(x => x.id == scout.id)
 					.forEach(x => x.scout_status = this.$configs.scouts.billed);

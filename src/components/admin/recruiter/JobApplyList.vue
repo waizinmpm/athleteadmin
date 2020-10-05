@@ -415,8 +415,6 @@ export default {
             .then((r) => {
                 loading.hide();
                 const job_apply = r.data.data;
-                console.log(this.projects.data);
-                console.log(r); 
                 this.projects.data
                     .filter(x => x.jobapply_id == job_apply.id)
                     .forEach(x => x.job_apply_status = this.$configs.job_apply.billed);
