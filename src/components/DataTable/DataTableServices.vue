@@ -84,7 +84,7 @@ export default {
                                 console.log("delete", response.data.data);
                                 this.delete_ids_transactions = [];
                                 if(Array.isArray(response.data.data) && response.data.data.length > 0){
-                                    this.$alertService.showErrorDialog(null, this.$t('alertMessage.unable_to_delete'), this.$t('common.close')).then((dialogVal) => {
+                                    this.$alertService.showWarningDialog(null, this.$t('alertMessage.unable_to_delete'), this.$t('common.close')).then((dialogVal) => {
                                         if(dialogVal.value)
                                             this.keepCurrentPage();
                                     });
