@@ -208,13 +208,17 @@
 			</div>
 		</div>
 		<!-- End Modal Content -->
-		<!-- chatbox container -->
-		<div ref="chatboxContainer" class="chatbox-container">
+		
+		<!-- <div ref="chatboxContainer" class="chatbox-container">
 			<div v-for="(chatbox) in chatBoxes" :key="chatbox.scoutid_or_applyid">
 				<ChatBox :payload="chatbox" @chatboxClosed="onChatboxClosed"></ChatBox>
 			</div>
-		</div>
-		<!-- end chatbox container -->
+		</div> -->
+
+		<!-- chatbox -->
+		<ChatComponent ref="refChatComponent" :type="'scout'" />
+		<!-- end chatbox -->
+
     </div>
 </template>
 
@@ -222,11 +226,11 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
 import { showToggle,handleStatus } from "../../../partials/common";
-import ChatBox from '../../ChatBox';
+import ChatComponent from '../../ChatComponent';
 
 export default {
 	mixins: [DataTableServices],
-	components: { ChatBox },
+	components: { ChatComponent },
 	data(){
 		let sortOrders = {};
         let columns = this.$i18n.messages.en.scouted_list.columns;
@@ -309,9 +313,11 @@ export default {
 				scoutid_or_applyid: scout.id,
 				type: 'scout',
 			};
-			if (!this.chatBoxes.find(x => x.scoutid_or_applyid == payload.scoutid_or_applyid && x.type == payload.scoutid_or_applyid)) {
-				this.chatBoxes.push(payload);
-			}
+			// if (!this.chatBoxes.find(x => x.scoutid_or_applyid == payload.scoutid_or_applyid && x.type == payload.scoutid_or_applyid)) {
+			// 	this.chatBoxes.push(payload);
+			// }
+			this.$refs.refChatComponent.isToggled = true;
+			this.$refs.refChatComponent.getMessage(payload);
 		},
 		onChatboxClosed(e) {
 			const t = this.chatBoxes.find(x => {

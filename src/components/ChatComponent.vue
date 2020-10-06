@@ -1,0 +1,597 @@
+<template>
+    <div id="boxchat" @mousedown="dragMouseDown">
+        <div ref="draggableContainer" :class="`box-chat ${isToggled == true ? 'chat_show' : 'chat_hide' }`">  
+                <div class="main-chat">
+                    <div class="col-4 tab-left float-left">
+                        <ul class="list-user">
+                            <li v-for="item in jobs" :key="item.index" @click="getMessage(item)">
+                                <div class="status">
+                                    <div v-if="online.includes(item.user_id)" >
+                                    <i class="fa fa-circle text-success"></i>
+                                    </div>
+                                    <div v-else>
+                                    <i class="fa fa-circle text-danger"></i>
+                                    </div>									
+                                </div>
+                                <div class="name">
+                                    {{item.job_number}}
+                                    <p>{{item.title}}</p>
+                                </div>                               
+                                <div class="unread" v-if="item.unread > 0">
+                                    <span v-if="item.unread <= 5">{{item.unread}}</span>
+                                    <span class="plus" v-else>5+</span>
+                                </div>                              
+                            </li>                          
+                        </ul>
+                    </div>
+                    <div class="col-8 tab-right float-right">
+                        <div class="header-chat">
+                            <div class="close" @click="isToggled = !isToggled" >
+                                <i class="fa fa-times-circle-o" title="Close"></i>
+                            </div>
+                            <div class="name">
+                                <p>{{number}}</p>
+                                <span>{{title}}</span>
+                            </div>
+                        </div>
+                        <div class="content-chat" ref="scrollChat" v-chat-scroll="{always: false, smooth: true}"  @v-chat-scroll-top-reached="scrollTop(channel,current_page)">
+                            <div class="chat-history">
+                                <div v-if="loading" class="loading d-flex justify-content-center">
+                                    <div class="spinner-border text-info">
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li v-for="message in messages" :key="message.id" :title="message.created_at | date('%Y-%m-%d %I:%M %p')">
+                                        
+                                        <div :class="`message ${ isSender(message) ? 'my-message float-right' : 'other-message float-left'}`">
+											<div v-if="!isSender(message)" class="name">
+												<strong v-if="message.speaker_role_id == 1">Admin</strong>
+												<strong v-else>{{ username }}</strong>
+											</div>
+                                            {{ message.message }}
+                                        </div>
+                                        <div :class="`time ${ isSender(message) ? 'float-right' : ''}`">
+                                            {{ message.created_at | date('%Y-%m-%d %I:%M %p') }}
+                                        </div>
+                                        
+                                    </li>
+                                    <div class="clearfix"></div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer-chat">
+                            <div v-if="typing" class="typing"><img width="50" src="/images/loading.gif" alt="loading"></div>
+                            <input @keyup="userTyping" @keydown.enter="sendMessage" v-model="message_payload.message" type="text" placeholder="Type your message">
+                            <i class="fa fa-paper-plane-o" @click="sendMessage" title="Press Enter to send"></i>
+                        </div>
+                    </div>
+            </div> 
+            
+        </div>
+        <div class="btn-chat" @dblclick="resetBox">
+            <div @click="isToggled = !isToggled">
+                <i class="fa fa-comments-o"></i>
+                <div class="count-all" v-if="count_all > 0">
+                    <span v-if="count_all <= 5">{{count_all}}</span>
+                    <span class="plus" v-else>5+</span>
+                </div>    
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import { mapGetters } from "vuex";
+export default {
+	name: 'ChatComponent',
+	props: {
+		type: {
+			type: String,
+			default: '',
+		}
+	},
+    data(){
+        return{
+            jobs: null,
+            typing: false,
+            isToggled: false,
+            messages: [],
+            online: [],
+            current_page: 1,
+            last_page: 1,
+            channel: null,
+            title: null,
+            number: null,
+            role: null,
+            username: null,
+            loading: false,
+            count_all: 0,
+            positions: {
+                clientX: undefined,
+                clientY: undefined,
+                movementX: 0,
+                movementY: 0
+			},
+			loggedInUser: {},
+			message_payload: {
+				recruiter_id: 0,
+				jobseeker_id: 0,
+				speaker_id: 0,
+				speaker_role_id: 0,
+				scoutid_or_applyid: 0,
+				type: '',
+				message: '',
+				created_at: new Date(),
+			},
+        }
+    },
+    mounted() {
+        this.role = this.currentUser.role_id;
+        this.getUsers();
+        this.getLocal();
+        this.listenForSocket();
+	},
+	created() {
+		this.$api.get('v1/me')
+		.then(r => {
+			this.loggedInUser = r.data.data;
+			this.message_payload.speaker_id = this.loggedInUser.id;
+			this.message_payload.speaker_role_id = this.currentUser.role_id;
+		})
+	},
+    methods: {
+        listenForSocket() {
+            window.socket.on("channel-chat", (data) => {
+				if (this.isReceiver(data)) {
+					this.messages.push(data);
+					this.markAsRead();
+				}
+            });
+            window.socket.on("count-message", (data) => {
+				if (this.$props.type == data.type) {
+					this.jobs.forEach(job => {
+						if(job.scoutid_or_applyid == data.scoutid_or_applyid){
+							job.unread++;
+						}
+						this.count_all += job.unread;
+					});
+                this.sumUnRead();
+				}
+            });
+            window.socket.on("usertyping", (data) => {
+				if (this.isReceiver(data)) {
+					if (!this.typing) this.typing = true;
+				}
+				setTimeout(() => {
+					this.typing = false;
+				}, 3000);
+            });
+            window.socket.on("usernames", (data) => {
+                this.online = data;
+            });
+		},
+		isSender(message_payload) {
+			return (message_payload.speaker_role_id == this.currentUser.role_id);
+		},
+		isReceiver(message_payload) {
+			let allow = false;
+			if (message_payload.speaker_role_id != this.currentUser.role_id) {
+					if (this.currentUser.role_id == 1) {
+						allow = true;
+					} else if (this.currentUser.role_id == 2) {
+						allow = this.loggedInUser.id == message_payload.recruiter_id && 
+							this.message_payload.scoutid_or_applyid == message_payload.scoutid_or_applyid && 
+							this.message_payload.type == message_payload.type;
+					} else if (this.currentUser.role_id == 3) {
+						allow = this.loggedInUser.id == message_payload.jobseeker_id && 
+							this.message_payload.scoutid_or_applyid == message_payload.scoutid_or_applyid && 
+							this.message_payload.type == message_payload.type;
+					}
+			} else {
+				allow = false;
+			}
+			return allow;
+		},
+        resetBox(){
+            this.$refs.draggableContainer.style.top = 'unset';
+            this.$refs.draggableContainer.style.left = 'unset';
+        },
+        getUsers(){
+			let role_id = this.currentUser.role_id;
+            this.$api.get(`/v1/chattables/${role_id}/${this.$props.type}`)
+            .then(res => {
+                this.jobs = res.data.data;
+                window.socket.emit('join', this.currentUser.id);
+                this.sumUnRead();
+            })
+            .catch(err => {
+                console.log(err);
+			});
+        },         
+        getMessage(model){
+			
+			this.message_payload.recruiter_id = model.recruiter_id;
+			this.message_payload.jobseeker_id = model.jobseeker_id;
+			this.message_payload.scoutid_or_applyid = model.scoutid_or_applyid;
+			this.message_payload.type = this.$props.type;
+
+			Promise.all([
+				// --messages
+				this.$api.get(`v1/messages/${this.message_payload.type}/${this.message_payload.scoutid_or_applyid}`)
+				.then(r => Promise.resolve(r.data)).catch(error => Promise.reject(error.response)),
+				// --metadata
+				this.$api.get(`v1/messages/meta/${this.message_payload.type}/${this.message_payload.scoutid_or_applyid}`)
+				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response))
+			])
+			.then(r => {
+				// --messages response
+				this.messages = r[0].data;
+
+				// --metadata response
+				let meta = r[1];
+				this.username = this.currentUser.role_id == 2 ? meta.jobseeker.jobseeker_name : meta.recruiter.recruiter_name ;
+                this.title = meta.job.title;
+				this.number = meta.job.job_number;
+				this.loading = false;
+
+				this.markAsRead();
+
+				this.$refs.scrollChat.scrollTop = this.$refs.scrollChat.scrollHeight ; 
+			})
+			.catch(r => {
+				console.log('Error when fetching data', r);
+			})
+
+            this.$refs.scrollChat.scrollTop = this.$refs.scrollChat.scrollHeight ;   
+        },
+        unreadMessage(){
+            this.jobs.forEach(job => {
+                if(job.scoutid_or_applyid == this.message_payload.scoutid_or_applyid){
+                    job.unread = 0;
+                }
+            });
+            this.sumUnRead();
+        },
+        sumUnRead(){
+            let sum = 0;
+            this.jobs.forEach(job => {
+                sum += job.unread
+            });
+            this.count_all = sum;
+        },
+        markAsRead() {
+            this.$api.post(`/v1/messages/read/${this.$props.type}/${this.message_payload.scoutid_or_applyid}/${this.currentUser.role_id}`)
+            .then(() => {
+                this.unreadMessage();
+            })
+            .catch(err => {
+                console.log(err);
+			});
+        },
+        userTyping(){
+            window.socket.emit('typing', {
+				speaker_role_id: this.message_payload.speaker_role_id,
+				jobseeker_id: this.message_payload.jobseeker_id,
+				recruiter_id: this.message_payload.recruiter_id,
+				scoutid_or_applyid: this.message_payload.scoutid_or_applyid,
+				type: this.message_payload.type,
+			});
+        },
+        sendMessage(e){
+            e.preventDefault();
+			if (this.message_payload.message == '' ) { return }
+
+			this.message_payload.created_at = Date.now();
+			
+			// --Save message using API
+			this.$api.post('v1/messages', this.message_payload)
+			.then(() => {
+				this.messages.push({
+					recruiter_id: this.message_payload.recruiter_id,
+					jobseeker_id: this.message_payload.jobseeker_id,
+					speaker_id: this.message_payload.speaker_id,
+					speaker_role_id: this.message_payload.speaker_role_id,
+					scoutid_or_applyid: this.message_payload.scoutid_or_applyid,
+					type: this.message_payload.type,
+					message: this.message_payload.message,
+					created_at: Date.now(),
+				});
+				// --Broadcast the message payload
+				window.socket.emit("chat-message", this.message_payload);
+				this.message_payload.message = '';
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+        },
+        scrollTop(channel,page) {
+			if (this.current_page > this.last_page) { return }
+			
+            this.$api.get(`v1/messages/${this.message_payload.type}/${this.message_payload.scoutid_or_applyid}?page=${page+1}`)
+            .then(res => {
+				const r = res.data;
+                this.messages = r.data.concat(this.messages);
+                this.current_page = r.current_page;
+                this.last_page = r.last_page;
+            })
+            .catch(err => {
+                console.log(err);
+			});
+            this.$refs.scrollChat.scrollTop = 50 ;      
+        },
+        getLocal(){
+			/*
+            let data = JSON.parse(localStorage.getItem("user"));
+            if(data.channel){
+                this.getMessage(data.channel);
+			}
+			*/
+        },
+        dragMouseDown: function (event) {
+            this.positions.clientX = event.clientX
+            this.positions.clientY = event.clientY
+            document.onmousemove = this.elementDrag
+            document.onmouseup = this.closeDragElement
+        },
+        elementDrag: function (event) {
+            event.preventDefault()
+            this.positions.movementX = this.positions.clientX - event.clientX
+            this.positions.movementY = this.positions.clientY - event.clientY
+            this.positions.clientX = event.clientX
+            this.positions.clientY = event.clientY
+            this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
+            this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
+        },
+        closeDragElement () {
+            document.onmouseup = null
+            document.onmousemove = null
+		},
+	},
+	computed: {
+		...mapGetters(["currentUser"]),
+	},
+}
+</script>
+<style lang="scss" scoped>
+.col-4 {
+	position: relative;
+	flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+}
+.col-8 {
+	position: relative;
+	flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}
+input:focus{
+    outline: none;
+}
+.chat_show{
+    display: block;
+    animation: bounce-in .1s;
+}
+.chat_hide{
+    display: none;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.box-chat{
+    background: white;
+    box-shadow: 2px 2px 5px 0px #7b7b7b;
+    position: fixed;
+    right: 90px;
+    bottom: 20px;
+    width: 500px;
+    height: 430px;
+    z-index: 9;
+}
+    .main-chat{
+        right: 90px;
+        bottom: 20px;
+        .tab-right{
+            padding: 0;
+            border-left: 1px solid #e2e2e2;
+        }
+        .tab-left{
+            padding: 0;
+            margin-top: 5px;
+            .list-user{
+                height: 380px;
+                overflow-y: scroll;
+            }
+        }
+        .header-chat{
+            width: 100%;
+            height: 60px;
+            background: #27a09e;
+            padding: 5px;
+            h3{
+                margin-top: 15px;
+                font-size: 16px;
+                color: #fff;
+                text-align: center;
+            }
+            .name{
+                margin-left: 15px;
+                color: #fff;
+                p{
+                    margin: 0;
+                    font-size: 14px;
+                    
+                    font-weight: bold;
+                }
+                span{
+                    font-size: 12px;
+                }
+            }
+            .close{
+                text-shadow:unset;
+                &:hover{
+                    opacity: 1;
+                }
+            }
+        }
+        .list-user{
+            li{
+                display: flex;
+                padding: 7px 10px;
+                margin: 0 5px;
+                position: relative;
+                list-style-type: none;
+                border-bottom: 1px solid #e2e2e2;
+                transition: 0.3s;
+                &.active{
+                    background: #27a09e;
+                    color: #fff;
+                    
+                    &:hover{
+                        background: #27a09e;
+                        cursor: context-menu;
+                    }
+                }
+                &:hover{
+                    cursor: pointer;
+                    background: #d4cdcd;
+                }
+                .unread{
+                    position: absolute;
+                    top: 15px;
+                    right: 0;
+                    height: 18px;
+                    width: 18px;
+                    background: #c51223;
+                    border-radius: 50%;
+                    span{
+                        position: absolute;
+                        color: #fff;
+                        font-size: 9px;
+                        left: 34%;
+                        top: 2px;
+                    }
+                    .plus{
+                        left: 29%;
+                    }
+                }
+            }
+            .name{
+                margin-left: 5px;
+                p{
+                    margin: 0;
+                    font-size: 12px;
+                }
+            }
+        }
+        .content-chat{
+            height: 320px;
+            overflow-y: scroll;  
+            .chat-history{
+                .loading{
+                    margin-top: 40%;
+                }
+                padding: 10px;
+                ul{
+                    li{
+                        list-style-type: none;
+                    }
+                }
+                .message{
+                    clear: both;
+                    padding: 5px;
+                    max-width: 230px;
+                    font-size: 13px;
+                }                   
+                .my-message{
+                    background: #59d0ce;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    border-bottom-left-radius: 10px;
+                }
+                .other-message{
+                    background: #d0d0d0;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px;
+                    .name{
+                        color: #27a09e;
+                        font-size: 11px;
+                    }
+                }
+                .time{
+                    clear: both;
+                    margin-bottom: 15px;
+                    font-size: 10px;
+                    color: #888888;
+                }
+
+            }
+        }
+        .footer-chat{
+            padding: 5px 10px;
+            input{
+                padding: 7px 20px;
+                width: 80%;
+                border-radius: 20px;
+                border: 1px solid #27a09e;
+            }
+            i{
+                margin-left: 10px;
+                font-size: 18px;
+                color: #27a09e;
+                padding: 10px;
+                &:hover{
+                    color: #fff;
+                    background: #27a09e;
+                    border-radius: 20px;
+                    cursor: pointer;
+                }
+            }
+            .typing{
+                position: absolute;
+                bottom: 35px;
+            }
+        }
+    }
+
+.btn-chat{
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 50%;
+    background: #27a09e;
+    i{
+        font-size: 40px;
+        padding: 10px;
+        color:#fff;
+    }
+    .count-all{
+        position: absolute;
+        background: #c51223;
+        right: 0px;
+        top: -5px;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        span{
+            font-size: 11px;
+            color: #fff;
+            position: absolute;
+            left: 34%;
+            top: 2px;
+        }
+        .plus{
+            left: 20%;
+        }
+    }
+}
+.active .unread{
+    display: none;
+}
+</style>
