@@ -128,7 +128,7 @@
                                     :key="status.id.id"
                                 >{{project.record_status == status.id.value ? status.id.display : ''}}</span> -->
                             </router-link>
-                            <p class="btn btn-common" v-on:click="showToggle(index)" v-show="project.record_status != 3">
+                            <p class="btn btn-common" v-on:click="showToggle(index)">
                                 {{$t('common.change')}}
                                 <span class="down-icon">&#9662;</span>
                             </p>
@@ -215,6 +215,7 @@ export default {
             arr_status: [
                 { id: this.$configs.recruiter.active, checked: false },
                 { id: this.$configs.recruiter.inactive, checked: false },
+                { id: this.$configs.recruiter.stopped, checked: false },
             ],
         };
     },
@@ -227,7 +228,7 @@ export default {
 
     methods: {
         changeStatus(id, status) {
-        let statusVal = (status == 1? '有効':'停止')
+        let statusVal = (status == 1? '有効': (status == 2? '停止':'退会'))
 
         this.$alertService
             .showConfirmDialog(

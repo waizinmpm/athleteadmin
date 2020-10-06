@@ -131,7 +131,7 @@
                                 <router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">
                                     <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}</span>
                                 </router-link><br>
-                                <span class="btn btn-common mt-2" v-on:click="showToggle(index)" v-show="project.record_status != 3">
+                                <span class="btn btn-common mt-2" v-on:click="showToggle(index)">
                                 {{$t('common.change')}}
                                 <span class="down-icon">&#9662;</span>
                                 </span>
@@ -143,7 +143,7 @@
                                 <p class="custom-radio-group mr-3" v-for="status in arr_status"                  v-bind:key="status.id.id" >
                                     <input type="radio" :id="status.id.display+index" v-model="project.record_status"
                                     class="custion-radio" @change="changeStatus(project.id, status.id.value)"
-                                    :value="status.id.display == '有効' ? 1 : 2 " />
+                                    :value="status.id.display == '有効' ? 1 : (status.id.display == '停止' ? 2 : 3) " />
                                     <label
                                     :for="status.id.display+index"
                                     class="custom-radio-lable status-lable"
@@ -243,6 +243,7 @@ export default {
             arr_status: [
                 { id: this.$configs.jobseeker.active, checked: false },
                 { id: this.$configs.jobseeker.inactive, checked: false },
+                { id: this.$configs.jobseeker.stopped, checked: false },
             ],
         };
     },
@@ -255,7 +256,7 @@ export default {
     },
 
     methods: {
-        changeStatus(id,status) {
+        changeStatus(id, status) {
             console.log(status);
             this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', status, { n:status }), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
                 if (dialogResult.value) {
@@ -321,9 +322,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-/* a {
-    cursor: pointer;
-} */
-</style>
