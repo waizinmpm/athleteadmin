@@ -467,7 +467,7 @@ export default {
 			// if (!isNaN(amount)) {
 				// Re-value tax
 				this.invoiceForm.tax = amount * (this.tax.percent ?? 0) / 100;
-				// Re-value invoice amout
+				// Re-value invoice amout 
 				this.invoiceForm.invoice_amount = amount + this.invoiceForm.tax;
 			// } else {
 			// 	this.invoiceForm.invoice_amount = 0;

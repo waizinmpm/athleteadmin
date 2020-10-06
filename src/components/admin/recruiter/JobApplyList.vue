@@ -62,7 +62,7 @@
         <div class="row">
             <div class="col-sm-12 p-0">
                 <div class="row">
-                    <div class="col-sm-12 select">
+                    <div class="col-sm-12 select text-right">
                         <span>検索結果表示件数: {{ totalScouts }}件</span><br>
                         <span>1ページ表示数&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
