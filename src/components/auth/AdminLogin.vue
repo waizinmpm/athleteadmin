@@ -6,7 +6,7 @@
       >Thank you {{registeredUser.name}}.You can now login</div>         
         <div class="login-card-body row">
             <div class="col-12">
-                <img :src="'../../images/logo_admin.png'" class="logo-img" alt="ATLETE REBORN PROJECT" />
+                <!-- <img :src="'../../images/logo_admin.png'" class="logo-img" alt="ATLETE REBORN PROJECT" /> -->
                 <form class="form-signin" role="form" @submit.prevent="authenticate">
                     <h3 class="form-signin-heading text-center">運営管理者ログイン</h3> 
 
