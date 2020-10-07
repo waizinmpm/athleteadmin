@@ -44,8 +44,7 @@
                     </div> -->
 
                     <div class="fomr-group text-center m-t-30">
-                    <button class="btn loginbtn mr" type="submit">ログイン</button>
-                    <button class="btn cancelbtn" type="button">{{ $t('common.cancel') }}</button>
+                        <button class="btn loginbtn mr" type="submit">ログイン</button>
                     </div>
                 </form>    
             </div>      
@@ -115,9 +114,6 @@ export default {
 }
 .loginbtn{
     background-color: #84BE3F; 
-}
-.cancelbtn {
-    background-color: #919191; 
 }
 .mr {
     margin-right: 20px;
