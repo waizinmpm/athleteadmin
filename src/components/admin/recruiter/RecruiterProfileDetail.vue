@@ -1,11 +1,30 @@
 <template>
     <div class="recruiter-profile-detail">
-        <h3>Recruiter's Profile Detail</h3>
-        <router-link to="/admin-recruiter-list" class="ml-auto">
-            <span class="btn back-btn">会員情報一覧へ戻る</span>
-        </router-link>
-        <hr>
-        <div class="row">
+         <h3 class="mb-4 mt-0">企業プロフィール詳細</h3> 
+        <dl class="detail-list">
+            <dt class="detail-head">ご担当者名</dt>
+            <dd class="detail-data">{{ recruiter_info.incharge_name }}</dd>
+            <dt class="detail-head">設立年月</dt>
+            <dd class="detail-data">{{ recruiter_info.establishment_date }}</dd>
+            <dt class="detail-head">代表者名</dt>
+            <dd class="detail-data">{{ recruiter_info.representative_name }}</dd>
+            <dt class="detail-head">従業員数</dt>
+            <dd class="detail-data">{{ recruiter_info.num_of_employees }}</dd>
+            <dt class="detail-head">事業内容</dt>
+            <dd class="detail-data">{{ recruiter_info.business_description }}</dd>
+            <dt class="detail-head">所在地</dt>
+            <dd class="detail-data">{{ recruiter_info.address }}</dd>
+            <dt class="detail-head">電話番号 1</dt>
+            <dd class="detail-data">{{ recruiter_info.phone1 }}</dd>
+            <dt class="detail-head">電話番号 2</dt>
+            <dd class="detail-data">{{ recruiter_info.phone2 }}</dd>
+            <dt class="detail-head">ご担当者様メールアドレス</dt>
+            <dd class="detail-data">{{ recruiter_info.email }}</dd>
+            <dt class="detail-head">WEB サイト URL</dt>
+            <dd class="detail-data">{{ recruiter_info.website }}</dd>
+        </dl>
+        <router-link to="/admin-recruiter-list" class="btn back-btn">会員情報一覧へ戻る </router-link>
+        <!-- <div class="row">
             <div class="col-md-4">ご担当者名</div>
             <div class="col-md-8">{{ recruiter_info.incharge_name }}</div>
         </div>
@@ -44,7 +63,7 @@
         <div class="row">
             <div class="col-md-4">WEB サイト URL</div>
             <div class="col-md-8">{{ recruiter_info.website }}</div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -72,5 +91,34 @@ export default {
 </script>
 
 <style scoped>
-
+.recruiter-profile-detail {
+    min-height: 650px;
+}
+.detail-list {
+    padding: 10px 20px 20px 20px;
+    overflow: hidden;
+}
+.detail-head,
+.detail-data {
+  padding: 10px 0 15px 0;
+  border-top: 1px solid #ddd;
+  line-height: 1.7;
+}
+.detail-head {
+  display: flex;
+  float: left;
+  width: 40%;
+  margin-right: 6%;
+  align-items: flex-start;
+  font-weight: normal;
+}
+.detail-data {
+  float: left;
+  width: 54%;
+  background-color: #fff;
+  min-height: 50px;
+}
+.back-btn {
+    margin-left: 20px;
+}
 </style>

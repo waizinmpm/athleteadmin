@@ -8,92 +8,92 @@
             v-if="!selfIntroEdit && showDetails"
         >
             <div class="col-12">
-            <div class="intro-tit tit-box" v-show="edit_page">
-                <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
-                <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')">
-                    <span class="icon icon-edit"></span>編集
-                </p>
-            </div>
-            <div class="row movie-row">
-                <div class="col-md-7">
-                    <div class="card-carousel row mt-3">
-                        <!--image sliders-->
-                        <transition name="list">
-                        <div class="col-md-8 pr-0">
-                            <div class="row col-md-12 face-img-block pr-0">
-                            <div class="img-wrapper">
-                                <img
-                                v-if="currentImage"
-                                :src="currentImage"
-                                alt="faceimage"
-                                class="img-fluid"
-                                />
-                            </div>
-                            </div>
-                            <div class="row col-md-12 pr-0">
-                            <div class="col-md-6 p-0">
-                                <p>{{selfIntroDetails.occupation_name}}</p>
-                                <p>{{selfIntroDetails.language_level}}</p>
-                                <p>{{selfIntroDetails.desired_location_1}}</p>
-                            </div>
-                            <div class="col-md-6 pr-0 align-self-start">
-                                <span
-                                :class="['face-image', (activeImage == 4) ? 'active' : '']"
-                                @click="activateImage('face_image',4) "
-                                >
-                                <img :src="selfIntro.face_image_url" alt />
-                                </span>
-                            </div>
-                            </div>
+                <div class="intro-tit tit-box" v-show="edit_page">
+                    <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
+                    <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')">
+                        <span class="icon icon-edit"></span>編集
+                    </p>
+                </div>
+                <div class="row movie-row">
+                    <div class="col-md-7">
+                        <div class="card-carousel row mt-3">
+                            <!--image sliders-->
+                            <transition name="list">
+                            <div class="col-md-8 pr-0">
+                                <div class="row col-md-12 face-img-block pr-0">
+                                <div class="img-wrapper">
+                                    <img
+                                    v-if="currentImage"
+                                    :src="currentImage"
+                                    alt="faceimage"
+                                    class="img-fluid"
+                                    />
+                                </div>
+                                </div>
+                                <div class="row col-md-12 pr-0">
+                                <div class="col-md-6 p-0">
+                                    <p>{{selfIntroDetails.occupation_name}}</p>
+                                    <p>{{selfIntroDetails.language_level}}</p>
+                                    <p>{{selfIntroDetails.desired_location_1}}</p>
+                                </div>
+                                <div class="col-md-6 pr-0 align-self-start">
+                                    <span
+                                    :class="['face-image', (activeImage == 4) ? 'active' : '']"
+                                    @click="activateImage('face_image',4) "
+                                    >
+                                    <img :src="selfIntro.face_image_url" alt />
+                                    </span>
+                                </div>
+                                </div>
 
-                            <!--
-                                                    <div class="actions">
-                                                        <span @click="prevImage" class="prev">
-                                                            <i class="fas fa-chevron-left"></i>
-                                                        </span>
-                                                        <span @click="nextImage" class="next">
-                                                            <i class="fas fa-chevron-right"></i>
-                                                        </span>
-                                                    </div>
-                            -->
-                        </div>
-                        </transition>
-                        <div class="thumbnails col-md-4">
-                            <transition-group tag="span" name="list">
-                                <span
-                                v-for="(image, index) in  selfIntro.related_images"
-                                :key="image.id"
-                                :class="['thumbnail-image', (activeImage == index) ? 'active' : '']"
-                                @click="activateImage('related',index) "
-                                >
-                                <img :src="image.file_url" class />
-                                </span>
-                            </transition-group>
-                        </div>
-                        <!--end image slider-->
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="row mt-3 movie-col">
-                        <div class="col-md-12">
-                        <div v-if="!selfIntroDetails.video">
-                            <p class="no-video">
-                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>動画は利用できません
-                            </p>
-                        </div>
-                        <div v-if="selfIntroDetails.video">
-                            <iframe class="movie-link" :src="selfIntroDetails.video"></iframe>
-                        </div>
+                                <!--
+                                                        <div class="actions">
+                                                            <span @click="prevImage" class="prev">
+                                                                <i class="fas fa-chevron-left"></i>
+                                                            </span>
+                                                            <span @click="nextImage" class="next">
+                                                                <i class="fas fa-chevron-right"></i>
+                                                            </span>
+                                                        </div>
+                                -->
+                            </div>
+                            </transition>
+                            <div class="thumbnails col-md-4">
+                                <transition-group tag="span" name="list">
+                                    <span
+                                    v-for="(image, index) in  selfIntro.related_images"
+                                    :key="image.id"
+                                    :class="['thumbnail-image', (activeImage == index) ? 'active' : '']"
+                                    @click="activateImage('related',index) "
+                                    >
+                                    <img :src="image.file_url" class />
+                                    </span>
+                                </transition-group>
+                            </div>
+                            <!--end image slider-->
                         </div>
                     </div>
+                    <div class="col-md-5">
+                        <div class="row mt-3 movie-col">
+                            <div class="col-md-12">
+                            <div v-if="!selfIntroDetails.video">
+                                <p class="no-video">
+                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>動画は利用できません
+                                </p>
+                            </div>
+                            <div v-if="selfIntroDetails.video">
+                                <iframe class="movie-link" :src="selfIntroDetails.video"></iframe>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                <h6 class="about-tit">自己PR、海外で勤務したい理由等</h6>
-                <pre class="about-box">{{selfIntro.self_pr}}</pre>
+                <div class="row">
+                    <div class="col-md-12">
+                    <h6 class="about-tit">自己PR、海外で勤務したい理由等</h6>
+                    <pre class="about-box">{{selfIntro.self_pr}}</pre>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
         <div class="row tab-content introduction-content mb-3 m-0" v-if="selfIntroEdit">
