@@ -31,6 +31,21 @@ const errorDialog = (title, message, ok = "OK") => {
 	});
 }
 
+const warningDialog = (title, message, ok = "OK") => {
+	return Vue.swal({
+		allowOutsideClick: false,
+		icon: "warning",
+		width: 350,
+		title: title,
+		text: message,
+		confirmButtonText: ok,
+		confirmButtonColor: "#ffb700",
+		customClass: {
+			confirmButton: 'border-style',
+		},
+	});
+}
+
 const confirmDialog = (title, message, ok = "Yes", cancel = "No") => {
 	return Vue.swal({
 		allowOutsideClick: false, 
@@ -90,6 +105,7 @@ const toast = (title, message) => {
 export default {
 	showSuccessDialog: successDialog,
 	showErrorDialog: errorDialog,
+	showWarningDialog: warningDialog,
 	showConfirmDialog: confirmDialog,
 	showInputDialog: inputDialog,
 	showToast: toast,

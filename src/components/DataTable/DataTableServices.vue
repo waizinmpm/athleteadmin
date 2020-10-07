@@ -84,15 +84,15 @@ export default {
                                 console.log("delete", response.data.data);
                                 this.delete_ids_transactions = [];
                                 if(Array.isArray(response.data.data) && response.data.data.length > 0){
+                                    this.$alertService.showWarningDialog(null, this.$t('alertMessage.unable_to_delete'), this.$t('common.close')).then((dialogVal) => {
+                                        if(dialogVal.value)
+                                            this.keepCurrentPage();
+                                    });
                                     this.delete_ids_transactions = response.data.data;
+                                }else{
+                                    this.keepCurrentPage();
                                 }
-                                let getpage = 1;
-                                if ((this.projects.to - this.selected.length + 1) > this.projects.from) {
-                                    getpage = this.projects.current_page;
-                                } else {
-                                    getpage = this.projects.current_page - 1;
-                                }
-                                this.getData(getpage);
+                                
                             })
                             .catch(errors => {
                                 console.log(errors);
@@ -100,6 +100,16 @@ export default {
                     }
                 });
             } 
+        },
+
+        keepCurrentPage() {
+            let getpage = 1;
+            if ((this.projects.to - this.selected.length + 1) > this.projects.from) {
+                getpage = this.projects.current_page;
+            } else {
+                getpage = this.projects.current_page - 1;
+            }
+            this.getData(getpage);
         },
 
         sortBy(key) {

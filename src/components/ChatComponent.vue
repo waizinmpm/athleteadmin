@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-8 tab-right float-right">
                         <div class="header-chat">
-                            <div class="close" @click="isToggled = !isToggled" >
+                            <div class="close" @click="closeChatBox()" >
                                 <i class="fa fa-times-circle-o" title="Close"></i>
                             </div>
                             <div class="name">
@@ -46,8 +46,7 @@
                                         
                                         <div :class="`message ${ isSender(message) ? 'my-message float-right' : 'other-message float-left'}`">
 											<div v-if="!isSender(message)" class="name">
-												<strong v-if="message.speaker_role_id == 1">Admin</strong>
-												<strong v-else>{{ username }}</strong>
+												<strong>{{ senderName(message) }}</strong>
 											</div>
                                             {{ message.message }}
                                         </div>
@@ -123,6 +122,7 @@ export default {
 				message: '',
 				created_at: new Date(),
 			},
+			meta: undefined,
         }
     },
     mounted() {
@@ -172,6 +172,20 @@ export default {
 		},
 		isSender(message_payload) {
 			return (message_payload.speaker_role_id == this.currentUser.role_id);
+		},
+		senderName(message_payload) {
+			switch (message_payload.speaker_role_id)
+			{
+				case 1:
+					return "Admin";
+
+				case 2:
+					return this.meta.recruiter_name;
+
+				case 3:
+					// --Todo: jobseeker name should be nickname depending on status
+					return this.meta.jobseeker_name;
+			}
 		},
 		isReceiver(message_payload) {
 			let allow = false;
@@ -230,6 +244,10 @@ export default {
 				// --metadata response
 				let meta = r[1];
 				this.username = this.currentUser.role_id == 2 ? meta.jobseeker.jobseeker_name : meta.recruiter.recruiter_name ;
+				this.meta = {
+					'jobseeker_name': meta.jobseeker.jobseeker_name,
+					'recruiter_name': meta.recruiter.recruiter_name,
+				};
                 this.title = meta.job.title;
 				this.number = meta.job.job_number;
 				this.loading = false;
@@ -346,6 +364,13 @@ export default {
             document.onmouseup = null
             document.onmousemove = null
 		},
+		closeChatBox() {
+			this.isToggled = !this.isToggled;
+			this.message_payload.recruiter_id = 0;
+			this.message_payload.jobseeker_id = 0;
+			this.message_payload.scoutid_or_applyid = 0;
+		},
+		
 	},
 	computed: {
 		...mapGetters(["currentUser"]),
