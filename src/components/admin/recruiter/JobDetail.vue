@@ -1,15 +1,37 @@
 <template>
     <div class="job-detail">
-        <h3>{{ recruiter_job.job_number }}【{{ recruiter_job.title }}】</h3>
-        <router-link to="/job-list" class="ml-auto">
-            <span class="btn back-btn">求⼈⼀覧 へ戻る</span>
+        <h3 class="mb-4 mt-0">{{ recruiter_job.job_number }}【{{ recruiter_job.title }}】</h3>
+        <dl class="detail-list">
+            <dt class="detail-head">募集ポジション(記入例)チーフディレクター</dt>
+            <dd class="detail-data">{{ recruiter_job.incharge_name }}</dd>
+            <dt class="detail-head">雇用形態(記入例)正社員</dt>
+            <dd class="detail-data">
+                <div v-for="(result, index) in employment_types" :key="result.id">
+                    <input type="checkbox" v-bind:value="result.employment_type_name" v-bind:id="result.employment_type_name" class="custom-control-input custom-checkbox"              v-model="recruiter_job.employment_types" disabled />
+                    <label
+                    :for="result.employment_type_name"
+                    class="custom-control-label custom-checkbox-label"
+                    >{{$t('jobcreate.employment_type['+ index+']')}}</label>
+                </div>
+            </dd>
+            <dt class="detail-head">勤務地(記入例)ジャカルタ</dt>
+            <dd class="detail-data">{{ recruiter_job.job_location }}</dd>
+            <dt class="detail-head">仕事の内容</dt>
+            <dd class="detail-data">{{ recruiter_job.job_description }}</dd>
+            <dt class="detail-head">応募資格</dt>
+            <dd class="detail-data">{{ recruiter_job.qualification }}</dd>
+            <dt class="detail-head">給与・待遇・ビザサポート</dt>
+            <dd class="detail-data">{{ recruiter_job.allowance }}</dd>
+        </dl>
+        <router-link to="/job-list" class="btn back-btn">
+            求⼈⼀覧 へ戻る
         </router-link>
-        <hr/>
-        <div class="row">
-            <div class="col-md-4">募集ポジション(記入例)チーフディレクター</div>
-            <div class="col-md-8">{{ recruiter_job.incharge_name }}</div>
-        </div>
-        <div class="row">
+        <!-- 
+            <div class="row">
+                <div class="col-md-4">募集ポジション(記入例)チーフディレクター</div>
+                <div class="col-md-8">{{ recruiter_job.incharge_name }}</div>
+            </div>
+            <div class="row">
             <div class="col-md-4">雇用形態(記入例)正社員</div>
             <div class="col-md-8">
                 <div v-for="(result, index) in employment_types" :key="result.id">
@@ -36,7 +58,7 @@
         <div class="row">
             <div class="col-md-4">給与・待遇・ビザサポート</div>
             <div class="col-md-8">{{ recruiter_job.allowance }}</div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -67,3 +89,32 @@ export default {
     
 }
 </script>
+<style scoped>
+.detail-list {
+    padding: 10px 20px 20px 20px;
+    overflow: hidden;
+}
+.detail-head {
+    display: flex;
+    float: left;
+    width: 40%;
+    margin-right: 6%;
+    align-items: flex-start;
+    font-weight: normal;
+}
+.detail-data {
+    float: left;
+    width: 54%;
+    background-color: #fff;
+    min-height: 50px;
+}
+.detail-head, 
+.detail-data {
+    padding: 10px 0 15px 0;
+    border-top: 1px solid #ddd;
+    line-height: 1.7;
+}
+.back-btn {
+    margin-left: 20px;
+}
+</style>

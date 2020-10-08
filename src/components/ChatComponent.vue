@@ -5,14 +5,16 @@
                     <div class="col-4 tab-left float-left">
                         <ul class="list-user">
                             <li v-for="item in jobs" :key="item.index" @click="getMessage(item)">
+								<!--
                                 <div class="status">
-                                    <div v-if="online.includes(item.user_id)" >
+                                    <div v-if="online.includes(item.recruiter_id) & online.includes(item.jobseeker_id)" >
                                     <i class="fa fa-circle text-success"></i>
                                     </div>
                                     <div v-else>
                                     <i class="fa fa-circle text-danger"></i>
                                     </div>									
                                 </div>
+								-->
                                 <div class="name">
                                     {{item.job_number}}
                                     <p>{{item.title}}</p>
