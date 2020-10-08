@@ -9,7 +9,7 @@
             <div class="col-12 tab-list sticky-top">
                 <ul class="tab-list-row">   
                     <li v-for="(item, index) in items" class="list-item" :key="index.id">                                          
-                        <a  v-scroll-to="{el:'#'+(item,index),offset:-70}"
+                        <a  v-scroll-to="{el:'#'+(item,index),offset:-130}"
                         @click="ScrollTab(index)"                            
                         :class="{isActive: activeIndex === index ? 'active':''}"                       
                         class="list-link">{{ item.text }}</a> 

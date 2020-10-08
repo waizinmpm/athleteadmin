@@ -399,14 +399,14 @@
                 </div>
                 <div class="form-group gender-group">
                 <label for>{{$t('jobseekerprofile.gender')}}</label>
-                <div class="row col-7 p-0 m-0">
-                    <div class="col-4 pl-0">
+                <div class="row col-md-7 p-0 m-0">
+                    <div class="col-md-4 pl-0">
                     <p class="check-item m-0" transition="fade" @click="checkGender('女性')">
                         <span :class="[basicInfo.gender == '女性'?'fa fa-check':'fa fa-check disabled']"></span>
                         {{$t('jobseekerprofile.female')}}
                     </p>
                     </div>
-                    <div class="col-4 pl-0">
+                    <div class="col-md-4 pl-0">
                     <p class="check-item m-0" transition="fade" @click="checkGender('男性')">
                         <span :class="[basicInfo.gender == '男性'?'fa fa-check':'fa fa-check disabled']"></span>
                         {{$t('jobseekerprofile.male')}}
@@ -419,7 +419,7 @@
                     {{$t('jobseekerprofile.date')}}
                     <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
                 </label>
-                <div class="row col-7 p-0 m-0">
+                <div class="row col-md-7 p-0 m-0">
                     <div class="col-md-4 pl-0">
                     <select class="form-control" v-model="basicInfo.dobyears">
                         <option disabled value></option>
@@ -443,7 +443,7 @@
 
                 <div class="form-group">
                 <label for>{{$t('jobseekerprofile.location')}}</label>
-                <div class="row col-7 p-0 m-0">
+                <div class="row col-md-7 p-0 m-0">
                     <div class="col-md-4 pl-0">
                     <select
                         v-model.trim="basicInfo.country_name"
@@ -610,7 +610,7 @@
             </div>
             </div>
             <p class="w-100 text-center mt-3">
-            <span class="btn appendbtn btn-large border-style" @click="saveBasicInfo">保存する</span>
+            <span class="btn save-btn" @click="saveBasicInfo">保存する</span>
             </p>
         </div>
         <!-- End basic-info -->
@@ -1003,27 +1003,27 @@
             <div class="popup-databox">
                 <h6 class="font-weight-bold">最終年収</h6>
                 <div class="form-group row">
-                <div class="col-6">
+                <div class="col-md-6 float-none">
                     <div class="row">
-                    <div class="col-md-6">
-                        <input
-                        type="text"
-                        v-model="carrers.last_annual_income"
-                        placeholder="数字(金額)を入力"
-                        class="form-control"
-                        />
-                    </div>
-                    <div class="col-md-6">
-                        <select class="form-control" v-model.trim="carrers.last_currency">
-                        <option :value="null" v-if="carrers.last_currency  == null" selected>通貨を選択</option>
-                        <option v-else :value="null" selected>通貨を選択</option>
-                        <option
-                            v-for="status in currency"
-                            :key="status.id"
-                            v-bind:value="status.id"
-                        >{{status.id}}</option>
-                        </select>
-                    </div>
+                        <div class="col-md-6">
+                            <input
+                            type="text"
+                            v-model="carrers.last_annual_income"
+                            placeholder="数字(金額)を入力"
+                            class="form-control"
+                            />
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-control" v-model.trim="carrers.last_currency">
+                            <option :value="null" v-if="carrers.last_currency  == null" selected>通貨を選択</option>
+                            <option v-else :value="null" selected>通貨を選択</option>
+                            <option
+                                v-for="status in currency"
+                                :key="status.id"
+                                v-bind:value="status.id"
+                            >{{status.id}}</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 </div>
@@ -1032,7 +1032,7 @@
 
             <!-- <div class="row underline"></div> -->
             <p class="w-100 text-center mt-3">
-            <span class="btn job-primary-color btn-large border-style" @click="saveCarrer">保存する</span>
+            <span class="btn save-btn" @click="saveCarrer">保存する</span>
             </p>
             <!-- <ul class="button-block">
                         <li>
@@ -1191,7 +1191,7 @@
                 </p>
                 <div class="form-group">
                     <label for>{{$t('jobseekerprofile.experience_year')}}</label>
-                    <div class="col-md-2 p-0">
+                    <div class="col-md-2 p-0 float-none">
                     <div class="select-wrap">
                         <input
                         type="number"
@@ -1569,7 +1569,7 @@
                 </div>
                 <div class="form-group">
                 <label for>{{$t('jobseekerprofile.experience_country')}}</label>
-                <div class="col-md-4 p-0">
+                <div class="col-md-4 p-0 float-none">
                     <div class="select-wrap">
                     <select
                         class="form-control"
@@ -1694,7 +1694,7 @@
                 <h6 class="font-weight-bold">{{$t('jobseekerprofile.qualifications')}}</h6>
                 <div class="form-group">
                 <label for>{{$t('jobseekerprofile.toeic_score')}}</label>
-                <div class="col-md-4 p-0">
+                <div class="col-md-4 p-0 float-none">
                     <input
                     type="text"
                     placeholder="スコアを入力"
@@ -1727,7 +1727,7 @@
             </div>
             <p class="w-100 text-center mt-3">
             <span
-                class="btn appendbtn btn-large border-style"
+                class="btn save-btn"
                 @click="saveExpQualification()"
             >{{$t('jobseekerprofile.save')}}</span>
             </p>
@@ -1878,7 +1878,7 @@
             <div class="popup-databox">
                 <h6 class="font-weight-bold">勤務希望地</h6>
 
-                <div class="col-md-12 school-box">
+                <div class="col-md-12 school-box float-none">
                 <div class="form-group">
                     <div class="col-md-8 p-0">
                     <div class="select-wrap">
@@ -2073,7 +2073,7 @@
             </div>
             </div>
             <p class="w-100 text-center mt-3">
-            <span class="btn job-primary-color btn-large" @click="saveDesiredCondition()">保存する</span>
+            <span class="btn save-btn" @click="saveDesiredCondition()">保存する</span>
             </p>
         </div>
         <!-- End desired-condition -->
@@ -3318,6 +3318,11 @@
 };
 </script>
 <style lang="scss" scoped>
+.col-md-8 ,
+.col-md-7 ,
+.col-md-3 {
+    float: none;
+}
 .error {
     color: red;
 }
@@ -3801,7 +3806,7 @@ textarea.form-control {
 }
 .check-item {
     position: relative;
-    /* width: 130px; */
+    width: 100%;
     list-style: none;
     padding: 10px 20px;
     margin: 0 10px 10px 0;
@@ -3837,13 +3842,13 @@ textarea.form-control {
     padding-right: 1.5rem;
     font-size: 15px;
 }
-.form-control {
-    width: 70%;
-}
+// .form-control {
+//     width: 70%;
+// }
 .save-btn {
     width: 140px;
     padding: 9px;
-    border-color: #b4c574;
-    background-color: #9fb746;
+    // border-color: #b4c574;
+    // background-color: #9fb746;
 }
 </style>
