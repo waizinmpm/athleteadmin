@@ -79,8 +79,8 @@
                                 <td>{{project.management_number}}</td>
                                 <td>{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
                                 <td class="text-left">
-                                    <p><span>企業番号</span> - {{project.recruiter_number}}</p>
-                                    <p><span>企業名</span> - {{project.recruiter_name}}</p>
+                                    <p><span class="font-weight-bold">企業番号</span> - {{project.recruiter_number}}</p>
+                                    <p><span class="font-weight-bold">企業名</span> - {{project.recruiter_name}}</p>
                                 </td>
                                 <!-- <td>{{project.recruiter_number}}</td>
                                 <td>{{project.recruiter_name}}</td> -->

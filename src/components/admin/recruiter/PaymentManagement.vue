@@ -91,50 +91,58 @@
 						<button class="btn searchbtn btn_csv_download float-right" @click="downloadCSV">{{ $t('common.csv_download') }}</button>
 					</div>
 				</div>
-				<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
-					<tbody>
-						<tr v-for="(project) in projects.data" :key="project.id">
-							<td>{{ project.management_number }}</td>
-							<td>{{ project.payment_method }}</td>
-							<td>{{ project.invoice_number }}</td>
-							<td>{{ project.status }}</td>
-							<td>{{ project.invoice_amount|aj-number }}</td>
-							<td><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
-							<td>
-								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project" 
-									@editing-cancel="onEditingCancel($event, project)">
-									<template #display>
-										<span class="mw-60px">{{ project.payment_amount|aj-number }}</span>
-									</template>
-									<template #editor>
-										<input type="text" v-model="project.payment_amount" @keypress="isNumber($event)">
-									</template>
-								</PaymentManagementInlineEditor>
-							</td>
-							<td>
-								<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project"
-									@editing-cancel="onEditingCancel($event, project)">
-									<template #display>
-										<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
-										<span class="mw-80px" v-show="!project.actual_payment_date"></span>
-									</template>
-									<template #editor>
-										<date-picker v-model="project.actual_payment_date" value-type="format" class="datepicker" :lang="lang" 
-											placeholder="年 - 月 - 日"></date-picker>
-									</template>
-								</PaymentManagementInlineEditor>
-							</td>
-							<td>{{ project.recruiter_name }}</td>
-							<td>{{ project.phone1 }}</td>
-							<td>{{ project.email }}</td>
-							<td>{{ project.incharge_name }}</td>
-							<td>
-								<span style="white-space: pre-wrap;">{{ project.remark }}</span>
-								<button type="button" @click="editRemark(project)">{{ $t('common.change') }}</button>
-							</td>
-						</tr>
-					</tbody>
-				</DataTable>
+				<div class="tbl-wrap">
+					<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
+						<tbody>
+							<tr v-for="(project) in projects.data" :key="project.id">
+								<td>{{ project.management_number }}</td>
+								<td>{{ project.payment_method }}</td>
+								<td>{{ project.invoice_number }}</td>
+								<td>{{ project.status }}</td>
+								<td>{{ project.invoice_amount|aj-number }}</td>
+								<td><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
+								<td>
+									<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project" 
+										@editing-cancel="onEditingCancel($event, project)">
+										<template #display>
+											<span class="mw-60px">{{ project.payment_amount|aj-number }}</span>
+										</template>
+										<template #editor>
+											<input type="text" v-model="project.payment_amount" @keypress="isNumber($event)">
+										</template>
+									</PaymentManagementInlineEditor>
+								</td>
+								<td>
+									<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project"
+										@editing-cancel="onEditingCancel($event, project)">
+										<template #display>
+											<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
+											<span class="mw-80px" v-show="!project.actual_payment_date"></span>
+										</template>
+										<template #editor>
+											<date-picker v-model="project.actual_payment_date" value-type="format" class="datepicker" :lang="lang" 
+												placeholder="年 - 月 - 日"></date-picker>
+										</template>
+									</PaymentManagementInlineEditor>
+								</td>
+								<!-- <td>{{ project.recruiter_name }}</td>
+								<td>{{ project.phone1 }}</td>
+								<td>{{ project.email }}</td>
+								<td>{{ project.incharge_name }}</td> -->
+								<td class="text-left">
+                                    <p><span class="font-weight-bold tbl-ws d-inline-block">名</span> - {{project.recruiter_name}}</p>
+                                    <p><span class="font-weight-bold tbl-ws d-inline-block">電話番号</span> - {{project.phone1}}</p>
+                                    <p><span class="font-weight-bold tbl-ws d-inline-block">メールアドレス</span> - {{project.email}}</p>
+                                    <p><span class="font-weight-bold tbl-ws d-inline-block">担当者名</span> - {{project.incharge_name}}</p>
+                                </td>
+								<td class="tbl-ws">
+									<span style="white-space: pre-wrap;">{{ project.remark }}</span>
+									<button type="button" @click="editRemark(project)">{{ $t('common.change') }}</button>
+								</td>
+							</tr>
+						</tbody>
+					</DataTable>
+				</div>
 				<pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
 					<span slot="prev-nav">
 						<i class="fas fa-angle-left"></i> 前へ

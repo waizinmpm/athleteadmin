@@ -2582,7 +2582,7 @@ th {
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>thead>tr>th {
-    padding: 8px 4px;
+    padding: 8px;
     line-height: 1.42857143;
     vertical-align: top;
     border-top: 1px solid #ddd;
@@ -14579,6 +14579,9 @@ input:-webkit-autofill:focus {
   }
   .d-block {
     display: block !important;
+  }
+  .d-inline-block {
+    display: inline-block !important;
   }
  .justify-content-start {
     -ms-flex-pack: start !important;
