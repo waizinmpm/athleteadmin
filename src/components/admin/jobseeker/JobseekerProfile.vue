@@ -8,7 +8,7 @@
             v-if="!selfIntroEdit && showDetails"
         >
             <div class="col-12">
-                <div class="intro-tit tit-box" v-show="edit_page">
+                <div class="intro-tit tit-box" v-if="edit_page">
                     <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
                     <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')">
                         <span class="icon icon-edit"></span>編集
@@ -98,7 +98,7 @@
         </div>
         <div class="row tab-content introduction-content mb-3 m-0" v-if="selfIntroEdit">
             <div class="col-12">
-            <div class="tit-box tit-box-edit" v-show="edit_page">
+            <div class="tit-box tit-box-edit">
                 <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
                 <p class="profile-edit-txt" @click="editBox('selfIntroEdit','close')">
                 <span class="icon icon-times"></span>
@@ -282,7 +282,7 @@
             v-if="!basicInfoEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box" v-show="edit_page">
+            <div class="tit-box" v-if="edit_page">
                 <h3 class="profile-edit-tit">{{$t('jobseekerprofile.basicinfo')}}</h3>
                 <p class="profile-edit-txt" @click="editBox('basicInfoEdit','open')">
                 <span class="icon icon-edit"></span>編集
@@ -622,7 +622,7 @@
             v-if="!careerEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box" v-show="edit_page">
+            <div class="tit-box" v-if="edit_page">
                 <h3 class="profile-edit-tit">経歴</h3>
                 <p class="profile-edit-txt" @click="editBox('careerEdit','open')">
                 <span class="icon icon-edit"></span>編集
@@ -1049,7 +1049,7 @@
             v-if="!expQualificationEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box" v-show="edit_page">
+            <div class="tit-box" v-if="edit_page">
                 <h3 class="profile-edit-tit">経験・資格</h3>
                 <p class="profile-edit-txt" @click="editBox('expQualificationEdit','open')">
                 <span class="icon icon-edit"></span>編集
@@ -1741,7 +1741,7 @@
             v-if="!desiredConditionEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box" v-show="edit_page">
+            <div class="tit-box" v-if="edit_page">
                 <h3 class="profile-edit-tit">希望条件</h3>
                 <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','open')">
                 <span class="icon icon-edit"></span>編集

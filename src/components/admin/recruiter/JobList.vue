@@ -117,8 +117,8 @@
                                     <input type="checkbox" :value="project.id" v-model="selected" />
                                 </label>
                             </td>
-                            <td class="tbl-wxs"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.recruiter_number }}</router-link></td>
-                            <td class="tbl-wm"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.recruiter_name }}</router-link></td>
+                            <td class="tbl-wxs"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}">{{ project.recruiter_number }}</router-link></td>
+                            <td class="tbl-wm"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}">{{ project.recruiter_name }}</router-link></td>
                             <td class="tbl-wm"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.job_number }}</router-link></td>
                             <td class="text-left" style="min-width:200px;" @click="textEllipsis($event)"><p class="txt-vertical-ellipsis"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.title }}</router-link></p></td>
                             <td class="tbl-w110">{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>

@@ -57,7 +57,7 @@
                     <input
                     type="checkbox"
                     class="custom-control-input custom-checkbox"
-                    value="0"
+                    value="3"
                     v-model="filteredData.recruiter_recordstatus"
                     @change="getData()"
                     id="退会"
@@ -114,21 +114,21 @@
                             </div>
                         </label>
                     </td>
-                    <td><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-underline">{{project.recruiter_number}}</router-link></td>
-                    <td><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-underline">{{project.recruiter_name}}</router-link></td>
-                    <td><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-underline">{{project.recruiter_nick_name}}</router-link></td>
+                    <td class="tbl-wm"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_number}}</router-link></td>
+                    <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_name}}</router-link></td>
+                    <td class="tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td>
                     
                     <td class="tbl-wm">
-                        <div class="toggle-box">
-                            <div v-if="project.record_status != 0" class="scout-box">
-                                <router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-underline">
-                                    <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}</span>
+                        <div class="scout-box">
+                            <div v-if="project.record_status != 0">
+                                <router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">
+                                    {{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}
                                     <!-- <span
                                         v-for="status in arr_status"
                                         :key="status.id.id"
                                     >{{project.record_status == status.id.value ? status.id.display : ''}}</span> -->
                                 </router-link><br>
-                                <p class="btn btn-common mt-2" v-on:click="showToggle(index)" v-show="project.record_status != 3">
+                                <p class="btn btn-common mt-2" v-on:click="showToggle(index)" v-if="project.record_status != 3">
                                     {{$t('common.change')}}
                                     <span class="down-icon">&#9662;</span>
                                 </p>
@@ -161,7 +161,7 @@
                     <router-link
                         :to="'/admin/recruiter-list/' + project.id + '/edit'"
                         class="btn btn-info"
-                        v-show="project.record_status != 3"
+                        v-if="project.record_status != 3"
                     >{{ $t('common.edit')}}</router-link>
                     </td>
                 </tr>

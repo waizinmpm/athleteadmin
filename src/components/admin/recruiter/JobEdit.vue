@@ -424,14 +424,17 @@
                             <label for="name">{{ $t('jobcreate.update_date') }}</label>
                         </div>
                         <div class="col-md-8 form-right-block">
-                            <date-picker
+                            <!-- <date-picker
                             :lang="lang"
                             placeholder="年 - 月 - 日"
                             valueType="format"
                             v-model="formRegister.job_post_date"
                             :editable="false"
                             type="date"
-                            ></date-picker>
+                            ></date-picker> -->
+                            <date-picker :lang="lang" placeholder="年 - 月 - 日" valueType="format" v-model="formRegister.job_post_date[0]" type="date"></date-picker>
+                            <date-picker v-model="formRegister.job_post_date[1]" valueType="format" type="time" placeholder="Select time"></date-picker>
+
                             <div class="invalid-feedback">
                                 <span>更新日</span>
                             </div>
@@ -476,6 +479,7 @@ export default {
                 country_id: "",
                 occupation_id: "",
                 other_keywords: [],
+                job_post_date : '',
             },
             employment_types: [],
             other_keywords: [
@@ -516,18 +520,15 @@ export default {
     },
 
     created() {
-        this.formRegister.job_post_date = new Date().toISOString().slice(0, 10);
+        //this.formRegister.job_post_date = new Date().toISOString().slice(0, 10);
 
         if (this.$route.params.id) {
         this.$api.get("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/edit")
             .then((res) => {
             this.formRegister = res.data.data;
-            this.formRegister.employment_types = this.formRegister.employment_types.split(
-                ","
-            );
-            this.formRegister.other_keywords = this.formRegister.other_keywords.split(
-                ","
-            );
+            this.formRegister.employment_types = this.formRegister.employment_types.split(",");
+            this.formRegister.other_keywords = this.formRegister.other_keywords.split(",");
+            this.formRegister.job_post_date = this.formRegister.job_post_date.split(' ');
             });
         }
 
@@ -587,7 +588,19 @@ export default {
         this.formRegister.job_post_status = $status;
         this.jobpostcreate();
         },
+
+        callFunction: function () {
+            var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+            var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 19).replace('T', ' ');
+            var gettime = localISOTime.split(' ');
+            this.formRegister.job_post_date = gettime;
+        },
     },
+
+    mounted() {
+        this.callFunction();
+    },
+
     computed: {
         registeredUser() {
         return this.$store.getters.registeredUser;

@@ -131,7 +131,7 @@
                                 <router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">
                                     <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}</span>
                                 </router-link><br>
-                                <span class="btn btn-common mt-2" v-on:click="showToggle(index)" v-show="project.record_status != 3">
+                                <span class="btn btn-common mt-2" v-on:click="showToggle(index)" v-if="project.record_status != 3">
                                 {{$t('common.change')}}
                                 <span class="down-icon">&#9662;</span>
                                 </span>
@@ -155,7 +155,7 @@
                         </div>
                     </td>
                     <td class="tbl-wm">
-                        <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" v-show="project.record_status != 3" >{{ $t('common.edit') }}</router-link>
+                        <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" v-if="project.record_status != 3" >{{ $t('common.edit') }}</router-link>
                     </td>
                     </tr>
                 </tbody>
