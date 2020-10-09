@@ -57,7 +57,7 @@
                     <input
                     type="checkbox"
                     class="custom-control-input custom-checkbox"
-                    value="0"
+                    value="3"
                     v-model="filteredData.recruiter_recordstatus"
                     @change="getData()"
                     id="退会"
