@@ -72,41 +72,49 @@
                         </select>
                     </div>
                 </div>
-                <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
-                    <tbody>
-                        <tr v-for="(project, index) in projects.data" :key="project.id">
-                            <td>{{project.management_number}}</td>
-                            <td>{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
-                            <td>{{project.recruiter_number}}</td>
-                            <td>{{project.recruiter_name}}</td>
-                            <td>{{project.job_number}}</td>
-                            <td>{{project.title}}</td>
-                            <td>{{project.jobseeker_number}}</td>
-                            <td>{{project.jobseeker_name}}</td>
-                            <td>
-                                <div class="scout-box">
-                                    <p class="scout-txt">{{project.job_apply_status}} </p>
-                                     <p class="btn btn-common" v-on:click="showToggle(index)">
-                                        {{$t('common.edit')}}
-                                        <span class="down-icon">&#9662;</span>
-                                    </p>
-                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
-                                        <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
-                                            <input type="radio" :id="status.id+index" v-model="project.job_apply_status" class="custion-radio" 
-												@change="onStatusChange(index, $event, project.recruiter_id)" :value="status.id">
-                                            <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
+                <div class="tbl-wrap">
+                    <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
+                        <tbody>
+                            <tr v-for="(project, index) in projects.data" :key="project.id">
+                                <td>{{project.management_number}}</td>
+                                <td>{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
+                                <td class="text-left">
+                                    <p><span>企業番号</span> - {{project.recruiter_number}}</p>
+                                    <p><span>企業名</span> - {{project.recruiter_name}}</p>
+                                </td>
+                                <!-- <td>{{project.recruiter_number}}</td>
+                                <td>{{project.recruiter_name}}</td> -->
+                                <td>{{project.job_number}}</td>
+                                <td class="text-left tbl-titw">
+                                    <span class="txt-vertical-ellipsis">{{project.title}}</span>
+                                </td>
+                                <td>{{project.jobseeker_number}}</td>
+                                <td>{{project.jobseeker_name}}</td>
+                                <td>
+                                    <div class="scout-box">
+                                        <p class="scout-txt">{{project.job_apply_status}} </p>
+                                        <p class="btn btn-common" v-on:click="showToggle(index)">
+                                            {{$t('common.edit')}}
+                                            <span class="down-icon">&#9662;</span>
                                         </p>
+                                        <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
+                                            <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
+                                                <input type="radio" :id="status.id+index" v-model="project.job_apply_status" class="custion-radio" 
+                                                    @change="onStatusChange(index, $event, project.recruiter_id)" :value="status.id">
+                                                <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="tbl-wm">
-                                <span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
-                                <span class="btn btn-default mb-1" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span>
-                                <span class="btn btn-default" @click="generateBill(project.jobapply_id, index)" v-if="allowBilling(project.job_apply_status)">{{$t('common.invoice_generate')}}</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </DataTable>
+                                </td>
+                                <td class="tbl-wm">
+                                    <span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
+                                    <span class="btn btn-default mb-1" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span>
+                                    <span class="btn btn-default" @click="generateBill(project.jobapply_id, index)" v-if="allowBilling(project.job_apply_status)">{{$t('common.invoice_generate')}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </DataTable>
+                </div>
                 <pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
                     <span slot="prev-nav">
                         <i class="fas fa-angle-left"></i> 前へ

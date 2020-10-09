@@ -103,7 +103,7 @@
                 >
                 <tbody>
                     <tr v-for="(project, index) in projects.data" :key="project.id">
-                    <td>
+                    <td class="check-col">
                         <label class="form-checkbox">
                         <span v-if="project.record_status != 0">
                             <input type="checkbox" :value="project.id" v-model="selected" />

@@ -76,42 +76,52 @@
                         </select>
                     </div>
                 </div>
-                <DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
-                    <tbody>
-                        <tr v-for="(project, index) in projects.data" :key="project.id">
-                            <td>{{project.management_number}}</td>
-							<td>{{project.scouted_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
-                            <td>{{project.recruiter_number}}</td>
-                            <td>{{project.recruiter_name}}</td>
-                            <td>{{project.job_number}}</td>
-							<td class="text-left" style="min-width:200px;" @click="textEllipsis($event)"><p class="txt-vertical-ellipsis">{{ project.title }}</p></td>
-                            <td>{{project.jobseeker_number}}</td>
-                            <td>{{project.jobseeker_name}}</td>
-                            <td>
-                                <div class="scout-box">
-                                    <p class="scout-txt">{{project.scout_status}} </p>
-                                     <p class="btn btn-common" v-on:click="showToggle(index)">
-                                        {{$t('common.edit')}}
-                                        <span class="down-icon">&#9662;</span>
-                                    </p>
-                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
-                                        <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
-                                            <input type="radio" :id="status.id+index" v-model="project.scout_status" class="custion-radio" 
-												@change="onStatusChange(index, $event)" :value="status.id">
-                                            <label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
-                                        </p>
-                                    </div>
-                                   
-                                </div>
-                            </td>
-                            <td class="tbl-wm">
-                                <span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
-                                <span class="btn btn-default mb-1" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
-                                <span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.scout_status)">{{$t('common.invoice_generate')}}</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </DataTable>
+				<div class="tbl-wrap">
+					<DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
+						<tbody>
+							<tr v-for="(project, index) in projects.data" :key="project.id">
+								<td>{{project.management_number}}</td>
+								<td>{{project.scouted_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
+								<!-- <td>{{project.recruiter_number}}</td>
+								<td>{{project.recruiter_name}}</td> -->
+								<td class="text-left tbl-wl">
+                                    <p><span class="font-weight-bold">番号</span> - {{project.recruiter_number}}</p>
+                                    <p><span class="font-weight-bold">名</span> - {{project.recruiter_name}}</p>
+                                </td>
+								<td>{{project.job_number}}</td>
+								<td  class="text-left tbl-titw" @click="textEllipsis($event)"><span class="txt-vertical-ellipsis">{{ project.title }}</span></td>
+								<!-- <td>{{project.jobseeker_number}}</td>
+								<td>{{project.jobseeker_name}}</td> -->
+								<td class="text-left tbl-wl">
+                                    <p><span class="font-weight-bold">会員番号</span> - {{project.jobseeker_number}}</p>
+                                    <p><span class="font-weight-bold">氏名</span> - {{project.jobseeker_name}}</p>
+                                </td>
+								<td>
+									<div class="scout-box">
+										<p class="scout-txt">{{project.scout_status}} </p>
+										<p class="btn btn-common" v-on:click="showToggle(index)">
+											{{$t('common.edit')}}
+											<span class="down-icon">&#9662;</span>
+										</p>
+										<div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
+											<p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
+												<input type="radio" :id="status.id+index" v-model="project.scout_status" class="custion-radio" 
+													@change="onStatusChange(index, $event)" :value="status.id">
+												<label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
+											</p>
+										</div>
+									
+									</div>
+								</td>
+								<td class="tbl-wm">
+									<span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
+									<span class="btn btn-default mb-1" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
+									<span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.scout_status)">{{$t('common.invoice_generate')}}</span>
+								</td>
+							</tr>
+						</tbody>
+					</DataTable>
+				</div>
                 <pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
                     <span slot="prev-nav">
                         <i class="fas fa-angle-left"></i> 前へ
