@@ -128,7 +128,7 @@
                                     :key="status.id.id"
                                 >{{project.record_status == status.id.value ? status.id.display : ''}}</span> -->
                             </router-link>
-                            <p class="btn btn-common" v-on:click="showToggle(index)" v-show="project.record_status != 3">
+                            <p class="btn btn-common" v-on:click="showToggle(index)" v-if="project.record_status != 3">
                                 {{$t('common.change')}}
                                 <span class="down-icon">&#9662;</span>
                             </p>
@@ -161,7 +161,7 @@
                     <router-link
                         :to="'/admin/recruiter-list/' + project.id + '/edit'"
                         class="btn btn-info"
-                        v-show="project.record_status != 3"
+                        v-if="project.record_status != 3"
                     >{{ $t('common.edit')}}</router-link>
                     </td>
                 </tr>
