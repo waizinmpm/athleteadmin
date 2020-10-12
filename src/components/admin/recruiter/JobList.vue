@@ -100,66 +100,68 @@
                         >{{ $t('common.delete') }}</button>
                     </div>
                 </div>
-
-                <DataTable
-                    ref="datatable"
-                    :columns="$t('job_list.columns')"
-                    :sortKey="sortKey"
-                    :sortOrders="sortOrders"
-                    @check-all="selectAll"
-                    @sort="sortBy"
-                    :showCheckbox="true"
-                >
-                    <tbody>
-                        <tr v-for="(project, index) in projects.data" :key="project.id">
-                            <td>
-                                <label class="form-checkbox">
-                                    <input type="checkbox" :value="project.id" v-model="selected" />
-                                </label>
-                            </td>
-                            <td class="tbl-wxs"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}">{{ project.recruiter_number }}</router-link></td>
-                            <td class="tbl-wm"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}">{{ project.recruiter_name }}</router-link></td>
-                            <td class="tbl-wm"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.job_number }}</router-link></td>
-                            <td class="text-left" style="min-width:200px;" @click="textEllipsis($event)"><p class="txt-vertical-ellipsis"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.title }}</router-link></p></td>
-                            <td class="tbl-w110">{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
-                            <td class="tbl-ws">{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
-                            <td class="tbl-ws">{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
-                            <td class="tbl-wm">
-                                <div class="scout-box">
-                                    <p class="scout-txt" >
-                                        <router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">
-                                            <span v-for="status in arr_status" :key="status.id.id">
-                                                {{project.record_status == status.id.value ? status.id.display : ''}}
-                                            </span>
-                                        </router-link>
-                                    </p>
-                                    <p class="btn btn-common" v-on:click="showToggle(index)">
-                                        {{$t('common.change')}}
-                                        <span class="down-icon">&#9662;</span>
-                                    </p>
-                                    <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
-                                        <p class="custom-radio-group mr-3"  v-for="status in arr_status" :key="status.id.id">
-                                            <input type="radio" :id="status.id.display+index" v-model="project.record_status" class="custion-radio" 
-												@change="changeStatus(project.id, status.id.value)" :value="status.id.value">
-                                            <label :for="status.id.display+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id.display }}</label>
+                
+                <div class="vld-parent" style="width: 100%;" ref="loadingRef">
+                    <DataTable
+                        ref="datatable"
+                        :columns="$t('job_list.columns')"
+                        :sortKey="sortKey"
+                        :sortOrders="sortOrders"
+                        @check-all="selectAll"
+                        @sort="sortBy"
+                        :showCheckbox="true"
+                    >
+                        <tbody>
+                            <tr v-for="(project, index) in projects.data" :key="project.id">
+                                <td>
+                                    <label class="form-checkbox">
+                                        <input type="checkbox" :value="project.id" v-model="selected" />
+                                    </label>
+                                </td>
+                                <td class="tbl-wxs"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}">{{ project.recruiter_number }}</router-link></td>
+                                <td class="tbl-wm"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}">{{ project.recruiter_name }}</router-link></td>
+                                <td class="tbl-wm"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.job_number }}</router-link></td>
+                                <td class="text-left" style="min-width:200px;" @click="textEllipsis($event)"><p class="txt-vertical-ellipsis"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.title }}</router-link></p></td>
+                                <td class="tbl-w110">{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
+                                <td class="tbl-ws">{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
+                                <td class="tbl-ws">{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
+                                <td class="tbl-wm">
+                                    <div class="scout-box">
+                                        <p class="scout-txt" >
+                                            <router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">
+                                                <span v-for="status in arr_status" :key="status.id.id">
+                                                    {{project.record_status == status.id.value ? status.id.display : ''}}
+                                                </span>
+                                            </router-link>
                                         </p>
+                                        <p class="btn btn-common" v-on:click="showToggle(index)">
+                                            {{$t('common.change')}}
+                                            <span class="down-icon">&#9662;</span>
+                                        </p>
+                                        <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
+                                            <p class="custom-radio-group mr-3"  v-for="status in arr_status" :key="status.id.id">
+                                                <input type="radio" :id="status.id.display+index" v-model="project.record_status" class="custion-radio" 
+                                                    @change="changeStatus(project.id, status.id.value)" :value="status.id.value">
+                                                <label :for="status.id.display+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id.display }}</label>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- <div v-for="status in recordStatus" :key="status.id">
-                                    <input type="radio" :id="status" :value="status.value" v-model="project.record_status">
-                                    <label for="">{{status.display}}</label>
-                                </div>
-                                <button
-                                    class="custom-btn change"
-                                    @click="changeStatus(project.id, project.record_status)"
-                                >{{ $t('common.change') }}</button> -->
-                            </td>
-                            <td>
-                                <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn btn-info">{{ $t('common.edit')}}</router-link>
-                            </td>
-                        </tr>
-                    </tbody>
-                </DataTable>
+                                    <!-- <div v-for="status in recordStatus" :key="status.id">
+                                        <input type="radio" :id="status" :value="status.value" v-model="project.record_status">
+                                        <label for="">{{status.display}}</label>
+                                    </div>
+                                    <button
+                                        class="custom-btn change"
+                                        @click="changeStatus(project.id, project.record_status)"
+                                    >{{ $t('common.change') }}</button> -->
+                                </td>
+                                <td>
+                                    <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn btn-info">{{ $t('common.edit')}}</router-link>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </DataTable>
+                </div>
                 <pagination
                     v-if="projects.length != 0"
                     :data="projects"
