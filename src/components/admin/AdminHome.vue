@@ -1,5 +1,5 @@
 <template> 
-  <div>   
+  <div class="admin-home">    
    <div class="row">
     <div class="col-sm-6 p-0 searchform-one">
         <h5 class="m-b-10 main-header">管理画面</h5>  
@@ -75,6 +75,9 @@
     }
 </script>
 <style>
+.admin-home {
+    height: 100vh;
+}
 .dashboard-card{
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;

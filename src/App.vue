@@ -15,17 +15,20 @@ $borderradius1:25px;
 $borderradius2:3px;
 $bordercolor:#e7e7e7;
 $colors:( 
-primary: #84BE3F, primary-ligtht:#1A74C0, primary-dark:#233977, 
-second:#FB8C00, secondary-light:#a5a5a5, 
+primary: #84BE3F, 
+second:#9fb746, second-light:#b4c574,
 text-color:#000, 
-errorcolor:red, 
+errorcolor:#F60D0D, 
 bordercolor:#dee2e6, 
 tablecolor:#b4c574, 
 listcolor:#f5f5f5, 
-buttoneditcolor:#f5ecd1, 
-buttonchangecolor:#d1f5df, 
+buttoneditcolor:#90a051,
+buttonchangecolor:#fff, 
 buttondeletecolor:#ffcdd5, 
-buttonenablecolor:#cbddf3);
+buttonenablecolor:#cbddf3,
+buttoncancelcolor:#919191,
+buttonbackcolor:#aab2bd,
+buttonsavecolor: #EF8B1E,);
 
 @function color($color-name) {
     @return map-get($colors, $color-name)
@@ -53,26 +56,8 @@ body {
     h3 {
         font-size: 20px;
     }
-    .bg-color {
+    .bg-primary {
         background-color: color(primary);
-    }
-    .custom-btn {
-        border-radius: 0 !important;
-        color: color(text-color);
-        width: 100px;
-        padding: 7px 0;
-    }
-    .edit {
-        background-color: color(buttoneditcolor);
-    }
-    .change {
-        background-color: color(buttonchangecolor);
-    }
-    .delete {
-        background-color: color(buttondeletecolor);
-    }
-    .enable {
-        background-color: color(buttonenablecolor);
     }
     .main-header {
         color: color(primary)
@@ -535,10 +520,10 @@ body {
     color: #333;
     width: 200px;
     padding: 20px 20px 0 20px;
-    top: 40px;
-    left: 30px;
+    top: 70px;
+    left: -40px;
     background: #fff;
-    z-index: 999;
+    z-index: 9;
     transform: scaleY(0);    
     transform-origin: top;
     transition: transform 0.4s ease;
@@ -674,19 +659,62 @@ body {
 }
 
 // Button
-.save-btn{
+.btn-save{
     width: 140px;
     padding: 9px;
-    border-color: #EF8B1E;
-    background-color: #EF8B1E;
+    border-color: color(buttonsavecolor);
+    background-color: color(buttonsavecolor);
 }
-.back-btn {
+.btn-back {
     width: 140px;
     padding: 9px;
-    border-color:#aab2bd;
-    background-color:#aab2bd;
+    border-color:color(buttonbackcolor);
+    background-color: color(buttonbackcolor);
 }
 
+.custom-btn {
+    border-radius: 0 !important;
+    color: color(text-color);
+    width: 100px;
+    padding: 7px 0;
+}
+.border-none {
+    border-color: transparent;
+}
+.btn-alert {
+    width: 110px;
+    padding: .625em .5em;
+}
+.btn-edit {
+    min-width: 80px;
+    padding: 4px 0;
+    background-color: color(buttoneditcolor);
+    border-color: transparent;
+}
+.btn-cancel {
+    border-color: color(buttoncancelcolor);
+    background-color: color(buttoncancelcolor);
+}
+.btn-change {
+    width: 60px;
+    padding: 3px;
+    color: #434a54;
+    background-color: color(buttonchangecolor);
+}
+.btn-second {
+    border-color: color(second-light);
+    background-color: color(second);
+}
+.delete {
+    background-color: color(buttondeletecolor);
+}
+.enable {
+    background-color: color(buttonenablecolor);
+}
+
+.swal2-close:hover {
+    color: color(primary) !important;
+}
 // table
 .tbl-wrap {
     width: 100%;
@@ -718,6 +746,9 @@ body {
 }
 .text-left {
     text-align: left !important;
+}
+.text-center {
+    text-align: center !important;
 }
  .font-weight-bold {
     font-weight: 700 !important;
@@ -758,11 +789,45 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 .input-group-addon {
     cursor: pointer;
 }
+.page-link .fa {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+// width 
+.w-100 {
+    width: 100px;
+}
+.status-row {
+	width: 65%;
+}
+.status-col {
+	float:left;
+	width:15%;
+}
+.required {
+    float: right;
+    margin: 0 50px 0 5px;
+    padding: 0px 4px 2px 4px;
+    background: #F60D0D;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 11px;
+    vertical-align: middle;
+}
 @media (max-width:1400px) {
     .inner-wrapper {
+        width: 75%;
+    }
+    .status-row {
         width: 75%;
     }
 }

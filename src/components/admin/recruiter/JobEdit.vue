@@ -271,7 +271,7 @@
                             {{ $t('jobcreate.location_ex1') }}
                             </label>
                             <p>{{ $t('jobcreate.location_ex2') }}</p>
-                            <!-- <span class="required">*</span> -->
+                            <!-- <span class="required">必要</span> -->
                         </div>
                         <div class="col-md-8 form-right-block">
                             <textarea
@@ -290,7 +290,7 @@
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
                             <label for="name">{{ $t('jobcreate.Application_address') }}</label>
-                            <span class="required">*</span>
+                            <span class="required">必要</span>
                         </div>
                         <div class="col-md-8 form-right-block">
                             <p>{{ $t('jobcreate.Application_address_txt') }}</p>
@@ -346,7 +346,7 @@
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
                             <label for="name">{{ $t('jobcreate.area') }}</label>
-                            <span class="required">*</span>
+                            <span class="required">必要</span>
                         </div>
                         <div class="col-md-8 form-right-block">
                             <div id="disabledMask"></div>
@@ -372,7 +372,7 @@
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
                             <label for="name">{{ $t('jobcreate.occupation_keyword') }}</label>
-                            <span class="required">*</span>
+                            <span class="required">必要</span>
                         </div>
                         <div class="col-md-8 form-right-block">
                             <select
@@ -432,7 +432,7 @@
                             :editable="false"
                             type="date"
                             ></date-picker> -->
-                            <date-picker :lang="lang" placeholder="年 - 月 - 日" valueType="format" v-model="formRegister.job_post_date[0]" type="date"></date-picker>
+                            <date-picker :lang="lang" placeholder="年 - 月 - 日" valueType="format" v-model="formRegister.job_post_date[0]" type="date" class="mr-2"></date-picker>
                             <date-picker v-model="formRegister.job_post_date[1]" valueType="format" type="time" placeholder="Select time"></date-picker>
 
                             <div class="invalid-feedback">
@@ -443,21 +443,21 @@
                 </div>
             </div>
         </form>
-        <div class="d-flex justify-content-end mt-5">
-                <router-link to="/job-list" class="btn back-btn mr-4">{{ $t('common.cancel') }}</router-link>
-                <!-- <router-link to="/job-list" class="btn back-btn mr-4">求⼈⼀覧 へ戻る</router-link> -->
+        <div class="d-flex  mt-5">
+                <router-link to="/job-list" class="btn btn-back mr-4">{{ $t('common.cancel') }}</router-link>
+                <!-- <router-link to="/job-list" class="btn btn-back mr-4">求⼈⼀覧 へ戻る</router-link> -->
                 <!-- <button
                     type="submit"
                     id="post"
                     value="確認"
-                    class="btn save-btn"
+                    class="btn btn-save"
                     @click="changeStatus('post')"
                 >{{$t('jobcreate.confirm')}}</button> -->
                 <button
                     type="submit"
                     id="post"
                     value="確認"
-                    class="btn save-btn"
+                    class="btn btn-save"
                     @click="changeStatus('post')"
                 >保存する</button>
         </div>
@@ -613,7 +613,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import "public/css/app.scss";
 .custom-control-label::before{
     transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }

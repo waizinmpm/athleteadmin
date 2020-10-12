@@ -101,23 +101,23 @@
 								<td>{{ project.status }}</td>
 								<td>{{ project.invoice_amount|aj-number }}</td>
 								<td><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
-								<td>
+								<td class="tbl-wxl">
 									<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project" 
 										@editing-cancel="onEditingCancel($event, project)">
 										<template #display>
-											<span class="mw-60px">{{ project.payment_amount|aj-number }}</span>
+											<span>{{ project.payment_amount|aj-number }}</span>
 										</template>
 										<template #editor>
-											<input type="text" v-model="project.payment_amount" @keypress="isNumber($event)">
+											<input type="text" v-model="project.payment_amount" @keypress="isNumber($event)" class="txt-edit">
 										</template>
 									</PaymentManagementInlineEditor>
 								</td>
-								<td>
+								<td class="tbl-wxl">
 									<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project"
 										@editing-cancel="onEditingCancel($event, project)">
 										<template #display>
 											<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
-											<span class="mw-80px" v-show="!project.actual_payment_date"></span>
+											<span class="mw-80px" v-show="!project.actual_payment_date"></span><br>
 										</template>
 										<template #editor>
 											<date-picker v-model="project.actual_payment_date" value-type="format" class="datepicker" :lang="lang" 
@@ -130,14 +130,14 @@
 								<td>{{ project.email }}</td>
 								<td>{{ project.incharge_name }}</td> -->
 								<td class="text-left">
-                                    <p><span class="font-weight-bold tbl-ws d-inline-block">名</span> - {{project.recruiter_name}}</p>
-                                    <p><span class="font-weight-bold tbl-ws d-inline-block">電話番号</span> - {{project.phone1}}</p>
-                                    <p><span class="font-weight-bold tbl-ws d-inline-block">メールアドレス</span> - {{project.email}}</p>
-                                    <p><span class="font-weight-bold tbl-ws d-inline-block">担当者名</span> - {{project.incharge_name}}</p>
+                                    <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">名</span> - {{project.recruiter_name}}</p>
+                                    <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">電話番号</span> - {{project.phone1}}</p>
+                                    <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">メールアドレス</span> - {{project.email}}</p>
+                                    <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">担当者名</span> - {{project.incharge_name}}</p>
                                 </td>
-								<td class="tbl-ws">
-									<span style="white-space: pre-wrap;">{{ project.remark }}</span>
-									<button type="button" @click="editRemark(project)">{{ $t('common.change') }}</button>
+								<td class="tbl-wl">
+									<span class="txt-vertical-ellipsis text-left" style="white-space: pre-wrap;line-height: 1.2;">{{ project.remark }}</span>
+									<button type="button" @click="editRemark(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
 							</tr>
 						</tbody>
@@ -145,10 +145,10 @@
 				</div>
 				<pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
 					<span slot="prev-nav">
-						<i class="fas fa-angle-left"></i> 前へ
+						<i class="fa fa-angle-left"></i> 前へ
 					</span>
 					<span slot="next-nav">
-						次へ <i class="fas fa-angle-right"></i>
+						次へ <i class="fa fa-angle-right"></i>
 					</span>
 				</pagination>
 
@@ -242,15 +242,15 @@ export default {
 			const inputDialog = this.$swal({
 				allowOutsideClick: false, 
 				title: null,
-				width: 360,
+				width: 160,
 				input: 'textarea',		
-				confirmButtonColor: "#ffb700",                       
+				confirmButtonColor: "#EF8B1E",                       
 				confirmButtonText: this.$t('common.confirm'),
-				cancelButtonColor: "#0062ff",                       
+				cancelButtonColor: "#aab2bd",                       
 				cancelButtonText: this.$t('common.cancel'),
 				customClass: {
-					confirmButton: 'border-style',
-					cancelButton: 'cancelbtn border-style'
+					confirmButton: 'btn-alert',
+					cancelButton: 'btn-alert'
 				},
 				showCloseButton: true,
 				showCancelButton: true,
@@ -287,12 +287,18 @@ textarea {
 .btn_csv_download {
 	margin: 0px 3px;
 }
-.mw-60px {
+/* .mw-60px {
 	display: inline-block;
 	min-width: 60px;
 }
 .mw-80px {
 	display: inline-block;
 	min-width: 88px;
+} */
+.mx-datepicker {
+	width: 170px;
+}
+.tbl-wrap .table {
+    min-width: 1450px;
 }
 </style>

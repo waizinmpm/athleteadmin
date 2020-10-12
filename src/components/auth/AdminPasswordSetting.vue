@@ -255,7 +255,6 @@ export default {
 .form-content {
     width: 30%;
     height: 100vh;
-    padding: 20px;
 }
 .form-control {
     border-radius: 5px !important;
@@ -275,8 +274,6 @@ export default {
     margin-bottom: 25px;
 }
 .form-label {
-    border-left: 5px solid #84be3f;
-    padding-left: 5px;
     margin-bottom: 7px;
 }
 .form-control:focus {

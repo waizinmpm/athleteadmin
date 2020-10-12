@@ -1,14 +1,17 @@
 <template>
 	<div class="editor-container">
-		<div v-show="editing == false">
+		<div v-show="editing == false" class="display-box">
 			<slot name="display"></slot>
 		</div>
-		<button v-show="editing == false" type="button" @click="beginEdit">{{ $t('common.change') }}</button>
-		<div v-show="editing == true" @keyup.esc="cancelEdit" ref="editorContainer">
+		
+		<div v-show="editing == true" @keyup.esc="cancelEdit" ref="editorContainer" class="edit-box">
 			<slot name="editor"></slot>
 		</div>		
-		<button v-show="editing == true" type="button" @click="endEdit">{{ $t('common.confirm') }}</button>
-		<button v-show="editing == true" type="button" @click="cancelEdit">{{ $t('common.cancel') }}</button>
+		<div class="mt-2">
+			<button v-show="editing == false" type="button" @click="beginEdit" class="btn btn-change" style="width:60px;">{{ $t('common.change') }}</button>
+			<button v-show="editing == true" type="button" @click="endEdit" class="btn btn-change mr-2">{{ $t('common.confirm') }}</button>
+			<button v-show="editing == true" type="button" @click="cancelEdit" class="btn btn-change">{{ $t('common.cancel') }}</button>
+		</div>
 	</div>
 </template>
 <script>
@@ -42,14 +45,37 @@ export default {
 }
 </script>
 <style scoped>
-	.editor-container {
+.display-box {
+	width: 170px;	
+	height: 40px;
+	margin: 0 auto;
+	text-align: center;
+	vertical-align: middle;
+    line-height: 40px;
+}
+
+.edit-box {
+	width: 170px;
+	height: 40px;
+	margin: 0 auto;
+}
+.txt-edit {
+	width: 100%;
+	height: 100%;
+	padding: 0 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.btn-change {
+	width: 80px;
+}
+	/* .editor-container {
 		display: flex;
 		align-content: space-around;
 		align-items: baseline;
 	}
 	.editor-container * {
 		max-width: 100px;
-		/* margin: 0px 3px; */
-		padding: 0px 3px;
-	}
+		padding: 3px;
+	} */
 </style>

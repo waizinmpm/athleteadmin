@@ -12,7 +12,8 @@
                 <h3 class="panel-title">
                   <a class="toggle-sidebar">
                     <span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel">
-                      <span style="font-size: 14px;margin-left: 10px;">{{$t('menu.close_menu')}}</span>
+                      <!-- <span id="menu_txt" style="font-size: 14px;margin-left: 10px;">{{$t('menu.close_menu')}}</span> -->
+                      <span class="menu_txt" style="font-size: 14px;margin-left: 10px;">メニューを閉じる</span>
                      </span>
                   </a>
                 </h3>
@@ -55,6 +56,11 @@ export default {
      $("[data-toggle=offcanvas]").click(function () {
             $(".row-offcanvas").toggleClass("active"), $(this).toggleClass("fa-angle-double-left fa-angle-double-right");
             console.log('toggle',)
+            if($(this).children('.menu_txt').text() == 'メニューを閉じる'){
+                $(this).children('.menu_txt').text('メニューを開く');
+            } else {
+                $(this).children('.menu_txt').text('メニューを閉じる');
+            }
         });
   },
 };

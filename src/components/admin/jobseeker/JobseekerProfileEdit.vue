@@ -3,7 +3,7 @@
         <div class="d-flex align-items-end">
             <h3 class="mb-0">プロフィール編集</h3> 
              <router-link to="/admin-jobseeker-list" class="ml-auto">
-                <span class="btn back-btn">会員情報一覧へ戻る</span>
+                <span class="btn btn-back">会員情報一覧へ戻る</span>
             </router-link>
         </div>      
             <div class="col-12 tab-list sticky-top">
@@ -94,7 +94,7 @@
     border-radius: 5px !important;
     border: 1px solid #f3efef;
 }
-.back-btn {
+.btn-back {
     border-color: #aab2bd;
     background-color: #aab2bd;
 }

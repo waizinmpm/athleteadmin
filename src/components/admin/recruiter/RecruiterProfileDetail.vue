@@ -23,7 +23,7 @@
             <dt class="detail-head">WEB サイト URL</dt>
             <dd class="detail-data">{{ recruiter_info.website }}</dd>
         </dl>
-        <router-link to="/admin-recruiter-list" class="btn back-btn">会員情報一覧へ戻る </router-link>
+        <router-link to="/admin-recruiter-list" class="btn btn-back">会員情報一覧へ戻る </router-link>
         <!-- <div class="row">
             <div class="col-md-4">ご担当者名</div>
             <div class="col-md-8">{{ recruiter_info.incharge_name }}</div>
@@ -118,7 +118,7 @@ export default {
   background-color: #fff;
   min-height: 50px;
 }
-.back-btn {
+.btn-back {
     margin-left: 20px;
 }
 </style>

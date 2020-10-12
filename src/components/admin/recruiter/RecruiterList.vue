@@ -15,7 +15,7 @@
                     id="inputGroup"
                     v-model="filteredData.freeword"
                     />
-                    <span class="input-group-addon bg-color"  @click="getData()">
+                    <span class="input-group-addon bg-primary"  @click="getData()">
                         <i class="fa fa-search"></i>
                     </span>
                     <!-- <span class="input-group-addon bg-color searchicon-btn">
@@ -160,7 +160,7 @@
                     <td class="tbl-wm">
                     <router-link
                         :to="'/admin/recruiter-list/' + project.id + '/edit'"
-                        class="btn btn-info"
+                        class="btn btn-edit"
                         v-if="project.record_status != 3"
                     >{{ $t('common.edit')}}</router-link>
                     </td>

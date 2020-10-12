@@ -270,7 +270,7 @@
             </div>
             </div>
             <p class="w-100 text-center mt-3">
-            <span class="btn save-btn" @click="saveSelfIntro">保存する</span>
+            <span class="btn btn-save" @click="saveSelfIntro">保存する</span>
             </p>
         </div>
         <!-- end self-intro -->
@@ -610,7 +610,7 @@
             </div>
             </div>
             <p class="w-100 text-center mt-3">
-            <span class="btn save-btn" @click="saveBasicInfo">保存する</span>
+            <span class="btn btn-save" @click="saveBasicInfo">保存する</span>
             </p>
         </div>
         <!-- End basic-info -->
@@ -1032,7 +1032,7 @@
 
             <!-- <div class="row underline"></div> -->
             <p class="w-100 text-center mt-3">
-            <span class="btn save-btn" @click="saveCarrer">保存する</span>
+            <span class="btn btn-save" @click="saveCarrer">保存する</span>
             </p>
             <!-- <ul class="button-block">
                         <li>
@@ -1727,7 +1727,7 @@
             </div>
             <p class="w-100 text-center mt-3">
             <span
-                class="btn save-btn"
+                class="btn btn-save"
                 @click="saveExpQualification()"
             >{{$t('jobseekerprofile.save')}}</span>
             </p>
@@ -2073,7 +2073,7 @@
             </div>
             </div>
             <p class="w-100 text-center mt-3">
-            <span class="btn save-btn" @click="saveDesiredCondition()">保存する</span>
+            <span class="btn btn-save" @click="saveDesiredCondition()">保存する</span>
             </p>
         </div>
         <!-- End desired-condition -->
@@ -3845,7 +3845,7 @@ textarea.form-control {
 // .form-control {
 //     width: 70%;
 // }
-.save-btn {
+.btn-save {
     width: 140px;
     padding: 9px;
     // border-color: #b4c574;

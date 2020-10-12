@@ -3346,7 +3346,7 @@ textarea.input-lg {
     user-select: none;
     background-image: none;
     border: 1px solid transparent;
-    /* border-radius: 4px; */
+    border-radius: 2px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, .25);
 }
 
@@ -3362,6 +3362,8 @@ textarea.input-lg {
 .btn:hover {
     color: #333;
     text-decoration: none;
+    opacity: 0.8;
+    outline: 0!important;
 }
 
 .btn.active,
@@ -7505,7 +7507,7 @@ blockquote {
     background-color: #aab2bd;
 }
 
-.btn.active,
+/* .btn.active,
 .btn:active,
 .btn:focus,
 .btn:hover {
@@ -7513,7 +7515,7 @@ blockquote {
     border-color: #ccd1d9;
     outline: 0!important;
     opacity: 0.9;
-}
+} */
 
 .btn.active,
 .btn:active {
@@ -14702,7 +14704,7 @@ input:-webkit-autofill:focus {
         padding-left: 33px !important;
     }
     .sidebar-offcanvas i, .sidebar-offcanvas span {
-        margin-right: 5px;
+        margin-right: 3px;
     }
 }
 /* max-width:1400px */

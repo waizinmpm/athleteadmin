@@ -16,7 +16,7 @@
                         v-model="filteredData.freeword"
                         />
                         
-                        <span class="input-group-addon bg-color"  @click="getData()">
+                        <span class="input-group-addon bg-primary"  @click="getData()">
                             <i class="fa fa-search"></i>
                         </span>
                     </div>

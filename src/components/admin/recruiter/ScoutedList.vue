@@ -49,15 +49,13 @@
 				</div>
 				<!-- Search by Status -->
 				<label for="ステータス">{{ $t('common.status') }}</label>
-				<div class="row">
-					<div class="col-md-12">                     
-						<div class="col-md-2 p-lr0" v-for="status in arr_status" v-bind:key="status.id">    
-							<label class="custom-control-label custom-checkbox-label">                      
-								<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status" @change="getData()">
-								<span class="custom-check-label-post">{{status.id}}</span>
-							</label>                          
-						</div>  
-					</div>                    
+				<div class="status-row">                     
+					<div class="status-col" v-for="status in arr_status" v-bind:key="status.id">    
+						<label class="custom-control-label custom-checkbox-label">                      
+							<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status" @change="getData()">
+							<span class="custom-check-label-post">{{status.id}}</span>
+						</label>                          
+					</div>  
 				</div>
                 <!--end advanced search-->     
             </div>
@@ -66,7 +64,7 @@
         <div class="row">
             <div class="col-sm-12 p-0">
                 <div class="row">
-                    <div class="col-sm-12 select text-right">
+                    <div class="col-sm-12 select">
                         <span>{{ $t('common.total_results') }}: {{ $tc('common.item', totalScouts, { n:totalScouts }) }}</span><br>
                         <span>1 {{ $t('common.displayed_page') }}&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
@@ -84,19 +82,20 @@
 								<td>{{project.scouted_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
 								<!-- <td>{{project.recruiter_number}}</td>
 								<td>{{project.recruiter_name}}</td> -->
-								<td class="text-left tbl-wl">
-                                    <p><span class="font-weight-bold">番号</span> - {{project.recruiter_number}}</p>
-                                    <p><span class="font-weight-bold">名</span> - {{project.recruiter_name}}</p>
+								<td class="text-left tbl-wl ">
+                                    <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - {{project.recruiter_number}}</p>
+                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - {{project.recruiter_name}}</p>
                                 </td>
 								<td>{{project.job_number}}</td>
 								<td  class="text-left tbl-titw" @click="textEllipsis($event)"><span class="txt-vertical-ellipsis">{{ project.title }}</span></td>
 								<!-- <td>{{project.jobseeker_number}}</td>
 								<td>{{project.jobseeker_name}}</td> -->
-								<td class="text-left tbl-wl">
-                                    <p><span class="font-weight-bold">会員番号</span> - {{project.jobseeker_number}}</p>
-                                    <p><span class="font-weight-bold">氏名</span> - {{project.jobseeker_name}}</p>
+								
+								<td class="text-left tbl-wl ">
+                                    <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - {{project.jobseeker_number}}</p>
+                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - {{project.jobseeker_name}}</p>
                                 </td>
-								<td>
+								<td style="position:relative;">
 									<div class="scout-box">
 										<p class="scout-txt">{{project.scout_status}} </p>
 										<p class="btn btn-common" v-on:click="showToggle(index)">
@@ -193,7 +192,7 @@
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-11 text-right">
-										<button class="btn scouted-btn" @click="loadInvoicePreview">{{ $t('common.invoice_preview') }}</button>
+										<button class="btn btn-second" @click="loadInvoicePreview">{{ $t('common.invoice_preview') }}</button>
 									</div>
 								</div>
 							</div>
@@ -207,11 +206,11 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
-							<button class="btn scouted-btn mr-2"  @click="closeInvoicePreview">{{ $t('common.back') }}</button>
-							<button class="btn cancel-btn" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
+							<button class="btn btn-second mr-2 w-100"  @click="closeInvoicePreview">{{ $t('common.back') }}</button>
+							<button class="btn btn-cancel w-100" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
 						</div>
 						<div class="col-sm-6 text-right">
-							<button class="btn scouted-btn" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('common.send_invoice') }}</button>
+							<button class="btn btn-second" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('common.send_invoice') }}</button>
 						</div>
 					</div>
 				</div>
@@ -510,6 +509,9 @@ export default {
 </script>
 
 <style  scoped>
+.tbl-wrap .table {
+    min-width: 1200px;
+}
 .border {
 	padding: 0px 1rem;
 	margin: 1rem 0px;
@@ -620,13 +622,6 @@ textarea {
 .scouted-list {
 	padding-left: 90px;
 }
-.scouted-btn {
-	border-color: #b4c574;
-    background-color: #9fb746;
-}
-.cancel-btn {
-	border-color: #919191;
-    background-color: #919191;
-}
+
 </style>
 
