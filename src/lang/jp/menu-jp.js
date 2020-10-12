@@ -1,8 +1,8 @@
 export default {
     admin: '',
     close_menu: 'メニューを閉じる',
-    logoheader: '元アスリート求人/スカウトサイト',
-    logotxt: '元アスリートのためのセカンドキャリア支援サイト',
+    logoheader: 'アスリートリボーンプロジェクト',
+    logotxt: 'アスリートのセカンドキャリアを応援するサイト',
     Home: 'マイページ',
     login: 'ログインする',
     logout: 'ログアウト',

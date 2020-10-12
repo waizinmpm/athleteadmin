@@ -123,12 +123,12 @@
                         </span>
                         </label>
                     </td>
-                    <td><router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
-                    <td><router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
+                    <td><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
+                    <td><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
                     <td class="tbl-wm">
                         <div class="toggle-box" v-if="project.record_status != 0">
                             <div class="scout-box">
-                                <router-link class="txt-underline" :to="{ name: 'jobseeker-detail', params: { id: project.id }}">
+                                <router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">
                                     <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}</span>
                                 </router-link><br>
                                 <span class="btn btn-common mt-2" v-on:click="showToggle(index)" v-if="project.record_status != 3">

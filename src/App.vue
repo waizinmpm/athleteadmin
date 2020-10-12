@@ -683,7 +683,7 @@ body {
 }
 .btn-alert {
     width: 110px;
-    padding: .625em .5em;
+    padding: .625em .5em !important;
 }
 .btn-edit {
     min-width: 80px;
@@ -772,15 +772,6 @@ body {
 }
 .txt-red {
     color: #F60D0D;
-}
-.txt-underline {
-    padding: 0 2px;
-    color: #000;
-    border-bottom: 1px solid;
-}
-.txt-underline:hover {
-    color: #000;
-    opacity: 0.8;
 }
 .txt-vertical-ellipsis {
     display: -webkit-box;

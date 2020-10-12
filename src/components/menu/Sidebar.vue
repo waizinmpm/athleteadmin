@@ -53,10 +53,10 @@
                 </ul>
             </li>
             <li>
-                <router-link to="/password-setting" class="list-group-item">{{$t('menu.change_password')}}</router-link>
+                <router-link to="/password-setting" class="list-group-item"><i class="glyphicon glyphicon-lock"></i>{{$t('menu.change_password')}}</router-link>
             </li>
             <li>
-                <a to="#" class="list-group-item" @click.prevent="logout">{{$t('menu.logout')}}</a>
+                <a to="#" class="list-group-item" @click.prevent="logout"><i class="glyphicon glyphicon-log-out"></i> {{$t('menu.logout')}}</a>
             </li>
         </ul>
         <!--end sidebar-->
