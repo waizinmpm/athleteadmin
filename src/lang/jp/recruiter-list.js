@@ -5,7 +5,7 @@ export default {
     "valid":"有効",
     "Invalid":"停止",
     "withdrawal":"退会",
-    "recruiterno":"会社名、企業コードを⼊⼒してください",
+    "search_recruiter_placeholder":"会社名、企業会員番号を⼊⼒してください",
     "columns": [
         {"label":"recruiter_number","name":"企業会員番号"},
         {"label":"recruiter_name","name":"企業名"},
