@@ -53,6 +53,9 @@
                 </ul>
             </li>
             <li>
+                <router-link to="/create-admin" class="list-group-item"><span class="fa fa-users"></span>Admin Listing</router-link>
+            </li>
+            <li>
                 <router-link to="/password-setting" class="list-group-item"><i class="glyphicon glyphicon-lock"></i>{{$t('menu.change_password')}}</router-link>
             </li>
             <li>

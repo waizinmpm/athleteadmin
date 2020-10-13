@@ -11,6 +11,7 @@ import JobSeekerList from '../components/admin/jobseeker/JobSeekerList';
 import JobseekerProfileEdit from '../components/admin/jobseeker/JobseekerProfileEdit';
 import Invoice from '../components/admin/recruiter/Invoice';
 import AdminPasswordSetting from '../components/auth/AdminPasswordSetting';
+import AdminRegister from '../components/auth/AdminRegister';
 import RecruiterProfileDetail from '../components/admin/recruiter/RecruiterProfileDetail';
 
 const route = [{
@@ -107,6 +108,15 @@ const route = [{
     {
         path: '/password-setting',
         component: AdminPasswordSetting,
+        meta: {
+            reqiuresAuth: true,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    },
+    {
+        path: '/create-admin',
+        component: AdminRegister,
         meta: {
             reqiuresAuth: true,
             admin: true, // for only admin component
