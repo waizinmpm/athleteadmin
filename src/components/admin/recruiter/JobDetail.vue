@@ -23,7 +23,7 @@
             <dt class="detail-head">給与・待遇・ビザサポート</dt>
             <dd class="detail-data">{{ recruiter_job.allowance }}</dd>
         </dl>
-        <router-link to="/job-list" class="btn btn-back">
+        <router-link to="/job-list" class="btn btn-back float-right">
             求⼈⼀覧 へ戻る
         </router-link>
         <!-- 
@@ -115,6 +115,6 @@ export default {
     line-height: 1.7;
 }
 .btn-back {
-    margin-left: 20px;
+    margin-right: 20px;
 }
 </style>

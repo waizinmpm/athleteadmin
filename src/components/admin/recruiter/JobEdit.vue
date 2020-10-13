@@ -443,7 +443,7 @@
                 </div>
             </div>
         </form>
-        <div class="d-flex  mt-5">
+        <div class="d-flex  justify-content-end  mt-5">
                 <router-link to="/job-list" class="btn btn-back mr-4">{{ $t('common.cancel') }}</router-link>
                 <!-- <router-link to="/job-list" class="btn btn-back mr-4">求⼈⼀覧 へ戻る</router-link> -->
                 <!-- <button

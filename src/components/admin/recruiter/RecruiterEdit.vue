@@ -239,7 +239,7 @@
                 </div>
                 
             </div>
-            <div class="d-flex  p-3">
+            <div class="d-flex justify-content-end  p-3">
                 <router-link to="/admin-recruiter-list" class="btn btn-back mr-4">{{ $t('common.cancel') }}</router-link>
                 <button type="submit" class="btn btn-save">保存する</button>
             </div>

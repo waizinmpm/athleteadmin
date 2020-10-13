@@ -299,6 +299,6 @@ textarea {
 	width: 170px;
 }
 .tbl-wrap .table {
-    min-width: 1450px;
+    min-width: 1600px;
 }
 </style>
