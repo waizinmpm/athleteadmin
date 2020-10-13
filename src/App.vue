@@ -480,7 +480,45 @@ body {
 }
 
 
+/*sweet alert*/
 
+.swal2-popup{
+    width: 400px !important;
+}
+
+.swal2-modal .swal2-close {
+    font-size: 30px !important;
+    color: #807979 !important;
+    font-weight: bold !important;
+}
+
+.swal2-modal .swal2-styled {
+    font-size: 14px !important;
+}
+
+.swal2-cancel {
+    width: 100px !important;
+    padding: 10px 0px !important;
+}
+
+.swal2-icon.swal2-warning {
+    color: #ffb700 !important;
+    border-color: #ffb700 !important;
+}
+
+.swal2-popup .swal2-styled:focus {
+    box-shadow: none !important;
+}
+.swal2-content {   
+    padding: 0px !important;   
+    font-size: 14px !important;   
+}
+.swal2-actions button{
+    width: 100px !important;
+}
+.cancelbtn {
+    background: #828fa5 !important;
+}
 
 
 
@@ -712,9 +750,6 @@ body {
     background-color: color(buttonenablecolor);
 }
 
-.swal2-close:hover {
-    color: color(primary) !important;
-}
 // table
 .tbl-wrap {
     width: 100%;
@@ -775,7 +810,7 @@ body {
 }
 .txt-vertical-ellipsis {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

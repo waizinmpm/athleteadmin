@@ -83,8 +83,9 @@
 								<!-- <td>{{project.recruiter_number}}</td>
 								<td>{{project.recruiter_name}}</td> -->
 								<td class="text-left tbl-wl ">
-                                    <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - {{project.recruiter_number}}</p>
-                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - {{project.recruiter_name}}</p>
+                                    <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - {{project.recruiter_number}}</p>
+                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - {{project.recruiter_name}}</p> -->
+									<p class="d-flex">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis">{{project.recruiter_name}}</span></p>
                                 </td>
 								<td>{{project.job_number}}</td>
 								<td  class="text-left tbl-titw" @click="textEllipsis($event)"><span class="txt-vertical-ellipsis">{{ project.title }}</span></td>
@@ -92,8 +93,9 @@
 								<td>{{project.jobseeker_name}}</td> -->
 								
 								<td class="text-left tbl-wl ">
-                                    <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - {{project.jobseeker_number}}</p>
-                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - {{project.jobseeker_name}}</p>
+                                    <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - {{project.jobseeker_number}}</p>
+                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - {{project.jobseeker_name}}</p> -->
+									<p class="d-flex">{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis">{{project.jobseeker_name}}</span></p>
                                 </td>
 								<td style="position:relative;">
 									<div class="scout-box">

@@ -8,9 +8,9 @@
             v-if="!selfIntroEdit && showDetails"
         >
             <div class="col-12">
-                <div class="intro-tit tit-box" v-if="edit_page">
+                <div class="intro-tit tit-box">
                     <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
-                    <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')">
+                    <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')" v-if="edit_page">
                         <span class="icon icon-edit"></span>編集
                     </p>
                 </div>
@@ -270,7 +270,7 @@
             </div>
             </div>
             <p class="w-100 text-center mt-3">
-            <span class="btn btn-save" @click="saveSelfIntro">保存する</span>
+            <span class="btn save-btn" @click="saveSelfIntro">保存する</span>
             </p>
         </div>
         <!-- end self-intro -->
@@ -282,9 +282,9 @@
             v-if="!basicInfoEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box" v-if="edit_page">
+            <div class="tit-box">
                 <h3 class="profile-edit-tit">{{$t('jobseekerprofile.basicinfo')}}</h3>
-                <p class="profile-edit-txt" @click="editBox('basicInfoEdit','open')">
+                <p class="profile-edit-txt" @click="editBox('basicInfoEdit','open')" v-if="edit_page">
                 <span class="icon icon-edit"></span>編集
                 </p>
             </div>
@@ -610,7 +610,7 @@
             </div>
             </div>
             <p class="w-100 text-center mt-3">
-            <span class="btn btn-save" @click="saveBasicInfo">保存する</span>
+            <span class="btn save-btn" @click="saveBasicInfo">保存する</span>
             </p>
         </div>
         <!-- End basic-info -->
@@ -622,9 +622,9 @@
             v-if="!careerEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box" v-if="edit_page">
+            <div class="tit-box">
                 <h3 class="profile-edit-tit">経歴</h3>
-                <p class="profile-edit-txt" @click="editBox('careerEdit','open')">
+                <p class="profile-edit-txt" @click="editBox('careerEdit','open')" v-if="edit_page">
                 <span class="icon icon-edit"></span>編集
                 </p>
             </div>
@@ -1032,7 +1032,7 @@
 
             <!-- <div class="row underline"></div> -->
             <p class="w-100 text-center mt-3">
-            <span class="btn btn-save" @click="saveCarrer">保存する</span>
+            <span class="btn save-btn" @click="saveCarrer">保存する</span>
             </p>
             <!-- <ul class="button-block">
                         <li>
@@ -1049,9 +1049,9 @@
             v-if="!expQualificationEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box" v-if="edit_page">
+            <div class="tit-box">
                 <h3 class="profile-edit-tit">経験・資格</h3>
-                <p class="profile-edit-txt" @click="editBox('expQualificationEdit','open')">
+                <p class="profile-edit-txt" @click="editBox('expQualificationEdit','open')" v-if="edit_page">
                 <span class="icon icon-edit"></span>編集
                 </p>
             </div>
@@ -1727,7 +1727,7 @@
             </div>
             <p class="w-100 text-center mt-3">
             <span
-                class="btn btn-save"
+                class="btn save-btn"
                 @click="saveExpQualification()"
             >{{$t('jobseekerprofile.save')}}</span>
             </p>
@@ -1741,9 +1741,9 @@
             v-if="!desiredConditionEdit && showDetails"
         >
             <div class="col-12">
-            <div class="tit-box" v-if="edit_page">
+            <div class="tit-box">
                 <h3 class="profile-edit-tit">希望条件</h3>
-                <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','open')">
+                <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','open')" v-if="edit_page">
                 <span class="icon icon-edit"></span>編集
                 </p>
             </div>
@@ -2073,7 +2073,7 @@
             </div>
             </div>
             <p class="w-100 text-center mt-3">
-            <span class="btn btn-save" @click="saveDesiredCondition()">保存する</span>
+            <span class="btn save-btn" @click="saveDesiredCondition()">保存する</span>
             </p>
         </div>
         <!-- End desired-condition -->
@@ -3845,7 +3845,7 @@ textarea.form-control {
 // .form-control {
 //     width: 70%;
 // }
-.btn-save {
+.save-btn {
     width: 140px;
     padding: 9px;
     // border-color: #b4c574;

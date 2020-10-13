@@ -125,18 +125,18 @@
 										</template>
 									</PaymentManagementInlineEditor>
 								</td>
-								<!-- <td>{{ project.recruiter_name }}</td>
-								<td>{{ project.phone1 }}</td>
-								<td>{{ project.email }}</td>
-								<td>{{ project.incharge_name }}</td> -->
-								<td class="text-left">
+								<td><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{ project.recruiter_name }}</router-link></td>
+								<td><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{ project.incharge_name }}</router-link></td> 
+								<!-- <td class="text-left">
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">名</span> - {{project.recruiter_name}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">電話番号</span> - {{project.phone1}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">メールアドレス</span> - {{project.email}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">担当者名</span> - {{project.incharge_name}}</p>
-                                </td>
+                                </td> -->
 								<td class="tbl-wl">
-									<span class="txt-vertical-ellipsis text-left" style="white-space: pre-wrap;line-height: 1.2;">{{ project.remark }}</span>
+									<div style="height:40px;line-height:40px;vertical-align:middle;">
+										<span class="txt-vertical-ellipsis text-left">{{ project.remark }}</span>
+									</div>
 									<button type="button" @click="editRemark(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
 							</tr>

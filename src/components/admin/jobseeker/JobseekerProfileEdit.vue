@@ -2,9 +2,7 @@
     <div class="user-main">
         <div class="d-flex align-items-end">
             <h3 class="mb-0">プロフィール編集</h3> 
-             <router-link to="/admin-jobseeker-list" class="ml-auto">
-                <span class="btn btn-back">会員情報一覧へ戻る</span>
-            </router-link>
+            <span @click="$router.go(-1)" class="ml-auto btn back-btn">会員情報一覧へ戻る</span>
         </div>      
             <div class="col-12 tab-list sticky-top">
                 <ul class="tab-list-row">   

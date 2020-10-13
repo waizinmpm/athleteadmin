@@ -11,7 +11,7 @@
                     <input
                     type="text"
                     class="form-control"
-                    :placeholder="[[$t('recruiter_list.recruiterno') ]]"
+                    :placeholder="[[$t('recruiter_list.search_recruiter_placeholder') ]]"
                     id="inputGroup"
                     v-model="filteredData.freeword"
                     />
