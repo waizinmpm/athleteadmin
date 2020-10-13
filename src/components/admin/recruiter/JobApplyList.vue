@@ -74,20 +74,20 @@
                     <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
                         <tbody>
                             <tr v-for="(project, index) in projects.data" :key="project.id">
-                                <td>{{project.management_number}}</td>
+                                <td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.management_number}}</router-link></td>
                                 <td>{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
                                 <td class="text-left tbl-wl ">
-                                    <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - {{project.recruiter_number}}</p>
-                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - {{project.recruiter_name}}</p>
+                                    <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_number}}</router-link></p>
+                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_name}}</router-link></p>
                                 </td>
                                 <!-- <td>{{project.recruiter_number}}</td>
                                 <td>{{project.recruiter_name}}</td> -->
-                                <td>{{project.job_number}}</td>
-                                <td class="text-left tbl-titw">
-                                    <span class="txt-vertical-ellipsis">{{project.title}}</span>
+                                <td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.job_number}}</router-link></td>
+                                <td class="text-left tbl-titw"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">
+                                    <span class="txt-vertical-ellipsis">{{project.title}}</span></router-link>
                                 </td>
-                                <td>{{project.jobseeker_number}}</td>
-                                <td>{{project.jobseeker_name}}</td>
+                                <td><router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_number}}</router-link></td>
+                                <td><router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_name}}</router-link></td>
                                 <td>
                                     <div class="scout-box">
                                         <p class="scout-txt">{{project.job_apply_status}} </p>
