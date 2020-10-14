@@ -85,7 +85,7 @@
 								<td class="text-left tbl-wl ">
                                     <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_number}} </router-link></p>
                                     <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_name}} </router-link></p> -->
-									<p class="d-flex"><router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis">{{project.recruiter_name}}</span></router-link></p>
+									<router-link class="d-flex" :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis">{{project.recruiter_name}}</span></router-link>
                                 </td>
 								<td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"> {{project.job_number}} </router-link></td>
 								<td  class="text-left tbl-titw" @click="textEllipsis($event)"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"><span class="txt-vertical-ellipsis">{{ project.title }}</span></router-link></td>
@@ -95,7 +95,7 @@
 								<td class="text-left tbl-wl ">
                                     <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}"> {{project.jobseeker_number}} </router-link></p>
                                     <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}"> {{project.jobseeker_name}} </router-link></p> -->
-									<p class="d-flex"><router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis">{{project.jobseeker_name}}</span></router-link></p>
+									<router-link class="d-flex" :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis">{{project.jobseeker_name}}</span></router-link>
                                 </td>
 								<td style="position:relative;">
 									<div class="scout-box">
