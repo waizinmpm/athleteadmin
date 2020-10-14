@@ -2471,7 +2471,7 @@
                 this.defaultImageUrl = r.data.data;
             });
 
-            this.$api.get(`/v1/jobseeker/profile/selfintro/?id=${request_id}`).then((r) => {
+            this.$api.get(`/v1/jobseeker/profile/selfintro/?jobseekerid=${request_id}`).then((r) => {
                 this.file_names = r.data.data.hashedFile; //hashed for related_images
 
                 this.selfIntro = r.data.data.selfIntro; //rebind selfintro data
@@ -2958,7 +2958,7 @@
             // let data = new FormData();
             // buildFormData(data, this.selfIntro);
             let loading = this.$loading.show();
-            this.$set(this.selfIntro, "id", this.$route.params.id);
+            this.$set(this.selfIntro, "jobseekerid", this.$route.params.id);
             this.$api
                 .post("/v1/jobseeker/profile/selfintro", this.selfIntro)
                 .then((r) => {
@@ -2987,7 +2987,7 @@
             }
             // let data = new FormData();
             // buildFormData(data, this.basicInfo);
-            this.$set(this.basicInfo, "id", this.$route.params.id);
+            this.$set(this.basicInfo, "jobseekerid", this.$route.params.id);
             let loading = this.$loading.show();
             this.$api
                 .post("/v1/jobseeker/profile/basicinfo", this.basicInfo)
@@ -3011,7 +3011,7 @@
         },
 
         getBasicInfoDetails(request_id) {
-            this.$api.get(`/v1/jobseeker/profile/basicinfo/?id=${request_id}`).then((response) => {
+            this.$api.get(`/v1/jobseeker/profile/basicinfo/?jobseekerid=${request_id}`).then((response) => {
                 this.basicInfo = response.data.data.profile;
                 this.city_list = response.data.data.cities;
                 this.languages = response.data.data.languages;
@@ -3033,7 +3033,7 @@
         },
 
         getCarrerDetails(request_id) {
-            this.$api.get(`/v1/jobseeker/profile/carrerinfo/?id=${request_id}`).then((response) => {
+            this.$api.get(`/v1/jobseeker/profile/carrerinfo/?jobseekerid=${request_id}`).then((response) => {
                 console.log('getCarrerDetails'+response);
                 this.educations = response.data.data.educations;
                 this.experiences = response.data.data.experiences;
@@ -3170,7 +3170,7 @@
             let loader = this.$loading.show();
 
             let jsonData = {
-                id : `${this.$route.params.id}`,
+                jobseekerid : `${this.$route.params.id}`,
                 educations: this.educations,
                 experiences: this.experiences,
                 carrers: this.carrers,
@@ -3201,7 +3201,7 @@
         getDesiredCondition(request_id) {
             console.log(request_id);
         this.$api
-            .get(`/v1/jobseeker/profile/desired-condition/?id=${request_id}`)
+            .get(`/v1/jobseeker/profile/desired-condition/?jobseekerid=${request_id}`)
             .then((response) => {
                 this.desired_city_list = response.data.city_list;
                 this.industry_list = response.data.industry_list;
@@ -3247,7 +3247,7 @@
 
         saveDesiredCondition() {
             let jsonData = {
-                id : `${this.$route.params.id}`,
+                jobseekerid: `${this.$route.params.id}`,
                 desired_condition: this.desired_condition,
                 industries: this.industries,
                 occupations: this.occupations,
