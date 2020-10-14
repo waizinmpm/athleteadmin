@@ -24,48 +24,46 @@
                 </div>
             </div>
             <label for="ステータス">{{ $t('recruiter_list.status') }}</label>
-            <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-2 p-lr0">
-                <label for="有効" class="custom-control-label custom-checkbox-label">
-                    <input
-                    type="checkbox"
-                    class="custom-control-input custom-checkbox"
-                    value="1"
-                    v-model="filteredData.recruiter_recordstatus"
-                    @change="getData()"
-                    id="有効"
-                    />
-                    <span class="custom-check-label-post">{{ $t('recruiter_list.valid') }}</span>
-                </label>
+            <div class="status-row">
+                <div class="status-col">
+                    <label for="有効" class="custom-control-label custom-checkbox-label">
+                        <input
+                        type="checkbox"
+                        class="custom-control-input custom-checkbox"
+                        value="1"
+                        v-model="filteredData.recruiter_recordstatus"
+                        @change="getData()"
+                        id="有効"
+                        />
+                        <span class="custom-check-label-post">{{ $t('recruiter_list.valid') }}</span>
+                    </label>
                 </div>
-                <div class="col-md-2 p-lr0">
-                <label for="無効" class="custom-control-label custom-checkbox-label">
-                    <input
-                    type="checkbox"
-                    class="custom-control-input custom-checkbox"
-                    value="2"
-                    v-model="filteredData.recruiter_recordstatus"
-                    @change="getData()"
-                    id="無効"
-                    />
-                    <span class="custom-check-label-post">{{ $t('recruiter_list.Invalid') }}</span>
-                </label>
+                <div class="status-col">
+                    <label for="無効" class="custom-control-label custom-checkbox-label">
+                        <input
+                        type="checkbox"
+                        class="custom-control-input custom-checkbox"
+                        value="2"
+                        v-model="filteredData.recruiter_recordstatus"
+                        @change="getData()"
+                        id="無効"
+                        />
+                        <span class="custom-check-label-post">{{ $t('recruiter_list.Invalid') }}</span>
+                    </label>
                 </div>
-                <div class="col-md-2 p-lr0">
-                <label for="退会" class="custom-control-label custom-checkbox-label">
-                    <input
-                    type="checkbox"
-                    class="custom-control-input custom-checkbox"
-                    value="3"
-                    v-model="filteredData.recruiter_recordstatus"
-                    @change="getData()"
-                    id="退会"
-                    />
-                    <span class="custom-check-label-post">{{ $t('recruiter_list.withdrawal') }}</span>
-                </label>
+                <div class="status-col">
+                    <label for="退会" class="custom-control-label custom-checkbox-label">
+                        <input
+                        type="checkbox"
+                        class="custom-control-input custom-checkbox"
+                        value="3"
+                        v-model="filteredData.recruiter_recordstatus"
+                        @change="getData()"
+                        id="退会"
+                        />
+                        <span class="custom-check-label-post">{{ $t('recruiter_list.withdrawal') }}</span>
+                    </label>
                 </div>
-            </div>
             </div>
         </div>
         </div>

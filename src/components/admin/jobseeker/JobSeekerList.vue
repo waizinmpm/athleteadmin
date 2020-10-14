@@ -24,9 +24,8 @@
                 </div>
 
                 <label for="ステータス">{{ $t('common.status') }}</label>
-                <div class="row">
-                    <div class="col-md-12">
-                    <div class="col-md-2 p-lr0">
+                <div class="status-row">
+                    <div class="status-col">
                         <label for="有効" class="custom-control-label custom-checkbox-label">
                         <input
                             type="checkbox"
@@ -39,7 +38,7 @@
                         <span class="custom-check-label-post">有効</span>
                         </label>
                     </div>
-                    <div class="col-md-2 p-lr0">
+                    <div class="status-col">
                         <label for="無効" class="custom-control-label custom-checkbox-label">
                         <input
                             type="checkbox"
@@ -52,7 +51,7 @@
                         <span class="custom-check-label-post">停止</span>
                         </label>
                     </div>
-                    <div class="col-md-2 p-lr0">
+                    <div class="status-col">
                         <label for="退会" class="custom-control-label custom-checkbox-label">
                         <input
                             type="checkbox"
@@ -64,7 +63,6 @@
                         />
                         <span class="custom-check-label-post">退会</span>
                         </label>
-                    </div>
                     </div>
                 </div>
             </div>

@@ -674,7 +674,6 @@ body {
     margin-bottom: 20px;
 }
 .custom-checkbox-label {
-    padding-left: 10px;
     line-height: 20px;
     font-weight: 400;
     position: relative;
@@ -683,17 +682,13 @@ body {
     cursor: pointer;
 }
 .custom-check-label-post {
-    position: absolute;
-    top: 0;
-    width: -webkit-max-content;
-    width: -moz-max-content;
-    width: max-content;
-    left: 35px;
+    padding-left: 5px;
 }
 .custom-checkbox {
     height: 20px!important;
     width: 20px!important;
     margin: 0!important;
+    vertical-align: bottom;
 }
 
 // Button
@@ -834,11 +829,10 @@ body {
 }
 .status-row {
     display: flex;
-    width: 65%;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 .status-col {
-	width:15%;
+    margin-right: 20px;
 }
 .required {
     float: right;
