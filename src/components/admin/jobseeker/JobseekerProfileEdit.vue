@@ -4,7 +4,7 @@
             <h3 class="mb-0">プロフィール編集</h3> 
             <span @click="$router.go(-1)" class="ml-auto btn back-btn">会員情報一覧へ戻る</span>
         </div>      
-            <div class="col-12 tab-list sticky-top">
+            <div class="col-12 tab-list sticky-top" v-if="showMenuBar" v-on:scroll="handleScroll">
                 <ul class="tab-list-row">   
                     <li v-for="(item, index) in items" class="list-item" :key="index.id">                                          
                         <a  v-scroll-to="{el:'#'+(item,index),offset:-130}"
@@ -14,10 +14,26 @@
                     </li>
                 </ul>  
             </div>    
-        <JobseekerProfile></JobseekerProfile>
+        <JobseekerProfile @menuShowHide="changeMenu"></JobseekerProfile>
     </div>
 </template>
 <script>
+    function elementInViewport(el) {
+        var top = el.offsetTop;
+        var height = el.offsetHeight;
+        var bottom = top + height;
+
+        while(el.offsetParent) {
+            el = el.offsetParent;
+            top += el.offsetTop;
+        }
+
+        return (
+            !(top < window.pageYOffset && bottom < window.pageYOffset) &&
+            !(top > (window.pageYOffset + (window.innerHeight)) && bottom > window.pageYOffset + (window.innerHeight))
+        );
+    }
+
     import JobseekerProfile from "../jobseeker/JobseekerProfile";
     export default {
         components: { JobseekerProfile },
@@ -31,8 +47,15 @@
                      expQualificationEdit:{text:'経験・資格'},
                      desiredConditionEdit:{text:'希望条件'},                             
                  },    
-                 activeIndex: null,  
+                 activeIndex: null, 
+                 showMenuBar: true,
             }
+        },
+        created(){
+            window.addEventListener('scroll', this.handleScroll);
+        },
+        destroyed () {
+            window.removeEventListener('scroll', this.handleScroll);
         },
         methods:{
         
@@ -42,7 +65,22 @@
                 } else {
                     this.activeIndex = index;                    
                 }
-            }   
+            },
+
+            handleScroll () {
+                 let id = ['careerEdit','expQualificationEdit','desiredConditionEdit','selfIntroEdit','basicInfoEdit']
+                 const elementsInViewArray = id.map(String => {
+                 const el = document.getElementById(String);
+                 if(elementInViewport(el)) {
+                    return String;
+                    }
+                 });
+                 this.activeIndex = elementsInViewArray.find(String => String)
+            },
+
+            changeMenu(load){
+                this.showMenuBar = load;
+            } 
         }
         
     }

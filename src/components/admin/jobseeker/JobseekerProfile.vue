@@ -2126,6 +2126,7 @@
     data() {
         return {
             edit_page : true,
+            showMenuBar: true,
             file_names: [],
             defaultImageUrl: "",
             showDetails: true,
@@ -2643,8 +2644,10 @@
             if (action == "open") {
                 //jquery?
                 //$("html, body").animate({ scrollTop: 0 }, "fast");
+                this.$emit('menuShowHide',this.showMenuBar = false)
             } else {
                 if (boxName == "expQualificationEdit") {
+                    this.$emit('menuShowHide',this.showMenuBar = true)
                     this.getJobIndustryExpDetails(request_id); // request_id
                     // call getData func back to clear empty array in data collection
                 }
