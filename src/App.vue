@@ -833,10 +833,11 @@ body {
     width: 100px;
 }
 .status-row {
-	width: 65%;
+    display: flex;
+    width: 65%;
+    margin-bottom: 20px;
 }
 .status-col {
-	float:left;
 	width:15%;
 }
 .required {

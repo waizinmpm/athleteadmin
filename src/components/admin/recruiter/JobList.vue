@@ -54,9 +54,9 @@
                     </div>
                 </div>
                 <label for="ステータス">{{ $t('common.status') }}</label>
-                <div class="row">
+                <div class="row mb-0">
                     <div class="col-md-12">
-                        <div class="col-md-2 p-lr0" v-for="status in arr_status" :key="status.id.id">
+                        <div class="col-md-1 p-lr0 tooltip-box" v-for="status in arr_status" :key="status.id.id">
                             <label
                                 for="record_status"
                                 class="custom-control-label custom-checkbox-label"
@@ -72,6 +72,7 @@
                             />
                             <span class="custom-check-label-post">{{status.id.display}}</span>
                             </label>
+                            <span class="tooltiptext">{{status.id.display}}</span>
                         </div>
                     </div>
                 </div>
@@ -125,15 +126,21 @@
                                 <td class="tbl-w110">{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
                                 <td class="tbl-ws">{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
                                 <td class="tbl-ws">{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
-                                <td class="tbl-wm">
+                                <td class="tbl-wm tbl-status">
                                     <div class="scout-box">
-                                        <p class="scout-txt" >
+                                        <div class="scout-txt tooltip-box">
                                             <router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">
                                                 <span v-for="status in arr_status" :key="status.id.id">
                                                     {{project.record_status == status.id.value ? status.id.display : ''}}
                                                 </span>
                                             </router-link>
-                                        </p>
+                                             
+                                            <p class="tooltiptext">
+                                               <span class="d-block" v-for="status in arr_status" :key="status.id.id">
+                                               {{ status.id.display }}
+                                            </span>
+                                            </p>
+                                        </div>
                                         <p class="btn btn-common" v-on:click="showToggle(index)">
                                             {{$t('common.change')}}
                                             <span class="down-icon">&#9662;</span>
@@ -277,3 +284,48 @@ export default {
     }
 };
 </script>
+<style scoped>
+.tooltip-box {
+  position: relative;
+  display: inline-block;
+}
+.tooltip-box .tooltiptext {
+  visibility: hidden;
+  min-width: 150px;
+  background-color: rgba(180, 197, 116,0.95);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 33;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip-box .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(180, 197, 116,0.95) transparent transparent transparent;
+}
+
+.tooltip-box:hover .tooltiptext {
+  visibility: visible;
+}
+.scout-txt.tooltip-box .tooltiptext {
+    padding: 8px 15px;
+    left: 40%;
+}
+.scout-txt.tooltip-box .tooltiptext::after {
+    border-width: 8px; 
+}
+tr:first-child .tbl-status .tooltip-box .tooltiptext::after {
+    top: 112%;
+}
+</style>

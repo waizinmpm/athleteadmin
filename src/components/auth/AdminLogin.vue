@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="form-group">
-                    <label for="email">メール</label>
+                    <label for="email">メールアドレス</label>
                         <div class="input-group">              
                         <input type="email" class="form-control" name="メールアドレス" id="email" placeholder="メールアドレス" autocomplete="off" v-model="formLogin.email"/>
                         </div>
