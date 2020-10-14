@@ -85,10 +85,10 @@
 								<td class="text-left tbl-wl ">
                                     <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_number}} </router-link></p>
                                     <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_name}} </router-link></p> -->
-									<router-link class="d-flex" :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis">{{project.recruiter_name}}</span></router-link>
+									<router-link class="d-flex" :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{project.recruiter_name}}</span></router-link>
                                 </td>
 								<td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"> {{project.job_number}} </router-link></td>
-								<td  class="text-left tbl-titw" @click="textEllipsis($event)"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"><span class="txt-vertical-ellipsis">{{ project.title }}</span></router-link></td>
+								<td  class="text-left tbl-titw" @click="textEllipsis($event)"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"><span class="txt-vertical-ellipsis" style="width:100px;overflow-wrap: break-word;">{{ project.title }}</span></router-link></td>
 								<!-- <td>{{project.jobseeker_number}}</td>
 								<td>{{project.jobseeker_name}}</td> -->
 								
