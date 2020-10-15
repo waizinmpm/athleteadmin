@@ -89,6 +89,11 @@ export default {
                                             this.keepCurrentPage();
                                     });
                                     this.delete_ids_transactions = response.data.data;
+                                }else if(response.data.data == 'current-admin'){
+                                    this.$alertService.showWarningDialog(null, 'Unable to Delete Current Admin', this.$t('common.close')).then((dialogVal) => {
+                                        if(dialogVal.value)
+                                            this.keepCurrentPage();
+                                    });
                                 }else{
                                     this.keepCurrentPage();
                                 }

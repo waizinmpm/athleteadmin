@@ -9,15 +9,27 @@
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" class="form-control"  v-model="formRegister.name" placeholder="Name">
+                                <input type="text" name="name" class="form-control"  v-model="$v.formRegister.name.$model" placeholder="Name">
+                                <div class="input-group" v-if="$v.formRegister.name.$dirty">
+                                    <div class="error" v-if="!$v.formRegister.name.required">name required</div>
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" v-model="formRegister.email" placeholder="Email address">
+                                <input type="email" name="email" class="form-control" v-model="$v.formRegister.email.$model" placeholder="Email address">
+                                <div class="input-group" v-if="$v.formRegister.email.$dirty">
+                                    <div class="error" v-if="!$v.formRegister.email.required">メールアドレスは必須です</div>
+                                    <div class="error" v-if="!$v.formRegister.email.email">※メールアドレスが正しくありません。もう一度入力してください。</div>
+                                    <div class="error" v-if="!$v.formRegister.email.isUnique">メールアドレスは、すでに使われています</div>
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" v-model="formRegister.password" placeholder="password">
+                                <input type="password" name="password" class="form-control" v-model="$v.formRegister.password.$model" placeholder="password">
+                                <div class="input-group" v-if="$v.formRegister.password.$dirty">
+                                    <div class="error" v-if="!$v.formRegister.password.required">password required</div>
+                                    <div class="error" v-if="!$v.formRegister.password.minLength">password minLength</div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -81,6 +93,7 @@
                                             <td>
                                                 <label class="form-checkbox">
                                                     <input type="checkbox" :value="project.id" v-model="selected" />
+                                                    <div v-if="project.id == current_admin_id">current</div>
                                                 </label>
                                             </td>
                                             <td>{{ project.name }}</td>
@@ -117,6 +130,7 @@
 <script>
 import {registerUser} from '../../partials/auth';
 import DataTableServices from "../DataTable/DataTableServices";
+import { required, email, minLength } from "vuelidate/lib/validators";
 export default {
     mixins: [DataTableServices],
     data(){
@@ -129,6 +143,7 @@ export default {
             status: []
         };
         return {
+            current_admin_id: this.$store.getters.currentUser.id,
             base_url: "v1/admin/admin-list",
             columns: columns,
             sortOrders: sortOrders,
@@ -148,13 +163,48 @@ export default {
             },
         };
     },
+
+    validations: {
+        formRegister: {
+            name:{ required },
+            email: {
+                    required,
+                    email,
+                    isUnique(value) {
+                        if (value === '') return true;
+                        return new Promise((resolve, reject) => {
+                            this.$api.post('/v1/jobseeker/mail-unity', {
+                                email: value
+                            })
+                            .then(res => {
+                                resolve(res);
+                            })
+                            .catch(err => {
+                                if (err.response.status == 422)
+                                    reject(err);
+                                else 
+                                    resolve(err);
+                            })
+                        })
+                    },
+                },
+            password: {required, minLength: minLength(8)}
+        },
+    },
+
     methods:{
         register(){
+            this.$v.formRegister.$touch();
+            if (this.$v.formRegister.$invalid) {
+                return;
+            }
             registerUser(this.$data.formRegister)
             .then(res => {
                 this.$store.commit("registerSuccess", res);
                 this.getData();
+                this.$v.formRegister.$reset();
                 this.formRegister.name = this.formRegister.email = this.formRegister.password = '';
+                
             })
             .catch(error => {
                 this.$store.commit("registerFailed", {error});
