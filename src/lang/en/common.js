@@ -39,5 +39,6 @@ export default {
 	"invoice_preview": "Invoice Preview",
 	"send_invoice": "Send Mail",
 	"mail_is_sent": "Mail is sent",
-	"payment_confirmed_question": "Are you sure to confirm payment?",
+    "payment_confirmed_question": "Are you sure to confirm payment?",
+    "management_no" : "management number"
 };

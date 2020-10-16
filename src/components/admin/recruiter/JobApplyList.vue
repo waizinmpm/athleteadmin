@@ -27,7 +27,11 @@
                         <div class="col-md-3">
                             <label for="求人タイトル">{{ $t('common.job_title') }}</label>
                             <input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
-                        </div>                        
+                        </div>
+                        <div class="col-md-3">
+                            <label for="管理番号">{{ $t('common.management_no') }}</label>
+                            <input type="text" placeholder="管理番号" class="form-control" v-model.trim="filteredData.management_no">
+                        </div>                          
                     </div>
                     <div class="row date-row">
                         <div class="col-md-3 datepicker-wrapper">
@@ -248,6 +252,7 @@ export default {
                 job_title: '',
                 from_date: '',
                 to_date:'',
+                management_no: '',
                 jobapply_status: [],
             },
             arr_status: [
