@@ -34,7 +34,8 @@
                         </div>
                         <div class="form-group row">
                             <input type="button" value="Register" class="btn btn-success ml-auto" @click="register" v-if="edit_id == 0">
-                            <input type="button" value="Update" class="btn btn-success ml-auto" @click="update" v-if="edit_id != 0">
+                            <input type="button" value="Cancel" class="btn btn-success ml-auto" @click="cancel" v-if="edit_id != 0">
+                            <input type="button" value="Update" class="btn btn-success ml-5" @click="update" v-if="edit_id != 0">
                         </div>
                     </form>
 
@@ -196,7 +197,6 @@ export default {
 
     methods:{
         register(){
-            alert('register');
             this.$v.formRegister.$touch();
             if (this.$v.formRegister.$invalid) {
                 return;
@@ -215,9 +215,20 @@ export default {
         },
         
         editAdmin(id, name, email) {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
             this.edit_id = id;
             this.formRegister.name  = name;
             this.formRegister.email = email;
+        },
+
+        cancel() {
+            this.edit_id = 0;
+            this.formRegister.name  = '';
+            this.formRegister.email = '';
         },
 
         update(){
