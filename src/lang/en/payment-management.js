@@ -4,6 +4,7 @@ export default {
 	"invoice_date": "Invoice Date",
 	"status": "Status",
 	"payment_date": "Payment Date",
+	"management_number": "Management Number",
 	"columns": [
 		{"label": "management_number", "name":"Management Number"},
 		{"label": "payment_method","name":"Payment Method"},
