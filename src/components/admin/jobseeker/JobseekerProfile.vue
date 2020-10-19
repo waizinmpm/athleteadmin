@@ -305,9 +305,9 @@
                         {{basicInfo.dob[0]}}年 {{basicInfo.dob[1]}}月 {{basicInfo.dob[2]}}日
                     </span>
                 </dd>
-                <dt class="detail-head">{{$t('jobseekerprofile.Language')}}</dt>
+                <!-- <dt class="detail-head">{{$t('jobseekerprofile.Language')}}</dt>
                 <dd class="detail-data" v-if="basicInfo.language_name == null">-</dd>
-                <dd class="detail-data" v-else>{{basicInfo.language_name}}</dd>
+                <dd class="detail-data" v-else>{{basicInfo.language_name}}</dd> -->
                 <dt class="detail-head">
                 {{$t('jobseekerprofile.location')}}
                 <span class="private">{{$t('jobseekerprofile.private')}}</span>
