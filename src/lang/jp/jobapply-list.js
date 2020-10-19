@@ -6,7 +6,7 @@ export default {
     "columns": [
         {"label":"management_number","name":"管理番号"},
         {"label":"job_apply_date","name":"応募日時"},
-        {"label":"recruiter","name":"企業"},
+        {"label":"recruiter_number","name":"企業"},
         // {"label":"recruiter_number","name":"企業番号"},
         // {"label":"recruiter_name","name":"企業名"},
         {"label":"job_number","name":"求人番号"},
