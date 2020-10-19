@@ -129,11 +129,9 @@
                                 <td class="tbl-wm tbl-status">
                                     <div class="scout-box">
                                         <div class="scout-txt tooltip-box">
-                                            <router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">
-                                                <span v-for="status in arr_status" :key="status.id.id">
-                                                    {{project.record_status == status.id.value ? status.id.display : ''}}
-                                                </span>
-                                            </router-link>
+                                            <span v-for="status in arr_status" :key="status.id.id">
+                                                {{project.record_status == status.id.value ? status.id.display : ''}}
+                                            </span>
                                              
                                             <p class="tooltiptext">
                                                <span class="d-block" v-for="status in arr_status" :key="status.id.id">
