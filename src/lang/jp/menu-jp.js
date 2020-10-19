@@ -7,7 +7,7 @@ export default {
     login: 'ログインする',
     logout: 'ログアウト',
     post: '役職',
-    management_screen: '管理画面',
+    management_screen: 'トップ',
     recruiter_member: '企業会員',
     jobseeker_member: 'アスリート会員',
     member_information_list: '会員情報一覧',
