@@ -45,6 +45,7 @@ export default {
 
     methods: {
         getData(page) {
+            this.$route.name == 'job-list' ? this.tableData.column = 9 : '';
             this.selectAll();
             this.tableData.draw++;
             var jsonData = {
