@@ -126,9 +126,8 @@
                         <td class="tbl-wm">
                             <div class="toggle-box" v-if="project.record_status != 0">
                                 <div class="scout-box">
-                                    <router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">
-                                        <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}</span>
-                                    </router-link><br>
+                                    <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}</span>
+                                    <br>
                                     <span class="btn btn-common mt-2" v-on:click="showToggle(index)" v-if="project.record_status != 3">
                                     {{$t('common.change')}}
                                     <span class="down-icon">&#9662;</span>

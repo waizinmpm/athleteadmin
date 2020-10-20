@@ -1,10 +1,10 @@
 <template>
     <div class="job-detail">
-        <h3 class="mb-4 mt-0">{{ recruiter_job.job_number }}【{{ recruiter_job.title }}】</h3>
+        <h3 class="mb-4 mt-0">{{ recruiter_job.job_number }}{{ recruiter_job.title }}</h3>
         <dl class="detail-list">
-            <dt class="detail-head">募集ポジション(記入例)チーフディレクター</dt>
+            <dt class="detail-head">募集ポジション</dt>
             <dd class="detail-data">{{ recruiter_job.incharge_name }}</dd>
-            <dt class="detail-head">雇用形態(記入例)正社員</dt>
+            <dt class="detail-head">雇用形態</dt>
             <dd class="detail-data">
                 <div v-for="(result, index) in employment_types" :key="result.id">
                     <input type="checkbox" v-bind:value="result.employment_type_name" v-bind:id="result.employment_type_name" class="custom-control-input custom-checkbox"              v-model="recruiter_job.employment_types" disabled />
@@ -14,7 +14,7 @@
                     >{{$t('jobcreate.employment_type['+ index+']')}}</label>
                 </div>
             </dd>
-            <dt class="detail-head">勤務地(記入例)ジャカルタ</dt>
+            <dt class="detail-head">勤務地</dt>
             <dd class="detail-data">{{ recruiter_job.job_location }}</dd>
             <dt class="detail-head">仕事の内容</dt>
             <dd class="detail-data">{{ recruiter_job.job_description }}</dd>

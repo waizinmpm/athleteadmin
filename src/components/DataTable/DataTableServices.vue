@@ -45,6 +45,7 @@ export default {
 
     methods: {
         getData(page) {
+            this.$route.name == 'job-list' ? this.tableData.column = 9 : '';
             this.selectAll();
             this.tableData.draw++;
             var jsonData = {
@@ -89,6 +90,11 @@ export default {
                                             this.keepCurrentPage();
                                     });
                                     this.delete_ids_transactions = response.data.data;
+                                }else if(response.data.data == 'current-admin'){
+                                    this.$alertService.showWarningDialog(null, 'Unable to Delete Current Admin', this.$t('common.close')).then((dialogVal) => {
+                                        if(dialogVal.value)
+                                            this.keepCurrentPage();
+                                    });
                                 }else{
                                     this.keepCurrentPage();
                                 }

@@ -5,6 +5,11 @@
 				<h5 class="m-b-10 main-header">{{ $t('payment_management.title') }}</h5>
 				<div class="inner-wrapper">
 					<div class="row mb-1">
+						<div class="col-md-4">
+							<label for="management_number">{{ $t('payment_management.management_number') }}</label>
+							<input type="text" :placeholder="$t('payment_management.management_number')" class="form-control" 
+								v-model.trim="filteredData.management_number">
+						</div>
 						<div class="col-md-7">
 							<div class="col-md-12 p-0">
 								<label>{{ $t('payment_management.payment_method') }}</label>
@@ -177,6 +182,7 @@ export default {
 				invoice_to_date: '',
 				payment_from_date: '',
 				payment_to_date: '',
+				management_number: '',
 				payment_status: [],
 				record_status: [],
 			},
