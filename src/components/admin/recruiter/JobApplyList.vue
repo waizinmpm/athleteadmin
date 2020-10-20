@@ -184,7 +184,7 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-11 text-right">
-                                        <button class="btn job-btn" @click="loadInvoicePreview">{{ $t('common.invoice_preview') }}</button>
+                                        <button class="btn btn-second" @click="loadInvoicePreview">{{ $t('common.invoice_preview') }}</button>
                                     </div>
                                 </div>
                             </div>

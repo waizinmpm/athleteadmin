@@ -748,11 +748,15 @@ body {
 // table
 .tbl-wrap {
     width: 100%;
-    overflow-x: scroll ;
+    overflow-x: auto ;
 }
 .tbl-wrap .table {
-    min-width: 1300px;
+    width: 1300px;
+    // overflow-x: scroll;
 }
+// .tbl-wrap .table th , .tbl-wrap .table td {
+//     min-width: 200px;
+// }
 .tbl-wxs {
     width: 80px;
 }
@@ -846,9 +850,6 @@ body {
 }
 @media (max-width:1400px) {
     .inner-wrapper {
-        width: 75%;
-    }
-    .status-row {
         width: 75%;
     }
 }
