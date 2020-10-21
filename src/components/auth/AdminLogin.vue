@@ -102,7 +102,7 @@ export default {
 .logo-txt {
     display: block;
     margin: 0 auto 30px auto;
-    font-size: 22px;
+    font-size: 21px;
     color: #fff;
     text-align: center;
     font-weight: bold;
