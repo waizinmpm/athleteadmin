@@ -84,19 +84,25 @@ export default {
                             .then(response => {
                                 console.log("delete", response.data.data);
                                 this.delete_ids_transactions = [];
-                                if(Array.isArray(response.data.data) && response.data.data.length > 0){
-                                    this.$alertService.showWarningDialog(null, this.$t('alertMessage.unable_to_delete'), this.$t('common.close')).then((dialogVal) => {
+                                var responed_result         = response.data.data;
+                                let delete_related_records  = Array.isArray(responed_result) && responed_result.length > 0 ? true : false;
+                                let delete_current_admin    = responed_result == 'current-admin' ? true : false;
+                                if(delete_related_records || delete_current_admin){
+                                    let alertMsg = delete_related_records ? this.$t('alertMessage.unable_to_delete') : 'Unable to Delete Current Admin';
+                                    this.$alertService.showWarningDialog(null, alertMsg, this.$t('common.close')).then((dialogVal) => {
                                         if(dialogVal.value)
-                                            this.keepCurrentPage();
+                                            this.getData(this.projects.current_page);
                                     });
-                                    this.delete_ids_transactions = response.data.data;
-                                }else if(response.data.data == 'current-admin'){
-                                    this.$alertService.showWarningDialog(null, 'Unable to Delete Current Admin', this.$t('common.close')).then((dialogVal) => {
-                                        if(dialogVal.value)
-                                            this.keepCurrentPage();
-                                    });
+                                    this.delete_ids_transactions = responed_result;
                                 }else{
-                                    this.keepCurrentPage();
+                                    // get the correct page after delete action
+                                    let getpage = 1;
+                                    if ((this.projects.to - this.selected.length + 1) > this.projects.from) {
+                                        getpage = this.projects.current_page;
+                                    } else {
+                                        getpage = this.projects.current_page - 1;
+                                    }
+                                    this.getData(getpage);
                                 }
                                 
                             })
@@ -106,16 +112,6 @@ export default {
                     }
                 });
             } 
-        },
-
-        keepCurrentPage() {
-            let getpage = 1;
-            if ((this.projects.to - this.selected.length + 1) > this.projects.from) {
-                getpage = this.projects.current_page;
-            } else {
-                getpage = this.projects.current_page - 1;
-            }
-            this.getData(getpage);
         },
 
         sortBy(key) {
