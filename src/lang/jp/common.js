@@ -1,6 +1,6 @@
 export default {
     "password": "パスワード",
-    "cancel": "キャンセル",
+    "cancel": "閉じる",
     "edit": "編集",
     "change": "変更",
     "delete": "削除",
@@ -27,8 +27,8 @@ export default {
     "job_number": "求人番号",
     "job_title": "求人タイトル",
     //-- Job Seeker Fields
-    "jobseeker_name": "アスリート会員氏名",
-    "jobseeker_number": "アスリート会員番号",
+    "jobseeker_name": "求職者会員氏名",
+    "jobseeker_number": "求職者会員番号",
     // Invoice
 	"job": "仕事",
 	"billing_recruiter": "請求先企業会員",
@@ -38,7 +38,7 @@ export default {
 	"invoice_amount": "請求金額",
 	"remark": "備考",
 	"invoice_preview": "請求書プレビュー",
-	"send_invoice": "請求書を保存しメールで送付",
+	"send_invoice": "請求書をメールで送付",
 	"mail_is_sent": "メールが送信されます",
     "payment_confirmed_question": "支払いを確認しますか",
     "management_no" : "管理番号"

@@ -2,7 +2,7 @@ export default {
     "title": "求人応募者一覧",
     "jobapplay_date": "応募日時",
     "control_number": "管理番号",
-    "jobseeker_number": "アスリート会員番号",
+    "jobseeker_number": "求職者会員番号",
     "columns": [
         {"label":"management_number","name":"管理番号"},
         {"label":"job_apply_date","name":"応募日時"},
