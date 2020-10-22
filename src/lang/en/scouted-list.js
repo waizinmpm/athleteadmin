@@ -1,7 +1,10 @@
 export default {
     "title": "Scouted Job List",
     "scout_date": "Scout Date",
-    "scout_status": "Scout Status",
+	"scout_status": "Scout Status",
+	"jobseeker_number": "Jobseeker Number",
+	"jobseeker_name": "Jobseeker Name",
+	"recruiter_number": "Recruiter Number",
     "columns": [
         {"label":"management_number","name":"Management Number"},
         {"label":"scouted_date","name":"Scout date and time"},

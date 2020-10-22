@@ -30,6 +30,7 @@ export default {
     "jobseeker_number": "Job Seeker Member Number",
     // Invoice
 	"job": "Job",
+	"job_or_scout": "Job or Scout",
 	"billing_recruiter": "Recruiter",
 	"billing_mail": "Billing mail",
 	"brokerage_fee": "Service Fee",

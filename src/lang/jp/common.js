@@ -31,6 +31,7 @@ export default {
     "jobseeker_number": "求職者会員番号",
     // Invoice
 	"job": "仕事",
+	"job_or_scout": "求人またはスカウト",
 	"billing_recruiter": "請求先企業会員",
 	"billing_mail": "請求書送付先メールアドレス",
 	"brokerage_fee": "仲介手数料",

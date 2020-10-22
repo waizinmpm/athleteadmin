@@ -96,7 +96,7 @@
                                     <div class="scout-box">
                                         <p class="scout-txt">{{project.job_apply_status}} </p>
                                         <p class="btn btn-common" v-on:click="showToggle(index)">
-                                            {{$t('common.edit')}}
+                                            {{$t('common.change')}}
                                             <span class="down-icon">&#9662;</span>
                                         </p>
                                         <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">

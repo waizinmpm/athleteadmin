@@ -43,6 +43,7 @@ const route = [{
     },
     {
         path: '/job-list',
+        name: 'job-list',
         component: JobList,
         meta: {
             reqiuresAuth: false,
