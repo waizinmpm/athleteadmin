@@ -32,7 +32,7 @@
          <div class="col-md-3">
             <div class="dashboard-card">
                 <h5>{{count.jobApply}}</h5>
-                <p>求人応募者</p>
+                <p>求人問合わせ/応募者一覧</p>
                 <span class="custom-icon"><i class="fa fa-file-text color-four" style="font-size:40px;"></i></span>
             </div>             
         </div> 
