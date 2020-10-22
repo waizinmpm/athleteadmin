@@ -5,6 +5,6 @@ export default {
 	password_wrong: "パスワードが間違っています",
 	password_changed: "パスワードが変更されました",
 	password_required: "パスワードを入力してください",
-	password_minlength: "パスワードは8文字以上で入力してください",
-	password_match: "パスワードが一致していません",
+	password_minlength: "パスワードは8文字以上必要です",
+	password_match: "パスワードが一致しません",
 }
