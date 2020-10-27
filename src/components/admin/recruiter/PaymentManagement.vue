@@ -38,10 +38,13 @@
 								<label for="入金期日">{{ $t('payment_management.invoice_date') }}</label>
 							</div>
 							<div class="row mb-0">
-								<div class="col-lg-6  datepicker-wrapper">
+								<div class="col-lg-5  datepicker-wrapper">
 									<date-picker v-model="filteredData.invoice_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
-								<div class="col-lg-6  datepicker-wrapper">
+								<div class="col-lg-1 datepicker-wrapper text-center" style="padding: 8px;">
+									<span>～</span>
+								</div>
+								<div class="col-lg-5  datepicker-wrapper">
 									<date-picker v-model="filteredData.invoice_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
 							</div>
@@ -53,10 +56,13 @@
 								<label for="入金日">{{ $t('payment_management.payment_date') }}</label>
 							</div>
 							<div class="row  mb-0">
-								<div class="col-md-6 datepicker-wrapper">
+								<div class="col-md-5 datepicker-wrapper">
 									<date-picker v-model="filteredData.payment_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
-								<div class="col-md-6 datepicker-wrapper">
+								<div class="col-lg-1 datepicker-wrapper text-center" style="padding: 8px;">
+									<span>～</span>
+								</div>
+								<div class="col-md-5 datepicker-wrapper">
 									<date-picker v-model="filteredData.payment_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
 							</div>
@@ -167,7 +173,11 @@
 				</p>
 			</div>
 			<div class="modal-body">
-				<input type="text" v-model="form.payment_amount" @keypress="isNumber($event)" class="form-control mb-1">
+				<div class="mb-2">
+					<label>{{ $t('payment_management.payment_date') }}</label>
+					<input type="text" v-model="form.payment_amount" @keypress="isNumber($event)" class="form-control mb-1">
+				</div>				
+				<label>{{ $t('payment_management.payment_amount') }}</label>
 				<date-picker v-model="form.actual_payment_date" value-type="format" class="datepicker w-100" :lang="lang" 
 					placeholder="年 - 月 - 日"></date-picker>
 			</div>

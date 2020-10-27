@@ -5,6 +5,7 @@ export default {
 	"status": "ステータス",
 	"payment_date": "入金日",
 	"management_number": "管理番号",
+	"payment_amount": "入金金額",
 	"columns": [
         {"label": "management_number","name":"管理番号"},
         {"label": "payment_method","name":"請求方法"},

@@ -5,6 +5,7 @@ export default {
 	"status": "Status",
 	"payment_date": "Payment Date",
 	"management_number": "Management Number",
+	"payment_amount": "Payment Amount",
 	"columns": [
 		{"label": "management_number", "name":"Management Number"},
 		{"label": "payment_method","name":"Payment Method"},
