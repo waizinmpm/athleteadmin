@@ -193,7 +193,8 @@ export default {
 			let allow = false;
 			if (message_payload.speaker_role_id != this.currentUser.role_id) {
 					if (this.currentUser.role_id == 1) {
-						allow = true;
+						allow = this.message_payload.scoutid_or_applyid == message_payload.scoutid_or_applyid && 
+							this.message_payload.type == message_payload.type;
 					} else if (this.currentUser.role_id == 2) {
 						allow = this.loggedInUser.id == message_payload.recruiter_id && 
 							this.message_payload.scoutid_or_applyid == message_payload.scoutid_or_applyid && 
@@ -367,6 +368,7 @@ export default {
             document.onmousemove = null
 		},
 		closeChatBox() {
+			this.messages = [];
 			this.isToggled = !this.isToggled;
 			this.message_payload.recruiter_id = 0;
 			this.message_payload.jobseeker_id = 0;
