@@ -5,16 +5,16 @@
                     <div class="col-4 tab-left float-left">
                         <ul class="list-user">
                             <li v-for="item in jobs" :key="item.index" @click="getMessage(item)">
-								<!--
+								
                                 <div class="status">
-                                    <div v-if="online.includes(item.recruiter_id) & online.includes(item.jobseeker_id)" >
+                                    <div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
                                     <i class="fa fa-circle text-success"></i>
                                     </div>
                                     <div v-else>
                                     <i class="fa fa-circle text-danger"></i>
                                     </div>									
                                 </div>
-								-->
+								
                                 <div class="name">
                                     {{item.job_number}}
                                     <p>{{item.title}}</p>
@@ -124,13 +124,12 @@ export default {
 				message: '',
 				created_at: new Date(),
 			},
-			meta: undefined,
+			meta: {},
         }
     },
     mounted() {
         this.role = this.currentUser.role_id;
         this.getUsers();
-        this.getLocal();
         this.listenForSocket();
 	},
 	created() {
@@ -250,6 +249,12 @@ export default {
 				this.meta = {
 					'jobseeker_name': meta.jobseeker.jobseeker_name,
 					'recruiter_name': meta.recruiter.recruiter_name,
+					'jobseeker_nickname': meta.jobseeker.jobseeker_nick_name,
+					'recruiter_nickname': meta.recruiter.recruiter_nick_name,
+					'jobseeker_user_id': meta.jobseeker.user_id,
+					'recruiter_user_id': meta.recruiter.user_id,
+					'jobseeker_email': meta.jobseeker.email,
+					'recruiter_email': meta.recruiter.email,
 				};
                 this.title = meta.job.title;
 				this.number = meta.job.job_number;
@@ -306,7 +311,7 @@ export default {
 			
 			// --Save message using API
 			this.$api.post('v1/messages', this.message_payload)
-			.then(() => {
+			.then((r) => {
 				this.messages.push({
 					recruiter_id: this.message_payload.recruiter_id,
 					jobseeker_id: this.message_payload.jobseeker_id,
@@ -320,6 +325,39 @@ export default {
 				// --Broadcast the message payload
 				window.socket.emit("chat-message", this.message_payload);
 				this.message_payload.message = '';
+
+				const message = r.data.data;
+				// --Send offline user notification mails
+				let offlines = [];
+				if (!this.online.includes(this.meta.jobseeker_user_id)) {
+					offlines.push({
+						message_id: message.id,
+						from: 'Admin',
+						to: this.meta.jobseeker_email,
+						date: Date.now(),
+						number: this.number,
+						title: this.title,
+						jobseeker_email: this.meta.jobseeker_email,
+						recruiter_email: this.meta.recruiter_email,
+						receiver_role_id: 3,
+					})
+				}
+				if (!this.online.includes(this.meta.recruiter_user_id)) {
+					offlines.push({
+						message_id: message.id,
+						from: 'Admin',
+						to: this.meta.recruiter_email,
+						date: Date.now(),
+						number: this.number,
+						title: this.title,
+						jobseeker_email: this.meta.jobseeker_email,
+						recruiter_email: this.meta.recruiter_email,
+						receiver_role_id: 2,
+					})
+				}
+				offlines.forEach(x => {
+					this.sendMail(x);
+				})
 			})
 			.catch((error) => {
 				console.log(error);
@@ -340,14 +378,26 @@ export default {
 			});
             this.$refs.scrollChat.scrollTop = 50 ;      
         },
-        getLocal(){
-			/*
-            let data = JSON.parse(localStorage.getItem("user"));
-            if(data.channel){
-                this.getMessage(data.channel);
+        // --This method is called by parent component
+        resetChatMessage(payload){
+			if (payload.scoutid_or_applyid == this.message_payload.scoutid_or_applyid && 
+				payload.type == this.message_payload.type) {
+				this.message_payload.scoutid_or_applyid = 0;
+				this.meta = {
+					'jobseeker_name': '',
+					'recruiter_name': '',
+					'jobseeker_nickname': '',
+					'recruiter_nickname': '',
+					'jobseeker_user_id': 0,
+					'recruiter_user_id': 0,
+					'recruiter_email': '',
+					'jobseeker_email': '',
+				};
+                this.title = '';
+				this.number = '';
+				this.messages = [];
 			}
-			*/
-        },
+		},
         dragMouseDown: function (event) {
             this.positions.clientX = event.clientX
             this.positions.clientY = event.clientY
@@ -374,7 +424,13 @@ export default {
 			this.message_payload.jobseeker_id = 0;
 			this.message_payload.scoutid_or_applyid = 0;
 		},
-		
+		sendMail(receiver){
+			this.$api.post('v1/messages/send-mail', receiver)
+			.then(() => {})
+			.catch((e) => {
+				console.log(e);
+			})
+		},
 	},
 	computed: {
 		...mapGetters(["currentUser"]),
@@ -428,6 +484,7 @@ input:focus{
             border-left: 1px solid #e2e2e2;
         }
         .tab-left{
+			width: 100%;
             padding: 0;
             margin-top: 5px;
             .list-user{
