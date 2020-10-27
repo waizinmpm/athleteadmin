@@ -19,7 +19,7 @@ export default {
     businesstype : ' 経営者/自営業',
     unemployed : ' 無職',
     retirement : ' 定年退職',
-
+    jobseeker_number:'求職者会員番号',
     jobseeker_name :' 氏名',
     furigana : ' フリガナ',
     gender : ' 性別',
@@ -39,12 +39,12 @@ export default {
     admin : ' 運営管理者のみ閲覧可',
     name_req : '名前は入力が必須です。',
     furigana_req : ' 入力は必須です。',
-    furigana_type : ' カタカナで入力してください。',
+    furigana_type : ' 全角カタカナで入力してください',
     phone_req : ' 電話番号は入力が必須です。',
     number_only : ' 電話番号は数字のみである必須があります。',
     phone_length : ' 電話番号は10から14までの数字でなければなりません。',
     email_req : 'メールアドレスが必須です。',
-    email_type : ' ※メールアドレスが正しくありません。もう一度入力してください。',
+    email_type : '※メールアドレスの形式が正しくありませんもう一度入力してください',
     details : ' は、求人情報への応募、相談、スカウトに返信を行わない限り公開されません。※一部の項目は公開・非公開を編集することも可能です。',
 
     add : '追加する',

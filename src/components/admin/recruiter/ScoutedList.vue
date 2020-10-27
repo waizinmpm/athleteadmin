@@ -7,8 +7,8 @@
 				<div class="inner-wrapper">
 					<div class="row">
 						<div class="col-md-3">
-							<label for="企業番号">{{ $t('common.scout_recruiter_number') }}</label>
-							<input type="text" placeholder="企業番号" class="form-control" v-model.trim="filteredData.recruiter_id">
+							<label for="企業番号">{{ $t('common.recruiter_number') }}</label>
+							<input type="text" :placeholder="$t('common.recruiter_number')" class="form-control" v-model.trim="filteredData.recruiter_id">
 						</div>
 						<div class="col-md-3">
 							<label for="企業名">{{ $t('common.recruiter_name') }}</label>
@@ -29,12 +29,12 @@
 							<input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
 						</div>
 						<div class="col-md-3">
-							<label for="アスリート会員氏名">{{ $t('common.jobseeker_number') }}</label>
-							<input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_number">
+							<label for="アスリート会員氏名">{{ $t('scouted_list.jobseeker_number') }}</label>
+							<input type="text" :placeholder="$t('scouted_list.jobseeker_number')" class="form-control" v-model.trim="filteredData.jobseeker_number">
 						</div>      
 						<div class="col-md-3">
-							<label for="アスリート会員氏名">{{ $t('common.jobseeker_name') }}</label>
-							<input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
+							<label for="アスリート会員氏名">{{ $t('scouted_list.jobseeker_name') }}</label>
+							<input type="text" :placeholder="$t('scouted_list.jobseeker_name')" class="form-control" v-model.trim="filteredData.jobseeker_name">
 						</div>                        
 					</div>
 					<div class="row date-row">
@@ -105,7 +105,7 @@
 									<div class="scout-box">
 										<p class="scout-txt">{{project.scout_status}} </p>
 										<p class="btn btn-common" v-on:click="showToggle(index)">
-											{{$t('common.edit')}}
+											{{$t('common.change')}}
 											<span class="down-icon">&#9662;</span>
 										</p>
 										<div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
@@ -149,7 +149,7 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="border">
-								<h5>{{ $t('common.job') }}</h5>
+								<h5>{{ $t('common.job_or_scout') }}</h5>
 								<dl class="row mb-4">
 									<dt class="col-sm-5 scouted-list">{{ $t('scouted_list.columns.0.name') }}</dt>
 									<dd class="col-sm-7">{{ invoiceForm.management_number }}</dd>

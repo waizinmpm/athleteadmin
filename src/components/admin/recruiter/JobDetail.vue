@@ -1,6 +1,6 @@
 <template>
     <div class="job-detail">
-        <h3 class="mb-4 mt-0">{{ recruiter_job.job_number }}{{ recruiter_job.title }}</h3>
+        <h3 class="mb-4 mt-0">{{ recruiter_job.job_number }} {{ recruiter_job.title }}</h3>
         <dl class="detail-list">
             <dt class="detail-head">募集ポジション</dt>
             <dd class="detail-data">{{ recruiter_job.incharge_name }}</dd>

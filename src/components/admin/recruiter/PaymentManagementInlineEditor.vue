@@ -78,4 +78,8 @@ export default {
 		max-width: 100px;
 		padding: 3px;
 	} */
+
+
+
+
 </style>

@@ -97,36 +97,35 @@
 				<div class="tbl-wrap">
 					<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
 						<tbody>
-							<tr v-for="(project) in projects.data" :key="project.id">
+							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td>{{ project.management_number }}</td>
 								<td>{{ project.payment_method }}</td>
 								<td>{{ project.invoice_number }}</td>
-								<td>{{ project.status }}</td>
+								<td style="position:relative;">
+									<div class="scout-box">
+										<p class="scout-txt">{{ project.status }}</p>
+										<p class="btn btn-common" v-on:click="showToggle(index)">
+											{{$t('common.change')}}
+											<span class="down-icon">&#9662;</span>
+										</p>
+										<div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
+											<p class="custom-radio-group mr-3"  v-for="status in getTogglableStatus(project)" v-bind:key="status.id">
+												<input type="radio" :id="status.id+index" v-model="project.status" class="custion-radio" 
+													@change="onStatusChange(index, $event)" :value="status.id">
+												<label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
+											</p>
+										</div>
+									
+									</div>
+								</td>
 								<td>{{ project.invoice_amount|aj-number }}</td>
 								<td><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
 								<td class="tbl-wxl">
-									<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project" 
-										@editing-cancel="onEditingCancel($event, project)">
-										<template #display>
-											<span>{{ project.payment_amount|aj-number }}</span>
-										</template>
-										<template #editor>
-											<input type="text" v-model="project.payment_amount" @keypress="isNumber($event)" class="txt-edit">
-										</template>
-									</PaymentManagementInlineEditor>
-								</td>
-								<td class="tbl-wxl">
-									<PaymentManagementInlineEditor @editing-complete="onEditingComplete(project)" :original="project"
-										@editing-cancel="onEditingCancel($event, project)">
-										<template #display>
-											<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
-											<span class="mw-80px" v-show="!project.actual_payment_date"></span><br>
-										</template>
-										<template #editor>
-											<date-picker v-model="project.actual_payment_date" value-type="format" class="datepicker" :lang="lang" 
-												placeholder="年 - 月 - 日"></date-picker>
-										</template>
-									</PaymentManagementInlineEditor>
+									<span>{{ project.payment_amount|aj-number }}</span>
+									<br>
+									<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
+									<br v-if="project.actual_payment_date">
+									<button type="button" @click="editAmountDate(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
 								<td><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{ project.recruiter_name }}</router-link></td>
 								<td><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{ project.incharge_name }}</router-link></td> 
@@ -157,15 +156,40 @@
 
 			</div>
 		</div>
+		<!-- Amount/Date edit modal -->
+		<transition name="modal">
+		<div class="modal-mask" v-if="showModal">
+		<div class="modal-wrapper">
+			<div class="modal-container">
+			<div class="modal-header mb-0">
+				<p class="close-ico text-right" @click="closeModal">
+					<span class="icon icon-times"></span>
+				</p>
+			</div>
+			<div class="modal-body">
+				<input type="text" v-model="form.payment_amount" @keypress="isNumber($event)" class="form-control mb-1">
+				<date-picker v-model="form.actual_payment_date" value-type="format" class="datepicker w-100" :lang="lang" 
+					placeholder="年 - 月 - 日"></date-picker>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" @click="onEditingComplete(form)">{{ $t('common.confirm') }}</button>
+				<button class="btn" @click="closeModal">{{ $t('common.cancel') }}</button>
+			</div>
+			</div>
+		</div>
+		</div>
+		</transition>
 	</div>
+	
 </template>
 <script>
 import DataTableServices from "../../DataTable/DataTableServices";
-import PaymentManagementInlineEditor from './PaymentManagementInlineEditor';
+// import PaymentManagementInlineEditor from './PaymentManagementInlineEditor';
+import { showToggle,handleStatus } from "../../../partials/common";
 
 export default {
 	mixins: [ DataTableServices ],
-	components: { PaymentManagementInlineEditor },
+	// components: { PaymentManagementInlineEditor },
 	data() {
 		let sortOrders = {};
 		let columns = this.$i18n.messages.en.payment_management.columns;
@@ -175,6 +199,8 @@ export default {
 		return {
 			current: null,
 			base_url: "/v1/admin/payment-transactions",
+			old_index:'',
+			toggle_status:false,
 			columns: columns,
 			sortOrders: sortOrders,
 			filteredData: {
@@ -198,12 +224,105 @@ export default {
 					date: '年 - 月 - 日',
 				}
 			},
+			showModal: false,
+			form: {},
 		}
 	},
 	methods: {
+		getTogglableStatus(data) {
+			if (data.payment_job_type == this.$configs.payment_job_type.scout) 
+			{
+				return [
+					{ id: this.$configs.scouts.unclaimed, checked: false },
+					{ id: this.$configs.scouts.billed, checked: false },
+					{ id: this.$configs.scouts.payment_confirmed, checked: false }
+				];
+			}
+			else if (data.payment_job_type == this.$configs.payment_job_type.job_apply) 
+			{
+				return [
+					{ id: this.$configs.job_apply.unclaimed, checked: false },
+					{ id: this.$configs.job_apply.billed, checked: false },
+					{ id: this.$configs.job_apply.payment_confirmed, checked: false }
+				];
+			} else 
+			{
+				return [];
+			}
+		},
+		showToggle(index) {
+			this.current = index;
+			this.toggle_status = showToggle(index,this.old_index,this.toggle_status);
+			this.old_index = index;
+		},
+		hideToggle() {
+			this.toggle_status = false;
+		},
+		handleStatusToggle(e) {
+			if(handleStatus(e.target.className) == false) 
+				this.toggle_status = false;
+		},
+		onStatusChange(index, e) {
+			const payment = this.$data.projects.data[index];
+			this.$alertService.showConfirmDialog(null,this.$tc('alertMessage.change_confirm_message', e.target.value, { n:e.target.value }), this.$t('common.yes'), this.$t('common.no')) 
+			.then(r => {
+				if (r.value) {
+					if (payment.payment_job_type == this.$configs.payment_job_type.scout)
+					{
+						// --scout status change
+						this.$api.post('/v1/admin/scout-list/change-status', { 
+							scout_id: payment.scoutid_or_applyid, 
+							status: e.target.value,
+						})
+						.then(() => {
+						})
+						.catch((r) => {
+							const data = r.response.data;
+							this.$alertService.showErrorDialog(null,data.error.message);
+						})
+						.finally(() => {
+							// --Rebind original status
+							this.getData(this.projects.current_page);
+						})
+					}
+					else if (payment.payment_job_type == this.$configs.payment_job_type.job_apply)
+					{
+						// --jobapply status change
+						this.$api.post('/v1/admin/jobapply-list/change-status', {
+							jobapply_id: payment.scoutid_or_applyid,
+							recruiter_id: payment.recruiter_id,
+							status: e.target.value,
+						})
+						.then(() => {
+						})
+						.catch((r) => {
+							const data = r.response.data;
+							this.$alertService.showErrorDialog(null,data.error.message);
+						})
+						.finally(() => {
+							// --Rebind original status
+							this.getData(this.projects.current_page);
+						})
+					}
+				}
+				else {
+					this.getData(this.projects.current_page);
+				}
+				
+			});
+		},
 		onEditingComplete(payment) {
 			this.$api.put('/v1/admin/payment-transactions/'+payment.id, payment)
 			.then(() => {
+				let i = this.projects.data.findIndex(x => x.id == payment.id);
+				if (i > -1) {
+					this.projects.data[i].payment_amount = payment.payment_amount;
+					this.projects.data[i].actual_payment_date = payment.actual_payment_date;
+					this.projects.data[i].remark = payment.remark;
+				}
+				if (this.showModal) {
+					this.closeModal();
+				}
 			})
 			.catch((e) => {
 				console.log(e);
@@ -267,6 +386,16 @@ export default {
 				}
 			})
 		},
+		editAmountDate(payment) {
+			// --Bind form data
+			this.form = { ...payment };
+			this.showModal = true;
+		},
+		closeModal() {
+			// --Reset form data
+			this.form = {};
+			this.showModal = false;
+		}
 	},
 	computed: {
 		currentUser() {
@@ -302,4 +431,76 @@ textarea {
 .tbl-wrap .table {
     min-width: 1600px;
 }
+.w-100 {
+	width: 100%;
+}
+/* Modal added by MKK */
+.modal-mask {
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: table;
+	transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.modal-container {
+	width: 300px !important;
+	margin: 0px auto;
+	padding: 20px 30px;
+	background-color: #fff;
+	border-radius: 2px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+	transition: all 0.3s ease;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header {
+	padding: 5px 5px !important;
+}
+
+.modal-header h3 {
+	margin-top: 0;	
+	color: #42b983;
+}
+
+.modal-body {
+	margin: 20px 0;
+}
+
+.modal-default-button {
+	float: right;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+	opacity: 0;
+}
+
+.modal-leave-active {
+	opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
+/* End Modal */
 </style>
