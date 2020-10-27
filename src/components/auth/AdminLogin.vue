@@ -5,8 +5,8 @@
         class="text-success"
       >Thank you {{registeredUser.name}}.You can now login</div>         
         <div class="login-card-body row">
-            <div class="col-12">
-                <!-- <img :src="'../../images/logo_admin.png'" class="logo-img" alt="ATLETE REBORN PROJECT" /> -->
+            <div class="col-12 form-wrap">
+                <p class="logo-txt"><span >A</span>THLETE <span  class="ml-1">R</span>EBORN <span  class="ml-1">P</span>PROJECT</p>
                 <form class="form-signin" role="form" @submit.prevent="authenticate">
                     <h3 class="form-signin-heading text-center">運営管理者ログイン</h3> 
 
@@ -99,12 +99,20 @@ export default {
 .error {
     color: red;
 }
-.logo-img {
+.logo-txt {
     display: block;
-    margin: 0 auto 20px; 
-    padding: 10px 50px;
-    background: #334e12; 
-    background: #4b5d4b; 
+    margin: 0 auto 30px auto;
+    font-size: 21px;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    padding: 18px 0;
+    background: #2E2E2E;
+    border-top-left-radius: .3rem;
+    border-top-right-radius: .3rem;
+}
+.logo-txt span {
+    color: #72aa30;
 }
 .loginbtn{
     color: #fff;

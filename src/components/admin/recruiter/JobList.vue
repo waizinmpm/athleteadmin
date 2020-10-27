@@ -54,26 +54,24 @@
                     </div>
                 </div>
                 <label for="ステータス">{{ $t('common.status') }}</label>
-                <div class="row mb-0">
-                    <div class="col-md-12">
-                        <div class="col-md-1 p-lr0 tooltip-box" v-for="status in arr_status" :key="status.id.id">
-                            <label
-                                for="record_status"
-                                class="custom-control-label custom-checkbox-label"
-                            >
-                            <input
-                                type="checkbox"
-                                class="custom-control-input custom-checkbox"
-                                name="record_status"
-                                id="record_status"
-                                v-model="filteredData.status"
-                                @change="getData()"
-                                :value="status.id.value"
-                            />
-                            <span class="custom-check-label-post">{{status.id.display}}</span>
-                            </label>
-                            <span class="tooltiptext">{{status.id.display}}</span>
-                        </div>
+                <div class="status-row">
+                    <div class="status-col tooltip-box" v-for="status in arr_status" :key="status.id.id">
+                        <label
+                            for="record_status"
+                            class="custom-control-label custom-checkbox-label"
+                        >
+                        <input
+                            type="checkbox"
+                            class="custom-control-input custom-checkbox"
+                            name="record_status"
+                            id="record_status"
+                            v-model="filteredData.status"
+                            @change="getData()"
+                            :value="status.id.value"
+                        />
+                        <span class="custom-check-label-post">{{status.id.display}}</span>
+                        </label>
+                        <span class="tooltiptext">{{status.id.display}}</span>
                     </div>
                 </div>
                 <!--end advanced search-->

@@ -67,15 +67,13 @@
 					</div>
 				</div>
 				<label class="mb-4">{{ $t('payment_management.status') }}</label>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="col-md-2 p-lr0" v-for="(status, index) in record_status" :key="index">
-							<label class="custom-control-label custom-checkbox-label">
-								<input type="checkbox" class="custom-control-input custom-checkbox"
-									:value="status.id" :checked="status.checked" v-model="filteredData.record_status" @change="getData()" />
-								<span class="custom-check-label-post">{{ status.id }}</span>
-							</label>
-						</div>
+				<div class="status-row">
+					<div class="status-col" v-for="(status, index) in record_status" :key="index">
+						<label class="custom-control-label custom-checkbox-label">
+							<input type="checkbox" class="custom-control-input custom-checkbox"
+								:value="status.id" :checked="status.checked" v-model="filteredData.record_status" @change="getData()" />
+							<span class="custom-check-label-post">{{ status.id }}</span>
+						</label>
 					</div>
 				</div>
 			</div>
@@ -410,9 +408,6 @@ export default {
 };
 </script>
 <style scoped>
-.custom-checkbox-label {
-	padding-left: 0px;
-}
 textarea {
 	resize: vertical;
 }
