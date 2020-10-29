@@ -19,8 +19,8 @@
                             <input type="text" placeholder="求人番号" class="form-control" v-model.trim="filteredData.job_number">
                         </div>
                         <div class="col-md-3">
-                            <label for="アスリート会員氏名">{{ $t('common.jobseeker_name') }}</label>
-                            <input type="text" placeholder="アスリート会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
+                            <label for="求職者会員氏名">{{ $t('common.jobseeker_name') }}</label>
+                            <input type="text" placeholder="求職者会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
                         </div>
                     </div>
                     <div class="row">
