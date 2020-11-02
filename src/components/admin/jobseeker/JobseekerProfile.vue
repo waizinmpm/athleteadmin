@@ -14,7 +14,7 @@
                         <span class="icon icon-edit"></span>編集
                     </p>
                 </div>
-                <div class="row">
+                <div class="row movie-row">
                     <div class="col-md-7">
                         <div class="card-carousel row mt-3">
                             <!--image sliders-->
