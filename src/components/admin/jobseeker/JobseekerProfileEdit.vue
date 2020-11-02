@@ -2,7 +2,7 @@
     <div class="user-main">
         <div class="d-flex align-items-end">
             <h3 class="mb-0">プロフィール編集</h3> 
-            <span @click="$router.go(-1)" class="ml-auto btn back-btn">会員情報一覧へ戻る</span>
+            <span @click="$router.go(-1)" class="ml-auto btn back-btn">一覧へ戻る</span>
         </div>      
             <div class="col-12 tab-list sticky-top" v-if="showMenuBar" v-on:scroll="handleScroll">
                 <ul class="tab-list-row">   

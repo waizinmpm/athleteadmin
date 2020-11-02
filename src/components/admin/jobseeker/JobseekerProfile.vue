@@ -9,12 +9,12 @@
         >
             <div class="col-12">
                 <div class="intro-tit tit-box">
-                    <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
+                    <h3 class="profile-edit-tit" v-if="edit_page">スカウト待ち人材検索用自己紹介</h3>
                     <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')" v-if="edit_page">
                         <span class="icon icon-edit"></span>編集
                     </p>
                 </div>
-                <div class="row movie-row">
+                <div class="row">
                     <div class="col-md-7">
                         <div class="card-carousel row mt-3">
                             <!--image sliders-->

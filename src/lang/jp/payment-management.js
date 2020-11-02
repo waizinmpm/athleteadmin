@@ -13,7 +13,7 @@ export default {
         {"label": "status","name":"ステータス"},
         {"label": "invoice_amount","name":"請求金額"},
         {"label": "invoice_date","name":"入金期日"},
-		{"label": "payment_amount_date","name":"入金金額/日"},
+		{"label": "payment_amount_date","name":"入金金額"},
 		{"label": "recruiter_name","name":"企業名"},
 		// {"label": "phone1","name":"電話番号"},
 		// {"label": "email","name":"メールアドレス"},
