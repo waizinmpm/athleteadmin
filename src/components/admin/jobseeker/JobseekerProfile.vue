@@ -90,7 +90,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                    <h6 class="about-tit">自己PR、海外で勤務したい理由等</h6>
+                    <h6 class="about-tit">自己PR等</h6>
                     <pre class="about-box">{{selfIntro.self_pr}}</pre>
                     </div>
                 </div>
@@ -422,19 +422,19 @@
                 <div class="row col-md-7 p-0 m-0">
                     <div class="col-md-4 pl-0">
                     <select class="form-control" v-model="basicInfo.dobyears">
-                        <option disabled value></option>
+                        <option disabled :value="null">年</option>
                         <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
                     </select>
                     </div>
                     <div class="col-md-4 pl-0">
                     <select class="form-control" v-model="basicInfo.dobmonth">
-                        <option disabled value></option>
+                        <option disabled :value="null">月</option>
                         <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
                     </select>
                     </div>
                     <div class="col-md-4 pl-0">
                     <select class="form-control" v-model="basicInfo.dobday">
-                        <option disabled value></option>
+                        <option disabled :value="null">日</option>
                         <option v-for="day in 31" :key="day">{{ day }}{{' 日'}}</option>
                     </select>
                     </div>
@@ -471,7 +471,7 @@
                     </div>
                 </div>
                 </div>
-                <div class="form-group">
+               <!--  <div class="form-group">
                 <label for>{{$t('jobseekerprofile.Language')}}</label>
                 <div class="row">
                     <div class="col-md-6">
@@ -496,7 +496,7 @@
                     </select>
                     </div>
                 </div>
-                </div>
+                </div> -->
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.loca_details')}}
@@ -657,7 +657,7 @@
                 <dd class="detail-data">{{carrers.last_annual_income}} {{carrers.last_currency}}</dd>
             </dl>
             <div class="explation-note">
-                <span class="private">非公開</span>は、求人情報への応募、相談、スカウトに返信を行わない限り公開されません。※一部の項目は公開・非公開を編集することも可能です。
+                <span class="private">非公開</span>は求人への問い合わせ/応募やスカウトへの興味を示した場合のみ、求職者会員が閲覧可能になります。※一部の項目は公開・非公開を編集することも可能です。
             </div>
             </div>
         </div>
@@ -2993,7 +2993,7 @@
             this.$set(this.basicInfo, "jobseekerid", this.$route.params.id);
             let loading = this.$loading.show();
             this.$api
-                .post("/v1/jobseeker/profile/basicinfo", this.basicInfo)
+                .post("/v1/jobseeker/profile/basicinfo",this.basicInfo)
                 .then((r) => {
                     console.log(r);
                 this.$alertService.showSuccessDialog(
@@ -3019,10 +3019,17 @@
                 this.city_list = response.data.data.cities;
                 this.languages = response.data.data.languages;
                 this.countries = response.data.data.countries;
-                const dob = new Date(this.basicInfo.dob);
-                this.basicInfo.dobyears = dob.getFullYear() + " 年";
-                this.basicInfo.dobmonth = dob.getMonth() + 1 + " 月";
-                this.basicInfo.dobday = dob.getDate() + " 日";
+                if(this.basicInfo.dob == '' ){
+                    this.basicInfo.dobyears = null;
+                    this.basicInfo.dobmonth = null;
+                    this.basicInfo.dobday = null;
+                }
+                else{
+                    const dob = new Date(this.basicInfo.dob);
+                    this.basicInfo.dobyears = dob.getFullYear() + ' 年';
+                    this.basicInfo.dobmonth = dob.getMonth() + 1 + ' 月';
+                    this.basicInfo.dobday = dob.getDate() + ' 日';
+                }
             });
         },
 
