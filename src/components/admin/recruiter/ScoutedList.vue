@@ -146,7 +146,7 @@
 					<span class="icon icon-times"></span>
 				</p>
 				<div class="container-fluid vld-parent" ref="invoicePreviewContainer">
-					<div class="row">
+					<div class="row d-flex">
 						<div class="col-sm-6">
 							<div class="border">
 								<h5>{{ $t('common.job_or_scout') }}</h5>
@@ -206,7 +206,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-6" v-if="invoicePreview">
+						<div class="col-sm-6 invoice-col" v-if="invoicePreview">
 							<h5>{{ $t('common.invoice_preview') }}</h5>
 							<div class="invoice-preview-area">
 								<iframe v-bind:srcdoc="invoicePreview" class="invoice-frame"></iframe>
@@ -629,12 +629,16 @@ textarea {
 }
 
 /* modal box */
+.invoice-col {
+    margin-bottom: 1.625rem;
+}
 .invoice-preview-area {
+	height: 95%;
 	border: 10px solid #ccc;
 }
 .invoice-frame {
 	width: 100%;
-	height: 584px;
+	height: 100%;
 	border: none;
 }
 .scouted-list {
