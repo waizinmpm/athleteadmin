@@ -24,7 +24,7 @@
             <dd class="detail-data">{{ recruiter_job.allowance }}</dd>
         </dl>
         <router-link to="/job-list" class="btn btn-back float-right">
-            求⼈⼀覧 へ戻る
+           一覧へ戻る
         </router-link>
         <!-- 
             <div class="row">
