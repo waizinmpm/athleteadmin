@@ -131,7 +131,9 @@
         <div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
             <!-- Modal content -->
             <div class="modal-content">
-                <span class="close" @click="closeInvoiceModal">&times;</span>
+                <p class="close-ico"  @click="closeInvoiceModal">
+					<span class="icon icon-times"></span>
+				</p>
                 <div class="container-fluid vld-parent" ref="invoicePreviewContainer">
                     <div class="row"> 
                         <div class="col-sm-6">
@@ -528,22 +530,25 @@ export default {
   border: 1px solid #888;
   width: 80%;
 }
-.close {
-  position: absolute;
-	width: 40px;
-	height: 40px;
-	top: -10px;
-	right: -10px;
-	font-size: 35px;
-	font-weight: bold;
-	background: #fff;
+.close-ico {
+	position: absolute;
+    top: 10px;
+	right: 15px;
+	width: 35px;
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 35px;
+    font-size: 16px;
+    background: transparent;
+    border-radius: 50px;
+    color: #919191;
 	border: 1px solid;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 33px;
-	vertical-align: middle;
-	opacity: 0.8;
+	cursor: pointer;
 	z-index: 100;
+}
+.close-ico .icon {
+	font-size: 13px;
 }
 .list-pl {
     padding-left: 90px;
