@@ -486,10 +486,8 @@ export default {
                 "新卒歓迎",
                 "未経験歓迎",
                 "シニア歓迎",
-                "本社採用",
-                "語学不問",
+                "上場企業",
             ],
-
             occupations: [],
             countries: [],
             submitted: false,

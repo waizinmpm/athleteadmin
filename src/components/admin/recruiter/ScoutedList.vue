@@ -29,11 +29,11 @@
 							<input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
 						</div>
 						<div class="col-md-3">
-							<label for="アスリート会員氏名">{{ $t('scouted_list.jobseeker_number') }}</label>
+							<label for="求職者会員氏名">{{ $t('scouted_list.jobseeker_number') }}</label>
 							<input type="text" :placeholder="$t('scouted_list.jobseeker_number')" class="form-control" v-model.trim="filteredData.jobseeker_number">
 						</div>      
 						<div class="col-md-3">
-							<label for="アスリート会員氏名">{{ $t('scouted_list.jobseeker_name') }}</label>
+							<label for="求職者会員氏名">{{ $t('scouted_list.jobseeker_name') }}</label>
 							<input type="text" :placeholder="$t('scouted_list.jobseeker_name')" class="form-control" v-model.trim="filteredData.jobseeker_name">
 						</div>                        
 					</div>
