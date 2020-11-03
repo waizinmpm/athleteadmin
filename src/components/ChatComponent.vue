@@ -34,6 +34,7 @@
                             <div class="name">
                                 <p>{{number}}</p>
                                 <span>{{title}}</span>
+								<span style="font-size:12px;"> {{showName}}</span>
                             </div>
                         </div>
                         <div class="content-chat" ref="scrollChat" v-chat-scroll="{always: false, smooth: true}"  @v-chat-scroll-top-reached="scrollTop(channel,current_page)">
@@ -103,6 +104,7 @@ export default {
             channel: null,
             title: null,
             number: null,
+			showName: null,
             role: null,
             username: null,
             loading: false,
@@ -258,6 +260,7 @@ export default {
 				};
                 this.title = meta.job.title;
 				this.number = meta.job.job_number;
+				this.showName = '['+ meta.recruiter.recruiter_name + ', ' + meta.jobseeker.jobseeker_name +']';
 				this.loading = false;
 
 				this.markAsRead();
@@ -395,6 +398,7 @@ export default {
 				};
                 this.title = '';
 				this.number = '';
+				this.showName = '';
 				this.messages = [];
 			}
 		},
