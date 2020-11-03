@@ -3333,6 +3333,13 @@
 .col-md-3 {
     float: none;
 }
+.movie-row {
+   .col-md-8 ,
+    .col-md-7 ,
+    .col-md-3 {
+        float: left;
+    } 
+}
 .error {
     color: red;
 }
@@ -3589,7 +3596,6 @@
 }
 .intro-tit {
   margin-bottom: 20px;
-  border-bottom: none;
 }
 .movie-row {
   padding-bottom: 20px;
