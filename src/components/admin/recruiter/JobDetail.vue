@@ -23,9 +23,10 @@
             <dt class="detail-head">給与・待遇・ビザサポート</dt>
             <dd class="detail-data">{{ recruiter_job.allowance }}</dd>
         </dl>
-        <router-link to="/job-list" class="btn btn-back float-right">
+        <span @click="$router.go(-1)" class="btn btn-back float-right">一覧へ戻る</span> 
+        <!-- <router-link to="$router.go(-1)" class="btn btn-back float-right">
            一覧へ戻る
-        </router-link>
+        </router-link> -->
         <!-- 
             <div class="row">
                 <div class="col-md-4">募集ポジション(記入例)チーフディレクター</div>
