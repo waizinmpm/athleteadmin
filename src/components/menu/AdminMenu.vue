@@ -15,6 +15,11 @@
              <span>{{$t('menu.logotxt')}}</span>
              </a>           
           </div>
+          <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">             
+              <li><a class="no-href">運営管理者用画面</a></li>              
+            </ul>
+          </div> 
 
           <!-- Collect the nav links, forms, and other content for toggling -->
           <!-- <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
@@ -69,6 +74,11 @@ select {
 }
 select::-ms-expand {
     display: none; /* Hide the default arrow in Internet Explorer 10 and Internet Explorer 11 */
+}
+.no-href:hover{
+    color: #fff;
+    text-decoration: none;
+    background:none !important;
 }
 </style>
 
