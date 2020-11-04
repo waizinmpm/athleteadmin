@@ -2078,15 +2078,14 @@
             this.getSelfIntroDetails(`${this.$route.params.id}`);
             // this.getCarrerDetails();
             if (action == "open") {
-                //jquery?
-                //$("html, body").animate({ scrollTop: 0 }, "fast");
+                window.scrollTo(0, 0);
                 this.$emit('menuShowHide',this.showMenuBar = false)
             } else {
                 if (boxName == "expQualificationEdit") {
-                    this.$emit('menuShowHide',this.showMenuBar = true)
                     this.getJobIndustryExpDetails(request_id); // request_id
                     // call getData func back to clear empty array in data collection
                 }
+                this.$emit('menuShowHide',this.showMenuBar = true);
                 this.$nextTick(() => {
                 var ele = this.$el.querySelector("#" + boxName);
                 window.scrollTo(0, ele.offsetTop);
@@ -2297,6 +2296,7 @@
                 );
                 this.basicInfoEdit = false;
                 this.showDetails = true;
+                this.$emit('menuShowHide',this.showMenuBar = true);
                 this.getBasicInfoDetails(`${this.$route.params.id}`);
                 })
                 .catch((e) => {
@@ -2492,6 +2492,7 @@
                     this.careerEdit = false;
                     this.showDetails = true;
                     this.getCarrerDetails(`${this.$route.params.id}`);
+                    this.$emit('menuShowHide',this.showMenuBar = true);
                     loader.hide();
                 })
                 .catch((errors) => {
@@ -2608,6 +2609,7 @@
                     );
                     this.desiredConditionEdit = false;
                     this.showDetails = true;
+                    this.$emit('menuShowHide',this.showMenuBar = true);
                     this.getDesiredCondition(`${this.$route.params.id}`);
                     loader.hide();
                 })
