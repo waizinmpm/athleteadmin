@@ -1059,17 +1059,17 @@
                 <dt class="detail-head">経験業種・職種</dt>
                 <dd class="detail-data">
                 <p v-for="exp_job in experience_qualification.experience_jobs" :key="exp_job.id">
-                    <span v-if="exp_job.experience_year != ''">
-                    <span>{{exp_job.experience_year}}年</span>
+                    <span v-if="!containNullOnly(exp_job)">
+                    <span v-show="exp_job.experience_year > 0">{{exp_job.experience_year}}年</span>
                     <span v-for="occupation in occupation_list" :key="'occupation'+occupation.id">
                         <span
                         v-if="occupation.id == exp_job.experience_occupation"
                         >{{occupation.occupation_name}}</span>
-                    </span>・
+                    </span>
                     <span v-for="position in positions" :key="'position'+position.id">
                         <span
                         v-if="position.id == exp_job.experience_position"
-                        >{{position.position_name}}</span>
+                        >・{{position.position_name}}</span>
                     </span>
                     <span v-for="industry in industry_list" :key="'industry'+industry.id">
                         <div
@@ -1080,86 +1080,12 @@
                     <span v-else>未入力</span>
                 </p>
                 </dd>
-                <dt class="detail-head">留学経験</dt>
-                <dd class="detail-data">
-                <p
-                    v-for="study_abroad in experience_qualification.study_abroad_experiences"
-                    :key="study_abroad.id"
-                >
-                    <span v-if="study_abroad.study_abroad_country != ''">
-                    <span v-for="country in country_list" :key="'country'+country.id">
-                        <span
-                        v-if="country.id == study_abroad.study_abroad_country"
-                        >{{country.country_name}}</span>
-                    </span>・
-                    <span>{{study_abroad.study_abroad_period}}</span>・
-                    <span>{{study_abroad.study_abroad_purpose}}</span>
-                    </span>
-                    <span v-else>未入力</span>
-                </p>
-                </dd>
-                <dt class="detail-head">外国での勤務経験</dt>
-                <dd class="detail-data">
-                <p
-                    v-for="working_abroad in experience_qualification.working_abroad_experiences"
-                    :key="working_abroad.id"
-                >
-                    <span v-if="working_abroad.working_abroad_country != ''">
-                    <span v-for="country in country_list" :key="'country'+country.id">
-                        <span
-                        v-if="country.id == working_abroad.working_abroad_country"
-                        >{{country.country_name}}</span>
-                    </span>・
-                    <span>{{working_abroad.working_abroad_period}}</span>・
-                    <span v-for="position in positions" :key="'position'+position.id">
-                        <span
-                        v-if="position.id == working_abroad.working_abroad_position"
-                        >{{position.position_name}}</span>
-                    </span>
-                    </span>
-                    <span v-else>未入力</span>
-                </p>
-                </dd>
-                <dt class="detail-head">就労ビザ</dt>
-                <dd class="detail-data">
-                <p v-if="experience_qualification.work_visa.status == 1">
-                    <span v-for="country in country_list" :key="'country'+country.id">
-                    <span
-                        v-if="country.id == experience_qualification.work_visa.country"
-                    >{{country.country_name}}</span>
-                    </span>
-                </p>
-                <p v-else>無し</p>
-                </dd>
-                <dt class="detail-head">語学レベル</dt>
-                <dd class="detail-data">
-                <p
-                    v-for="foreign_language_level in experience_qualification.foreign_language_level_experiences"
-                    :key="foreign_language_level.id"
-                >
-                    <span v-if="foreign_language_level.foreign_language != ''">
-                    <span v-for="language in languages" :key="'language'+language.id">
-                        <span
-                        v-if="language.id == foreign_language_level.foreign_language"
-                        >{{language.language_name}}</span>
-                    </span>・
-                    <span>{{foreign_language_level.language_level}}</span>
-                    </span>
-                    <span v-else>未入力</span>
-                </p>
-                </dd>
-                <dt class="detail-head">TOEICスコア</dt>
-                <dd
-                class="detail-data"
-                >{{experience_qualification.other_qualifications.TOEIC_score ? experience_qualification.other_qualifications.TOEIC_score : '未入力'}}</dd>
-                <dt class="detail-head">その他語学関連資料</dt>
-                <dd
-                class="detail-data"
-                >{{experience_qualification.other_qualifications.language_qualifications ? experience_qualification.other_qualifications.language_qualifications : '未入力'}}</dd>
                 <dt class="detail-head">その他資格</dt>
                 <dd
                 class="detail-data"
-                >{{experience_qualification.other_qualifications.qualifications ? experience_qualification.other_qualifications.qualifications : '未入力'}}</dd>
+                >
+                    <pre>{{experience_qualification.other_qualifications.qualifications || '未入力'}}</pre>
+                </dd>
             </dl>
             </div>
         </div>
@@ -1179,12 +1105,12 @@
                 <h6 class="font-weight-bold">{{$t('jobseekerprofile.experience_industry_occupation')}}</h6>
                 <div
                 class="col-md-12 school-box"
-                v-for="(experience_job,index) in $v.experience_qualification.experience_jobs.$each.$iter"
+                v-for="(experience_job,index) in experience_qualification.experience_jobs"
                 :key="experience_job.id"
                 >
                 <p
                     class="delete-btn"
-                    @click="deleteExpQualification(index, experience_job.$model.industry_history_id)"
+                    @click="deleteExpQualification(index, experience_job.industry_history_id)"
                     v-if="experience_qualification.experience_jobs.length > 1"
                 >
                     <span class="icon icon-times"></span>
@@ -1195,19 +1121,13 @@
                     <div class="select-wrap">
                         <input
                         type="number"
-                        v-model="experience_job.experience_year.$model"
+                        v-model="experience_job.experience_year"
                         class="form-control"
+                        placeholder="0"
                         min="0"
                         maxlength="2"
                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         />
-                    </div>
-                    <div class="input-group" v-if="experience_job.experience_year.$dirty">
-                        <div
-                        class="error"
-                        v-if="!experience_job.experience_year.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_year') }) }}</div>
-                        <!-- <div class="error" v-if="!experience_job.experience_year.maxLength">maxlength Error</div> -->
                     </div>
                     </div>
                 </div>
@@ -1217,7 +1137,7 @@
                     <div class="select-wrap">
                         <select
                         class="form-control"
-                        v-model="experience_job.experience_industry.$model"
+                        v-model="experience_job.experience_industry"
                         >
                         <option
                             value
@@ -1231,12 +1151,6 @@
                         </select>
                         <span class="sort-desc">&#9662;</span>
                     </div>
-                    <div class="input-group" v-if="experience_job.experience_industry.$dirty">
-                        <div
-                        class="error"
-                        v-if="!experience_job.experience_industry.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_industry') }) }}</div>
-                    </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -1245,7 +1159,7 @@
                     <div class="select-wrap">
                         <select
                         class="form-control"
-                        v-model="experience_job.experience_occupation.$model"
+                        v-model="experience_job.experience_occupation"
                         >
                         <option
                             value
@@ -1259,18 +1173,12 @@
                         </select>
                         <span class="sort-desc">&#9662;</span>
                     </div>
-                    <div class="input-group" v-if="experience_job.experience_occupation.$dirty">
-                        <div
-                        class="error"
-                        v-if="!experience_job.experience_occupation.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_occupation') }) }}</div>
-                    </div>
                     </div>
                     <div class="col-md-8 p-0">
                     <div class="select-wrap">
                         <select
                         class="form-control"
-                        v-model="experience_job.experience_position.$model"
+                        v-model="experience_job.experience_position"
                         >
                         <option
                             value
@@ -1284,12 +1192,6 @@
                         </select>
                         <span class="sort-desc">&#9662;</span>
                     </div>
-                    <div class="input-group" v-if="experience_job.experience_position.$dirty">
-                        <div
-                        class="error"
-                        v-if="!experience_job.experience_position.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_position') }) }}</div>
-                    </div>
                     </div>
                 </div>
                 </div>
@@ -1301,418 +1203,9 @@
                 </p>
             </div>
 
-            <!-- Study aboard Experience -->
-            <div class="popup-databox">
-                <h6 class="font-weight-bold">{{$t('jobseekerprofile.experience_study_abroad')}}</h6>
-                <div
-                class="col-md-12 school-box"
-                v-for="(study_abroad_experience, index) in $v.experience_qualification.study_abroad_experiences.$each.$iter"
-                :key="study_abroad_experience.id"
-                >
-                <p
-                    class="delete-btn"
-                    @click="deleteStudyAbroad(index, study_abroad_experience.$model.study_abroad_id)"
-                    v-if="experience_qualification.study_abroad_experiences.length > 1"
-                >
-                    <span class="icon icon-times"></span>
-                </p>
-                <div class="form-group">
-                    <div class="row">
-                    <div class="col-md-4">
-                        <label for>{{$t('jobseekerprofile.experience_country')}}</label>
-                        <div class="select-wrap">
-                        <select
-                            class="form-control"
-                            v-model="study_abroad_experience.study_abroad_country.$model"
-                        >
-                            <option
-                            value
-                            disabled
-                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_country') }) }}</option>
-                            <option
-                            v-for="country in country_list"
-                            :key="country.id"
-                            :value="country.id"
-                            >{{country.country_name}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                        </div>
-                        <div
-                        class="input-group"
-                        v-if="study_abroad_experience.study_abroad_country.$dirty"
-                        >
-                        <div
-                            class="error"
-                            v-if="!study_abroad_experience.study_abroad_country.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_country') }) }}</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for>{{$t('jobseekerprofile.experience_period')}}</label>
-                        <div class="select-wrap">
-                        <select
-                            class="form-control"
-                            v-model="study_abroad_experience.study_abroad_period.$model"
-                        >
-                            <option
-                            value
-                            disabled
-                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_period') }) }}</option>
-                            <option
-                            v-for="abroad_period in study_abroad_period"
-                            :key="abroad_period.id"
-                            :value="abroad_period"
-                            >{{abroad_period}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                        </div>
-                        <div
-                        class="input-group"
-                        v-if="study_abroad_experience.study_abroad_period.$dirty"
-                        >
-                        <div
-                            class="error"
-                            v-if="!study_abroad_experience.study_abroad_period.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_period') }) }}</div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for>{{$t('jobseekerprofile.experience_purpose')}}</label>
-                    <div class="col-md-8 p-0">
-                    <div class="select-wrap">
-                        <select
-                        class="form-control"
-                        v-model="study_abroad_experience.study_abroad_purpose.$model"
-                        >
-                        <option
-                            value
-                            disabled
-                        >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_purpose') }) }}</option>
-                        <option
-                            v-for="purpose in purpose_study_abroad"
-                            :key="purpose.id"
-                            :value="purpose"
-                        >{{purpose}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                    </div>
-                    <div
-                        class="input-group"
-                        v-if="study_abroad_experience.study_abroad_purpose.$dirty"
-                    >
-                        <div
-                        class="error"
-                        v-if="!study_abroad_experience.study_abroad_purpose.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_purpose') }) }}</div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <p class="text-center mt-4">
-                <span
-                    class="btn add-btn"
-                    @click="addStudyAbroadExp()"
-                >+&nbsp;{{$t('jobseekerprofile.add')}}</span>
-                </p>
-            </div>
-
-            <!-- Experience working overseas -->
-            <div class="popup-databox">
-                <h6 class="font-weight-bold">{{$t('jobseekerprofile.experience_working_abroad')}}</h6>
-                <div
-                class="col-md-12 school-box"
-                v-for="(working_abroad_experience, index) in $v.experience_qualification.working_abroad_experiences.$each.$iter"
-                :key="working_abroad_experience.id"
-                >
-                <p
-                    class="delete-btn"
-                    @click="deleteWorkingAbroad(index, working_abroad_experience.$model.working_abroad_id)"
-                    v-if="experience_qualification.working_abroad_experiences.length > 1"
-                >
-                    <span class="icon icon-times"></span>
-                </p>
-                <div class="form-group">
-                    <div class="row">
-                    <div class="col-md-4">
-                        <label for>{{$t('jobseekerprofile.experience_country')}}</label>
-                        <div class="select-wrap">
-                        <select
-                            class="form-control"
-                            v-model="working_abroad_experience.working_abroad_country.$model"
-                        >
-                            <option
-                            value
-                            disabled
-                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_country') }) }}</option>
-                            <option
-                            v-for="country in country_list"
-                            :key="country.id"
-                            :value="country.id"
-                            >{{country.country_name}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                        </div>
-                        <div
-                        class="input-group"
-                        v-if="working_abroad_experience.working_abroad_country.$dirty"
-                        >
-                        <div
-                            class="error"
-                            v-if="!working_abroad_experience.working_abroad_country.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_country') }) }}</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for>{{$t('jobseekerprofile.experience_period')}}</label>
-                        <div class="select-wrap">
-                        <select
-                            class="form-control"
-                            v-model="working_abroad_experience.working_abroad_period.$model"
-                        >
-                            <option
-                            value
-                            disabled
-                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_period') }) }}</option>
-                            <option
-                            v-for="overseas_period in overseas_working_period"
-                            :key="overseas_period.id"
-                            :value="overseas_period"
-                            >{{overseas_period}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                        </div>
-                        <div
-                        class="input-group"
-                        v-if="working_abroad_experience.working_abroad_period.$dirty"
-                        >
-                        <div
-                            class="error"
-                            v-if="!working_abroad_experience.working_abroad_period.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_period') }) }}</div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for>{{$t('jobseekerprofile.experience_working_position')}}</label>
-                    <div class="col-md-8 p-0">
-                    <div class="select-wrap">
-                        <select
-                        class="form-control"
-                        v-model="working_abroad_experience.working_abroad_position.$model"
-                        >
-                        <option
-                            value
-                            disabled
-                        >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_working_position') }) }}</option>
-                        <option
-                            v-for="position in exp_positions"
-                            :key="position.id"
-                            :value="position.id"
-                        >{{position.position_name}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                    </div>
-                    <div
-                        class="input-group"
-                        v-if="working_abroad_experience.working_abroad_position.$dirty"
-                    >
-                        <div
-                        class="error"
-                        v-if="!working_abroad_experience.working_abroad_position.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_working_position') }) }}</div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <p class="text-center mt-4">
-                <span
-                    class="btn add-btn"
-                    @click="addWorkingAbroadExp()"
-                >+&nbsp;{{$t('jobseekerprofile.add')}}</span>
-                </p>
-            </div>
-
-            <!-- work visa -->
-            <div class="popup-databox">
-                <div class="form-group">
-                <label for>{{$t('jobseekerprofile.work_visa')}}</label>
-                <div class="d-flex">
-                    <p class="custom-radio-group mr-3">
-                    <input
-                        type="radio"
-                        id="yes"
-                        name="radio-group"
-                        v-model="experience_qualification.work_visa.status"
-                        value="1"
-                        @change="changeVisaStatus(1)"
-                        checked
-                        class="custion-radio"
-                    />
-                    <label for="yes" class="custom-radio-lable">{{$t('jobseekerprofile.yes')}}</label>
-                    </p>
-                    <p class="custom-radio-group">
-                    <input
-                        type="radio"
-                        id="none"
-                        name="radio-group"
-                        v-model="experience_qualification.work_visa.status"
-                        value="0"
-                        @change="changeVisaStatus(0)"
-                        class="custion-radio"
-                    />
-                    <label for="none" class="custom-radio-lable">{{$t('jobseekerprofile.none')}}</label>
-                    </p>
-                </div>
-                </div>
-                <div class="form-group">
-                <label for>{{$t('jobseekerprofile.experience_country')}}</label>
-                <div class="col-md-4 p-0 float-none">
-                    <div class="select-wrap">
-                    <select
-                        class="form-control"
-                        v-model="$v.experience_qualification.work_visa.country.$model"
-                        :disabled='experience_qualification.work_visa.status == 0'
-                    >
-                        <option
-                        value
-                        disabled
-                        >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_country') }) }}</option>
-                        <option
-                        v-for="country in country_list"
-                        :key="country.id"
-                        :value="country.id"
-                        >{{country.country_name}}</option>
-                    </select>
-                    <span class="sort-desc r-5">&#9662;</span>
-                    </div>
-                    <div
-                    class="input-group"
-                    v-if="$v.experience_qualification.work_visa.country.$error"
-                    >
-                    <div
-                        class="error"
-                        v-if="!experience_qualification.work_visa.country.required"
-                    >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_country') }) }}</div>
-                    </div>
-                </div>
-                </div>
-            </div>
-
-            <!-- Foreign Language Level -->
-            <div class="popup-databox">
-                <h6
-                class="font-weight-bold"
-                >{{$t('jobseekerprofile.experience_foreign_language_level')}}</h6>
-                <div
-                class="col-md-12 school-box"
-                v-for="(foreign_language_level_experience, index) in $v.experience_qualification.foreign_language_level_experiences.$each.$iter"
-                :key="foreign_language_level_experience.id"
-                >
-                <p
-                    class="delete-btn"
-                    @click="deleteforeignLanguageLevel(index, foreign_language_level_experience.$model.foreign_language_id)"
-                    v-if="experience_qualification.foreign_language_level_experiences.length > 1"
-                >
-                    <span class="icon icon-times"></span>
-                </p>
-                <div class="form-group">
-                    <div class="row">
-                    <div class="col-md-4">
-                        <label for>{{$t('jobseekerprofile.experience_foreign_language')}}</label>
-                        <div class="select-wrap">
-                        <select
-                            class="form-control"
-                            v-model="foreign_language_level_experience.foreign_language.$model"
-                        >
-                            <option
-                            value
-                            disabled
-                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_foreign_language') }) }}</option>
-                            <option
-                            v-for="language in languages"
-                            :key="language.id"
-                            :value="language.id"
-                            >{{language.language_name}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                        </div>
-                        <div
-                        class="input-group"
-                        v-if="foreign_language_level_experience.foreign_language.$dirty"
-                        >
-                        <div
-                            class="error"
-                            v-if="!foreign_language_level_experience.foreign_language.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_foreign_language') }) }}</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for>{{$t('jobseekerprofile.experience_language_level')}}</label>
-                        <div class="select-wrap">
-                        <select
-                            class="form-control"
-                            v-model="foreign_language_level_experience.language_level.$model"
-                        >
-                            <option
-                            value
-                            disabled
-                            >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_language_level') }) }}</option>
-                            <option
-                            v-for="lang_lvl in language_level"
-                            :key="lang_lvl.id"
-                            :value="lang_lvl"
-                            >{{lang_lvl}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                        </div>
-                        <div
-                        class="input-group"
-                        v-if="foreign_language_level_experience.language_level.$dirty"
-                        >
-                        <div
-                            class="error"
-                            v-if="!foreign_language_level_experience.language_level.required"
-                        >{{ $t('jobseekerprofile.required_field', { field: $t('jobseekerprofile.experience_language_level') }) }}</div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <p class="text-center mt-4">
-                <span
-                    class="btn add-btn"
-                    @click="addforeignLanguageLevel()"
-                >+&nbsp;{{$t('jobseekerprofile.add')}}</span>
-                </p>
-            </div>
-
             <!-- qualification -->
             <div class="popup-databox">
                 <h6 class="font-weight-bold">{{$t('jobseekerprofile.qualifications')}}</h6>
-                <div class="form-group">
-                <label for>{{$t('jobseekerprofile.toeic_score')}}</label>
-                <div class="col-md-4 p-0 float-none">
-                    <input
-                    type="text"
-                    placeholder="スコアを入力"
-                    v-model="experience_qualification.other_qualifications.TOEIC_score"
-                    class="form-control"
-                    />
-                </div>
-                </div>
-                <div class="form-group">
-                <label for>{{$t('jobseekerprofile.other_language_qualification')}}</label>
-                <div class="col-md-8 p-0">
-                    <textarea
-                    name
-                    class="form-control"
-                    v-model="experience_qualification.other_qualifications.language_qualifications"
-                    ></textarea>
-                </div>
-                </div>
                 <div class="form-group">
                 <label for>{{$t('jobseekerprofile.other_qualifications')}}</label>
                 <div class="col-md-8 p-0">
@@ -2081,7 +1574,7 @@
     </div>
 </template>
 <script>
-    import {required, requiredIf, minLength, maxLength, numeric, helpers, email} from "vuelidate/lib/validators";
+    import {required, minLength, maxLength, numeric, helpers, email} from "vuelidate/lib/validators";
     import { matchYoutubeUrl } from "../../../partials/common";
 
     const isFurigana = (value) => {
@@ -2219,28 +1712,13 @@
 
             // (start) experience qualification
             ids_to_del_exp_quali: [],
-            ids_to_del_study_abroad: [],
-            ids_to_del_working_abroad: [],
-            ids_to_del_language_levels: [],
-            //industry_list : [],
             country_list: [],
             exp_occupations: [],
             exp_positions: [],
             experience_qualification: {
                 experience_jobs: [],
-                study_abroad_experiences: [],
-                working_abroad_experiences: [],
-                //overseas_working_experiences: [],
-                foreign_language_level_experiences: [],
-                //qualifications: [],
-                work_visa: {
-                status: "",
-                country: "",
-                },
                 other_qualifications: {
-                TOEIC_score: "",
-                language_qualifications: "",
-                qualifications: "",
+                    qualifications: "",
                 },
             },
             study_abroad_period: [
@@ -2353,48 +1831,6 @@
                 email,
             },
         },
-
-        // (start) experience qualification
-        experience_qualification: {
-        experience_jobs: {
-            $each: {
-                experience_year: { required, numeric, maxLength: maxLength(80) },
-                experience_industry: { required },
-                experience_occupation: { required },
-                experience_position: { required },
-            },
-        },
-        study_abroad_experiences: {
-            $each: {
-                study_abroad_country: { required },
-                study_abroad_period: { required },
-                study_abroad_purpose: { required },
-            },
-        },
-        working_abroad_experiences: {
-            $each: {
-                working_abroad_country: { required },
-                working_abroad_period: { required },
-                working_abroad_position: { required },
-            },
-        },
-        work_visa: {
-            country: {
-                required: requiredIf(function () {
-                    return this.experience_qualification.work_visa.status == 1
-                    ? true
-                    : false;
-                }),
-            },
-        },
-        foreign_language_level_experiences: {
-            $each: {
-                foreign_language: { required },
-                language_level: { required },
-                },
-            },
-        },
-        // (end) experience qualification
 
         desired_condition: {
             desired_min_annual_income: { required },
@@ -2700,9 +2136,8 @@
         },
 
         //(start) ExpQualification by zayar_phone_naing
-        changeVisaStatus(status){
-            if(status == 0)
-                this.experience_qualification.work_visa.country = "";
+        containNullOnly(exp_job) {
+            return Object.values(exp_job).every(x => (x === null || x === ''));
         },
 
         addExpQualification() {
@@ -2711,29 +2146,6 @@
                 experience_industry: "",
                 experience_occupation: "",
                 experience_position: "",
-            });
-        },
-
-        addStudyAbroadExp() {
-            this.experience_qualification.study_abroad_experiences.push({
-                study_abroad_country: "",
-                study_abroad_period: "",
-                study_abroad_purpose: "",
-            });
-        },
-
-        addWorkingAbroadExp() {
-            this.experience_qualification.working_abroad_experiences.push({
-                working_abroad_country: "",
-                working_abroad_period: "",
-                working_abroad_position: "",
-            });
-        },
-
-        addforeignLanguageLevel() {
-            this.experience_qualification.foreign_language_level_experiences.push({
-                foreign_language: "",
-                language_level: "",
             });
         },
 
@@ -2749,21 +2161,18 @@
                 this.exp_positions      = response.positions;
                 let jobseeker_detail    = response.jobseeker_detail;
                 let industry_histories  = response.industry_histories;
-                let education_overseas  = response.education_overseas;
-                let working_overseas    = response.working_overseas;
-                let languages_levels    = response.languages_levels;
 
                 // experience job type
                 this.experience_qualification.experience_jobs = [];
                 if (industry_histories.length > 0) {
                     for (const industry_history of industry_histories) {
-                    this.experience_qualification.experience_jobs.push({
-                        industry_history_id: industry_history.id,
-                        experience_year: industry_history.experience_year,
-                        experience_industry: industry_history.industry_id,
-                        experience_occupation: industry_history.occupation_keyword_id,
-                        experience_position: industry_history.position_id,
-                    });
+                        this.experience_qualification.experience_jobs.push({
+                            industry_history_id: industry_history.id,
+                            experience_year: industry_history.experience_year,
+                            experience_industry: industry_history.industry_id || '',
+                            experience_occupation: industry_history.occupation_keyword_id || '',
+                            experience_position: industry_history.position_id || '',
+                        });
                     }
                 } else {
                     this.experience_qualification.experience_jobs.push({
@@ -2775,83 +2184,9 @@
                     });
                 }
 
-                // study abroad experience
-                this.experience_qualification.study_abroad_experiences = [];
-                if (education_overseas.length > 0) {
-                    for (const education_oversea of education_overseas) {
-                    this.experience_qualification.study_abroad_experiences.push({
-                        study_abroad_id: education_oversea.id,
-                        study_abroad_country: education_oversea.country_id,
-                        study_abroad_period: education_oversea.period,
-                        study_abroad_purpose: education_oversea.purpose,
-                    });
-                    }
-                } else {
-                    this.experience_qualification.study_abroad_experiences.push({
-                    study_abroad_id: "",
-                    study_abroad_country: "",
-                    study_abroad_period: "",
-                    study_abroad_purpose: "",
-                    });
-                }
-
-                // working at overseas/abroad experience
-                this.experience_qualification.working_abroad_experiences = [];
-                if (working_overseas.length > 0) {
-                    for (const working_oversea of working_overseas) {
-                    this.experience_qualification.working_abroad_experiences.push({
-                        working_abroad_id: working_oversea.id,
-                        working_abroad_country: working_oversea.country_id,
-                        working_abroad_position: working_oversea.position_id,
-                        working_abroad_period: working_oversea.period,
-                    });
-                    }
-                } else {
-                    this.experience_qualification.working_abroad_experiences.push({
-                    working_abroad_id: "",
-                    working_abroad_country: "",
-                    working_abroad_position: "",
-                    working_abroad_period: "",
-                    });
-                }
-
-                // work visa
-                this.experience_qualification.work_visa.status =
-                    jobseeker_detail.visa_status ?? "0";
-                this.experience_qualification.work_visa.country =
-                    jobseeker_detail.visa_status
-                    ? jobseeker_detail.visa_country
-                    : "";
-
                 // other qualifications
-                this.experience_qualification.other_qualifications.TOEIC_score =
-                    jobseeker_detail.toeic_score;
-                this.experience_qualification.other_qualifications.language_qualifications =
-                    jobseeker_detail.other_language_certificate;
                 this.experience_qualification.other_qualifications.qualifications =
                     jobseeker_detail.other_certificate;
-
-                // foreign language level
-                this.experience_qualification.foreign_language_level_experiences = [];
-                if (languages_levels.length > 0) {
-                    for (const languages_level of languages_levels) {
-                    this.experience_qualification.foreign_language_level_experiences.push(
-                        {
-                        foreign_language_id: languages_level.id,
-                        foreign_language: languages_level.language_id,
-                        language_level: languages_level.language_level,
-                        }
-                    );
-                    }
-                } else {
-                    this.experience_qualification.foreign_language_level_experiences.push(
-                    {
-                        foreign_language_id: "",
-                        foreign_language: "",
-                        language_level: "",
-                    }
-                    );
-                }
             })
             .catch((errors) => {
             console.log(errors);
@@ -2865,54 +2200,13 @@
             this.experience_qualification.experience_jobs.splice(index, 1);
         },
 
-        deleteStudyAbroad(index, study_abroad_id) {
-            if (typeof study_abroad_id !== "undefined") {
-                this.ids_to_del_study_abroad.push({ study_abroad_id });
-            }
-            this.experience_qualification.study_abroad_experiences.splice(index, 1);
-        },
-
-        deleteWorkingAbroad(index, working_abroad_id) {
-            if (typeof working_abroad_id !== "undefined") {
-                this.ids_to_del_working_abroad.push({ working_abroad_id });
-            }
-            this.experience_qualification.working_abroad_experiences.splice(index, 1);
-        },
-
-        deleteforeignLanguageLevel(index, foreign_language_id) {
-            if (typeof foreign_language_id !== "undefined") {
-                this.ids_to_del_language_levels.push({ foreign_language_id });
-            }
-            this.experience_qualification.foreign_language_level_experiences.splice(
-                index,
-                1
-            );
-        },
-
         saveExpQualification() {
-        this.$v.experience_qualification.$touch();
-        if (this.$v.experience_qualification.$invalid) {
-            return;
-        }
-        // this.$alertService.showConfirmDialog(null, this.$t("dialog_box.confirm_save_message"), this.$t("common.yes"),
-        //     this.$t("common.no"))
-        //     .then((dialogResult) => {
-        //     if (dialogResult.value) {
-        //     }
-        // });
             let loader = this.$loading.show();
             let request_data = {
-                request_id:                 `${this.$route.params.id}`,
-                experienced_jobs:           this.experience_qualification.experience_jobs,
-                delete_experience_jobs:     this.ids_to_del_exp_quali,
-                study_abroad_experiences:   this.experience_qualification.study_abroad_experiences,
-                delete_study_abroad:        this.ids_to_del_study_abroad,
-                working_abroad_experiences: this.experience_qualification.working_abroad_experiences,
-                delete_working_abroad:      this.ids_to_del_working_abroad,
-                work_visa:                  this.experience_qualification.work_visa,
-                foreign_language_experiences:           this.experience_qualification.foreign_language_level_experiences,
-                delete_foreign_languages_experiences:   this.ids_to_del_language_levels,
-                other_qualifications:                   this.experience_qualification.other_qualifications,
+                request_id:             `${this.$route.params.id}`,
+                experienced_jobs:       this.experience_qualification.experience_jobs,
+                delete_experience_jobs: this.ids_to_del_exp_quali,
+                other_qualifications:   this.experience_qualification.other_qualifications,
             };
             this.$api.post("/v1/jobseeker/profile/experiences-qualifications/update", request_data)
             .then((response) => {
