@@ -1,6 +1,6 @@
 <template>
     <div class="user-main">
-        <div class="d-flex align-items-end">
+        <div class="d-flex align-items-end mb-20">
             <h3 class="mb-0">プロフィール編集</h3> 
             <span @click="$router.go(-1)" class="ml-auto btn back-btn">一覧へ戻る</span>
         </div>      
@@ -133,5 +133,8 @@
 .btn-back {
     border-color: #aab2bd;
     background-color: #aab2bd;
+}
+.mb-20 {
+    margin-bottom: 20px;
 }
 </style>

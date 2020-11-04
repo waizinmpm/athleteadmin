@@ -8,7 +8,7 @@
             v-if="!selfIntroEdit && showDetails"
         >
             <div class="col-12">
-                <div class="intro-tit tit-box" v-if="edit_page">
+                <div class="tit-box" v-if="edit_page">
                     <h3 class="profile-edit-tit" v-if="edit_page">スカウト待ち人材検索用自己紹介</h3>
                     <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')" v-if="edit_page">
                         <span class="icon icon-edit"></span>編集
@@ -2889,9 +2889,6 @@
   line-height: 2;
   border: 1px solid #ddd;
   margin: 15px 0 30px 0;
-}
-.intro-tit {
-  margin-bottom: 20px;
 }
 .movie-row {
   padding-bottom: 20px;
