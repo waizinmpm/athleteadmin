@@ -1060,7 +1060,7 @@
                 <dd class="detail-data">
                 <p v-for="exp_job in experience_qualification.experience_jobs" :key="exp_job.id">
                     <span v-if="!containNullOnly(exp_job)">
-                    <span>{{exp_job.experience_year}}年</span>
+                    <span v-show="exp_job.experience_year > 0">{{exp_job.experience_year}}年</span>
                     <span v-for="occupation in occupation_list" :key="'occupation'+occupation.id">
                         <span
                         v-if="occupation.id == exp_job.experience_occupation"
@@ -1083,7 +1083,9 @@
                 <dt class="detail-head">その他資格</dt>
                 <dd
                 class="detail-data"
-                >{{experience_qualification.other_qualifications.qualifications ? experience_qualification.other_qualifications.qualifications : '未入力'}}</dd>
+                >
+                    <pre>{{experience_qualification.other_qualifications.qualifications || '未入力'}}</pre>
+                </dd>
             </dl>
             </div>
         </div>
