@@ -2,8 +2,8 @@ export default {
     "title": "スカウト済み一覧",
     "scout_date": "スカウト日時",
 	"scout_status": "ステータス",
-	"jobseeker_number": "求職者会員氏名",
-	"jobseeker_name": "求職者会員番号",
+	"jobseeker_number": "求職者会員番号",
+	"jobseeker_name": "求職者会員氏名",
 	"recruiter_number": "企業会員番号",
     "columns": [
         {"label":"management_number","name":"管理番号"},
