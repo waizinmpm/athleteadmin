@@ -21,7 +21,7 @@
             <dt class="detail-head">応募資格</dt>
             <dd class="detail-data">{{ recruiter_job.qualification }}</dd>
             <dt class="detail-head">給与・待遇・ビザサポート</dt>
-            <dd class="detail-data">{{ recruiter_job.allowance }}</dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.allowance }}</pre></dd>
         </dl>
         <span @click="$router.go(-1)" class="btn btn-back float-right">一覧へ戻る</span> 
         <!-- <router-link to="$router.go(-1)" class="btn btn-back float-right">
