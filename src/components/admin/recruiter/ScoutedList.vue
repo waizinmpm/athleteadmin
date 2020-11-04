@@ -7,11 +7,11 @@
 				<div class="inner-wrapper">
 					<div class="row">
 						<div class="col-md-3">
-                            <label for="企業会員番号">{{ $t('common.management_no') }}</label>
-                            <input type="text" placeholder="企業会員番号" class="form-control" v-model.trim="filteredData.management_no">
+                            <label for="管理番号">{{ $t('common.management_no') }}</label>
+                            <input type="text" placeholder="管理番号" class="form-control" v-model.trim="filteredData.management_no">
                         </div> 
 						<div class="col-md-3">
-							<label for="企業番号">{{ $t('common.recruiter_number') }}</label>
+							<label for="企業会員番号">{{ $t('common.recruiter_number') }}</label>
 							<input type="text" :placeholder="$t('common.recruiter_number')" class="form-control" v-model.trim="filteredData.recruiter_id">
 						</div>
 						<div class="col-md-3">
@@ -29,7 +29,7 @@
 							<input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
 						</div>
 						<div class="col-md-3">
-							<label for="求職者会員氏名">{{ $t('scouted_list.jobseeker_number') }}</label>
+							<label for="求職者会員番号">{{ $t('scouted_list.jobseeker_number') }}</label>
 							<input type="text" :placeholder="$t('scouted_list.jobseeker_number')" class="form-control" v-model.trim="filteredData.jobseeker_number">
 						</div>      
 						<div class="col-md-3">

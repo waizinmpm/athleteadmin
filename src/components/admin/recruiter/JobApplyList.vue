@@ -11,8 +11,8 @@
                             <input type="text" placeholder="管理番号" class="form-control" v-model.trim="filteredData.management_no">
                         </div>
                         <div class="col-md-3">
-                            <label for="企業番号">{{ $t('common.recruiter_number') }}</label>
-                            <input type="text" placeholder="企業番号" class="form-control" v-model.trim="filteredData.recruiter_number">
+                            <label for="企業会員番号">{{ $t('common.recruiter_number') }}</label>
+                            <input type="text" placeholder="企業会員番号" class="form-control" v-model.trim="filteredData.recruiter_number">
                         </div>
                         <div class="col-md-3">
                             <label for="企業名">{{ $t('common.recruiter_name') }}</label>
