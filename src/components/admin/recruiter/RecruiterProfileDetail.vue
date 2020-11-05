@@ -1,6 +1,6 @@
 <template>
-    <div class="recruiter-profile-detail">
-         <h3 class="mb-4 mt-0">企業プロフィール詳細</h3> 
+    <div class="recruiter-profile-detail row">
+         <h5 class="main-header">企業プロフィール詳細</h5> 
         <dl class="detail-list">
             <dt class="detail-head">ご担当者名</dt>
             <dd class="detail-data">{{ recruiter_info.incharge_name }}</dd>
@@ -95,7 +95,7 @@ export default {
     min-height: 650px;
 }
 .detail-list {
-    padding: 10px 20px 20px 20px;
+    padding: 10px 0 20px 0;
     overflow: hidden;
 }
 .detail-head,
@@ -108,13 +108,13 @@ export default {
   display: flex;
   float: left;
   width: 40%;
-  margin-right: 6%;
+  margin-right: 3%;
   align-items: flex-start;
   font-weight: normal;
 }
 .detail-data {
   float: left;
-  width: 54%;
+  width: 57%;
   background-color: #fff;
   min-height: 50px;
 }

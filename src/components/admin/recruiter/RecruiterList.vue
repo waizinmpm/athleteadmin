@@ -113,11 +113,11 @@
                             </div>
                         </label>
                     </td>
-                    <td class="tbl-wm"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_number}}</router-link></td>
-                    <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_name}}</router-link></td>
-                    <td class="tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td>
+                    <td class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_number}}</router-link></td>
+                    <td class="text-left"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{project.recruiter_name}}</router-link></td>
+                    <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td>
                     
-                    <td class="tbl-wm">
+                    <td class="tbl-ws">
                         <div class="scout-box">
                             <div v-if="project.record_status != 0">
                                 {{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}
@@ -151,7 +151,7 @@
                             <div v-else>退会</div>
                         </div>
                     </td>
-                    <td class="tbl-wm">
+                    <td class="tbl-ws">
                     <router-link
                         :to="'/admin/recruiter-list/' + project.id + '/edit'"
                         class="btn btn-edit"

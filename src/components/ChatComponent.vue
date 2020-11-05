@@ -499,7 +499,7 @@ input:focus{
         .header-chat{
             width: 100%;
             height: 60px;
-            background: #27a09e;
+            background: #84BE3F;
             padding: 5px;
             h3{
                 margin-top: 15px;
@@ -537,11 +537,11 @@ input:focus{
                 border-bottom: 1px solid #e2e2e2;
                 transition: 0.3s;
                 &.active{
-                    background: #27a09e;
+                    background: #84BE3F;
                     color: #fff;
                     
                     &:hover{
-                        background: #27a09e;
+                        background: #84BE3F;
                         cursor: context-menu;
                     }
                 }
@@ -598,6 +598,7 @@ input:focus{
                 }                   
                 .my-message{
                     background: #59d0ce;
+                    background: #9bca64;
                     border-top-left-radius: 10px;
                     border-top-right-radius: 10px;
                     border-bottom-left-radius: 10px;
@@ -608,7 +609,7 @@ input:focus{
                     border-top-right-radius: 10px;
                     border-bottom-right-radius: 10px;
                     .name{
-                        color: #27a09e;
+                        color: #84BE3F;
                         font-size: 11px;
                     }
                 }
@@ -627,16 +628,16 @@ input:focus{
                 padding: 7px 20px;
                 width: 80%;
                 border-radius: 20px;
-                border: 1px solid #27a09e;
+                border: 1px solid #84BE3F;
             }
             i{
                 margin-left: 10px;
                 font-size: 18px;
-                color: #27a09e;
+                color: #84BE3F;
                 padding: 10px;
                 &:hover{
                     color: #fff;
-                    background: #27a09e;
+                    background: #84BE3F;
                     border-radius: 20px;
                     cursor: pointer;
                 }
@@ -655,7 +656,8 @@ input:focus{
     bottom: 20px;
     right: 20px;
     border-radius: 50%;
-    background: #27a09e;
+    background:#27a09e;
+    background:#84BE3F;
     i{
         font-size: 40px;
         padding: 10px;

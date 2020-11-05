@@ -86,7 +86,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
 .admin-home {
     height: 100vh;
 }

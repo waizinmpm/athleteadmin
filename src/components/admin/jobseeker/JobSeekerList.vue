@@ -116,9 +116,9 @@
                             </span>
                             </label>
                         </td>
-                        <td><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
+                        <td class="tbl-wl"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
                         <td><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
-                        <td class="tbl-wm">
+                        <td class="tbl-ws">
                             <div class="toggle-box" v-if="project.record_status != 0">
                                 <div class="scout-box">
                                     <span class="scout-txt text-center">{{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}</span>
@@ -146,7 +146,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="tbl-wm">
+                        <td class="tbl-ws">
                             <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" v-if="project.record_status != 3" >{{ $t('common.edit') }}</router-link>
                         </td>
                         </tr>

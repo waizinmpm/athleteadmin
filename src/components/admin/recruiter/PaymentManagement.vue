@@ -104,10 +104,10 @@
 					<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
-								<td>{{ project.management_number }}</td>
-								<td>{{ project.payment_method }}</td>
-								<td>{{ project.invoice_number }}</td>
-								<td style="position:relative;">
+								<td class="tbl-wm">{{ project.management_number }}</td>
+								<td class="tbl-wxs">{{ project.payment_method }}</td>
+								<td class="tbl-wm">{{ project.invoice_number }}</td>
+								<td style="position:relative;" class="tbl-ws">
 									<div class="scout-box">
 										<p class="scout-txt">{{ project.status }}</p>
 										<p class="btn btn-common" v-on:click="showToggle(index)">
@@ -124,24 +124,24 @@
 									
 									</div>
 								</td>
-								<td>{{ project.invoice_amount|aj-number }}</td>
-								<td><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
-								<td class="tbl-wxl">
+								<td class="tbl-ws">{{ project.invoice_amount|aj-number }}</td>
+								<td class="tbl-ws"><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
+								<td class="tbl-ws">
 									<span>{{ project.payment_amount|aj-number }}</span>
 									<br>
 									<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
 									<br v-if="project.actual_payment_date">
 									<button type="button" @click="editAmountDate(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
-								<td><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{ project.recruiter_name }}</router-link></td>
-								<td><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{ project.incharge_name }}</router-link></td> 
+								<td style="max-width:300px;"><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link></td>
+								<td style="max-width:300px;"><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link></td> 
 								<!-- <td class="text-left">
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">名</span> - {{project.recruiter_name}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">電話番号</span> - {{project.phone1}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">メールアドレス</span> - {{project.email}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">担当者名</span> - {{project.incharge_name}}</p>
                                 </td> -->
-								<td class="tbl-wl">
+								<td class="tbl-wm">
 									<div style="height:40px;line-height:40px;vertical-align:middle;">
 										<span class="txt-vertical-ellipsis text-left">{{ project.remark }}</span>
 									</div>
@@ -439,7 +439,7 @@ textarea {
 	width: 170px;
 }
 .tbl-wrap .table {
-    min-width: 1600px;
+    min-width: 1000px;
 }
 .w-100 {
 	width: 100%;

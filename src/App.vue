@@ -751,7 +751,7 @@ body {
     overflow-x: auto ;
 }
 .tbl-wrap .table {
-    width: 1300px;
+    // width: 1300px;
     // overflow-x: scroll;
 }
 // .tbl-wrap .table th , .tbl-wrap .table td {
@@ -775,8 +775,11 @@ body {
 .tbl-w110 {
     width: 110px;
 }
+.tbl-w135 {
+    width: 135px;
+}
 .tbl-titw {
-    width: 300px;
+    width: 250px;
 }
 .text-left {
     text-align: left !important;
@@ -795,7 +798,9 @@ body {
 .mb-0 {
     margin-bottom: 0;
 }
-
+.m-auto {
+    margin: 0 auto;
+}
 // date
 .date-row {
 	display: flex;
@@ -813,6 +818,7 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-word;
 }
 .text-truncate {
     overflow: hidden;
