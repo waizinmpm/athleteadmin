@@ -17,7 +17,7 @@
 								
                                 <div class="name">
                                     {{item.job_number}}
-                                    <p>{{item.title}}</p>
+                                    <p class="txt-vertical-ellipsis">{{item.title}}</p>
                                 </div>                               
                                 <div class="unread" v-if="item.unread > 0">
                                     <span v-if="item.unread <= 5">{{item.unread}}</span>
@@ -33,8 +33,8 @@
                             </div>
                             <div class="name">
                                 <p>{{number}}</p>
-                                <span>{{title}}</span>
-								<span style="font-size:12px;"> {{showName}}</span>
+                                <span class="txt-vertical-ellipsis">{{title}}</span>
+								<span style="font-size:12px;">{{showName}}</span>
                             </div>
                         </div>
                         <div class="content-chat" ref="scrollChat" v-chat-scroll="{always: false, smooth: true}"  @v-chat-scroll-top-reached="scrollTop(channel,current_page)">
@@ -180,7 +180,7 @@ export default {
 			switch (message_payload.speaker_role_id)
 			{
 				case 1:
-					return "Admin";
+					return "運営管理";
 
 				case 2:
 					return this.meta.recruiter_name;
@@ -260,7 +260,7 @@ export default {
 				};
                 this.title = meta.job.title;
 				this.number = meta.job.job_number;
-				this.showName = '['+ meta.recruiter.recruiter_name + ', ' + meta.jobseeker.jobseeker_name +']';
+				this.showName = '企：'+ meta.recruiter.recruiter_name + '  求：' + meta.jobseeker.jobseeker_name;
 				this.loading = false;
 
 				this.markAsRead();
@@ -335,8 +335,9 @@ export default {
 				if (!this.online.includes(this.meta.jobseeker_user_id)) {
 					offlines.push({
 						message_id: message.id,
-						from: 'Admin',
+						from: '運営管理',
 						to: this.meta.jobseeker_email,
+						to_name: this.meta.jobseeker_name,
 						date: Date.now(),
 						number: this.number,
 						title: this.title,
@@ -348,8 +349,9 @@ export default {
 				if (!this.online.includes(this.meta.recruiter_user_id)) {
 					offlines.push({
 						message_id: message.id,
-						from: 'Admin',
+						from: '運営管理',
 						to: this.meta.recruiter_email,
+						to_name: this.meta.recruiter_name,
 						date: Date.now(),
 						number: this.number,
 						title: this.title,
@@ -477,7 +479,7 @@ input:focus{
     right: 90px;
     bottom: 20px;
     width: 500px;
-    height: 430px;
+    height: 440px;
     z-index: 9;
 }
     .main-chat{
@@ -492,14 +494,14 @@ input:focus{
             padding: 0;
             margin-top: 5px;
             .list-user{
-                height: 380px;
+                height: 390px;
                 overflow-y: scroll;
             }
         }
         .header-chat{
             width: 100%;
-            height: 60px;
-            background: #84BE3F;
+            height: 70px;
+            background: #27a09e;
             padding: 5px;
             h3{
                 margin-top: 15px;
