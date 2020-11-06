@@ -657,7 +657,7 @@
                 <dd class="detail-data">{{carrers.last_annual_income}} {{carrers.last_currency}}</dd>
             </dl>
             <div class="explation-note">
-                <span class="private">非公開</span>は求人への問い合わせ/応募やスカウトへの興味を示した場合のみ、求職者会員が閲覧可能になります。※一部の項目は公開・非公開を編集することも可能です。
+                <span class="private">非公開</span>は求人への問い合わせ/応募やスカウトへの興味を示した場合のみ、求職者会員が閲覧可能になります。
             </div>
             </div>
         </div>
