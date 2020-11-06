@@ -57,14 +57,14 @@
                 <div class="status-row">
                     <div class="status-col tooltip-box" v-for="status in arr_status" :key="status.id.id">
                         <label
-                            for="record_status"
+                            :for="status.id.display"
                             class="custom-control-label custom-checkbox-label"
                         >
                         <input
                             type="checkbox"
                             class="custom-control-input custom-checkbox"
                             name="record_status"
-                            id="record_status"
+                            :id="status.id.display"
                             v-model="filteredData.status"
                             @change="getData()"
                             :value="status.id.value"
