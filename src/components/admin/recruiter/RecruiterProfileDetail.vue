@@ -1,6 +1,6 @@
 <template>
     <div class="recruiter-profile-detail row">
-         <h5 class="main-header">企業プロフィール詳細</h5> 
+         <h5 class="main-header">企業プロフィール詳細 <span style="color:red;">{{ recruiter_info.record_status == 3 ? '退会' : '' }}</span></h5> 
         <dl class="detail-list">
             <dt class="detail-head">ご担当者名</dt>
             <dd class="detail-data">{{ recruiter_info.incharge_name }}</dd>
