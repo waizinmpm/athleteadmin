@@ -77,13 +77,13 @@
                 <option v-for="(records, index) in perPage" :key="index" :value="records">{{records}}</option>
                 </select>
             </div>
-            <div class="col-sm-6 select">
+            <!-- <div class="col-sm-6 select">
                 <span
                 class="btn custom-btn float-right"
                 @click="deleteData()"
                 :disabled="isDisabled"
                 >{{ $t('common.delete') }}</span>
-            </div>
+            </div> -->
             </div>
             <div class="vld-parent" style="width: 100%;" ref="loadingRef">
             <DataTable
