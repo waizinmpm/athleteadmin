@@ -25,7 +25,7 @@
 
                 <label for="ステータス">{{ $t('common.status') }}</label>
                 <div class="status-row">
-                    <div class="status-col" v-for="status in arr_status" :key="status.id">
+                    <div class="status-col" v-for="status in arr_status" :key="status.id.value">
                         <label :for="status.id.display" class="custom-control-label custom-checkbox-label">
                         <input
                             type="checkbox"
