@@ -228,9 +228,6 @@
             </div>
         </div>
         <!-- End Invoice Area -->
-		<!-- chatbox -->
-		<ChatComponent ref="refChatComponent" :type="'job-apply'" />
-		<!-- end chatbox -->
 </div>
 </template>
 
@@ -238,11 +235,9 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
 import { showToggle,handleStatus } from "../../../partials/common";
-import ChatComponent from '../../ChatComponent';
 
 export default {
 	mixins: [DataTableServices],
-	components: { ChatComponent },
         data(){
             let sortOrders = {};
             let columns = this.$i18n.messages.en.jobapply_list.columns;
@@ -321,8 +316,7 @@ export default {
 				scoutid_or_applyid: jobapply.jobapply_id, 
 				type: 'job-apply',
 			};
-			this.$refs.refChatComponent.isToggled = true;
-			this.$refs.refChatComponent.getMessage(payload);
+			this.$emit('chatStarted', payload);
 		},
 		onChatboxClosed(e) {
 			const t = this.chatBoxes.find(x => {

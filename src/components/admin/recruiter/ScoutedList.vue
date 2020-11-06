@@ -233,9 +233,7 @@
 			</div>
 		</div> -->
 
-		<!-- chatbox -->
-		<ChatComponent ref="refChatComponent" :type="'scout'" />
-		<!-- end chatbox -->
+
 
     </div>
 </template>
@@ -244,11 +242,10 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
 import { showToggle,handleStatus } from "../../../partials/common";
-import ChatComponent from '../../ChatComponent';
+
 
 export default {
 	mixins: [DataTableServices],
-	components: { ChatComponent },
 	data(){
 		let sortOrders = {};
         let columns = this.$i18n.messages.en.scouted_list.columns;
@@ -332,22 +329,7 @@ export default {
 				scoutid_or_applyid: scout.id,
 				type: 'scout',
 			};
-			// if (!this.chatBoxes.find(x => x.scoutid_or_applyid == payload.scoutid_or_applyid && x.type == payload.scoutid_or_applyid)) {
-			// 	this.chatBoxes.push(payload);
-			// }
-			this.$refs.refChatComponent.isToggled = true;
-			this.$refs.refChatComponent.getMessage(payload);
-		},
-		onChatboxClosed(e) {
-			const t = this.chatBoxes.find(x => {
-				return x.scoutid_or_applyid == e.scoutid_or_applyid & x.type == e.type;
-			});
-			if (t) {
-				let i = this.chatBoxes.indexOf(t);
-				if (i > -1) {
-					this.$delete(this.chatBoxes, i);
-				}
-			}
+			this.$emit('chatStarted', payload);
 		},
 		onStatusChange(index, e) {
 			const scout = this.$data.projects.data[index];

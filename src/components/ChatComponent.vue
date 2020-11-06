@@ -4,14 +4,14 @@
                 <div class="main-chat">
                     <div class="col-4 tab-left float-left">
                         <ul class="list-user">
-                            <li v-for="item in jobs" :key="item.index" @click="getMessage(item)">
-								
+							<li class="text-primary">スカウト中</li>
+                            <li v-for="item in scout_jobs" :key="item.index" @click="getMessage(item)">	
                                 <div class="status">
                                     <div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
                                     <i class="fa fa-circle text-success"></i>
                                     </div>
                                     <div v-else>
-                                    <i class="fa fa-circle text-danger"></i>
+                                    <i class="fa fa-circle" style="color:#e1e1e1"></i>
                                     </div>									
                                 </div>
 								
@@ -24,6 +24,25 @@
                                     <span class="plus" v-else>5+</span>
                                 </div>                              
                             </li>                          
+							<li class="text-primary">応募中</li>
+							<li v-for="item in apply_jobs" :key="item.index" @click="getMessage(item)">
+								<div class="status">
+									<div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
+									<i class="fa fa-circle text-success"></i>
+									</div>
+									<div v-else>
+									<i class="fa fa-circle" style="color:#e1e1e1"></i>
+									</div>									
+								</div>
+								<div class="name">
+									{{item.job_number}}
+									<p class="txt-ellipsis-1">{{item.title}}</p>
+								</div>                               
+								<div class="unread" v-if="item.unread > 0">
+									<span v-if="item.unread <= 5">{{item.unread}}</span>
+									<span class="plus" v-else>5+</span>
+								</div>                              
+							</li>
                         </ul>
                     </div>
                     <div class="col-8 tab-right float-right">
@@ -86,15 +105,10 @@
 import { mapGetters } from "vuex";
 export default {
 	name: 'ChatComponent',
-	props: {
-		type: {
-			type: String,
-			default: '',
-		}
-	},
     data(){
         return{
-            jobs: null,
+            scout_jobs: null,
+			apply_jobs: null,
             typing: false,
             isToggled: false,
             messages: [],
@@ -115,6 +129,7 @@ export default {
                 movementX: 0,
                 movementY: 0
 			},
+			// --Loggedin admin object
 			loggedInUser: {},
 			message_payload: {
 				recruiter_id: 0,
@@ -130,6 +145,9 @@ export default {
         }
     },
     mounted() {
+		if (!window.socket.connected) {
+			window.socket.connect()
+		}
         this.role = this.currentUser.role_id;
         this.getUsers();
         this.listenForSocket();
@@ -151,15 +169,23 @@ export default {
 				}
             });
             window.socket.on("count-message", (data) => {
-				if (this.$props.type == data.type) {
-					this.jobs.forEach(job => {
+				if ('scout' == data.type) {
+					this.scout_jobs.forEach(job => {
 						if(job.scoutid_or_applyid == data.scoutid_or_applyid){
 							job.unread++;
 						}
 						this.count_all += job.unread;
 					});
-                this.sumUnRead();
 				}
+				if ('job-apply' == data.type) {
+					this.apply_jobs.forEach(job => {
+						if(job.scoutid_or_applyid == data.scoutid_or_applyid){
+							job.unread++;
+						}
+						this.count_all += job.unread;
+					});
+				}
+				this.sumUnRead();
             });
             window.socket.on("usertyping", (data) => {
 				if (this.isReceiver(data)) {
@@ -216,22 +242,28 @@ export default {
         },
         getUsers(){
 			let role_id = this.currentUser.role_id;
-            this.$api.get(`/v1/chattables/${role_id}/${this.$props.type}`)
-            .then(res => {
-                this.jobs = res.data.data;
-                window.socket.emit('join', this.currentUser.id);
-                this.sumUnRead();
-            })
-            .catch(err => {
-                console.log(err);
-			});
+
+			Promise.all([
+				// --scout chattables
+				this.$api.get(`/v1/chattables/${role_id}/scout`)
+				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response)),
+				// --jobapply chattables
+				this.$api.get(`/v1/chattables/${role_id}/job-apply`)
+				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response))
+			])
+			.then((r) => {
+				this.scout_jobs = r[0];
+				this.apply_jobs = r[1];
+				window.socket.emit('join', this.currentUser.id);
+				this.sumUnRead();
+			})
         },         
         getMessage(model){
 			
 			this.message_payload.recruiter_id = model.recruiter_id;
 			this.message_payload.jobseeker_id = model.jobseeker_id;
 			this.message_payload.scoutid_or_applyid = model.scoutid_or_applyid;
-			this.message_payload.type = this.$props.type;
+			this.message_payload.type = model.type;
 
 			Promise.all([
 				// --messages
@@ -274,22 +306,34 @@ export default {
             this.$refs.scrollChat.scrollTop = this.$refs.scrollChat.scrollHeight ;   
         },
         unreadMessage(){
-            this.jobs.forEach(job => {
-                if(job.scoutid_or_applyid == this.message_payload.scoutid_or_applyid){
-                    job.unread = 0;
-                }
-            });
+			if (this.message_payload.type == 'scout') {
+				this.scout_jobs.forEach(job => {
+					if(job.scoutid_or_applyid == this.message_payload.scoutid_or_applyid){
+						job.unread = 0;
+					}
+				});
+			}
+			if (this.message_payload.type == 'job-apply') {
+				this.apply_jobs.forEach(job => {
+					if(job.scoutid_or_applyid == this.message_payload.scoutid_or_applyid){
+						job.unread = 0;
+					}
+				});
+			}
             this.sumUnRead();
         },
         sumUnRead(){
             let sum = 0;
-            this.jobs.forEach(job => {
-                sum += job.unread
-            });
+			this.scout_jobs.forEach(job => {
+				sum += job.unread
+			});
+			this.apply_jobs.forEach(job => {
+				sum += job.unread
+			});
             this.count_all = sum;
         },
         markAsRead() {
-            this.$api.post(`/v1/messages/read/${this.$props.type}/${this.message_payload.scoutid_or_applyid}/${this.currentUser.role_id}`)
+            this.$api.post(`/v1/messages/read/${this.message_payload.type}/${this.message_payload.scoutid_or_applyid}/${this.currentUser.role_id}`)
             .then(() => {
                 this.unreadMessage();
             })
@@ -425,6 +469,9 @@ export default {
 		},
 		closeChatBox() {
 			this.messages = [];
+			this.title = '';
+			this.number = '';
+			this.showName = '';
 			this.isToggled = !this.isToggled;
 			this.message_payload.recruiter_id = 0;
 			this.message_payload.jobseeker_id = 0;
