@@ -25,20 +25,20 @@
             </div>
             <label for="ステータス">{{ $t('recruiter_list.status') }}</label>
             <div class="status-row">
-                <div class="status-col">
+                <div class="status-col" v-for="status in arr_status" :key="status.id">
                     <label for="有効" class="custom-control-label custom-checkbox-label">
                         <input
                         type="checkbox"
                         class="custom-control-input custom-checkbox"
-                        value="1"
+                        :value="status.id.value"
                         v-model="filteredData.recruiter_recordstatus"
                         @change="getData()"
-                        id="有効"
+                        :id="status.id.display"
                         />
-                        <span class="custom-check-label-post">{{ $t('recruiter_list.valid') }}</span>
+                        <span class="custom-check-label-post">{{ status.id.display }}</span>
                     </label>
                 </div>
-                <div class="status-col">
+                <!-- <div class="status-col">
                     <label for="無効" class="custom-control-label custom-checkbox-label">
                         <input
                         type="checkbox"
@@ -63,7 +63,7 @@
                         />
                         <span class="custom-check-label-post">{{ $t('recruiter_list.withdrawal') }}</span>
                     </label>
-                </div>
+                </div> -->
             </div>
         </div>
         </div>
