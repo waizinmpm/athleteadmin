@@ -1,7 +1,7 @@
 <template>
     <div class="user-main">
         <div class="d-flex align-items-end mb-20">
-            <h3 class="mb-0">プロフィール編集</h3> 
+            <h3 class="mb-0">プロフィール編集 <span style="color:red">{{record_status == 3 ? '退会' : ''}}</span></h3> 
             <span @click="$router.go(-1)" class="ml-auto btn back-btn">一覧へ戻る</span>
         </div>      
             <div class="col-12 tab-list sticky-top" v-if="showMenuBar" v-on:scroll="handleScroll">
@@ -47,8 +47,9 @@
                      expQualificationEdit:{text:'経験・資格'},
                      desiredConditionEdit:{text:'希望条件'},                             
                  },    
-                 activeIndex: null, 
-                 showMenuBar: true,
+                 activeIndex : null, 
+                 showMenuBar : true,
+                 record_status : 1,
             }
         },
         created(){
@@ -78,8 +79,9 @@
                  this.activeIndex = elementsInViewArray.find(String => String)
             },
 
-            changeMenu(load){
-                this.showMenuBar = load;
+            changeMenu(load, status){
+                this.showMenuBar    = load;
+                this.record_status  = status;
             } 
         }
         

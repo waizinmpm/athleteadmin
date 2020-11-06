@@ -38,7 +38,7 @@
                             <label for="スカウト日時">{{ $t('jobapply_list.jobapplay_date') }}</label>
                             <date-picker v-model="filteredData.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
                         </div>  
-                        <div class="col-md-3 datepicker-wrapper">
+                        <div class="col-md-3 datepicker-wrapper similarto">
                             <label for=""></label>
                             <date-picker v-model="filteredData.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
                         </div>                     
@@ -78,21 +78,34 @@
                     <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
                         <tbody>
                             <tr v-for="(project, index) in projects.data" :key="project.id">
-                                <td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.management_number}}</router-link></td>
-                                <td>{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
-                                <td class="text-left tbl-wl ">
-                                    <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_number}}</router-link></p>
-                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_name}}</router-link></p>
+                                <td class="tbl-ws"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.management_number}}</router-link></td>
+                                <td class="tbl-w135"><p class="tbl-ws m-auto">{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</p></td>
+                                <td class="text-left tbl-wl">
+                                    <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}" class="d-flex">{{project.recruiter_number}}
+                                    <span class="ml-2 txt-vertical-ellipsis">{{ project.recruiter_name }}</span>
+                                    </router-link>
                                 </td>
                                 <!-- <td>{{project.recruiter_number}}</td>
                                 <td>{{project.recruiter_name}}</td> -->
-                                <td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.job_number}}</router-link></td>
+                                <td class="text-left job-col">
+                                    <router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">
+                                        <span class="job-no">{{ project.job_number }}</span>
+                                        <span class="txt-vertical-ellipsis job-tit">{{ project.title }}</span>
+                                    </router-link>
+                                </td>
+                                <!-- <td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.job_number}}</router-link></td>
                                 <td class="text-left tbl-titw"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">
                                     <span class="txt-vertical-ellipsis">{{project.title}}</span></router-link>
+                                </td> -->
+                                <td class="text-left tbl-wl">
+                                    <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}" class="d-flex">
+                                    {{project.jobseeker_number}}
+                                    <span class="ml-2 txt-vertical-ellipsis">{{project.jobseeker_name}}</span>
+                                    </router-link>
                                 </td>
-                                <td><router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_number}}</router-link></td>
-                                <td><router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_name}}</router-link></td>
-                                <td>
+                                <!-- <td><router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_number}}</router-link></td>
+                                <td><router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_name}}</router-link></td> -->
+                                <td class="tbl-ws">
                                     <div class="scout-box">
                                         <p class="scout-txt">{{project.job_apply_status}} </p>
                                         <p class="btn btn-common" v-on:click="showToggle(index)">
@@ -108,7 +121,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="tbl-wm">
+                                <td class="tbl-ws">
                                     <span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
                                     <span class="btn btn-default mb-1" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span>
                                     <span class="btn btn-default" @click="generateBill(project.jobapply_id, index)" v-if="allowBilling(project.job_apply_status)">{{$t('common.invoice_generate')}}</span>
@@ -215,9 +228,6 @@
             </div>
         </div>
         <!-- End Invoice Area -->
-		<!-- chatbox -->
-		<ChatComponent ref="refChatComponent" :type="'job-apply'" />
-		<!-- end chatbox -->
 </div>
 </template>
 
@@ -225,11 +235,9 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
 import { showToggle,handleStatus } from "../../../partials/common";
-import ChatComponent from '../../ChatComponent';
 
 export default {
 	mixins: [DataTableServices],
-	components: { ChatComponent },
         data(){
             let sortOrders = {};
             let columns = this.$i18n.messages.en.jobapply_list.columns;
@@ -308,8 +316,7 @@ export default {
 				scoutid_or_applyid: jobapply.jobapply_id, 
 				type: 'job-apply',
 			};
-			this.$refs.refChatComponent.isToggled = true;
-			this.$refs.refChatComponent.getMessage(payload);
+			this.$emit('chatStarted', payload);
 		},
 		onChatboxClosed(e) {
 			const t = this.chatBoxes.find(x => {
@@ -484,9 +491,6 @@ export default {
 </script>
 
 <style scoped>
-.tbl-wrap .table {
-    min-width: 1360px;
-}
 .border {
 	padding: 0px 1rem;
 	margin: 1rem 0px;
@@ -576,5 +580,21 @@ export default {
 }
 .chatbox-container *:last-child {
 	margin-right: 0px;
+}
+.similarto::before {
+    position: absolute;
+    content: "~";
+    top: 20px;
+    left: -6px;
+    font-size: 25px;
+}
+.job-col {
+    position: relative;
+}
+.job-no {
+    position: absolute;
+}
+.job-tit {
+    margin-left: 95px;
 }
 </style>

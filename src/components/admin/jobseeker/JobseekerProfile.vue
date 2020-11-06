@@ -1839,6 +1839,7 @@
 
     created() {
         // this.$loading.show();
+        window.scrollTo(0, 0);
         let jobseeker_id = `${this.$route.params.id}`;
         this.edit_page = this.$route.name == 'jobseeker-detail' ? false : true;
         this.selfIntro.face_image_private_status = 0;
@@ -1920,6 +1921,7 @@
                 this.selfIntroDetails = r.data.data.selfIntroDetails; //to show selfintro details
 
                 this.activeImage = 4;
+                this.$emit('menuShowHide', this.showMenuBar = true, this.selfIntro.record_status);
             });
             loader.hide();
         },

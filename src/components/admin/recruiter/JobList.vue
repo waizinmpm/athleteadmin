@@ -112,7 +112,7 @@
                     >
                         <tbody>
                             <tr v-for="(project, index) in projects.data" :key="project.id">
-                                <td>
+                                <td class="check-col">
                                     <label class="form-checkbox">
                                         <input type="checkbox" :value="project.id" v-model="selected" />
                                         <div v-for="undelete_id in delete_ids_transactions" :key="undelete_id.id" style="color:red;">
@@ -127,14 +127,23 @@
                                         </div>
                                     </label>
                                 </td>
-                                <td class="tbl-wxs"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}">{{ project.recruiter_number }}</router-link></td>
-                                <td class="tbl-wm"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}">{{ project.recruiter_name }}</router-link></td>
-                                <td class="tbl-wm"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.job_number }}</router-link></td>
-                                <td class="text-left" style="min-width:200px;" @click="textEllipsis($event)"><p class="txt-vertical-ellipsis"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.title }}</router-link></p></td>
-                                <td class="tbl-w110">{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
-                                <td class="tbl-ws">{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
+                                <td class="text-left tbl-wl">
+                                    <router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}" class="d-flex">{{ project.recruiter_number }}
+                                     <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.recruiter_name }}</span>
+                                    </router-link>
+                                </td>
+                                <td class="text-left job-col">
+                                    <router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">
+                                        <span class="job-no">{{ project.job_number }}</span>
+                                        <span class="txt-vertical-ellipsis job-tit">{{ project.title }}</span>
+                                    </router-link>
+                                </td>
+                                <!-- <td class="tbl-wm"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.job_number }}</router-link></td>
+                                <td class="text-left" style="min-width:200px;" @click="textEllipsis($event)"><p class="txt-vertical-ellipsis"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.title }}</router-link></p></td> -->
+                                <td class="tbl-ws">{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
+                                <td class="tbl-wm">{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
                                 <td class="tbl-ws">{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month") | moment('YYYY/MM/D') }}</td>
-                                <td class="tbl-wm tbl-status">
+                                <td class="tbl-ws tbl-status">
                                     <div class="scout-box">
                                         <div class="scout-txt tooltip-box">
                                             <span v-for="status in arr_status" :key="status.id.id">
@@ -168,7 +177,7 @@
                                         @click="changeStatus(project.id, project.record_status)"
                                     >{{ $t('common.change') }}</button> -->
                                 </td>
-                                <td>
+                                <td class="tbl-ws">
                                     <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn btn-info">{{ $t('common.edit')}}</router-link>
                                 </td>
                             </tr>
@@ -333,5 +342,14 @@ export default {
 }
 tr:first-child .tbl-status .tooltip-box .tooltiptext::after {
     top: 112%;
+}
+.job-col {
+    position: relative;
+}
+.job-no {
+    position: absolute;
+}
+.job-tit {
+    margin-left: 95px;
 }
 </style>

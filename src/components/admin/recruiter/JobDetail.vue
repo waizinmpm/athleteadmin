@@ -1,6 +1,6 @@
 <template>
-    <div class="job-detail">
-        <h3 class="mb-4 mt-0">{{ recruiter_job.job_number }} {{ recruiter_job.title }}</h3>
+    <div class="job-detail row">
+        <h5 class="main-header">{{ recruiter_job.job_number }} {{ recruiter_job.title }}</h5>
         <dl class="detail-list">
             <dt class="detail-head">募集ポジション</dt>
             <dd class="detail-data">{{ recruiter_job.incharge_name }}</dd>
@@ -15,11 +15,11 @@
                 </div>
             </dd>
             <dt class="detail-head">勤務地</dt>
-            <dd class="detail-data">{{ recruiter_job.job_location }}</dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.job_location }}</pre></dd>
             <dt class="detail-head">仕事の内容</dt>
-            <dd class="detail-data">{{ recruiter_job.job_description }}</dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.job_description }}</pre></dd>
             <dt class="detail-head">応募資格</dt>
-            <dd class="detail-data">{{ recruiter_job.qualification }}</dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.qualification }}</pre></dd>
             <dt class="detail-head">給与・待遇・ビザサポート</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.allowance }}</pre></dd>
         </dl>
@@ -92,20 +92,20 @@ export default {
 </script>
 <style scoped>
 .detail-list {
-    padding: 10px 20px 20px 20px;
+    padding: 10px 0 20px 0;
     overflow: hidden;
 }
 .detail-head {
     display: flex;
     float: left;
     width: 40%;
-    margin-right: 6%;
+    margin-right: 4%;
     align-items: flex-start;
     font-weight: normal;
 }
 .detail-data {
     float: left;
-    width: 54%;
+    width: 56%;
     background-color: #fff;
     min-height: 50px;
 }
