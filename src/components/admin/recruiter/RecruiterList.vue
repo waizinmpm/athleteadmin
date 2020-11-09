@@ -95,6 +95,8 @@
                 @check-all="selectAll"
                 @sort="sortBy"
                 :showCheckbox="true"
+                :totalLength = projects.total
+
             >
                 <tbody>
                 <tr v-for="(project, index) in projects.data" :key="project.id">
@@ -177,9 +179,6 @@
             </span>
             </pagination>
             
-        </div>
-        <div class="col-sm-12 p-0" v-if="projects.total === 0">
-            <h5 class="main-header text-center">{{ $t('common.no_data_found')}}</h5>
         </div>
         </div>
     </div>
