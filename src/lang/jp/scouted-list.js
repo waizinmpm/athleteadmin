@@ -11,11 +11,11 @@ export default {
         // {"label":"recruiter_number","name":"企業番号"},
         // {"label":"recruiter_name","name":"企業名"},
         {"label":"recruiter_number","name":"企業会員"},
-        {"label":"title","name":"求人"},
+        {"label":"title","name":"企業名"},
         // {"label":"jobseeker_number","name":"求職者会員番号"},
         // {"label":"jobseeker_name","name":"求職者氏名"},
         {"label":"jobseeker_number","name":"求職者"},
-		{"label":"scout_status","name":"ステータス"},
+		{"label":"scout_status","name":"求人タイトル"},
 		{"label":"","name":""},
 	],
 }
