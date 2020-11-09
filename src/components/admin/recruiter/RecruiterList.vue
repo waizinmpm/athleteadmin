@@ -176,6 +176,10 @@
                 <i class="fa fa-angle-right"></i>
             </span>
             </pagination>
+            
+        </div>
+        <div class="col-sm-12 p-0" v-if="projects.total === 0">
+            <h5 class="main-header text-center">{{ $t('common.no_data_found')}}</h5>
         </div>
         </div>
     </div>

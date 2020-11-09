@@ -18,6 +18,7 @@ export default {
     "total_results": "検索結果表示件数",
     "item": "{n}件",
     "displayed_page": "ページ表示数",
+    "no_data_found" : "検索条件に合致するデータがみつかりません",
     //-- Recruiter Fields
     "recruitment": "求⼈⼀覧",
     "scout_recruiter_number": "企業番号",
