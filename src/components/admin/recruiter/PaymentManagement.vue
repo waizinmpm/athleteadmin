@@ -101,7 +101,7 @@
 					</div>
 				</div>
 				<div class="tbl-wrap">
-					<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
+					<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td class="tbl-wm">{{ project.management_number }}</td>
@@ -168,7 +168,8 @@
 		<div class="modal-wrapper">
 			<div class="modal-container">
 			<div class="modal-header mb-0">
-				<p class="close-ico text-right" @click="closeModal">
+				{{ $t('payment_management.payment_date') }}.{{ $t('payment_management.payment_amount') }}
+				<p class="close-ico pull-right" @click="closeModal">
 					<span class="icon icon-times"></span>
 				</p>
 			</div>

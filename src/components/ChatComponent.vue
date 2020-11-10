@@ -5,7 +5,7 @@
                     <div class="col-4 tab-left float-left">
                         <ul class="list-user">
 							<li class="text-primary">スカウト中</li>
-                            <li v-for="item in scout_jobs" :key="item.index" @click="getMessage(item)">	
+                            <li v-for="item in scout_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">	
                                 <div class="status">
                                     <div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
                                     <i class="fa fa-circle text-success"></i>
@@ -25,7 +25,7 @@
                                 </div>                              
                             </li>                          
 							<li class="text-primary">応募中</li>
-							<li v-for="item in apply_jobs" :key="item.index" @click="getMessage(item)">
+							<li v-for="item in apply_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">
 								<div class="status">
 									<div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
 									<i class="fa fa-circle text-success"></i>
@@ -235,6 +235,13 @@ export default {
 				allow = false;
 			}
 			return allow;
+		},
+		getActiveJob(item) {
+			if (this.message_payload.type == item.type && this.message_payload.scoutid_or_applyid == item.scoutid_or_applyid) {
+				return 'active-job';
+			} else {
+				return '';
+			}
 		},
         resetBox(){
             this.$refs.draggableContainer.style.top = 'unset';
@@ -548,7 +555,7 @@ input:focus{
         .header-chat{
             width: 100%;
             height: 70px;
-            background: #27a09e;
+            background:#84BE3F;
             padding: 5px;
             h3{
                 margin-top: 15px;
@@ -734,5 +741,8 @@ input:focus{
 }
 .active .unread{
     display: none;
+}
+.active-job {
+	background: #F0F0F0;
 }
 </style>
