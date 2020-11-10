@@ -326,7 +326,8 @@
                 {{basicInfo.email}}
                 <br />
                 </dd>
-                <dt class="detail-head">{{$t('jobseekerprofile.skype')}}</dt>
+                <dt class="detail-head">{{$t('jobseekerprofile.skype')}}
+                <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
                 <dd class="detail-data">
                 {{basicInfo.skype_account}}
                 <br />
