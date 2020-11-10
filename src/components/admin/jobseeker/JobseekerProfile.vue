@@ -500,7 +500,7 @@
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.loca_details')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
                     <textarea name id class="form-control" v-model="basicInfo.address"></textarea>
@@ -509,7 +509,7 @@
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.phone')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
                     <input
@@ -536,7 +536,7 @@
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.email')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
                     <input
@@ -559,7 +559,7 @@
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.skype')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
                     <input type="text" class="form-control" v-model="basicInfo.skype_account" />
