@@ -17,7 +17,7 @@
           </div>
           <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">             
-              <li><a class="no-href">運営管理者用画面</a></li>              
+              <li><a class="no-href name">運営管理者用画面</a></li>              
             </ul>
           </div> 
 
@@ -74,6 +74,9 @@ select {
 }
 select::-ms-expand {
     display: none; /* Hide the default arrow in Internet Explorer 10 and Internet Explorer 11 */
+}
+.name{
+    font-size: 18px !important;
 }
 .no-href:hover{
     color: #fff;

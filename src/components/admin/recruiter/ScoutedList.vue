@@ -206,9 +206,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-6 invoice-col" v-if="invoicePreview">
-							<h5>{{ $t('common.invoice_preview') }}</h5>
-							<div class="invoice-preview-area">
+						<div class="col-sm-6 invoice-col">
+							<h5 class="main-header">{{ $t('common.invoice_preview') }}</h5>
+							<div class="invoice-preview-area" v-if="invoicePreview">
 								<iframe v-bind:srcdoc="invoicePreview" class="invoice-frame"></iframe>
 							</div>
 						</div>
