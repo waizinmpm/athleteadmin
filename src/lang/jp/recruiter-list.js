@@ -9,7 +9,7 @@ export default {
     "columns": [
         {"label":"recruiter_number","name":"企業会員番号"},
         {"label":"recruiter_name","name":"企業名"},
-        {"label":"recruiter_nick_name","name":"会社名(愛称)"},
+        // {"label":"recruiter_nick_name","name":"会社名(愛称)"},
         {"label":"record_status","name":"ステータス"},
         {"label":" "},
     ]

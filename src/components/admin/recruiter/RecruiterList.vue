@@ -117,7 +117,7 @@
                     </td>
                     <td class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_number}}</router-link></td>
                     <td class="text-left"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{project.recruiter_name}}</router-link></td>
-                    <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td>
+                    <!-- <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td> -->
                     
                     <td class="tbl-ws">
                         <div class="scout-box">
