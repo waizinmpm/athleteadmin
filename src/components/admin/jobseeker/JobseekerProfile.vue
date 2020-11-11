@@ -1922,7 +1922,7 @@
                 this.selfIntroDetails = r.data.data.selfIntroDetails; //to show selfintro details
 
                 this.activeImage = 4;
-                this.$emit('menuShowHide', this.showMenuBar = true, this.selfIntro.record_status);
+                this.$emit('showDeactivateInDetail', this.selfIntro.record_status);
             });
             loader.hide();
         },

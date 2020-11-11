@@ -14,7 +14,7 @@
                     </li>
                 </ul>  
             </div>    
-        <JobseekerProfile @menuShowHide="changeMenu"></JobseekerProfile>
+        <JobseekerProfile @menuShowHide="changeMenu" @showDeactivateInDetail="msgDeactivate"></JobseekerProfile>
     </div>
 </template>
 <script>
@@ -79,10 +79,13 @@
                  this.activeIndex = elementsInViewArray.find(String => String)
             },
 
-            changeMenu(load, status){
-                this.showMenuBar    = load;
+            changeMenu(load, ){
+                this.showMenuBar = load;
+            },
+
+            msgDeactivate(status) {
                 this.record_status  = status;
-            } 
+            }
         }
         
     }
