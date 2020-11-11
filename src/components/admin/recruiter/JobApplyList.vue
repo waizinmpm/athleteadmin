@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="tbl-wrap">
-                    <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
+                    <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
                         <tbody>
                             <tr v-for="(project, index) in projects.data" :key="project.id">
                                 <td class="tbl-ws"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.management_number}}</router-link></td>
@@ -151,7 +151,7 @@
                     <div class="row d-flex"> 
                         <div class="col-sm-6">
                             <div class="border">
-                                <h5>{{ $t('common.job') }}</h5>
+                                <h5>求人</h5>
                                 <dl class="row">
                                     <dt class="col-sm-5 list-pl">{{ $t('jobapply_list.columns.0.name') }}</dt>
                                     <dd class="col-sm-7">{{ invoiceForm.management_number }}</dd>
@@ -186,17 +186,17 @@
                                     <label class="pl-1 pt-2">円</label>
                                 </div>
                                 <dl class="row">
-                                    <dt class="col-sm-2 text-right">{{ $t('common.tax') }}</dt>
+                                    <dt class="col-sm-2 text-right pr-0">{{ $t('common.tax') }}</dt>
                                     <dd class="col-sm-6 text-right">{{ invoiceForm.tax|aj-number }}</dd>
                                     <label class="pl-1">円</label>
                                 </dl>
                                 <dl class="row">
-                                    <dt class="col-sm-2  pr-0 txt-red">{{ $t('common.invoice_amount') }}</dt>
+                                    <dt class="col-sm-2  pr-0 txt-red text-right">{{ $t('common.invoice_amount') }}</dt>
                                     <dd class="col-sm-6 text-right txt-red">{{ invoiceForm.invoice_amount|aj-number }}</dd>
                                     <label class="pl-1 txt-red">円</label>
                                 </dl>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 pr-0">{{ $t('common.remark') }}</label>
+                                    <label class="col-sm-2 pr-0 text-right">{{ $t('common.remark') }}</label>
                                     <div class="col-sm-9">
                                         <textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
                                     </div>
@@ -208,8 +208,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6  invoice-col">
-                            <h5>{{ $t('common.invoice_preview') }}</h5>
+                        <div class="col-sm-6  invoice-col" >
+                            <h5 class="main-header">{{ $t('common.invoice_preview') }}</h5>
                             <div class="invoice-preview-area"  v-if="invoicePreview">
                                 <iframe v-bind:srcdoc="invoicePreview" frameborder="1" class="invoice-frame"></iframe>
                             </div>
@@ -217,7 +217,7 @@
                     </div>
                     <div class="row"> 
                         <div class="col-sm-6">
-                            <button class="btn btn-second mr-3 w-100"  @click="closeInvoicePreview">{{ $t('common.back') }}</button>
+                            
                             <button class="btn btn-cancel w-100"  @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
                         </div>
                         <div class="col-sm-6 text-right">
@@ -228,9 +228,6 @@
             </div>
         </div>
         <!-- End Invoice Area -->
-		<!-- chatbox -->
-		<ChatComponent ref="refChatComponent" :type="'job-apply'" />
-		<!-- end chatbox -->
 </div>
 </template>
 
@@ -238,11 +235,9 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
 import { showToggle,handleStatus } from "../../../partials/common";
-import ChatComponent from '../../ChatComponent';
 
 export default {
 	mixins: [DataTableServices],
-	components: { ChatComponent },
         data(){
             let sortOrders = {};
             let columns = this.$i18n.messages.en.jobapply_list.columns;
@@ -275,7 +270,8 @@ export default {
                 { id: this.$configs.job_apply.declined, checked: false },
                 { id: this.$configs.job_apply.unclaimed, checked: false },
                 { id: this.$configs.job_apply.billed, checked: false },
-                { id: this.$configs.job_apply.payment_confirmed, checked: false }
+                { id: this.$configs.job_apply.payment_confirmed, checked: false },
+                { id: this.$configs.job_apply.deactivated, checked: false }
             ],
             lang:{
                 days: ['日', '月', '火', '水', '木', '金', '土'],
@@ -321,8 +317,7 @@ export default {
 				scoutid_or_applyid: jobapply.jobapply_id, 
 				type: 'job-apply',
 			};
-			this.$refs.refChatComponent.isToggled = true;
-			this.$refs.refChatComponent.getMessage(payload);
+			this.$emit('chatStarted', payload);
 		},
 		onChatboxClosed(e) {
 			const t = this.chatBoxes.find(x => {

@@ -9,7 +9,7 @@ export default {
     "columns": [
         {"label":"recruiter_number","name":"Corporate membership number"},
         {"label":"recruiter_name","name":"Company name"},
-        {"label":"recruiter_nick_name","name":"Company name (nickname)"},
+        // {"label":"recruiter_nick_name","name":"Company name (nickname)"},
         {"label":"record_status","name":"Status"},
         {"label":" "},
     ]

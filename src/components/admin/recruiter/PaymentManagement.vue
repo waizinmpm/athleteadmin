@@ -101,7 +101,7 @@
 					</div>
 				</div>
 				<div class="tbl-wrap">
-					<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
+					<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td class="tbl-wm">{{ project.management_number }}</td>
@@ -133,8 +133,8 @@
 									<br v-if="project.actual_payment_date">
 									<button type="button" @click="editAmountDate(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
-								<td style="max-width:300px;"><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link></td>
-								<td style="max-width:300px;"><router-link :to="{ path: '/admin/recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link></td> 
+								<td style="max-width:300px;"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link></td>
+								<td style="max-width:300px;"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link></td> 
 								<!-- <td class="text-left">
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">名</span> - {{project.recruiter_name}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">電話番号</span> - {{project.phone1}}</p>
@@ -168,7 +168,8 @@
 		<div class="modal-wrapper">
 			<div class="modal-container">
 			<div class="modal-header mb-0">
-				<p class="close-ico text-right" @click="closeModal">
+				{{ $t('payment_management.payment_date') }}.{{ $t('payment_management.payment_amount') }}
+				<p class="close-ico pull-right" @click="closeModal">
 					<span class="icon icon-times"></span>
 				</p>
 			</div>

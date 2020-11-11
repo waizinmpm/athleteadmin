@@ -57,14 +57,14 @@
                 <div class="status-row">
                     <div class="status-col tooltip-box" v-for="status in arr_status" :key="status.id.id">
                         <label
-                            for="record_status"
+                            :for="status.id.display"
                             class="custom-control-label custom-checkbox-label"
                         >
                         <input
                             type="checkbox"
                             class="custom-control-input custom-checkbox"
                             name="record_status"
-                            id="record_status"
+                            :id="status.id.display"
                             v-model="filteredData.status"
                             @change="getData()"
                             :value="status.id.value"
@@ -109,6 +109,7 @@
                         @check-all="selectAll"
                         @sort="sortBy"
                         :showCheckbox="true"
+                        :totalLength = projects.total
                     >
                         <tbody>
                             <tr v-for="(project, index) in projects.data" :key="project.id">
@@ -127,15 +128,15 @@
                                         </div>
                                     </label>
                                 </td>
-                                <td class="text-left tbl-wl">
-                                    <router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}" class="d-flex">{{ project.recruiter_number }}
-                                     <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.recruiter_name }}</span>
-                                    </router-link>
-                                </td>
                                 <td class="text-left job-col">
                                     <router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">
                                         <span class="job-no">{{ project.job_number }}</span>
                                         <span class="txt-vertical-ellipsis job-tit">{{ project.title }}</span>
+                                    </router-link>
+                                </td>
+                                <td class="text-left tbl-wl">
+                                    <router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}" class="d-flex">{{ project.recruiter_number }}
+                                     <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.recruiter_name }}</span>
                                     </router-link>
                                 </td>
                                 <!-- <td class="tbl-wm"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.job_number }}</router-link></td>

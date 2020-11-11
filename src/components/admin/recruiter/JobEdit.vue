@@ -5,7 +5,7 @@
         <form @submit.prevent="jobpostcreate">
             <div class="row m-0">
                 <div class="col-md-12 form-bordered">
-                    <div class="row form-bottom-bordered">
+                    <!-- <div class="row form-bottom-bordered">
                         <div class="col-md-4 form-left-block text-center">
                             <label for="name">{{ $t('jobcreate.title2') }}</label>
                         </div>
@@ -39,7 +39,7 @@
                             >{{ $t('jobcreate.nick_name') }}</label>
                             </p>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-8 form-right-block">
                             <div class="row col-12 p-0 m-0">
-                            <div class="col-md-4" v-for="(result, index) in employment_types" :key="result.id">
+                            <div class="col-md-4" v-for="result in employment_types" :key="result.id">
                                 <input
                                 type="checkbox"
                                 v-bind:value="result.employment_type_name"
@@ -105,7 +105,11 @@
                                 <label
                                 :for="result.employment_type_name"
                                 class="custom-control-label custom-checkbox-label"
-                                >{{$t('jobcreate.employment_type['+ index+']')}}</label>
+                                >{{result.employment_type_name}}</label>
+                                <!-- <label
+                                :for="result.employment_type_name"
+                                class="custom-control-label custom-checkbox-label"
+                                >{{$t('jobcreate.employment_type['+ index+']')}}</label> -->
                             </div>
                             </div>
                         </div>
@@ -530,7 +534,7 @@ export default {
             });
         }
 
-        this.formRegister.recruiter_show_name = "正式名称で表示";
+        // this.formRegister.recruiter_show_name = "正式名称で表示";
         this.formRegister.application_address = this.$store.getters.currentUser.email;
 
         this.$api.get("/v1/recruiter/getalldata").then((response) => {

@@ -33,7 +33,7 @@
 							<input type="text" :placeholder="$t('scouted_list.jobseeker_number')" class="form-control" v-model.trim="filteredData.jobseeker_number">
 						</div>      
 						<div class="col-md-3">
-							<label for="求職者会員氏名">{{ $t('scouted_list.jobseeker_name') }}</label>
+							<label for="求職者氏名">{{ $t('scouted_list.jobseeker_name') }}</label>
 							<input type="text" :placeholder="$t('scouted_list.jobseeker_name')" class="form-control" v-model.trim="filteredData.jobseeker_name">
 						</div>                        
 					</div>
@@ -42,7 +42,7 @@
 							<label for="スカウト日時">{{ $t('scouted_list.scout_date') }}</label>
 							<date-picker v-model="filteredData.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
 						</div>  
-						<div class="col-md-3 datepicker-wrapper">
+						<div class="col-md-3 datepicker-wrapper similarto">
 							<label for=""></label>
 							<date-picker v-model="filteredData.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
 						</div>                     
@@ -79,7 +79,7 @@
                     </div>
                 </div>
 				<div class="tbl-wrap">
-					<DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy">
+					<DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.management_number}}</router-link></td>
@@ -91,8 +91,13 @@
                                     <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_name}} </router-link></p> -->
 									<router-link class="d-flex" :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{project.recruiter_name}}</span></router-link>
                                 </td>
-								<td class="text-left tbl-titw"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"> {{project.job_number}} </router-link></td>
-								<td  class="text-left tbl-titw" @click="textEllipsis($event)"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"><span class="txt-vertical-ellipsis">{{ project.title }}</span></router-link></td>
+								<td class="text-left tbl-titw">
+									<router-link class="d-flex" :to="{ path: '/job-list/'+ project.job_id +'/detail'}"> {{project.job_number}} 
+									<span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.title }}</span>
+									</router-link>
+								</td>
+								<!-- <td  class="text-left tbl-titw" @click="textEllipsis($event)"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"><span class="txt-vertical-ellipsis">{{ project.title }}</span></router-link></td> -->
+								
 								<!-- <td>{{project.jobseeker_number}}</td>
 								<td>{{project.jobseeker_name}}</td> -->
 								
@@ -149,7 +154,7 @@
 					<div class="row d-flex">
 						<div class="col-sm-6">
 							<div class="border">
-								<h5>{{ $t('common.job_or_scout') }}</h5>
+								<h5>求人</h5>
 								<dl class="row mb-4">
 									<dt class="col-sm-5 scouted-list">{{ $t('scouted_list.columns.0.name') }}</dt>
 									<dd class="col-sm-7">{{ invoiceForm.management_number }}</dd>
@@ -189,12 +194,12 @@
 									<label class="pl-1">円</label>
 								</dl>
 								<dl class="row">
-									<dt class="col-sm-2 pr-0 txt-red">{{ $t('common.invoice_amount') }}</dt>
+									<dt class="col-sm-2 pr-0 txt-red text-right">{{ $t('common.invoice_amount') }}</dt>
 									<dd class="col-sm-6 text-right txt-red">{{ invoiceForm.invoice_amount|aj-number }}</dd>
 									<label class="pl-1 txt-red">円</label>
 								</dl>
 								<div class="form-group row">
-									<label class="col-sm-2 pr-0">{{ $t('common.remark') }}</label>
+									<label class="col-sm-2 pr-0 text-right">{{ $t('common.remark') }}</label>
 									<div class="col-sm-9">
 										<textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
 									</div>
@@ -208,14 +213,13 @@
 						</div>
 						<div class="col-sm-6 invoice-col">
 							<h5 class="main-header">{{ $t('common.invoice_preview') }}</h5>
-							<div class="invoice-preview-area" v-if="invoicePreview">
+							<div class="invoice-preview-area"  v-if="invoicePreview">
 								<iframe v-bind:srcdoc="invoicePreview" class="invoice-frame"></iframe>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
-							<button class="btn btn-second mr-2 w-100"  @click="closeInvoicePreview">{{ $t('common.back') }}</button>
 							<button class="btn btn-cancel w-100" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
 						</div>
 						<div class="col-sm-6 text-right">
@@ -233,9 +237,7 @@
 			</div>
 		</div> -->
 
-		<!-- chatbox -->
-		<ChatComponent ref="refChatComponent" :type="'scout'" />
-		<!-- end chatbox -->
+
 
     </div>
 </template>
@@ -244,11 +246,10 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 import { required, numeric } from "vuelidate/lib/validators";
 import { showToggle,handleStatus } from "../../../partials/common";
-import ChatComponent from '../../ChatComponent';
+
 
 export default {
 	mixins: [DataTableServices],
-	components: { ChatComponent },
 	data(){
 		let sortOrders = {};
         let columns = this.$i18n.messages.en.scouted_list.columns;
@@ -284,7 +285,8 @@ export default {
 				{ id: this.$configs.scouts.declined, checked: false },
 				{ id: this.$configs.scouts.unclaimed, checked: false },
 				{ id: this.$configs.scouts.billed, checked: false },
-				{ id: this.$configs.scouts.payment_confirmed, checked: false }
+				{ id: this.$configs.scouts.payment_confirmed, checked: false },
+				{ id: this.$configs.scouts.deactivated, checked: false }
 			],
 			lang:{
 				days: ['日', '月', '火', '水', '木', '金', '土'],
@@ -332,22 +334,7 @@ export default {
 				scoutid_or_applyid: scout.id,
 				type: 'scout',
 			};
-			// if (!this.chatBoxes.find(x => x.scoutid_or_applyid == payload.scoutid_or_applyid && x.type == payload.scoutid_or_applyid)) {
-			// 	this.chatBoxes.push(payload);
-			// }
-			this.$refs.refChatComponent.isToggled = true;
-			this.$refs.refChatComponent.getMessage(payload);
-		},
-		onChatboxClosed(e) {
-			const t = this.chatBoxes.find(x => {
-				return x.scoutid_or_applyid == e.scoutid_or_applyid & x.type == e.type;
-			});
-			if (t) {
-				let i = this.chatBoxes.indexOf(t);
-				if (i > -1) {
-					this.$delete(this.chatBoxes, i);
-				}
-			}
+			this.$emit('chatStarted', payload);
 		},
 		onStatusChange(index, e) {
 			const scout = this.$data.projects.data[index];
@@ -644,6 +631,12 @@ textarea {
 .scouted-list {
 	padding-left: 90px;
 }
-
+.similarto::before {
+    position: absolute;
+    content: "~";
+    top: 20px;
+    left: -6px;
+    font-size: 25px;
+}
 </style>
 

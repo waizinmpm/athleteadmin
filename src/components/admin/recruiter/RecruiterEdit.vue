@@ -15,10 +15,10 @@
                             <div class="error" v-if="!$v.recruiterForm.recruiter_name.required">企業名は入力は必須です。</div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>企業名(愛称)</label>
                         <input type="text" class="form-control" v-model.trim="recruiterForm.recruiter_nick_name" />
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="border">

@@ -326,7 +326,8 @@
                 {{basicInfo.email}}
                 <br />
                 </dd>
-                <dt class="detail-head">{{$t('jobseekerprofile.skype')}}</dt>
+                <dt class="detail-head">{{$t('jobseekerprofile.skype')}}
+                <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
                 <dd class="detail-data">
                 {{basicInfo.skype_account}}
                 <br />
@@ -500,7 +501,7 @@
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.loca_details')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
                     <textarea name id class="form-control" v-model="basicInfo.address"></textarea>
@@ -509,7 +510,7 @@
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.phone')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
                     <input
@@ -536,7 +537,7 @@
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.email')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
                     <input
@@ -559,7 +560,7 @@
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.skype')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
                     <input type="text" class="form-control" v-model="basicInfo.skype_account" />
@@ -657,7 +658,7 @@
                 <dd class="detail-data">{{carrers.last_annual_income}} {{carrers.last_currency}}</dd>
             </dl>
             <div class="explation-note">
-                <span class="private">非公開</span>は求人への問い合わせ/応募やスカウトへの興味を示した場合のみ、求職者会員が閲覧可能になります。※一部の項目は公開・非公開を編集することも可能です。
+                <span class="private">非公開</span>は求人への問い合わせ/応募やスカウトへの興味を示した場合のみ、求職者会員が閲覧可能になります。
             </div>
             </div>
         </div>
@@ -1839,6 +1840,7 @@
 
     created() {
         // this.$loading.show();
+        window.scrollTo(0, 0);
         let jobseeker_id = `${this.$route.params.id}`;
         this.edit_page = this.$route.name == 'jobseeker-detail' ? false : true;
         this.selfIntro.face_image_private_status = 0;
@@ -1920,6 +1922,7 @@
                 this.selfIntroDetails = r.data.data.selfIntroDetails; //to show selfintro details
 
                 this.activeImage = 4;
+                this.$emit('showDeactivateInDetail', this.selfIntro.record_status);
             });
             loader.hide();
         },

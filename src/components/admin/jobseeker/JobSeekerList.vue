@@ -25,20 +25,20 @@
 
                 <label for="ステータス">{{ $t('common.status') }}</label>
                 <div class="status-row">
-                    <div class="status-col">
-                        <label for="有効" class="custom-control-label custom-checkbox-label">
+                    <div class="status-col" v-for="status in arr_status" :key="status.id.value">
+                        <label :for="status.id.display" class="custom-control-label custom-checkbox-label">
                         <input
                             type="checkbox"
                             class="custom-control-input custom-checkbox"
-                            value="1"
+                            :value="status.id.value"
                             v-model="filteredData.jobseeker_recordstatus"
                             @change="getData()"
-                            id="有効"
+                            :id="status.id.display"
                         />
-                        <span class="custom-check-label-post">有効</span>
+                        <span class="custom-check-label-post">{{status.id.display}}</span>
                         </label>
                     </div>
-                    <div class="status-col">
+                    <!-- <div class="status-col">
                         <label for="無効" class="custom-control-label custom-checkbox-label">
                         <input
                             type="checkbox"
@@ -56,14 +56,14 @@
                         <input
                             type="checkbox"
                             class="custom-control-input custom-checkbox"
-                            value="0"
+                            value="3"
                             v-model="filteredData.jobseeker_recordstatus"
                             @change="getData()"
                             id="退会"
                         />
                         <span class="custom-check-label-post">退会</span>
                         </label>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!--end advanced search-->
@@ -81,13 +81,13 @@
                     <option v-for="(records, index) in perPage" :key="index" :value="records">{{records}}</option>
                     </select>
                 </div>
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <button
                     class="btn custom-btn float-right"
                     :disabled="isDisabled"
                     @click="deleteData()"
                     >{{ $t('common.delete') }}</button>
-                </div>
+                </div> -->
                 </div>
                 <div class="vld-parent" style="width: 100%;" ref="loadingRef">
                     <DataTable
@@ -98,6 +98,7 @@
                     @check-all="selectAll"
                     @sort="sortBy"
                     :showCheckbox="true"
+                    :totalLength = projects.total
                     >
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
