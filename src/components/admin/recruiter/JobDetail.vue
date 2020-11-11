@@ -1,6 +1,6 @@
 <template>
     <div class="job-detail row">
-        <h5 class="main-header">{{ recruiter_job.job_number }} {{ recruiter_job.title }}</h5>
+        <h5 class="main-header"><span class="job-no">{{ recruiter_job.job_number }}</span> {{ recruiter_job.title }}</h5>
         <dl class="detail-list">
             <!-- <dt class="detail-head">求人タイトル</dt>
             <dd class="detail-data">{{ recruiter_job.title }}</dd> -->
@@ -156,5 +156,14 @@ export default {
 }
 .btn-back {
     margin-right: 20px;
+}
+.custom-checkbox {
+    vertical-align: text-bottom;
+}
+.custom-checkbox-label {
+    vertical-align: baseline;
+}
+.job-no {
+    color: #666;
 }
 </style>
