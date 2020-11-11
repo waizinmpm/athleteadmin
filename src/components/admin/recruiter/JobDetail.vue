@@ -45,7 +45,7 @@
             </dd>
             <dt class="detail-head">その他キーワード (求人情報に表示されます)</dt>
             <dd class="detail-data">
-                <div class="col-md-4" v-for="(keyword, index) in other_keywords" :key="index">
+                <div v-for="(keyword, index) in other_keywords" :key="index">
                     <input
                     type="checkbox"
                     :value="keyword"
