@@ -151,7 +151,7 @@
                     <div class="row d-flex"> 
                         <div class="col-sm-6">
                             <div class="border">
-                                <h5>{{ $t('common.job') }}</h5>
+                                <h5>求人</h5>
                                 <dl class="row">
                                     <dt class="col-sm-5 list-pl">{{ $t('jobapply_list.columns.0.name') }}</dt>
                                     <dd class="col-sm-7">{{ invoiceForm.management_number }}</dd>
