@@ -2,8 +2,8 @@
     <div class="job-detail row">
         <h5 class="main-header">{{ recruiter_job.job_number }} {{ recruiter_job.title }}</h5>
         <dl class="detail-list">
-            <dt class="detail-head">求人タイトル</dt>
-            <dd class="detail-data">{{ recruiter_job.title }}</dd>
+            <!-- <dt class="detail-head">求人タイトル</dt>
+            <dd class="detail-data">{{ recruiter_job.title }}</dd> -->
             <dt class="detail-head">職種</dt>
             <dd class="detail-data">{{ recruiter_job.occupation_description }}</dd>
             <dt class="detail-head">雇用形態</dt>
