@@ -285,7 +285,8 @@ export default {
 				{ id: this.$configs.scouts.declined, checked: false },
 				{ id: this.$configs.scouts.unclaimed, checked: false },
 				{ id: this.$configs.scouts.billed, checked: false },
-				{ id: this.$configs.scouts.payment_confirmed, checked: false }
+				{ id: this.$configs.scouts.payment_confirmed, checked: false },
+				{ id: this.$configs.scouts.deactivated, checked: false }
 			],
 			lang:{
 				days: ['日', '月', '火', '水', '木', '金', '土'],
