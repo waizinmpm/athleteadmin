@@ -7,7 +7,7 @@
 							<li class="has-input">
 								<input @keydown.enter="getUsers" v-model="filter_text" type="text" class="filter-input" placeholder="検索します..." />
 							</li>
-							<li class="text-primary is-title">スカウト中</li>
+							<li class="text-primary is-title">スカウト</li>
                             <li v-for="item in scout_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">	
                                 <div class="status">
                                     <div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
@@ -27,7 +27,7 @@
                                     <span class="plus" v-else>5+</span>
                                 </div>                              
                             </li>                          
-							<li class="text-primary is-title">応募中</li>
+							<li class="text-primary is-title">応募/問い合わせ</li>
 							<li v-for="item in apply_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">
 								<div class="status">
 									<div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >

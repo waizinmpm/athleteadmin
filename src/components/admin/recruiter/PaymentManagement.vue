@@ -168,7 +168,7 @@
 		<div class="modal-wrapper">
 			<div class="modal-container">
 			<div class="modal-header mb-0">
-				{{ $t('payment_management.payment_date') }}.{{ $t('payment_management.payment_amount') }}
+				{{ $t('payment_management.payment_date') }}・{{ $t('payment_management.payment_amount') }}
 				<p class="close-ico pull-right" @click="closeModal">
 					<span class="icon icon-times"></span>
 				</p>
@@ -183,8 +183,8 @@
 					placeholder="年 - 月 - 日"></date-picker>
 			</div>
 			<div class="modal-footer">
-				<button class="btn" @click="onEditingComplete(form)">{{ $t('common.confirm') }}</button>
-				<button class="btn" @click="closeModal">{{ $t('common.cancel') }}</button>
+				<button class="btn" @click="onEditingComplete(form)">保存</button>
+				<button class="btn" @click="closeModal">キャンセル</button>
 			</div>
 			</div>
 		</div>
@@ -375,13 +375,13 @@ export default {
 		editRemark(payment) {
 			const inputDialog = this.$swal({
 				allowOutsideClick: false, 
-				title: null,
+				title: '備考',
 				width: 160,
 				input: 'textarea',		
 				confirmButtonColor: "#EF8B1E",                       
-				confirmButtonText: this.$t('common.confirm'),
+				confirmButtonText: '保存',
 				cancelButtonColor: "#aab2bd",                       
-				cancelButtonText: this.$t('common.cancel'),
+				cancelButtonText: 'キャンセル',
 				customClass: {
 					confirmButton: 'btn-alert',
 					cancelButton: 'btn-alert'
