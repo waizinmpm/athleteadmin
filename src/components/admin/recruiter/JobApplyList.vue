@@ -586,7 +586,7 @@ export default {
     position: absolute;
     content: "~";
     top: 20px;
-    left: -6px;
+    left: -10px;
     font-size: 25px;
 }
 .job-col {

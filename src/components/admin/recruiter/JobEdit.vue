@@ -286,7 +286,7 @@
                             v-model="formRegister.job_location"
                             ></textarea>
                             <div class="invalid-feedback">
-                            <span>勤務地</span>
+                            <span>勤務地詳細</span>
                             </div>
                         </div>
                     </div>

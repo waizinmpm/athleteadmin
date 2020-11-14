@@ -41,8 +41,8 @@
 								<div class="col-lg-5  datepicker-wrapper">
 									<date-picker v-model="filteredData.invoice_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
-								<div class="col-lg-1 datepicker-wrapper text-center" style="padding: 8px;">
-									<span>～</span>
+								<div class="col-lg-1 datepicker-wrapper text-center similarto" style="padding: 8px;">
+									<!-- <span>～</span> -->
 								</div>
 								<div class="col-lg-5  datepicker-wrapper">
 									<date-picker v-model="filteredData.invoice_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
@@ -59,8 +59,8 @@
 								<div class="col-md-5 datepicker-wrapper">
 									<date-picker v-model="filteredData.payment_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
-								<div class="col-lg-1 datepicker-wrapper text-center" style="padding: 8px;">
-									<span>～</span>
+								<div class="col-lg-1 datepicker-wrapper text-center similarto" style="padding: 8px;">
+									<!-- <span>～</span> -->
 								</div>
 								<div class="col-md-5 datepicker-wrapper">
 									<date-picker v-model="filteredData.payment_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
@@ -512,6 +512,13 @@ textarea {
 .modal-leave-active .modal-container {
 	-webkit-transform: scale(1.1);
 	transform: scale(1.1);
+}
+.similarto::before {
+    position: absolute;
+    content: "~";
+    bottom:-22px;
+    left: 4px;
+    font-size: 25px;
 }
 /* End Modal */
 </style>

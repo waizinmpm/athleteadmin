@@ -21,11 +21,11 @@
             <dd class="detail-data"><pre>{{ recruiter_job.job_description }}</pre></dd>
             <dt class="detail-head">応募資格・語学力</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.qualification }}</pre></dd>
-            <dt class="detail-head">給与・待遇・ビザサポート</dt>
+            <dt class="detail-head">給与・待遇</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.allowance }}</pre></dd>
             <dt class="detail-head">勤務開始日</dt>
             <dd class="detail-data">{{ recruiter_job.job_start_date }}</dd>
-            <dt class="detail-head">勤務地</dt>
+            <dt class="detail-head">勤務地詳細</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.job_location }}</pre></dd>
             <dt class="detail-head">応募先アドレス</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.application_address }}</pre></dd>
