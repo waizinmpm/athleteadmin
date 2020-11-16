@@ -19,7 +19,7 @@
             </dd>
             <dt class="detail-head">仕事内容</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.job_description }}</pre></dd>
-            <dt class="detail-head">応募資格・語学力</dt>
+            <dt class="detail-head">応募資格</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.qualification }}</pre></dd>
             <dt class="detail-head">給与・待遇</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.allowance }}</pre></dd>
@@ -31,7 +31,7 @@
             <dd class="detail-data"><pre>{{ recruiter_job.application_address }}</pre></dd>
             <dt class="detail-head">求職者へのメッセージ</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.message }}</pre></dd>
-            <dt class="detail-head">エリア (検索用キーワード)</dt>
+            <dt class="detail-head">勤務地 (検索用キーワード)</dt>
             <dd class="detail-data">
                 <span v-for="country in countries" :key="country.id">
                     {{ recruiter_job.country_id == country.id ? country.country_name : ''}}
@@ -60,7 +60,7 @@
                     >{{ $t('jobcreate.other_keywords['+ index+']') }}</label>
                 </div>
             </dd>
-            <dt class="detail-head">更新日</dt>
+            <dt class="detail-head">掲載開始日</dt>
             <dd class="detail-data">{{ recruiter_job.job_post_date }}</dd>
             <!-- <dt class="detail-head">仕事の内容</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.job_description }}</pre></dd>
