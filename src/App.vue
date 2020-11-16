@@ -748,7 +748,7 @@ body {
 // table
 .tbl-wrap {
     width: 100%;
-    overflow-x: auto ;
+    // overflow-x: auto ;
 }
 .tbl-wrap .table {
     // width: 1300px;

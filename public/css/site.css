@@ -1430,7 +1430,7 @@ mark {
 }
 
 .text-right {
-    text-align: right;
+    text-align: right !important;
 }
 
 .text-center {
@@ -2839,7 +2839,7 @@ legend {
 label {
     display: inline-block;
     max-width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     font-weight: 700;
     color: #666;
 }
@@ -13342,7 +13342,7 @@ a.navbar-brand {
 }
 
 .content-row .row {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .content-row .content-row-title {

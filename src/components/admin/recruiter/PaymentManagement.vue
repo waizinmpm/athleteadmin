@@ -5,25 +5,25 @@
 				<h5 class="m-b-10 main-header">{{ $t('payment_management.title') }}</h5>
 				<div class="inner-wrapper">
 					<div class="row mb-1">
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<label for="management_number">{{ $t('payment_management.management_number') }}</label>
 							<input type="text" :placeholder="$t('payment_management.management_number')" class="form-control" 
 								v-model.trim="filteredData.management_number">
 						</div>
-						<div class="col-md-7">
-							<div class="col-md-12 p-0">
+						<div class="col-md-8">
+							<div class="col-md-12 p-0 mb-2">
 								<label>{{ $t('payment_management.payment_method') }}</label>
 							</div>
 							<div class="row mb-0">
-								<div class="col-md-4">
-									<label class="custom-control-label custom-checkbox-label">
+								<div class="col-md-3">
+									<label class="custom-control-label custom-checkbox-label pl-0">
 										<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
 										v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" />
 										<span class="custom-check-label-post">{{ $configs.payment_method.invoice }}</span>
 									</label>
 								</div>
-								<div class="col-md-4">
-									<label class="custom-control-label custom-checkbox-label">
+								<div class="col-md-3">
+									<label class="custom-control-label custom-checkbox-label pl-0">
 										<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
 									v-model="filteredData.payment_status" :value="$configs.payment_method.credit" />
 										<span class="custom-check-label-post">{{ $configs.payment_method.credit }}</span>
@@ -33,43 +33,40 @@
 						</div>
 					</div>
 					<div class="row mb-2">
-						<div class="col-md-7">
+						<div class="col-md-12">
 							<div class="col-md-12 p-0">
 								<label for="入金期日">{{ $t('payment_management.invoice_date') }}</label>
 							</div>
 							<div class="row mb-0">
-								<div class="col-lg-5  datepicker-wrapper">
+								<div class="col-lg-3  datepicker-wrapper">
 									<date-picker v-model="filteredData.invoice_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
-								<div class="col-lg-1 datepicker-wrapper text-center similarto" style="padding: 8px;">
-									<!-- <span>～</span> -->
-								</div>
-								<div class="col-lg-5  datepicker-wrapper">
+								<div class="col-lg-3  datepicker-wrapper similarto">
 									<date-picker v-model="filteredData.invoice_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row d-flex align-items-end mb-2">
-						<div class="col-md-7">
+						<div class="col-md-12">
 							<div class="col-md-12 p-0">
 								<label for="入金日">{{ $t('payment_management.payment_date') }}</label>
 							</div>
-							<div class="row  mb-0">
-								<div class="col-md-5 datepicker-wrapper">
+							<div class="row  mb-0 date-row">
+								<div class="col-md-3 datepicker-wrapper">
 									<date-picker v-model="filteredData.payment_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
-								<div class="col-lg-1 datepicker-wrapper text-center similarto" style="padding: 8px;">
-									<!-- <span>～</span> -->
-								</div>
-								<div class="col-md-5 datepicker-wrapper">
+								<!-- <div class="col-lg-1 datepicker-wrapper text-center similarto" style="padding: 8px;">
+								</div> -->
+								<div class="col-md-3 datepicker-wrapper similarto">
 									<date-picker v-model="filteredData.payment_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+								</div>
+								<div class="col-md-3 ml-auto">
+									<button class="btn searchbtn float-right" @click="getData()">{{ $t('common.search') }}</button>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3 ml-auto">
-							<button class="btn searchbtn  mr-2" @click="getData()">{{ $t('common.search') }}</button>
-						</div>
+						
 					</div>
 				</div>
 				<label class="mb-4">{{ $t('payment_management.status') }}</label>
@@ -106,7 +103,7 @@
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td class="tbl-wm">{{ project.management_number }}</td>
 								<td class="tbl-wxs">{{ project.payment_method }}</td>
-								<td class="tbl-wm">{{ project.invoice_number }}</td>
+								<td class="tbl-ws">{{ project.invoice_number }}</td>
 								<td style="position:relative;" class="tbl-ws">
 									<div class="scout-box">
 										<p class="scout-txt">{{ project.status }}</p>
@@ -124,7 +121,7 @@
 									
 									</div>
 								</td>
-								<td class="tbl-ws">{{ project.invoice_amount|aj-number }}</td>
+								<td class="tbl-wxs text-right pr-2">{{ project.invoice_amount|aj-number }}</td>
 								<td class="tbl-ws"><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
 								<td class="tbl-ws">
 									<span>{{ project.payment_amount|aj-number }}</span>
@@ -133,15 +130,15 @@
 									<br v-if="project.actual_payment_date">
 									<button type="button" @click="editAmountDate(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
-								<td style="max-width:300px;"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link></td>
-								<td style="max-width:300px;"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link></td> 
+								<td><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link></td>
+								<td  class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link></td> 
 								<!-- <td class="text-left">
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">名</span> - {{project.recruiter_name}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">電話番号</span> - {{project.phone1}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">メールアドレス</span> - {{project.email}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">担当者名</span> - {{project.incharge_name}}</p>
                                 </td> -->
-								<td class="tbl-wm">
+								<td class="tbl-ws">
 									<div style="height:40px;line-height:40px;vertical-align:middle;">
 										<span class="txt-vertical-ellipsis text-left">{{ project.remark }}</span>
 									</div>
@@ -183,7 +180,7 @@
 					placeholder="年 - 月 - 日"></date-picker>
 			</div>
 			<div class="modal-footer">
-				<button class="btn" @click="onEditingComplete(form)">保存</button>
+				<button class="btn btn-comfirm" @click="onEditingComplete(form)">保存</button>
 				<button class="btn" @click="closeModal">キャンセル</button>
 			</div>
 			</div>
@@ -513,12 +510,28 @@ textarea {
 	-webkit-transform: scale(1.1);
 	transform: scale(1.1);
 }
+.modal-wrapper .btn {
+	width: 100px !important;
+	padding: .625em .5em !important;
+	border: 0;
+    border-radius: .25em;
+	border-color: transparent;
+    box-shadow: none;
+}
+.modal-wrapper .btn-comfirm {
+	background: #ef8b1e;
+}
+.modal-wrapper .icon-times:before {
+	color: #807979;
+	font-weight: bold;
+}
 .similarto::before {
     position: absolute;
     content: "~";
-    bottom:-22px;
-    left: 4px;
+    top: 0;
+    left: -7px;
     font-size: 25px;
 }
 /* End Modal */
+
 </style>
