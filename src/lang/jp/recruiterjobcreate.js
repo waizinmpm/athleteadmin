@@ -72,7 +72,7 @@ export default {
     startdate_ex2 : ' 2020年5月以降',
     startdate_ex3 : ' ※ 応相談',
 
-    location : ' 勤務地',
+    location : ' 勤務地詳細',
     location_ex1 : ' (記入例)',
     location_ex2 : ' インドネシアジャカルタ',
 

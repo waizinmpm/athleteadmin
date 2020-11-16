@@ -46,8 +46,8 @@
 							<label for=""></label>
 							<date-picker v-model="filteredData.to_date" valueType="format" class="datepicker" :lang="lang"  placeholder="年 - 月 - 日"></date-picker> 
 						</div>                     
-						<div class="col-md-3">                        
-							<button class="btn searchbtn"  @click="getData()">{{ $t('common.search') }}</button>
+						<div class="col-md-3 ml-auto">                        
+							<button class="btn searchbtn float-right"  @click="getData()">{{ $t('common.search') }}</button>
 						</div>                
 					</div>
 				</div>
@@ -582,7 +582,7 @@ export default {
 textarea {
 	resize: vertical;
 }
-.content-row .row, dl {
+dl {
 	margin-bottom: 10px;
 }
 .form-control.is-invalid, .was-validated .form-control:invalid {
@@ -635,7 +635,7 @@ textarea {
     position: absolute;
     content: "~";
     top: 20px;
-    left: -6px;
+    left: -7px;
     font-size: 25px;
 }
 </style>

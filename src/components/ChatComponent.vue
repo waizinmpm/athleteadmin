@@ -4,7 +4,10 @@
                 <div class="main-chat">
                     <div class="col-4 tab-left float-left">
                         <ul class="list-user">
-							<li class="text-primary">スカウト中</li>
+							<li class="has-input">
+								<input @keydown.enter="getUsers" v-model="filter_text" type="text" class="filter-input" placeholder="検索します..." />
+							</li>
+							<li class="text-primary is-title">スカウト</li>
                             <li v-for="item in scout_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">	
                                 <div class="status">
                                     <div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
@@ -24,7 +27,7 @@
                                     <span class="plus" v-else>5+</span>
                                 </div>                              
                             </li>                          
-							<li class="text-primary">応募中</li>
+							<li class="text-primary is-title">応募/問い合わせ</li>
 							<li v-for="item in apply_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">
 								<div class="status">
 									<div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
@@ -53,7 +56,7 @@
                             <div class="name">
                                 <p>{{number}}</p>
                                 <span class="txt-vertical-ellipsis">{{title}}</span>
-								<span style="font-size:12px;">{{showName}}</span>
+								<span class="txt-vertical-ellipsis" style="font-size:12px;">{{showName}}</span>
                             </div>
                         </div>
                         <div class="content-chat" ref="scrollChat" v-chat-scroll="{always: false, smooth: true}"  @v-chat-scroll-top-reached="scrollTop(channel,current_page)">
@@ -109,6 +112,7 @@ export default {
         return{
             scout_jobs: null,
 			apply_jobs: null,
+			filter_text: '',
             typing: false,
             isToggled: false,
             messages: [],
@@ -249,20 +253,23 @@ export default {
         },
         getUsers(){
 			let role_id = this.currentUser.role_id;
-
+			let filter_text = encodeURIComponent(this.filter_text);
 			Promise.all([
 				// --scout chattables
-				this.$api.get(`/v1/chattables/${role_id}/scout`)
+				this.$api.get(`/v1/chattables/${role_id}/scout?q=${filter_text}`)
 				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response)),
 				// --jobapply chattables
-				this.$api.get(`/v1/chattables/${role_id}/job-apply`)
+				this.$api.get(`/v1/chattables/${role_id}/job-apply?q=${filter_text}`)
 				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response))
 			])
 			.then((r) => {
 				this.scout_jobs = r[0];
 				this.apply_jobs = r[1];
-				window.socket.emit('join', this.currentUser.id);
-				this.sumUnRead();
+
+				if (filter_text.length == 0) {
+					window.socket.emit('join', this.currentUser.id);
+					this.sumUnRead();
+				}
 			})
         },         
         getMessage(model){
@@ -584,6 +591,11 @@ input:focus{
             }
         }
         .list-user{
+			.filter-input {
+				width: 100%;
+				border: 0;
+				border-bottom: 1px solid#e2e2e2;
+			}
             li{
                 display: flex;
                 padding: 7px 10px;
@@ -624,6 +636,20 @@ input:focus{
                         left: 29%;
                     }
                 }
+				&.has-input {
+					padding: 7px 3px;
+					border: 0;
+					&:hover {
+						background: transparent;
+					}
+				}
+				&.is-title {
+					padding: 7px 3px;
+					&:hover {
+						cursor: default;
+						background: transparent;
+					}
+				}
             }
             .name{
                 margin-left: 5px;

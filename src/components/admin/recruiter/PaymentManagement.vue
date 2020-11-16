@@ -5,25 +5,25 @@
 				<h5 class="m-b-10 main-header">{{ $t('payment_management.title') }}</h5>
 				<div class="inner-wrapper">
 					<div class="row mb-1">
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<label for="management_number">{{ $t('payment_management.management_number') }}</label>
 							<input type="text" :placeholder="$t('payment_management.management_number')" class="form-control" 
 								v-model.trim="filteredData.management_number">
 						</div>
-						<div class="col-md-7">
-							<div class="col-md-12 p-0">
+						<div class="col-md-8">
+							<div class="col-md-12 p-0 mb-2">
 								<label>{{ $t('payment_management.payment_method') }}</label>
 							</div>
 							<div class="row mb-0">
-								<div class="col-md-4">
-									<label class="custom-control-label custom-checkbox-label">
+								<div class="col-md-3">
+									<label class="custom-control-label custom-checkbox-label pl-0">
 										<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
 										v-model="filteredData.payment_status" :value="$configs.payment_method.invoice" />
 										<span class="custom-check-label-post">{{ $configs.payment_method.invoice }}</span>
 									</label>
 								</div>
-								<div class="col-md-4">
-									<label class="custom-control-label custom-checkbox-label">
+								<div class="col-md-3">
+									<label class="custom-control-label custom-checkbox-label pl-0">
 										<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" 
 									v-model="filteredData.payment_status" :value="$configs.payment_method.credit" />
 										<span class="custom-check-label-post">{{ $configs.payment_method.credit }}</span>
@@ -33,43 +33,40 @@
 						</div>
 					</div>
 					<div class="row mb-2">
-						<div class="col-md-7">
+						<div class="col-md-12">
 							<div class="col-md-12 p-0">
 								<label for="入金期日">{{ $t('payment_management.invoice_date') }}</label>
 							</div>
 							<div class="row mb-0">
-								<div class="col-lg-5  datepicker-wrapper">
+								<div class="col-lg-3  datepicker-wrapper">
 									<date-picker v-model="filteredData.invoice_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
-								<div class="col-lg-1 datepicker-wrapper text-center" style="padding: 8px;">
-									<span>～</span>
-								</div>
-								<div class="col-lg-5  datepicker-wrapper">
+								<div class="col-lg-3  datepicker-wrapper similarto">
 									<date-picker v-model="filteredData.invoice_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row d-flex align-items-end mb-2">
-						<div class="col-md-7">
+						<div class="col-md-12">
 							<div class="col-md-12 p-0">
 								<label for="入金日">{{ $t('payment_management.payment_date') }}</label>
 							</div>
-							<div class="row  mb-0">
-								<div class="col-md-5 datepicker-wrapper">
+							<div class="row  mb-0 date-row">
+								<div class="col-md-3 datepicker-wrapper">
 									<date-picker v-model="filteredData.payment_from_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
 								</div>
-								<div class="col-lg-1 datepicker-wrapper text-center" style="padding: 8px;">
-									<span>～</span>
-								</div>
-								<div class="col-md-5 datepicker-wrapper">
+								<!-- <div class="col-lg-1 datepicker-wrapper text-center similarto" style="padding: 8px;">
+								</div> -->
+								<div class="col-md-3 datepicker-wrapper similarto">
 									<date-picker v-model="filteredData.payment_to_date" value-type="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>
+								</div>
+								<div class="col-md-3 ml-auto">
+									<button class="btn searchbtn float-right" @click="getData()">{{ $t('common.search') }}</button>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3 ml-auto">
-							<button class="btn searchbtn  mr-2" @click="getData()">{{ $t('common.search') }}</button>
-						</div>
+						
 					</div>
 				</div>
 				<label class="mb-4">{{ $t('payment_management.status') }}</label>
@@ -168,7 +165,7 @@
 		<div class="modal-wrapper">
 			<div class="modal-container">
 			<div class="modal-header mb-0">
-				{{ $t('payment_management.payment_date') }}.{{ $t('payment_management.payment_amount') }}
+				{{ $t('payment_management.payment_date') }}・{{ $t('payment_management.payment_amount') }}
 				<p class="close-ico pull-right" @click="closeModal">
 					<span class="icon icon-times"></span>
 				</p>
@@ -183,8 +180,8 @@
 					placeholder="年 - 月 - 日"></date-picker>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-comfirm" @click="onEditingComplete(form)">{{ $t('common.confirm') }}</button>
-				<button class="btn" @click="closeModal">{{ $t('common.cancel') }}</button>
+				<button class="btn btn-comfirm" @click="onEditingComplete(form)">保存</button>
+				<button class="btn" @click="closeModal">キャンセル</button>
 			</div>
 			</div>
 		</div>
@@ -375,13 +372,13 @@ export default {
 		editRemark(payment) {
 			const inputDialog = this.$swal({
 				allowOutsideClick: false, 
-				title: null,
+				title: '備考',
 				width: 160,
 				input: 'textarea',		
 				confirmButtonColor: "#EF8B1E",                       
-				confirmButtonText: this.$t('common.confirm'),
+				confirmButtonText: '保存',
 				cancelButtonColor: "#aab2bd",                       
-				cancelButtonText: this.$t('common.cancel'),
+				cancelButtonText: 'キャンセル',
 				customClass: {
 					confirmButton: 'btn-alert',
 					cancelButton: 'btn-alert'
@@ -527,6 +524,13 @@ textarea {
 .modal-wrapper .icon-times:before {
 	color: #807979;
 	font-weight: bold;
+}
+.similarto::before {
+    position: absolute;
+    content: "~";
+    top: 0;
+    left: -7px;
+    font-size: 25px;
 }
 /* End Modal */
 

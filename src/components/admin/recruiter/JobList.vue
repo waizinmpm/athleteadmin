@@ -74,6 +74,23 @@
                         <span class="tooltiptext">{{status.id.display}}</span>
                     </div>
                 </div>
+                <div class="status-row">
+                    <div class="status-col tooltip-box">
+                        <label for="deactivate" class="custom-control-label custom-checkbox-label">
+                            <input
+                                type="checkbox"
+                                class="custom-control-input custom-checkbox"
+                                name="recruiter_status"
+                                id="deactivate"
+                                v-model="filteredData.recruiter_status"
+                                @change="getData()"
+                                value="退会"
+                            />
+                            <span class="custom-check-label-post">退会</span>
+                        </label>
+                        <span class="tooltiptext">退会</span>
+                    </div>
+                </div>
                 <!--end advanced search-->
             </div>
         </div>
@@ -217,7 +234,8 @@ export default {
             sortOrders[column.label] = -1;
         });
         let filteredData = {
-            status: []
+            status: [],
+            recruiter_status : ''
         };
         return {
             base_url: "v1/admin/job-list",
@@ -230,7 +248,7 @@ export default {
             arr_status: [
 				{ id: this.$configs.job.public, checked: false },
 				{ id: this.$configs.job.private, checked: false },
-				{ id: this.$configs.job.stopped, checked: false },
+                { id: this.$configs.job.stopped, checked: false },
 			],
         };
     },

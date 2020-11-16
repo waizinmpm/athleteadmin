@@ -53,7 +53,7 @@ export default {
                 filteredData: this.filteredData,
                 columns:this.columns
             };
-            page = page ?? 1;
+            page = page || 1;
             let loader = this.$loading.show({
                 container: this.$refs.loadingRef,
                 isFullPage: false
