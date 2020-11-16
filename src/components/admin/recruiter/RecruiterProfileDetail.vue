@@ -2,6 +2,10 @@
     <div class="recruiter-profile-detail row">
          <h5 class="main-header">企業プロフィール詳細 <span style="color:red;">{{ recruiter_info.record_status == 3 ? '退会' : '' }}</span></h5> 
         <dl class="detail-list">
+            <dt class="detail-head">企業会員番号</dt>
+            <dd class="detail-data">{{ recruiter_info.recruiter_number }}</dd>
+            <dt class="detail-head">企業名</dt>
+            <dd class="detail-data">{{ recruiter_info.recruiter_name }}</dd>
             <dt class="detail-head">設立年月</dt>
             <dd class="detail-data">{{ recruiter_info.establishment_date }}</dd>
             <dt class="detail-head">代表者名</dt>
