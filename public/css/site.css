@@ -1430,7 +1430,7 @@ mark {
 }
 
 .text-right {
-    text-align: right;
+    text-align: right !important;
 }
 
 .text-center {

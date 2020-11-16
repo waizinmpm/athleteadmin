@@ -124,7 +124,7 @@
                             <div v-if="project.record_status != 0">
                                 {{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}
                                 <br>
-                                <p class="btn btn-common mt-2" v-on:click="showToggle(index)" v-if="project.record_status != 3">
+                                <p class="btn btn-common" v-on:click="showToggle(index)" v-if="project.record_status != 3">
                                     {{$t('common.change')}}
                                     <span class="down-icon">&#9662;</span>
                                 </p>

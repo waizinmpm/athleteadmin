@@ -223,7 +223,7 @@
 							<button class="btn btn-cancel w-100" @click="closeInvoiceModal">{{ $t('common.cancel') }}</button>
 						</div>
 						<div class="col-sm-6 text-right">
-							<button class="btn btn-second" style="margin-right: 1rem;" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('common.send_invoice') }}</button>
+							<button class="btn btn-second" @click="sendInvoiceMail" v-show="invoicePreview">{{ $t('common.send_invoice') }}</button>
 						</div>
 					</div>
 				</div>

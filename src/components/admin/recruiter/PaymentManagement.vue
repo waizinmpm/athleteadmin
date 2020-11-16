@@ -106,7 +106,7 @@
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td class="tbl-wm">{{ project.management_number }}</td>
 								<td class="tbl-wxs">{{ project.payment_method }}</td>
-								<td class="tbl-wm">{{ project.invoice_number }}</td>
+								<td class="tbl-ws">{{ project.invoice_number }}</td>
 								<td style="position:relative;" class="tbl-ws">
 									<div class="scout-box">
 										<p class="scout-txt">{{ project.status }}</p>
@@ -124,7 +124,7 @@
 									
 									</div>
 								</td>
-								<td class="tbl-ws">{{ project.invoice_amount|aj-number }}</td>
+								<td class="tbl-wxs text-right pr-2">{{ project.invoice_amount|aj-number }}</td>
 								<td class="tbl-ws"><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
 								<td class="tbl-ws">
 									<span>{{ project.payment_amount|aj-number }}</span>
@@ -133,15 +133,15 @@
 									<br v-if="project.actual_payment_date">
 									<button type="button" @click="editAmountDate(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
-								<td style="max-width:300px;"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link></td>
-								<td style="max-width:300px;"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link></td> 
+								<td><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link></td>
+								<td  class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link></td> 
 								<!-- <td class="text-left">
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">名</span> - {{project.recruiter_name}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">電話番号</span> - {{project.phone1}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">メールアドレス</span> - {{project.email}}</p>
                                     <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">担当者名</span> - {{project.incharge_name}}</p>
                                 </td> -->
-								<td class="tbl-wm">
+								<td class="tbl-ws">
 									<div style="height:40px;line-height:40px;vertical-align:middle;">
 										<span class="txt-vertical-ellipsis text-left">{{ project.remark }}</span>
 									</div>
@@ -183,7 +183,7 @@
 					placeholder="年 - 月 - 日"></date-picker>
 			</div>
 			<div class="modal-footer">
-				<button class="btn" @click="onEditingComplete(form)">{{ $t('common.confirm') }}</button>
+				<button class="btn btn-comfirm" @click="onEditingComplete(form)">{{ $t('common.confirm') }}</button>
 				<button class="btn" @click="closeModal">{{ $t('common.cancel') }}</button>
 			</div>
 			</div>
@@ -513,5 +513,21 @@ textarea {
 	-webkit-transform: scale(1.1);
 	transform: scale(1.1);
 }
+.modal-wrapper .btn {
+	width: 100px !important;
+	padding: .625em .5em !important;
+	border: 0;
+    border-radius: .25em;
+	border-color: transparent;
+    box-shadow: none;
+}
+.modal-wrapper .btn-comfirm {
+	background: #ef8b1e;
+}
+.modal-wrapper .icon-times:before {
+	color: #807979;
+	font-weight: bold;
+}
 /* End Modal */
+
 </style>
