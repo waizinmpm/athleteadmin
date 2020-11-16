@@ -463,7 +463,7 @@
                     value="確認"
                     class="btn btn-save"
                     @click="changeStatus('post')"
-                >保存する</button>
+                >保存</button>
         </div>
     </div>
   </div>
