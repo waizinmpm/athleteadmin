@@ -75,6 +75,7 @@ export default {
     onChatStarted(payload) {
       this.$refs.refChatComponent.isToggled = true;
       this.$refs.refChatComponent.getMessage(payload);
+      this.$refs.refChatComponent.scrollUserIntoView();
     },
   },
 };
