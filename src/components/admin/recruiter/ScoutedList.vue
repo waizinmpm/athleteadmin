@@ -59,7 +59,13 @@
 							<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status" @change="getData()">
 							<span class="custom-check-label-post">{{status.id}}</span>
 						</label>                          
-					</div>  
+					</div> 
+					<div>
+                       <label class="custom-control-label custom-checkbox-label">                       
+                            <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="de_status.id" :checked="de_status.checked" v-model="filteredData.scout_status" @change="getData()">
+                            <span class="custom-check-label-post">{{de_status.id}}</span>
+                        </label> 
+                    </div>  
 				</div>
                 <!--end advanced search-->     
             </div>
@@ -286,8 +292,8 @@ export default {
 				{ id: this.$configs.scouts.unclaimed, checked: false },
 				{ id: this.$configs.scouts.billed, checked: false },
 				{ id: this.$configs.scouts.payment_confirmed, checked: false },
-				{ id: this.$configs.scouts.deactivated, checked: false }
 			],
+			de_status: { id: this.$configs.job_apply.deactivated, checked: false },
 			lang:{
 				days: ['日', '月', '火', '水', '木', '金', '土'],
 				months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
