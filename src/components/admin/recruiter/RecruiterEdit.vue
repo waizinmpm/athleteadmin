@@ -1,15 +1,15 @@
 <template>
-    <div class="profile-edit">
+    <div class="profile-edit row">
         <form @submit.prevent="updateProfile">
             <h5 class="mb-3 main-header">企業プロフィール設定</h5>
-            <div class="p-3" id="information">
+            <div class="pt-2" id="information">
                 <div class="border">
                     <div class="form-group">
                         <label>企業番号</label>
                         <input type="text" class="form-control" readonly :value="recruiterForm.recruiter_number" />
                     </div>
                     <div class="form-group">
-                        <label>企業名 <span class="badge badge-danger">必須</span></label>
+                        <label><span class="align-label">企業名</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.recruiter_name.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.recruiter_name.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.recruiter_name.required">企業名は入力は必須です。</div>
@@ -60,7 +60,7 @@
                         <textarea name="" id="" class="form-control" rows="5" v-model.trim="recruiterForm.address"></textarea>
                     </div>
                     <div class="form-group">
-                        <label>電話番号 1 <span class="badge badge-danger">必須</span></label>
+                        <label><span class="align-label">電話番号 1</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.phone1.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.phone1.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.phone1.required">Phone number is required</div>
@@ -81,7 +81,7 @@
                         <input type="text" class="form-control" :value="recruiterForm.email" readonly />
                     </div>
                     <div class="form-group">
-                        <label>WEBサイトURL <span class="badge badge-danger">必須</span></label>
+                        <label><span class="align-label">サイトURL</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.website.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.website.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.website.required && $v.recruiterForm.website.$error">URL is required</div>
@@ -92,14 +92,14 @@
 
                 <div class="border">
                     <div class="form-group">
-                        <label>ご担当者名 <span class="badge badge-danger">必須</span></label>
+                        <label><span class="align-label">ご担当者名</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.incharge_name.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.incharge_name.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.incharge_name.required">Incharge name is required</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>担当者名(フリガナ) <span class="badge badge-danger">必須</span></label>
+                        <label><span class="align-label">担当者名(フリガナ)</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.incharge_name_furigana.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.incharge_name_furigana.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.incharge_name_furigana.required">Incharge name (furigana) is required</div>
@@ -111,7 +111,7 @@
                         <input type="text" class="form-control" v-model.trim="recruiterForm.account_id" />
                     </div>
                     <div class="form-group">
-                        <label>秘密の質問 <span class="badge badge-danger">必須</span></label>
+                        <label><span class="align-label">秘密の質問</span> <span class="required">必須</span></label>
                         <select v-model="questionType" @change="onQuestionTypeChange" class="form-control">
                             <option v-for="(question, key) in $configs.questions" :value="question" :key="key">{{ question }}</option>
                         </select>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>秘密の質問の答え <span class="badge badge-danger">必須</span></label>
+                        <label><span class="align-label">秘密の質問の答え </span><span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.answer.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.answer.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.answer.required">Answer is required</div>
@@ -130,7 +130,7 @@
                 </div>
 
                 <div class="border" id="logo">
-                    <div class="form-group">
+                    <div class="form-group mb-5">
                         <label>会社ロゴ</label>
                             <div @drop.prevent="onLogoChange" @dragover.prevent  :class="['upload-content', $v.recruiterForm.logo.$error ? 'is-invalid':''] ">
                                 <div class="d-flex align-items-center">
@@ -146,23 +146,25 @@
                             <!-- <label class="custom-file-label">ファイルを選択</label> -->
                         </div>
                         <div class="invalid-feedback">
-                                <div class="error" v-if="!$v.recruiterForm.logo.isTrueImage">Invalid image file.</div>
-                            </div>
+                            <div class="error" v-if="!$v.recruiterForm.logo.isTrueImage">Invalid image file.</div>
+                        </div>
                     </div>
-                    <div class="img-wrapper">                       
-                        <img :src="recruiterForm.logo_url" class="img-responsive" alt="Recruiter Logo" />
+                    <div class="logo-box-photo">                       
+                        <img :src="recruiterForm.logo_url" class="img-contain" alt="Recruiter Logo" />
                         <button v-show="recruiterForm.logo_url != defaultImageUrl" type="button" @click="deleteLogo" class="delete-btn"> <span class="glyphicon glyphicon-remove"></span></button>                    
                     </div>
                 </div>
 
                 <div class="border img-block" id="incharge-photo">
-                    <div class="form-group">
+                    <div class="form-group mb-5">
                         <label>担当者顔写真(スカウトした人材のみ閲覧可)</label>
                             <div @drop.prevent="onInchargePhotoChange" @dragover.prevent :class="['upload-content', $v.recruiterForm.incharge_photo.$error ? 'is-invalid':''] ">
                                     <div class="d-flex align-items-center">
                                         <i class="fa fa-cloud-upload upload-icon mx-3"></i>
                                         <label class="mb-0">画像をドラッグ＆ドロップまたは</label>
-                                        <button type="button" class="btn upload-btn mx-3" @click="$refs.inchargePhotoInput.click()">ファイルを選択</button>
+                                        <div class="upload-btn-wrapper">
+                                            <button type="button" class="btn upload-btn mx-3" @click="$refs.inchargePhotoInput.click()">ファイルを選択</button>
+                                        </div>
                                     </div>
                             </div>
                         <div>
@@ -174,14 +176,14 @@
                             </div>
                     </div>
 
-                    <div class="img-wrapper">                   
-                            <img :src="recruiterForm.incharge_photo_url" class="img-responsive" alt="Recruiter Incharge Photo" />
-                            <button v-show="recruiterForm.incharge_photo_url != defaultImageUrl" type="button" @click="deleteInchargePhoto" class="delete-btn"><span class="glyphicon glyphicon-remove"></span></button>                       
+                    <div class="scout-box-photo">                   
+                        <img :src="recruiterForm.incharge_photo_url" class="img-responsive" alt="Recruiter Incharge Photo" />
+                        <button v-show="recruiterForm.incharge_photo_url != defaultImageUrl" type="button" @click="deleteInchargePhoto" class="delete-btn"><span class="glyphicon glyphicon-remove"></span></button>                       
                     </div>
                 </div>
 
                 <div class="border clearfix" id="related-photo">
-                    <div class="form-group">
+                    <div class="form-group mb-5">
                         <label>関連画像</label>
                         <div @drop.prevent="onRelatedImagesChange" @dragover.prevent :class="['upload-content', $v.temp_related_image.$error ? 'is-invalid':''] ">
                                 <div class="d-flex align-items-center">
@@ -197,22 +199,22 @@
                             <!-- <label class="custom-file-label">ファイルを選択</label> -->
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3 image-block" v-if="showRelatedImage(0)">
+                    <div class="row  m-0">
+                        <div class="col-md-3 related-block" v-if="showRelatedImage(0)">
                             <img :src="recruiterForm.related_images[0].file_url" class="img-contain" alt="Recruiter related image 1" />
-                            <button type="button" @click="deleteRelatedImage(0)" class="delete-btn"> <span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" @click="deleteRelatedImage(0)" class="delete-btn"> <span class="icon icon-times"></span></button>
                         </div>
-                        <div class="col-md-3 image-block" v-if="showRelatedImage(1)">
+                        <div class="col-md-3 related-block" v-if="showRelatedImage(1)">
                             <img :src="recruiterForm.related_images[1].file_url" class="img-contain" alt="Recruiter related image 2" />
-                            <button type="button" @click="deleteRelatedImage(1)" class="delete-btn"> <span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" @click="deleteRelatedImage(1)" class="delete-btn"> <span class="icon icon-times"></span></button>
                         </div>
-                        <div class="col-md-3 image-block" v-if="showRelatedImage(2)">
+                        <div class="col-md-3 related-block" v-if="showRelatedImage(2)">
                             <img :src="recruiterForm.related_images[2].file_url" class="img-contain" alt="Recruiter related image 3" />
-                            <button type="button" @click="deleteRelatedImage(2)" class="delete-btn"> <span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" @click="deleteRelatedImage(2)" class="delete-btn"> <span class="icon icon-times"></span></button>
                         </div>
-                        <div class="col-md-3 image-block" v-if="showRelatedImage(3)">
+                        <div class="col-md-3 related-block" v-if="showRelatedImage(3)">
                             <img :src="recruiterForm.related_images[3].file_url" class="img-contain" alt="Recruiter related image 4" />
-                            <button type="button" @click="deleteRelatedImage(3)" class="delete-btn"> <span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" @click="deleteRelatedImage(3)" class="delete-btn"> <span class="icon icon-times"></span></button>
                         </div>
                     </div>
                 </div>
@@ -221,11 +223,11 @@
                     <div class="form-group">
                         <label>関連動画</label>
                         <div class="row">
-                            <label class="col-sm-2 col-form-label">Youtube URL</label>
-                            <div class="col-sm-12">
+                            <label class="col-sm-3 col-form-label">Youtube URL</label>
+                            <div class="col-sm-9">
                                 <input type="text" :class="['form-control',$v.recruiterForm.video.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.video.$model" />
                                 <div class="invalid-feedback">
-                                    <div class="error" v-if="!$v.recruiterForm.video.matchYoutubeUrl">Invalid youtube url.</div>
+                                    <div class="error" v-if="!$v.recruiterForm.video.matchYoutubeUrl">URLの形式が正しくありません</div>
                                 </div>
                             </div>
                         </div>
@@ -480,7 +482,7 @@
 <style lang="scss" scoped>
 .border{
     margin-bottom: 20px;
-    padding: 20px 20px 10px 20px;
+    padding: 20px;
     border: 1px solid #9b9898;
     border-radius: 5px;
 }
@@ -580,8 +582,8 @@
 }
 .delete-btn{
     position: absolute;
-    top: -10px;
-    right: -5px;
+    top: -17px;
+    right: -11px;
     width: 35px;
     height: 35px;
     font-size: 16px;
@@ -589,14 +591,88 @@
     background: #fff;
     border-radius: 50%;
     color: #919191;
-    border: 1px solid;
+    border: 1px solid #444;
+    line-height: 1.9;
     vertical-align: middle;
-    cursor: pointer;
-    line-height: 35px;
-    cursor: pointer;
 }
-
+.delete-btn .icon-times {
+    font-size: 11px;
+    font-weight: bold;
+}
+.delete-btn .icon-times::before {
+    color: #444;
+}
 .w-100 {
     width: 100%!important;
+}
+.required {
+    float: right;
+    margin: 0 50px 0 5px;
+    padding: 0px 4px 2px 4px;
+    background: #F60D0D;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 11px;
+    vertical-align: middle;
+}
+.col-form-label {
+    padding-top: calc(.375rem + 1px);
+    padding-bottom: calc(.375rem + 1px);
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5;
+}
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: #dc3545;
+}
+.invalid-feedback {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+.error {
+    color: #F60D0D;
+    font-size: 13px;
+}
+.related-block {
+    display: flex;
+    align-items: center;
+    max-width: 22%;
+    height: 155px;
+    margin: 0 3% 3% 0;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    flex: 0 0 50%;
+}
+.img-contain {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+.scout-box-photo {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 240px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.logo-box-photo {
+    position: relative;
+    width: 200px;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.form-group {
+    margin-bottom: 1.5rem;
+}
+label {
+    margin-bottom: .5rem;
 }
 </style>

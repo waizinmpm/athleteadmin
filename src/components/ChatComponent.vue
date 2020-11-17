@@ -5,9 +5,12 @@
                     <div class="col-4 tab-left float-left">
                         <ul class="list-user">
 							<li class="has-input">
-								<input @keydown.enter="getUsers" v-model="filter_text" type="text" class="filter-input" placeholder="検索します..." />
+								<input @keydown.enter="getUsers" v-model="filter_text" type="text" class="filter-input" placeholder="管理番号/タイトル/会員名" />
 							</li>
-							<li class="text-primary is-title">スカウト</li>
+							<li v-if="userListSearching" class="user-list-searching">
+								<img width="25" src="@/assets/loading.gif" alt="loading">
+							</li>
+							<!-- <li class="text-primary is-title">スカウト</li> -->
                             <li v-for="item in scout_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">	
                                 <div class="status">
                                     <div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
@@ -19,7 +22,7 @@
                                 </div>
 								
                                 <div class="name">
-                                    {{item.job_number}}
+                                    {{item.management_number}}
                                     <p class="txt-vertical-ellipsis">{{item.title}}</p>
                                 </div>                               
                                 <div class="unread" v-if="item.unread > 0">
@@ -27,7 +30,7 @@
                                     <span class="plus" v-else>5+</span>
                                 </div>                              
                             </li>                          
-							<li class="text-primary is-title">応募/問い合わせ</li>
+							<!-- <li class="text-primary is-title">応募/問い合わせ</li> -->
 							<li v-for="item in apply_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">
 								<div class="status">
 									<div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
@@ -38,7 +41,7 @@
 									</div>									
 								</div>
 								<div class="name">
-									{{item.job_number}}
+									{{item.management_number}}
 									<p class="txt-ellipsis-1">{{item.title}}</p>
 								</div>                               
 								<div class="unread" v-if="item.unread > 0">
@@ -113,6 +116,7 @@ export default {
             scout_jobs: null,
 			apply_jobs: null,
 			filter_text: '',
+			userListSearching: false,
             typing: false,
             isToggled: false,
             messages: [],
@@ -242,10 +246,21 @@ export default {
 		},
 		getActiveJob(item) {
 			if (this.message_payload.type == item.type && this.message_payload.scoutid_or_applyid == item.scoutid_or_applyid) {
-				return 'active-job';
+				return 'active-job active-chattable';
 			} else {
 				return '';
 			}
+		},
+		scrollUserIntoView() {
+			this.$nextTick(() => {
+				var isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
+				var element = (document.getElementsByClassName('active-chattable'))[0];
+				if (isSmoothScrollSupported) {
+					element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});    
+				} else {
+					element.scrollIntoView(false);
+				}
+			})	
 		},
         resetBox(){
             this.$refs.draggableContainer.style.top = 'unset';
@@ -254,6 +269,9 @@ export default {
         getUsers(){
 			let role_id = this.currentUser.role_id;
 			let filter_text = encodeURIComponent(this.filter_text);
+			this.userListSearching = true;
+			this.scout_jobs = [];
+			this.apply_jobs = [];
 			Promise.all([
 				// --scout chattables
 				this.$api.get(`/v1/chattables/${role_id}/scout?q=${filter_text}`)
@@ -263,6 +281,7 @@ export default {
 				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response))
 			])
 			.then((r) => {
+				this.userListSearching = false;
 				this.scout_jobs = r[0];
 				this.apply_jobs = r[1];
 
@@ -270,6 +289,9 @@ export default {
 					window.socket.emit('join', this.currentUser.id);
 					this.sumUnRead();
 				}
+			})
+			.catch(() => {
+				this.userListSearching = false;
 			})
         },         
         getMessage(model){
@@ -305,7 +327,7 @@ export default {
 					'recruiter_email': meta.recruiter.email,
 				};
                 this.title = meta.job.title;
-				this.number = meta.job.job_number;
+				this.number = meta.job.management_number;
 				this.showName = '企：'+ meta.recruiter.recruiter_name + '  求：' + meta.jobseeker.jobseeker_name;
 				this.loading = false;
 
@@ -539,8 +561,8 @@ input:focus{
     position: fixed;
     right: 90px;
     bottom: 20px;
-    width: 500px;
-    height: 440px;
+    width: 600px;
+    height: 460px;
     z-index: 9;
 }
     .main-chat{
@@ -555,7 +577,7 @@ input:focus{
             padding: 0;
             margin-top: 5px;
             .list-user{
-                height: 390px;
+                height: 410px;
                 overflow-y: scroll;
             }
         }
@@ -650,6 +672,11 @@ input:focus{
 						background: transparent;
 					}
 				}
+				&.user-list-searching {
+					padding: 3px 0px;
+					justify-content: center;
+					border: 0;
+				}
             }
             .name{
                 margin-left: 5px;
@@ -660,7 +687,7 @@ input:focus{
             }
         }
         .content-chat{
-            height: 320px;
+            height: 340px;
             overflow-y: scroll;  
             .chat-history{
                 .loading{

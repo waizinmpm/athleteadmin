@@ -29,7 +29,7 @@
             <dt class="detail-head">担当者名(フリガナ)</dt>
             <dd class="detail-data">{{ recruiter_info.incharge_name_furigana }}</dd>
         </dl>
-        <span @click="$router.go(-1)" class="btn back-btn float-right">一覧へ戻る</span> 
+        <span @click="$router.go(-1)" class="btn btn-back float-right">一覧へ戻る</span> 
     </div>
 </template>
 
@@ -83,8 +83,5 @@ export default {
   width: 57%;
   background-color: #fff;
   min-height: 50px;
-}
-.btn-back {
-    margin-right: 20px;
 }
 </style>
