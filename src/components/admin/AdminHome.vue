@@ -93,6 +93,7 @@
 .dashboard-card{
     display: flex;
     align-items: center;
+    min-height: 140px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;        

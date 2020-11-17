@@ -533,11 +533,12 @@ dl {
 	border: none;
 }
 .modal-content {
-  background-color: #fefefe;
-  margin: 70px auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+    max-width: 1200px;
+    width: 80%;
+    margin: 70px auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    background-color: #fefefe;
 }
 .close-ico {
 	position: absolute;
