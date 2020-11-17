@@ -1722,14 +1722,13 @@ pre {
     line-height: 1.42857143;
     color: #333;
     word-break: break-all;
-    word-wrap: break-word;
+    word-wrap: break-word;cl
     background-color: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 4px; */
     display: block;
     font-family: 'Noto Sans JP', "メイリオ", Meiryo, Hiragino Kaku Gothic Pro, "ヒラギノ角ゴ Pro W3", "ＭＳ Ｐゴシック", sans-serif;
-    word-break: break-all;
-    word-wrap: break-word;
+    white-space: break-spaces;
     font-size: 14px;
 }
 

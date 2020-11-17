@@ -7,7 +7,7 @@
             id="selfIntroEdit"
             v-if="!selfIntroEdit && showDetails"
         >
-            <div class="col-12">
+            <div class="col-md-12">
                 <div class="tit-box" v-if="edit_page">
                     <h3 class="profile-edit-tit" v-if="edit_page">スカウト待ち人材検索用自己紹介</h3>
                     <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')" v-if="edit_page">
@@ -19,46 +19,26 @@
                         <div class="card-carousel row mt-3">
                             <!--image sliders-->
                             <transition name="list">
-                            <div class="col-md-8 pr-0">
-                                <div class="row col-md-12 face-img-block pr-0">
-                                <div class="img-wrapper">
-                                    <img
-                                    v-if="currentImage"
-                                    :src="currentImage"
-                                    alt="faceimage"
-                                    class="img-fluid"
-                                    />
+                                <div class="col-md-9 pr-0">
+                                    <div class="row col-md-12 face-img-block pr-0">
+                                            <img v-if="currentImage" :src="currentImage" alt="faceimage"  />
+                                        </div>
+                                    <div class="row col-md-12 pr-0">
+                                    <!-- <div class="col-md-6 p-0">
+                                        <p>{{selfIntroDetails.occupation_name}}</p>
+                                        <p>{{selfIntroDetails.language_level}}</p>
+                                        <p>{{selfIntroDetails.desired_location_1}}</p>
+                                    </div> -->
+                                    <div class="col-md-4  pr-0 float-right">
+                                        <div :class="['face-image', (activeImage == 4) ? 'active' : '']" @click="activateImage('face_image',4) ">
+                                            <img :src="selfIntro.face_image_url" alt />
+                                            <p class="show-info">顔写真</p> 
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
-                                </div>
-                                <div class="row col-md-12 pr-0">
-                                <div class="col-md-6 p-0">
-                                    <p>{{selfIntroDetails.occupation_name}}</p>
-                                    <p>{{selfIntroDetails.language_level}}</p>
-                                    <p>{{selfIntroDetails.desired_location_1}}</p>
-                                </div>
-                                <div class="col-md-6 pr-0 align-self-start">
-                                    <span
-                                    :class="['face-image', (activeImage == 4) ? 'active' : '']"
-                                    @click="activateImage('face_image',4) "
-                                    >
-                                    <img :src="selfIntro.face_image_url" alt />
-                                    </span>
-                                </div>
-                                </div>
-
-                                <!--
-                                                        <div class="actions">
-                                                            <span @click="prevImage" class="prev">
-                                                                <i class="fas fa-chevron-left"></i>
-                                                            </span>
-                                                            <span @click="nextImage" class="next">
-                                                                <i class="fas fa-chevron-right"></i>
-                                                            </span>
-                                                        </div>
-                                -->
-                            </div>
                             </transition>
-                            <div class="thumbnails col-md-4">
+                            <!-- <div class="thumbnails col-md-3 pl-0">
                                 <transition-group tag="span" name="list">
                                     <span
                                     v-for="(image, index) in  selfIntro.related_images"
@@ -67,37 +47,66 @@
                                     @click="activateImage('related',index) "
                                     >
                                     <img :src="image.file_url" class />
+                                    </span> 
+                                </transition-group>
+                                <p class="show-info mt-0">関連画像</p>
+                            </div> -->
+                            <div class="thumbnails col-md-3  pl-0">
+                                <transition-group tag="span" name="list">
+                                    <span v-for="(image, index) in  selfIntro.related_images" :key="image.id" :class="['thumbnail-image', (activeImage == index) ? 'active' : '']" @click="activateImage('related',index) ">
+                                        <img :src="image.file_url" class="" alt="related-images" />
                                     </span>
                                 </transition-group>
+                                <span v-for="(n,index) in 4 - selfIntro.related_images.length" :key="n.id" :class="['thumbnail-image', (activeImage == selfIntro.related_images.length + index) ? 'active' : '']" @click="activateImage('related',selfIntro.related_images.length+index) ">
+                                    <img :src="defaultImageUrl" class="cursor-pointer" alt="related-images"/>                                           
+                                </span>   
+                                <p class="show-info mt-0">関連画像</p>
                             </div>
                             <!--end image slider-->
                         </div>
                     </div>
                     <div class="col-md-5">
-                        <div class="row mt-3 movie-col">
-                            <div class="col-md-12">
+                        <div class="mt-3 movie-col">
                             <div v-if="!selfIntroDetails.video">
-                                <p class="no-video">
-                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>動画は利用できません
+                                <p class="no-video movie-link">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>動画は利用できません
                                 </p>
                             </div>
                             <div v-if="selfIntroDetails.video">
                                 <iframe class="movie-link" :src="selfIntroDetails.video"></iframe>
                             </div>
-                            </div>
                         </div>
+                        <p class="show-info">関連動画</p>
                     </div>
                 </div>
+                <!--info-->
+                <dl class="detail-list clearfix">                       
+                    <dt class="detail-head">希望職種</dt>
+                    <dd class="detail-data"> 
+                        <!-- <p class="mb-0" v-for="occ in selfIntroDetails.occupation_name" :key="occ.id">
+                            {{occ}} 
+                        </p> -->
+                    </dd>
+                    <dt class="detail-head">希望勤務地</dt>
+                    <dd class="detail-data">
+                        <p class="mb-0">{{selfIntroDetails.desired_location_1}}</p>   
+                        <p class="mb-0">{{selfIntroDetails.desired_location_2}}</p>   
+                        <p class="mb-0">{{selfIntroDetails.desired_location_3}}</p>
+                    </dd>
+                </dl>
+                <!-- info-->
                 <div class="row">
                     <div class="col-md-12">
-                    <h6 class="about-tit">自己PR等</h6>
-                    <pre class="about-box">{{selfIntro.self_pr}}</pre>
+                        <h6 class="about-tit">自己PR等</h6>
+                        <p class="about-box">
+                            <pre>{{selfIntro.self_pr}}</pre>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row tab-content introduction-content mb-3 m-0" v-if="selfIntroEdit">
-            <div class="col-12">
+            <div class="col-md-12">
             <div class="tit-box tit-box-edit">
                 <h3 class="profile-edit-tit">スカウト待ち人材検索用自己紹介</h3>
                 <p class="profile-edit-txt" @click="editBox('selfIntroEdit','close')">
@@ -105,6 +114,9 @@
                 {{$t('common.close')}}
                 </p>
             </div>
+            <label class="info">
+                <span class="glyphicon glyphicon-info-sign"></span>「希望職種・希望勤務地→希望条件」「語学レベル→経験・資格」にて設定してください。
+            </label>
             <div class="popup-databox">
                 <label for class="mb-3">ニックネーム</label>
                 <div class="form-group"> 
@@ -150,14 +162,14 @@
 
                 <div class="row">
                 <div class="col-md-7">
-                    <div class="position-relative d-inline-block img-wrapper">
-                    <img :src="selfIntro.face_image_url" class="img-contain" />
-                    <button
-                        v-show="selfIntro.face_image_url != defaultImageUrl"
-                        type="button"
-                        @click="deleteFacImage"
-                        class="delete-photo"
-                    >X</button>
+                    <div class="face-image-wrapper">
+                        <img :src="selfIntro.face_image_url" />
+                        <button
+                            v-show="selfIntro.face_image_url != defaultImageUrl"
+                            type="button"
+                            @click="deleteFacImage"
+                            class="delete-photo"
+                        ><span class="icon icon-times"></span></button>
                     </div>
                 </div>
                 <div class="col-md-5">
@@ -190,7 +202,7 @@
             </div>
             <!-- @drop.prevent="addFile($event,'drop','profile')" @dragover.prevent -->
             <div class="popup-databox">
-                <div class="form-group">
+                <div class="form-group clearfix">
                 <label for class="mb-3">関連画像</label>
                 <br />
                 <span
@@ -226,14 +238,10 @@
 
                 <div class="row">
                     <div class="col-md-3" v-for="(path,indx) in selfIntro.related_images" :key="path.id">
-                        <img
-                        :src="path.file_url"
-                        width="100px;"
-                        height="150px;"
-                        class="profile-edit-img"
-                        alt
-                        />
-                        <button type="button" @click="deleteRelatedImage(indx)" class="delete-photo">X</button>
+                        <img :src="path.file_url" class="profile-edit-img"/>
+                        <button type="button" @click="deleteRelatedImage(indx)" class="delete-photo">
+                            <span class="icon icon-times"></span>
+                        </button>
                     </div>
                     <div v-if="imageError != ''">
                         <span class="error">{{imageError}}</span>
@@ -243,16 +251,17 @@
             <div class="popup-databox">
                 <div class="form-group mb-1">
                 <label for class="mb-3">関連動画</label>
-                <div class="col-md-12 p-0 d-flex align-items-center float-none">
-                    <label for class="label-txt">YouTubeURL</label>
-
-                    <input
-                    type="text"
-                    :class="['form-control',$v.selfIntro.video.$error?'is-invalid':'']"
-                    v-model.trim="$v.selfIntro.video.$model"
-                    />
-                    <div class="invalid-feedback">
-                    <div class="error" v-if="!$v.selfIntro.video.matchYoutubeUrl">Invalid youtube url.</div>
+                <div class="col-md-12 p-0 d-flex float-none">
+                    <label for class="label-txt col-md-2 pl-0 mt-2">YouTubeURL</label>
+                    <div class="col-md-10">
+                        <input
+                        type="text"
+                        :class="['form-control',$v.selfIntro.video.$error?'is-invalid':'']"
+                        v-model.trim="$v.selfIntro.video.$model"
+                        />
+                        <div class="invalid-feedback">
+                            <div class="error" v-if="!$v.selfIntro.video.matchYoutubeUrl">URLの形式が正しくありません</div>
+                        </div>
                     </div>
                     <!-- <input type="text" class="form-control ml-3"  v-model="selfIntro.video"> -->
                 </div>
@@ -269,8 +278,8 @@
                 </div>
             </div>
             </div>
-            <p class="w-100 text-center mt-3">
-            <span class="btn save-btn" @click="saveSelfIntro">保存する</span>
+            <p class="col-md-12 text-center mt-3">
+                <span class="btn save-btn" @click="saveSelfIntro">保存する</span>
             </p>
         </div>
         <!-- end self-intro -->
@@ -281,73 +290,77 @@
             id="basicInfoEdit"
             v-if="!basicInfoEdit && showDetails"
         >
-            <div class="col-12">
-            <div class="tit-box">
-                <h3 class="profile-edit-tit">{{$t('jobseekerprofile.basicinfo')}}</h3>
-                <p class="profile-edit-txt" @click="editBox('basicInfoEdit','open')" v-if="edit_page">
-                <span class="icon icon-edit"></span>編集
-                </p>
-            </div>
-            <dl class="detail-list clearfix">
-                <dt class="detail-head">
-                {{$t('jobseekerprofile.jobseeker_name')}}
-                <span class="private">{{$t('jobseekerprofile.private')}}</span>
-                </dt>
-                <dd class="detail-data">{{basicInfo.jobseeker_name}}</dd>
-                <dt class="detail-head">{{$t('jobseekerprofile.gender')}}</dt>
-                <dd class="detail-data">{{basicInfo.gender}}</dd>
-                <dt class="detail-head">
-                {{$t('jobseekerprofile.date')}}
-                <span class="private">{{$t('jobseekerprofile.private')}}</span>
-                </dt>
-                <dd class="detail-data">
-                    {{basicInfo.dob}}
-                    <!-- <span v-if="basicInfo.dob">
-                        {{basicInfo.dob[0]}}年 {{basicInfo.dob[1]}}月 {{basicInfo.dob[2]}}日
-                    </span> -->
-                </dd>
-                <!-- <dt class="detail-head">{{$t('jobseekerprofile.Language')}}</dt>
-                <dd class="detail-data" v-if="basicInfo.language_name == null">-</dd>
-                <dd class="detail-data" v-else>{{basicInfo.language_name}}</dd> -->
-                <dt class="detail-head">
-                {{$t('jobseekerprofile.location')}}
-                <span class="private">{{$t('jobseekerprofile.private')}}</span>
-                </dt>
-                <dd class="detail-data">{{basicInfo.country_name}} , {{basicInfo.city_name}}</dd>
-                <dt class="detail-head">
-                {{$t('jobseekerprofile.phone')}}
-                <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
-                </dt>
-                <dd class="detail-data">{{basicInfo.phone}}</dd>
-                <dt class="detail-head">
-                {{$t('jobseekerprofile.email')}}
-                <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
-                </dt>
-                <dd class="detail-data">
-                {{basicInfo.email}}
-                <br />
-                </dd>
-                <dt class="detail-head">{{$t('jobseekerprofile.skype')}}
-                <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
-                <dd class="detail-data">
-                {{basicInfo.skype_account}}
-                <br />
-                </dd>
-                <dt class="detail-head">{{$t('jobseekerprofile.education')}}</dt>
-                <dd class="detail-data" v-if="basicInfo.final_education == null">-</dd>
-                <dd class="detail-data" v-else>{{basicInfo.final_education}}</dd>
-                <dd class="detail-head">{{$t('jobseekerprofile.status')}}</dd>
-                <dd class="detail-data" v-if="basicInfo.current_situation == null">-</dd>
-                <dd class="detail-data" v-else>{{basicInfo.current_situation}}</dd>
-            </dl>
-            <div class="explation-note">
+            <div class="col-md-12">
+                <div class="tit-box">
+                    <h3 class="profile-edit-tit">{{$t('jobseekerprofile.basicinfo')}}</h3>
+                    <p class="profile-edit-txt" @click="editBox('basicInfoEdit','open')" v-if="edit_page">
+                    <span class="icon icon-edit"></span>編集
+                    </p>
+                </div>
+                <dl class="detail-list clearfix">
+                    <dt class="detail-head">
+                    {{$t('jobseekerprofile.jobseeker_name')}}
+                    <span class="private">{{$t('jobseekerprofile.private')}}</span>
+                    </dt>
+                    <dd class="detail-data">{{basicInfo.jobseeker_name}}</dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.gender')}}</dt>
+                    <dd class="detail-data">{{basicInfo.gender}}</dd>
+                    <dt class="detail-head">
+                    {{$t('jobseekerprofile.date')}}
+                    <span class="private">{{$t('jobseekerprofile.private')}}</span>
+                    </dt>
+                    <dd class="detail-data">
+                        {{basicInfo.dob}}
+                        <!-- <span v-if="basicInfo.dob">
+                            {{basicInfo.dob[0]}}年 {{basicInfo.dob[1]}}月 {{basicInfo.dob[2]}}日
+                        </span> -->
+                    </dd>
+                    <!-- <dt class="detail-head">{{$t('jobseekerprofile.Language')}}</dt>
+                    <dd class="detail-data" v-if="basicInfo.language_name == null">-</dd>
+                    <dd class="detail-data" v-else>{{basicInfo.language_name}}</dd> -->
+                    <dt class="detail-head">
+                    {{$t('jobseekerprofile.location')}}
+                    <span class="private">{{$t('jobseekerprofile.private')}}</span>
+                    </dt>
+                    <dd class="detail-data">{{basicInfo.country_name}} , {{basicInfo.city_name}}</dd>
+                    <dt class="detail-head">
+                    {{$t('jobseekerprofile.phone')}}
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
+                    </dt>
+                    <dd class="detail-data">{{basicInfo.phone}}</dd>
+                    <dt class="detail-head">
+                    {{$t('jobseekerprofile.email')}}
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
+                    </dt>
+                    <dd class="detail-data">
+                    {{basicInfo.email}}
+                    <br />
+                    </dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.skype')}}
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
+                    <dd class="detail-data">
+                    {{basicInfo.skype_account}}
+                    <br />
+                    </dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.education')}}</dt>
+                    <dd class="detail-data" v-if="basicInfo.final_education == null">-</dd>
+                    <dd class="detail-data" v-else>{{basicInfo.final_education}}</dd>
+                    <dd class="detail-head">{{$t('jobseekerprofile.status')}}</dd>
+                    <dd class="detail-data" v-if="basicInfo.current_situation == null">-</dd>
+                    <dd class="detail-data" v-else>{{basicInfo.current_situation}}</dd>
+                </dl>
+            <!-- <div class="explation-note">
                 <span class="private">{{$t('jobseekerprofile.private')}}</span>
                 {{$t('jobseekerprofile.details')}}
-            </div>
+            </div> -->
+                <div class="explation-note">
+                    <span class="private">非公開</span> は、求人情報への応募、相談、スカウトに返信を行わない限り公開されません。※一部の項目については常に非公開とすることが可能です。<br> 
+                    <span class="view-permission"> 運営管理者のみ閲覧可</span> は企業会員から閲覧することができません。 ※一部の項目については企業会員にも公開とすることが可能です。
+                </div>
             </div>
         </div>
         <div class="row tab-content information-content mb-3 m-0" v-if="basicInfoEdit">
-            <div class="col-12">
+            <div class="col-md-12">
             <div class="tit-box tit-box-edit">
                 <h3 class="profile-edit-tit">基本情報</h3>
                 <p class="profile-edit-txt" @click="editBox('basicInfoEdit','close')">
@@ -612,7 +625,7 @@
                 </div>
             </div>
             </div>
-            <p class="w-100 text-center mt-3">
+            <p class="col-md-12 text-center mt-3">
             <span class="btn save-btn" @click="saveBasicInfo">保存する</span>
             </p>
         </div>
@@ -624,49 +637,53 @@
             id="careerEdit"
             v-if="!careerEdit && showDetails"
         >
-            <div class="col-12">
-            <div class="tit-box">
-                <h3 class="profile-edit-tit">経歴</h3>
-                <p class="profile-edit-txt" @click="editBox('careerEdit','open')" v-if="edit_page">
-                <span class="icon icon-edit"></span>編集
-                </p>
-            </div>
-            <dl class="detail-list clearfix">
-                <dt class="detail-head">学歴</dt>
-                <dd class="detail-data">
-                <div v-for="edu in educations" :key="edu.id">
-                    <span v-if="edu.school_name">{{edu.school_name}}</span>
-                    <span v-if="edu.school_name && edu.subject">({{edu.subject}})</span>
+            <div class="col-md-12">
+                <div class="tit-box">
+                    <h3 class="profile-edit-tit">経歴</h3>
+                    <p class="profile-edit-txt" @click="editBox('careerEdit','open')" v-if="edit_page">
+                    <span class="icon icon-edit"></span>編集
+                    </p>
                 </div>
-                </dd>
-                <dt class="detail-head">経験社数</dt>
-                <dd class="detail-data">
-                <span
-                    v-if="carrers.num_of_experienced_companies"
-                >{{carrers.num_of_experienced_companies}}</span>
-                </dd>
-                <dt class="detail-head">勤務先</dt>
-                <dd class="detail-data">
-                <div v-for="exp in experiences" :key="exp.id">
-                    {{exp.job_location}}
-                    <span class="private" v-if="exp.private_status == 1">非公開</span>
+                <dl class="detail-list clearfix">
+                    <dt class="detail-head">学歴</dt>
+                    <dd class="detail-data">
+                    <div v-for="edu in educations" :key="edu.id">
+                        <span v-if="edu.school_name">{{edu.school_name}}</span>
+                        <span v-if="edu.school_name && edu.subject">({{edu.subject}})</span>
+                    </div>
+                    </dd>
+                    <dt class="detail-head">経験社数</dt>
+                    <dd class="detail-data">
+                    <span
+                        v-if="carrers.num_of_experienced_companies"
+                    >{{carrers.num_of_experienced_companies}}</span>
+                    </dd>
+                    <dt class="detail-head">勤務先</dt>
+                    <dd class="detail-data">
+                    <div v-for="exp in experiences" :key="exp.id">
+                        {{exp.job_location}}
+                        <span class="private" v-if="exp.private_status == 1">非公開</span>
+                    </div>
+                    </dd>
+                    <!-- <dt class="detail-head">勤務先</dt>
+                                <dd class="detail-data">
+                                    <div v-for="exp in experiences" :key="exp.id">{{exp.school_name}} ({{exp.subject}})</div>
+                    </dd>-->
+                    <dt class="detail-head">最終年収</dt>
+                    <dd class="detail-data">{{carrers.last_annual_income}} {{carrers.last_currency}}</dd>
+                </dl>
+                <!-- <div class="explation-note">
+                    <span class="private">非公開</span>は求人への問い合わせ/応募やスカウトへの興味を示した場合のみ、求職者会員が閲覧可能になります。
+                </div> -->
+                <div class="explation-note">
+                    <span class="private">非公開</span> は、求人情報への応募、相談、スカウトに返信を行わない限り公開されません。※一部の項目については常に非公開とすることが可能です。<br> 
+                    <span class="view-permission"> 運営管理者のみ閲覧可</span> は企業会員から閲覧することができません。 ※一部の項目については企業会員にも公開とすることが可能です。
                 </div>
-                </dd>
-                <!-- <dt class="detail-head">勤務先</dt>
-                            <dd class="detail-data">
-                                <div v-for="exp in experiences" :key="exp.id">{{exp.school_name}} ({{exp.subject}})</div>
-                </dd>-->
-                <dt class="detail-head">最終年収</dt>
-                <dd class="detail-data">{{carrers.last_annual_income}} {{carrers.last_currency}}</dd>
-            </dl>
-            <div class="explation-note">
-                <span class="private">非公開</span>は求人への問い合わせ/応募やスカウトへの興味を示した場合のみ、求職者会員が閲覧可能になります。
-            </div>
             </div>
         </div>
 
         <div class="row tab-content experience-content mb-3 m-0" v-if="careerEdit">
-            <div class="head-wrap col-12">
+            <div class="head-wrap col-md-12">
             <!-- <h3 class="text-left main-header header" >経歴 <span class="delete-btn" @click="careerEdit = !careerEdit"> <span class="icon icon-times"></span>{{$t('common.close')}} </span></h3> -->
             <div class="tit-box tit-box-edit">
                 <h3 class="profile-edit-tit">経歴</h3>
@@ -733,36 +750,36 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for>経験職種</label>
+                    <label>経験職種</label>
                     <div class="row mb-2 align-items-center">
-                    <div class="col-md-2 pr-1">
-                        <div class="select-wrap">
-                        <!-- <select v-model="edu.from_year" id="" class="form-control">
-                                                    <option value="">年</option>
-                                                    <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
-                        </select>-->
+                        <div class="col-md-2 pr-1">
+                            <div class="select-wrap">
+                            <!-- <select v-model="edu.from_year" id="" class="form-control">
+                                                        <option value="">年</option>
+                                                        <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
+                            </select>-->
 
-                        <select class="form-control" v-model="edu.from_year">
-                            <option disabled value="年">年</option>
-                            <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
+                            <select class="form-control" v-model="edu.from_year">
+                                <option disabled value="年">年</option>
+                                <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                            </select>
+                            <span class="sort-desc">&#9662;</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2 pl-1">
-                        <div class="select-wrap">
-                        <!-- <select v-model="edu.from_month" id="" class="form-control">
-                                                    <option value="">月</option>
-                                                    <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
-                        </select>-->
-                        <select class="form-control" v-model="edu.from_month">
-                            <option disabled value="月">月</option>
-                            <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <div class="col-md-2 pl-1">
+                            <div class="select-wrap">
+                            <!-- <select v-model="edu.from_month" id="" class="form-control">
+                                                        <option value="">月</option>
+                                                        <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
+                            </select>-->
+                            <select class="form-control" v-model="edu.from_month">
+                                <option disabled value="月">月</option>
+                                <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
+                            </select>
+                            <span class="sort-desc">&#9662;</span>
+                            </div>
                         </div>
-                    </div>
-                    <label for>から</label>
+                        <label for>から</label>
                     </div>
                     <div class="row align-items-center">
                     <div class="col-md-2 pr-1">
@@ -957,41 +974,41 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for>ポジション</label>
+                <div class="form-group clearfix">
+                    <label class="col-md-12 pl-0">ポジション</label>
                     <div class="col-md-4 pl-0">
-                    <div class="select-wrap">
-                        <select v-model="exp.position_id" id class="form-control">
-                        <option value="0" selected>ポジションを選択する</option>
-                        <option
-                            v-for="pos in positions"
-                            :key="pos.id"
-                            :value="pos.id"
-                        >{{ pos.position_name }}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                    </div>
+                        <div class="select-wrap">
+                            <select v-model="exp.position_id" id class="form-control">
+                            <option value="0" selected>ポジションを選択する</option>
+                            <option
+                                v-for="pos in positions"
+                                :key="pos.id"
+                                :value="pos.id"
+                            >{{ pos.position_name }}</option>
+                            </select>
+                            <span class="sort-desc">&#9662;</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for>雇用形態</label>
+                <div class="form-group clearfix">
+                    <label class="col-md-12 pl-0">雇用形態</label>
                     <div class="col-md-4 pl-0">
-                    <div class="select-wrap">
-                        <select v-model="exp.employment_type_id" id class="form-control">
-                        <option value="0" selected>雇用形態を選択</option>
-                        <option
-                            v-for="etype in employment_types"
-                            :key="etype.id"
-                            :value="etype.id"
-                        >{{ etype.employment_type_name }}</option>
-                        </select>
-                        <span class="sort-desc">&#9662;</span>
-                    </div>
+                        <div class="select-wrap">
+                            <select v-model="exp.employment_type_id" id class="form-control">
+                            <option value="0" selected>雇用形態を選択</option>
+                            <option
+                                v-for="etype in employment_types"
+                                :key="etype.id"
+                                :value="etype.id"
+                            >{{ etype.employment_type_name }}</option>
+                            </select>
+                            <span class="sort-desc">&#9662;</span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for>主な業務内容</label>
+                    <label class="col-md-12 pl-0">主な業務内容</label>
                     <div class="col-md-8 p-0">
                     <textarea name id class="form-control" placeholder="例)リーダーとしてメンバーをまとめあげました。"></textarea>
                     </div>
@@ -1034,7 +1051,7 @@
             </div>
 
             <!-- <div class="row underline"></div> -->
-            <p class="w-100 text-center mt-3">
+            <p class="col-md-12 text-center mt-3">
             <span class="btn save-btn" @click="saveCarrer">保存する</span>
             </p>
             <!-- <ul class="button-block">
@@ -1051,7 +1068,7 @@
             id="expQualificationEdit"
             v-if="!expQualificationEdit && showDetails"
         >
-            <div class="col-12">
+            <div class="col-md-12">
             <div class="tit-box">
                 <h3 class="profile-edit-tit">経験・資格</h3>
                 <p class="profile-edit-txt" @click="editBox('expQualificationEdit','open')" v-if="edit_page">
@@ -1093,7 +1110,7 @@
             </div>
         </div>
         <div class="row tab-content qualification-content mb-3 m-0" v-if="expQualificationEdit">
-            <div class="head-wrap col-12">
+            <div class="head-wrap col-md-12">
             <!-- <h3 class="text-left main-header header" >経歴 <span class="delete-btn" @click="careerEdit = !careerEdit"> <span class="icon icon-times"></span>{{$t('common.close')}} </span></h3> -->
             <div class="tit-box tit-box-edit">
                 <h3 class="profile-edit-tit">経歴業種・資格</h3>
@@ -1221,7 +1238,7 @@
                 </div>
             </div>
             </div>
-            <p class="w-100 text-center mt-3">
+            <p class="col-md-12 text-center mt-3">
             <span
                 class="btn save-btn"
                 @click="saveExpQualification()"
@@ -1236,7 +1253,7 @@
             id="desiredConditionEdit"
             v-if="!desiredConditionEdit && showDetails"
         >
-            <div class="col-12">
+            <div class="col-md-12">
             <div class="tit-box">
                 <h3 class="profile-edit-tit">希望条件</h3>
                 <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','open')" v-if="edit_page">
@@ -1299,7 +1316,7 @@
             </div>
         </div>
         <div class="row tab-content condition-content m-0" v-if="desiredConditionEdit">
-            <div class="col-12">
+            <div class="col-md-12">
             <div class="tit-box tit-box-edit">
                 <h3 class="profile-edit-tit">希望条件</h3>
                 <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','close')">
@@ -1436,41 +1453,41 @@
                 <label for="非公開0" class="custom-control-label custom-checkbox-label">こだわらない</label>
                 </div>
                 <div class="form-group mb-0">
-                <div
-                    class="error col-12"
-                    v-if="desired_errors.industry_error"
-                >{{desired_errors.industry_error}}</div>
-                <div v-if="!desired_condition.desired_industry_status">
-                    <div class="col-md-12 school-box" v-for="(industry,indx) in industries" :key="indx">
-                    <p v-if="indx != 0" class="delete-btn" @click="removeIndustry(indx)">
-                        <span class="icon icon-times"></span>
-                    </p>
-                    <div class="form-group">
-                        <div class="col-md-8 p-0">
-                        <div class="select-wrap">
-                            <select
-                            id
-                            v-model="industry.id"
-                            @change="getData('industry')"
-                            class="form-control"
-                            >
-                            <option value="0">業種を選択</option>
-                            <option
-                                v-for="(indu,index) in industry_list"
-                                :key="index"
-                                :value="indu.id"
-                            >{{ indu.industry_name }}</option>
-                            </select>
-                            <span class="sort-desc">&#9662;</span>
+                    <div
+                        class="error col-md-12"
+                        v-if="desired_errors.industry_error"
+                    >{{desired_errors.industry_error}}</div>
+                    <div v-if="!desired_condition.desired_industry_status">
+                        <div class="col-md-12 school-box" v-for="(industry,indx) in industries" :key="indx">
+                        <p v-if="indx != 0" class="delete-btn" @click="removeIndustry(indx)">
+                            <span class="icon icon-times"></span>
+                        </p>
+                        <div class="form-group">
+                            <div class="col-md-8 p-0">
+                            <div class="select-wrap">
+                                <select
+                                id
+                                v-model="industry.id"
+                                @change="getData('industry')"
+                                class="form-control"
+                                >
+                                <option value="0">業種を選択</option>
+                                <option
+                                    v-for="(indu,index) in industry_list"
+                                    :key="index"
+                                    :value="indu.id"
+                                >{{ indu.industry_name }}</option>
+                                </select>
+                                <span class="sort-desc">&#9662;</span>
+                            </div>
+                            </div>
                         </div>
                         </div>
-                    </div>
-                    </div>
 
-                    <p class="text-center mt-4">
-                    <span class="btn add-btn" @click="addIndustry">+ 追加する</span>
-                    </p>
-                </div>
+                        <p class="text-center mt-4">
+                        <span class="btn add-btn" @click="addIndustry">+ 追加する</span>
+                        </p>
+                    </div>
                 </div>
             </div>
             <div class="popup-databox">
@@ -1486,7 +1503,7 @@
                 <label for="非公開1" class="custom-control-label custom-checkbox-label">こだわらない</label>
                 </div>
                 <div
-                class="error col-12"
+                class="error col-md-12"
                 v-if="desired_errors.occupation_error"
                 >{{desired_errors.occupation_error}}</div>
                 <div v-if="!desired_condition.desired_occupation_status">
@@ -1568,7 +1585,7 @@
                 </div>
             </div>
             </div>
-            <p class="w-100 text-center mt-3">
+            <p class="col-md-12 text-center mt-3">
             <span class="btn save-btn" @click="saveDesiredCondition()">保存する</span>
             </p>
         </div>
@@ -2630,18 +2647,20 @@
 };
 </script>
 <style lang="scss" scoped>
-.col-md-8 ,
-.col-md-7 ,
-.col-md-3 {
-    float: none;
-}
-.movie-row {
-   .col-md-8 ,
+.form-group {
+    .col-md-8 ,
     .col-md-7 ,
     .col-md-3 {
-        float: left;
-    } 
+        float: none;
+    }
 }
+// .movie-row {
+//    .col-md-8 ,
+//     .col-md-7 ,
+//     .col-md-3 {
+//         float: left;
+//     } 
+// }
 .error {
     color: red;
 }
@@ -2652,114 +2671,107 @@
     display: inline-block!important;
 }
 .face-img-block {
-  min-height: 240px;
+    height: 240px;
+    margin-bottom: 10px !important;
+}
+.face-img-block img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
 }
 .face-image-wrapper {
   position: relative;
   display: inline-block;
-  .delete-photo {
-    right: -5px;
+  img {
+      max-width: 100%;
+      height: 240px;
   }
 }
 .face-image {
   height: 115px;
+  cursor: pointer;
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    object-position: top;
+    object-position: bottom;
   }
 }
 .img-wrapper {
-  max-height: 245px;
+    margin-bottom: 10px;
+    height: 240px;
 }
 .img-wrapper img {
-  max-height: 245px;
+   width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
 }
-/* .list-wrap {
-    background: #fff;
-    padding: 50px 50px 100px 50px;
-}
-.list-group {
-    max-width: 800px;
-}
-.list-group-item {
-    padding: 0.75rem 0;
-    border: none;
-}
-.post-description {
-    width: 50%;
-}
-.post-description .count-no {
-    display: inline-block;
-    margin: 0 2px 0 10px;
-    font-size: 20px;
-    color: #0071b4;
-} */
 .card-carousel p {
-  margin-bottom: 6px;
-  line-height: 1.3;
+    margin-bottom: 6px;
+    line-height: 1.3;
 }
 .form-control {
-  border: 1px solid #919191;
-  border-radius: 0;
+    border: 1px solid #919191;
+    border-radius: 0;
 }
 /* modal-dialog */
 .popup-databox {
-  border: 1px solid #c4c4c4;
-  border-radius: 8px;
-  padding: 15px 30px;
-  margin-bottom: 20px;
+    border: 1px solid #c4c4c4;
+    border-radius: 8px;
+    padding: 15px 30px;
+    margin-bottom: 20px;
 }
 .popup-databox .form-group {
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 .school-box,
 .experience-box {
-  margin-bottom: 30px;
-  padding: 30px;
-  background: #f0f0f0;
-  border-radius: 3px;
-  border: 1px solid #c4c4c4;
+    margin-bottom: 30px;
+    padding: 30px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    border: 1px solid #c4c4c4;
 }
 .add-btn {
-  padding: 0.7rem 2rem;
-  background: #f0f0f0;
-  color: #222;
-  border: 1px solid #c4c4c4;
-  border-radius: 50px;
-  font-size: 14px;
+    padding: 0.7rem 2rem;
+    background: #f0f0f0;
+    color: #222;
+    border: 1px solid #c4c4c4;
+    border-radius: 50px;
+    font-size: 14px;
 }
 .delete-btn {
-  position: absolute;
-  top: -17px;
-  right: -15px;
-  width: 35px;
-  height: 35px;
-  font-size: 16px;
-  text-align: center;
-  background: #fff;
-  border-radius: 50%;
-  color: #919191;
-  border: 1px solid;
-  line-height: 35px;
-  vertical-align: middle;
+    position: absolute;
+    top: -17px;
+    right: -15px;
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    text-align: center;
+    background: #fff;
+    border-radius: 50%;
+    color: #919191;
+    border: 1px solid;
+    line-height: 35px;
+    vertical-align: middle;
 }
 
 /* intro edit */
 .upload-content {
-  display: flex;
-  position: relative;
-  padding: 20px 0;
-  background: #fff;
-  color: #333;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    position: relative;
+    padding: 20px 0;
+    background: #fff;
+    color: #333;
+    justify-content: center;
+    align-items: center;
 }
 .upload-content::after {
   content: "";
-  position: absolute;
-  background: linear-gradient(
+    position: absolute;
+    background: linear-gradient(
       to right,
       #b5ccc7f2 50%,
       rgba(255, 255, 255, 0) 0%
@@ -2767,20 +2779,20 @@
     linear-gradient(#b5ccc7f2 50%, rgba(255, 255, 255, 0) 0%),
     linear-gradient(to right, #b5ccc7f2 50%, rgba(255, 255, 255, 0) 0%),
     linear-gradient(#b5ccc7f2 50%, rgba(255, 255, 255, 0) 0%);
-  background-position: top, right, bottom, left;
-  background-repeat: repeat-x, repeat-y;
-  background-size: 25px 4px, 4px 25px;
-  top: -2px;
-  bottom: -2px;
-  left: -2px;
-  right: -2px;
-  z-index: 1;
+    background-position: top, right, bottom, left;
+    background-repeat: repeat-x, repeat-y;
+    background-size: 25px 4px, 4px 25px;
+    top: -2px;
+    bottom: -2px;
+    left: -2px;
+    right: -2px;
+    z-index: 1;
 }
 .upload-btn-wrapper {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  z-index: 2;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    z-index: 2;
 }
 
 .upload-btn {
@@ -2803,21 +2815,21 @@
   
 }
 .profile-edit-img {
-  width: 100%;
+    width: 100%;
 }
 .intro-tit {
-  margin-bottom: 15px;
-  font-size: 15px;
-  color: #333;
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: #333;
 }
 .custom-radio-lable {
-  font-weight: normal;
+    font-weight: normal;
 }
 .custion-radio:checked + .custom-radio-lable:before {
-  border: 1px solid #ddd;
+    border: 1px solid #ddd;
 }
 .custion-radio:not(:checked) + .custom-radio-lable:before {
-  border: 1px solid #ddd;
+    border: 1px solid #ddd;
 }
 /*
 .custion-radio:checked + .custom-radio-lable:after {
@@ -2825,123 +2837,129 @@
 }
 */
 .upload-content .icon {
-  font-size: 50px;
+    font-size: 50px;
 }
 
 .tab-list {
-  margin: 20px 0;
-  background: #fff;
-  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  border: 1px solid #f3efef;
+    margin: 20px 0;
+    background: #fff;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    border: 1px solid #f3efef;
 }
 .tab-list .list-group-item {
-  border: none;
+    border: none;
 }
 .list-link {
-  color: #3377b2;
+    color: #3377b2;
 }
 .tab-content {
-  padding: 50px 20px;
-  background: #fff;
-  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
-  border-radius: 5px !important;
-  border: 1px solid #f3efef;
+    padding: 50px 20px;
+    background: #fff;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+    border-radius: 5px !important;
+    border: 1px solid #f3efef;
 }
 .tit-box {
-  position: relative;
-  display: flex;
-  margin-bottom: 40px;
-  border-bottom: 2px solid #c3c4c3;
+    position: relative;
+    display: flex;
+    margin-bottom: 40px;
+    border-bottom: 2px solid #c3c4c3;
 }
 .profile-edit-tit {
-  font-size: 1.2rem;
-  line-height: 0.8;
-  margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    line-height: 0.8;
+    margin: 0 0 1rem 0;
 }
 .icon-edit {
-  display: inline-block;
-  margin-right: 5px;
-  font-size: 40px;
-  color: #619873;
-  font-weight: 500;
-  vertical-align: baseline;
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 40px;
+    color: #619873;
+    font-weight: 500;
+    vertical-align: baseline;
 }
 .profile-edit-txt {
-  position: absolute;
-  top: -20px;
-  right: 0;
-  font-size: 16px;
-  color: #619873;
-  cursor: pointer;
+    position: absolute;
+    top: -20px;
+    right: 0;
+    font-size: 16px;
+    color: #619873;
+    cursor: pointer;
 }
 .tit-box-edit .profile-edit-txt {
-  top: -27px;
-  padding: 8px 20px;
-  border-radius: 50px;
-  color: #919191;
-  border: 1px solid;
-}
-.tit-box-edit .profile-edit-txt .icon {
-  margin-right: 5px;
-  font-size: 14px;
+    top: -27px;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: #919191;
+    border: 1px solid;
 }
 .about-tit {
-  color: #666766;
+    color: #666766;
 }
 .about-box {
-  min-height: 300px;
-  padding: 10px 20px;
-  line-height: 2;
-  border: 1px solid #ddd;
-  margin: 15px 0 30px 0;
+    height: 200px;
+    padding: 10px 20px;
+    line-height: 2;
+    border: 1px solid #ddd;
+    margin: 15px 0 30px 0;
+    overflow-y: auto;
 }
 .movie-row {
-  padding-bottom: 20px;
+    padding-bottom: 20px;
 }
 .movie-col {
-  height: 200px;
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
 }
 .movie-link {
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 .detail-list {
-  margin: 0 0 50px 0;
-  padding: 0 20px;
+    margin: 0 0 50px 0;
 }
 
 .detail-head,
 .detail-data {
-  padding: 10px 0 15px 0;
-  border-top: 1px solid #ddd;
-  line-height: 1.7;
+    padding: 10px 0 15px 0;
+    border-top: 1px solid #ddd;
+    line-height: 1.7;
 }
 .detail-head {
-  display: flex;
-  float: left;
-  width: 40%;
-  margin-right: 6%;
-  align-items: flex-start;
-  font-weight: normal;
+    display: flex;
+    float: left;
+    width: 40%;
+    margin-right: 6%;
+    align-items: flex-start;
+    font-weight: normal;
 }
 .detail-data {
-  float: left;
-  width: 54%;
-  background-color: #fff;
-  min-height: 50px;
+    float: left;
+    width: 54%;
+    background-color: #fff;
+    min-height: 50px;
 }
 .private {
-  margin: 0 20px 0 auto;
-  padding: 0 10px;
-  background: #0071b4;
-  color: #fff;
+    margin: 0 20px 0 auto;
+    padding: 0 10px;
+    background: #0071b4;
+    color: #fff;
 }
 .view-permission {
-  margin: 0 20px 0 auto;
-  padding: 0 10px;
-  background: #cc7694;
-  color: #fff;
+    display: inline-block;
+    margin: 0 20px 0 auto;
+    padding: 0 10px;
+    background: #cc7694;
+    color: #fff;
 }
 .explation-note {
   margin: 0 20px;
@@ -2955,12 +2973,11 @@
   padding: 3px 10px;
 }
 textarea.form-control {
-  width: 82%;
   height: 200px;
   text-align: left;
 }
 .popup-databox .private {
-  padding: 1px 10px 2px 10px;
+  padding: 2px 10px 3px 10px;
   vertical-align: middle;
   font-weight: normal;
 }
@@ -3022,102 +3039,89 @@ textarea.form-control {
   height: 100%;
 }
 .thumbnails {
-  display: block;
-  justify-content: space-evenly;
-  flex-direction: row;
+    display: block;
+    justify-content: space-evenly;
+    flex-direction: row;
 }
 .thumbnail-image {
-  align-items: flex-start;
-  cursor: pointer;
-  width: 145px;
-  height: 82px;
-  display: flex;
-  overflow: hidden;
-  margin: 0px 0px 10px 0px;
-  border: 1px solid #eee;
-  box-shadow: none;
+    align-items: flex-start;
+    cursor: pointer;
+    width: 100%;
+    height: 82px;
+    display: flex;
+    overflow: hidden;
+    margin: 0px 0px 12px 0px;
+    box-shadow: none;
 }
 .thumbnail-image > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: all 250ms;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 250ms;
 }
 .thumbnail-image:hover > img,
 .thumbnail-image.active > img {
-  opacity: 0.6;
-  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
+    opacity: 0.6;
+    box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
 }
-// .face-img-wrap .thumbnail-image {
-// 	width: 115px;
-// }
 .img-contain {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 .card-img {
-  position: relative;
-  margin-bottom: 15px;
+    position: relative;
+    margin-bottom: 15px;
 }
 .card-img > img {
-  display: block;
-  margin: 0 auto;
+    display: block;
+    margin: 0 auto;
 }
 .actions {
-  font-size: 1.5em;
-  height: 40px;
-  position: absolute;
-  top: 50%;
-  margin-top: -20px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #585858;
+    font-size: 1.5em;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #585858;
 }
 .actions > span {
-  cursor: pointer;
-  transition: all 250ms;
-  font-size: 45px;
+    cursor: pointer;
+    transition: all 250ms;
+    font-size: 45px;
 }
 .actions > span.prev {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 .actions > span.next {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 .actions > span:hover {
-  color: #eee;
+    color: #eee;
 }
 .list-enter-active,
 .list-leave-active {
-  transition: opacity 0.25s ease-out;
+    transition: opacity 0.25s ease-out;
 }
 
 .list-enter,
 .list-leave-to {
-  opacity: 0;
-}
-.img-wrapper {
-  max-height: 277px;
+    opacity: 0;
 }
 .delete-photo {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     line-height: 1.8;
-    background: #8d9498;
-    color: #fff;
-    right: 20px;
-    top: 5px;
+    background: #fff;
+    border: 1px solid #444;
+    right: -12px;
+    top: -10px;
     border-radius: 50%;
-    box-shadow: none;
-    box-sizing: border-box;
-    border: none;
-    font-size: 15px;
-    display: inline-block;
-    font-weight: bold;
 }
 .check-item {
     position: relative;
@@ -3154,7 +3158,7 @@ textarea.form-control {
 }
 .label-txt {
     min-width: 50px;
-    padding-right: 1.5rem;
+    // padding-right: 1.5rem;
     font-size: 15px;
 }
 // .form-control {
@@ -3163,7 +3167,47 @@ textarea.form-control {
 .save-btn {
     width: 140px;
     padding: 9px;
-    // border-color: #b4c574;
-    // background-color: #9fb746;
+    border-color: #EF8B1E;
+    background-color: #EF8B1E;
+}
+.show-info{    
+	border: 1px solid #d2d2d2;
+	width: 100%;
+	display: inline-block;
+	line-height: 1.5;
+	padding: 6px;
+	margin-top: 10px;
+	background: #fff;
+	color: #333;
+	text-align: center;
+}
+.info {
+    margin-bottom: .25rem;
+    background: #fff3f3;
+    padding: 2px 5px;
+    color: #ff7a00;
+}
+.icon-times {
+    font-size: 11px;
+    font-weight: bold;
+}
+.delete-photo .icon-times::before {
+    color: #444;
+}
+.icon-times::before {
+    color: #919191;
+}
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: #dc3545;
+}
+.invalid-feedback {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+.error {
+    color: #F60D0D;
+    font-size: 13px;
 }
 </style>
