@@ -76,7 +76,18 @@ export default {
       this.$refs.refChatComponent.isToggled = true;
       this.$refs.refChatComponent.getMessage(payload);
       this.$refs.refChatComponent.scrollUserIntoView();
-    },
+	},
+	onRefreshChattables() {
+		this.$refs.refChatComponent.getUsers();
+	}
   },
+	watch:{
+		// --Force chat user list refresh on chat pages
+		$route (to) {
+			if (to.path.includes('jobapply-list') || to.path.includes('scouted-list')) {
+				this.onRefreshChattables();
+			}
+		}
+	},
 };
 </script>
