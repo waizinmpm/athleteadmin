@@ -25,18 +25,19 @@
                     <div class="form-group">
                         <label>設立年月</label>
                         <div class="row col-12">
-                            <div class="col-md-6">
-                                <select class="form-control" v-model="recruiterForm.establishment_year">
+                            <div class="col-md-4">
+                                <input id="exampleInput1" type="text" name="" class="form-control"  placeholder="年 - 月 - 日" v-model="recruiterForm.establishment_date">
+                                <!-- <select class="form-control" v-model="recruiterForm.establishment_year">
                                     <option disabled value=""></option>
                                     <option v-for="year in 100" :key="year">{{ 1920 + year }}</option>
-                                </select>
+                                </select> -->
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <select class="form-control" v-model="recruiterForm.establishment_month">
                                     <option disabled value=""></option>
                                     <option v-for="month in 12" :key="month">{{ month }}</option>
                                 </select>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="form-group">
@@ -288,6 +289,7 @@
                     delete_related_images: [],
                     delete_logo: false,
                     delete_incharge_photo: false,
+                    establishment_date : "",
                 },
                 temp_related_image: null,
             };
@@ -304,9 +306,9 @@
                     
                     console.log('recruiter form',this.recruiterForm);
                     // --split establishment_date into year and month
-                    const establishment_date = new Date(this.recruiterForm.establishment_date);
-                    this.recruiterForm.establishment_year = establishment_date.getFullYear();
-                    this.recruiterForm.establishment_month = establishment_date.getMonth() + 1;
+                    // const establishment_date = new Date(this.recruiterForm.establishment_date);
+                    // this.recruiterForm.establishment_year = establishment_date.getFullYear();
+                    // this.recruiterForm.establishment_month = establishment_date.getMonth() + 1;
                     this.recruiterForm.delete_related_images = [];
 
                     // --map question type

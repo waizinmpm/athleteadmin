@@ -151,11 +151,11 @@
                             <br />
                             {{ $t('jobcreate.Qualification_ex1') }}
                             </label>
-                            <p>
+                            <!-- <p>
                             {{ $t('jobcreate.Qualification_ex2') }}
                             <br />
                             {{ $t('jobcreate.Qualification_ex3') }}
-                            </p>
+                            </p> -->
                             <p>
                             {{ $t('jobcreate.Qualification_ex4') }}
                             <br />
@@ -163,11 +163,11 @@
                             <br />
                             {{ $t('jobcreate.Qualification_ex6') }}
                             </p>
-                            <p>
+                            <!-- <p>
                             {{ $t('jobcreate.Qualification_ex7') }}
                             <br />
                             {{ $t('jobcreate.Qualification_ex8') }}
-                            </p>
+                            </p> -->
                         </div>
                         <div class="col-md-8 form-right-block">
                             <textarea
@@ -209,8 +209,8 @@
                             <br />
                             {{ $t('jobcreate.allowance_ex9') }}
                             <br />
-                            {{ $t('jobcreate.allowance_ex10') }}
-                            <br />
+                            <!-- {{ $t('jobcreate.allowance_ex10') }}
+                            <br /> -->
                             </p>
                             <p>
                             {{ $t('jobcreate.allowance_ex11') }}
@@ -463,7 +463,7 @@
                     value="確認"
                     class="btn btn-save"
                     @click="changeStatus('post')"
-                >保存する</button>
+                >保存</button>
         </div>
     </div>
   </div>
