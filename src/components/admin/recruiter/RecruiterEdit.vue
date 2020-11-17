@@ -9,7 +9,7 @@
                         <input type="text" class="form-control" readonly :value="recruiterForm.recruiter_number" />
                     </div>
                     <div class="form-group">
-                        <label>企業名 <span class="required">必須</span></label>
+                        <label><span class="align-label">企業名</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.recruiter_name.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.recruiter_name.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.recruiter_name.required">企業名は入力は必須です。</div>
@@ -60,7 +60,7 @@
                         <textarea name="" id="" class="form-control" rows="5" v-model.trim="recruiterForm.address"></textarea>
                     </div>
                     <div class="form-group">
-                        <label>電話番号 1 <span class="required">必須</span></label>
+                        <label><span class="align-label">電話番号 1</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.phone1.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.phone1.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.phone1.required">Phone number is required</div>
@@ -81,7 +81,7 @@
                         <input type="text" class="form-control" :value="recruiterForm.email" readonly />
                     </div>
                     <div class="form-group">
-                        <label>WEBサイトURL <span class="required">必須</span></label>
+                        <label><span class="align-label">サイトURL</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.website.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.website.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.website.required && $v.recruiterForm.website.$error">URL is required</div>
@@ -92,14 +92,14 @@
 
                 <div class="border">
                     <div class="form-group">
-                        <label>ご担当者名 <span class="required">必須</span></label>
+                        <label><span class="align-label">ご担当者名</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.incharge_name.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.incharge_name.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.incharge_name.required">Incharge name is required</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>担当者名(フリガナ) <span class="required">必須</span></label>
+                        <label><span class="align-label">担当者名(フリガナ)</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.incharge_name_furigana.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.incharge_name_furigana.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.incharge_name_furigana.required">Incharge name (furigana) is required</div>
@@ -111,7 +111,7 @@
                         <input type="text" class="form-control" v-model.trim="recruiterForm.account_id" />
                     </div>
                     <div class="form-group">
-                        <label>秘密の質問 <span class="required">必須</span></label>
+                        <label><span class="align-label">秘密の質問</span> <span class="required">必須</span></label>
                         <select v-model="questionType" @change="onQuestionTypeChange" class="form-control">
                             <option v-for="(question, key) in $configs.questions" :value="question" :key="key">{{ question }}</option>
                         </select>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>秘密の質問の答え <span class="required">必須</span></label>
+                        <label><span class="align-label">秘密の質問の答え </span><span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.answer.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.answer.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.answer.required">Answer is required</div>
@@ -668,5 +668,11 @@
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
+}
+.form-group {
+    margin-bottom: 1.5rem;
+}
+label {
+    margin-bottom: .5rem;
 }
 </style>
