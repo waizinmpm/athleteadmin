@@ -194,6 +194,7 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 // import PaymentManagementInlineEditor from './PaymentManagementInlineEditor';
 import { showToggle,handleStatus } from "../../../partials/common";
+import { required, numeric } from "vuelidate/lib/validators";
 
 export default {
 	mixins: [ DataTableServices ],
