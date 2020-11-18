@@ -240,9 +240,9 @@ export default {
 	methods: {
 		generateBill(scoutid_or_applyid,payment_job_type) {
 			if(payment_job_type == 'scout') {
-				let url = '/v1/recruiter/scouted-list/${scoutid_or_applyid}/invoice';
+                var url = '/v1/recruiter/scouted-list/${scoutid_or_applyid}/invoice';
 			} else {
-				let url = '/v1/recruiter/jobapply-list/${scoutid_or_applyid}/invoice';
+                url = '/v1/recruiter/jobapply-list/${scoutid_or_applyid}/invoice';
 			}
 			this.$api.post(url, {}, { responseType: "arraybuffer" })
 			.then((r) => {
