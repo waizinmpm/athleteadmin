@@ -2754,7 +2754,7 @@
     border-radius: 50%;
     color: #919191;
     border: 1px solid;
-    line-height: 35px;
+    line-height: 32px;
     vertical-align: middle;
 }
 
