@@ -120,7 +120,7 @@
                             <label for="name">
                             {{ $t('jobcreate.Job_Description') }}
                             <br />
-                            {{ $t('jobcreate.Job_Description_ex1') }}）
+                            {{ $t('jobcreate.Job_Description_ex1') }}
                             </label>
                             <div class="pl-3">
                             <ol>
