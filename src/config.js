@@ -8,6 +8,7 @@ export default {
 		unclaimed: '内定未請求',		
 		billed: '請求済',
 		payment_confirmed: '入金確認済',
+		deactivated:'退会した会員のデータも表示'
 	},
 	job_apply: {
 		under_review: '検討中',
@@ -15,6 +16,7 @@ export default {
 		unclaimed: '内定未請求',
 		billed: '請求済',
 		payment_confirmed: '入金確認済',
+		deactivated:'退会した会員のデータも表示'
 	},
 	jobseeker: {
 		active: {
@@ -97,6 +99,5 @@ export default {
         question_4: 'Who is your favourite person?',
         question_5: 'What is your favourite sport?',
         other: 'Other'
-	},
-	deactivated:'退会した会員のデータも表示'
+    }
 }
