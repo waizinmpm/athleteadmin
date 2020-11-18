@@ -246,8 +246,9 @@ export default {
 
     methods: {
         changeStatus(id, status) {
-            console.log(status);
-            this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', status, { n:status }), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
+            let changed_status = status == 1 ? this.$configs.jobseeker.active.display : (status == 2 ? this.$configs.jobseeker.inactive.display :  this.$configs.jobseeker.stopped.display);
+            console.log(changed_status);
+            this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', changed_status, { n:changed_status }), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
                 if (dialogResult.value) {
                     let statusData = {};
                     this.$set(statusData, "id", id);
