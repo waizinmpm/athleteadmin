@@ -102,7 +102,7 @@
                     >
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
-                        <td class="check-col">
+                        <!-- <td class="check-col">
                             <label class="form-checkbox">
                             <span v-if="project.record_status != 0">
                                 <input type="checkbox" :value="project.id" v-model="selected" />
@@ -116,7 +116,7 @@
                                 </div>
                             </span>
                             </label>
-                        </td>
+                        </td> -->
                         <td class="tbl-wl"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
                         <td><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
                         <td class="tbl-ws">
