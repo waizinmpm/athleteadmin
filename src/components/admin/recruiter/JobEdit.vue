@@ -405,7 +405,7 @@
                         </div>
                         <div class="col-md-8 form-right-block">
                             <div class="row col-12 p-0 m-0">
-                            <div class="col-md-4" v-for="(keyword, index) in other_keywords" :key="keyword.id">
+                            <div class="col-md-3" v-for="(keyword, index) in other_keywords" :key="keyword.id">
                                 <input
                                 type="checkbox"
                                 :value="keyword"
@@ -463,7 +463,7 @@
                     value="確認"
                     class="btn btn-save"
                     @click="changeStatus('post')"
-                >保存</button>
+                >保存する</button>
         </div>
     </div>
   </div>
@@ -619,6 +619,7 @@ export default {
     transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .custom-checkbox-label {
+    top: 0;
     padding-left: 30px;
 }
 .custom-control-input {
