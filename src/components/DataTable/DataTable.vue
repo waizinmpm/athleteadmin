@@ -3,9 +3,9 @@
         <table class="table is-bordered data-table table-bordered">
             <thead>
                 <tr>
-                    <!-- <th v-if="showCheckbox">
+                    <th v-if="showCheckbox" v-show="this.$route.name == 'job-list'">
                         <input type="checkbox" @click="emitToParent" v-model="checkornot" /> 
-                    </th> -->
+                    </th>
                     <th v-for="column in columns" :key="column.id" @click="$emit('sort', column.label)"
                         :class="sortKey === column.label ? (sortOrders[column.label] > 0 ? 'sorting_asc' : 'sorting_desc') : 'sorting'"
                         :style="'width:'+column.width+';'+'cursor:pointer;'">
