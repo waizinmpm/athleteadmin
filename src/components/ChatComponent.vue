@@ -246,10 +246,21 @@ export default {
 		},
 		getActiveJob(item) {
 			if (this.message_payload.type == item.type && this.message_payload.scoutid_or_applyid == item.scoutid_or_applyid) {
-				return 'active-job';
+				return 'active-job active-chattable';
 			} else {
 				return '';
 			}
+		},
+		scrollUserIntoView() {
+			this.$nextTick(() => {
+				var isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
+				var element = (document.getElementsByClassName('active-chattable'))[0];
+				if (isSmoothScrollSupported) {
+					element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});    
+				} else {
+					element.scrollIntoView(false);
+				}
+			})	
 		},
         resetBox(){
             this.$refs.draggableContainer.style.top = 'unset';

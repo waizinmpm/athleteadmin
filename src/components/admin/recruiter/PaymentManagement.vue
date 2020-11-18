@@ -194,6 +194,7 @@
 import DataTableServices from "../../DataTable/DataTableServices";
 // import PaymentManagementInlineEditor from './PaymentManagementInlineEditor';
 import { showToggle,handleStatus } from "../../../partials/common";
+import { required, numeric } from "vuelidate/lib/validators";
 
 export default {
 	mixins: [ DataTableServices ],
@@ -237,6 +238,28 @@ export default {
 		}
 	},
 	methods: {
+		generateBill(scoutid_or_applyid,payment_job_type) {
+			if(payment_job_type == 'scout') {
+				let url = '/v1/recruiter/scouted-list/${scoutid_or_applyid}/invoice';
+			} else {
+				let url = '/v1/recruiter/jobapply-list/${scoutid_or_applyid}/invoice';
+			}
+			this.$api.post(url, {}, { responseType: "arraybuffer" })
+			.then((r) => {
+					const type = r.headers["content-type"];
+					const blob = new Blob([r.data], { type: type, encoding: "UTF-8" });
+					const filename = r.headers["content-disposition"]
+						.split("=")[1]
+						.replace(/^"+|"+$/g, "");
+				if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+					window.navigator.msSaveOrOpenBlob(blob, filename);  
+				} else {
+					const objectUrl = URL.createObjectURL(blob);
+					window.open(objectUrl);
+				}
+			})
+			.catch(error => console.log(error));
+		},
 		getTogglableStatus(data) {
 			if (data.payment_job_type == this.$configs.payment_job_type.scout) 
 			{
@@ -412,6 +435,11 @@ export default {
 		totalRecords() {
 			return this.$data.projects.total;
 		}
+	},
+	validations: {
+        invoiceForm: {
+            default_amount: { required, numeric }
+        }
 	},
 };
 </script>

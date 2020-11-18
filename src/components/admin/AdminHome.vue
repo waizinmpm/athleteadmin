@@ -15,7 +15,7 @@
                 <span class="custom-icon"><i class="fa fa-user color-one" style="font-size:40px;"></i></span>
             </div>  
         </div>   
-         <div class="col-md-3">
+        <div class="col-md-3">
             <div class="dashboard-card">
                 <div class="txt-warp">
                     <h5>{{count.jobseeker}}</h5>
@@ -24,7 +24,7 @@
                 <span class="custom-icon"><i class="fa fa-files-o color-three" style="font-size:40px;"></i></span>
             </div>             
         </div> 
-        <div class="col-md-3">
+        <!-- <div class="col-md-3">
             <div class="dashboard-card">
                 <div class="txt-warp">
                     <h5>{{count.job}}</h5>
@@ -32,9 +32,9 @@
                 </div>                
                 <span class="custom-icon"><i class="fa fa-suitcase color-five" style="font-size:40px;"></i></span>
             </div>             
-        </div>                    
+        </div>   -->                  
     </div>
-    <div class="row col-xs-12">
+    <!-- <div class="row col-xs-12">
          <div class="col-md-3">
             <div class="dashboard-card">
                 <div class="txt-warp">
@@ -62,7 +62,7 @@
                 <span class="custom-icon"><i class="fa fa-credit-card color-six" style="font-size:40px;"></i></span>
             </div>             
         </div>     
-    </div>
+    </div> -->
     
   </div>
 </template>
