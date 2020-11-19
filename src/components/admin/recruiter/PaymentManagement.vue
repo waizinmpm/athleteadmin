@@ -103,7 +103,7 @@
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td class="tbl-wm">{{ project.management_number }}</td>
 								<td class="tbl-wxs">{{ project.payment_method }}</td>
-								<td class="tbl-ws">{{ project.invoice_number }}</td>
+								<td class="tbl-ws"><span @click="loadInvoicePreview(project.scoutid_or_applyid,project.payment_job_type)">{{ project.invoice_number }}</span></td>
 								<td style="position:relative;" class="tbl-ws">
 									<div class="scout-box">
 										<p class="scout-txt">{{ project.status }}</p>
@@ -187,6 +187,16 @@
 		</div>
 		</div>
 		</transition>
+        <div id="myModal" :class="['modal',showPDF ? 'modal-open' : 'modal-close' ]">
+            <div class="modal-content">
+                <p class="close-ico"  @click="closeInvoiceModal">
+					<span class="icon icon-times"></span>
+				</p>
+                <div class="invoice-preview-area"  v-if="invoicePreview">
+                    <iframe :src="invoicePreview" frameborder="1" class="invoice-frame"></iframe>
+                </div>
+            </div>
+        </div>
 	</div>
 	
 </template>
@@ -206,6 +216,8 @@ export default {
 			sortOrders[column.label] = -1;
 		});
 		return {
+            showPDF:false,
+            invoicePreview:'',
 			current: null,
 			base_url: "/v1/admin/payment-transactions",
 			old_index:'',
@@ -234,32 +246,28 @@ export default {
 				}
 			},
 			showModal: false,
-			form: {},
+            form: {},
+            type: 'admin',
 		}
 	},
 	methods: {
-		generateBill(scoutid_or_applyid,payment_job_type) {
+		loadInvoicePreview(scoutid_or_applyid,payment_job_type) {
 			if(payment_job_type == 'scout') {
-                var url = '/v1/recruiter/scouted-list/${scoutid_or_applyid}/invoice';
+                var url = '/v1/recruiter/scouted-list/'+scoutid_or_applyid+'/'+this.type+'/invoice';
 			} else {
-                url = '/v1/recruiter/jobapply-list/${scoutid_or_applyid}/invoice';
+                url = '/v1/recruiter/jobapply-list/'+scoutid_or_applyid+'/'+this.type+'/invoice';
 			}
-			this.$api.post(url, {}, { responseType: "arraybuffer" })
-			.then((r) => {
-					const type = r.headers["content-type"];
-					const blob = new Blob([r.data], { type: type, encoding: "UTF-8" });
-					const filename = r.headers["content-disposition"]
-						.split("=")[1]
-						.replace(/^"+|"+$/g, "");
-				if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-					window.navigator.msSaveOrOpenBlob(blob, filename);  
-				} else {
-					const objectUrl = URL.createObjectURL(blob);
-					window.open(objectUrl);
-				}
+			this.$api.post(url)
+			.then((response) => {
+                var enURL = encodeURI(response.data.data.pdf);
+                this.invoicePreview = `data:application/pdf;base64, ${enURL}`;
+                this.showPDF = true;
 			})
 			.catch(error => console.log(error));
-		},
+        },
+        closeInvoiceModal() {
+            this.showPDF = false;
+        },
 		getTogglableStatus(data) {
 			if (data.payment_job_type == this.$configs.payment_job_type.scout) 
 			{
@@ -557,9 +565,50 @@ textarea {
     position: absolute;
     content: "~";
     top: 0;
-    left: -7px;
+    left: -10px;
     font-size: 25px;
 }
 /* End Modal */
+.invoice-frame {
+	width: 100%;
+	height: 100%;
+	border: none;
+}
+
+.invoice-preview-area {
+    height: 95%;
+	border: 10px solid #ccc;
+}
+
+.invoice-col {
+    margin-bottom: 1.625rem;
+}
+
+.modal {
+  position: fixed; 
+  z-index: 10; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.4); 
+}
+.modal-open {
+    display: block;
+}
+.modal-close {
+    display: none;
+}
+
+.modal-content {
+    max-width: 1200px;
+    width: 80%;
+    height: 100%;
+    margin: 70px auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    background-color: #fefefe;
+}
 
 </style>

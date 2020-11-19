@@ -217,7 +217,7 @@
                         <div class="col-sm-6  invoice-col" >
                             <h5 class="main-header">{{ $t('common.invoice_preview') }}</h5>
                             <div class="invoice-preview-area"  v-if="invoicePreview">
-                                <iframe v-bind:srcdoc="invoicePreview" frameborder="1" class="invoice-frame"></iframe>
+                                <iframe :src="invoicePreview" frameborder="1" class="invoice-frame"></iframe>
                             </div>
                         </div>
                     </div>
@@ -251,6 +251,7 @@ export default {
               sortOrders[column.label] = -1;
         });
         return {
+            pdf_file_path:'',
             change_status: 0,
             requireInvoiceForm: false,
             invoicePreview: '',
@@ -408,19 +409,40 @@ export default {
             };
             // --close modal
             this.requireInvoiceForm = false;
+            /* if(this.pdf_file_path != ''){
+                // delete pdf from tmp folder in server
+                this.$api.post('/v1/admin/jobapply-list/generate-bill/tmp-delete', {file_path : this.pdf_file_path})
+                .then((r) => {
+                    console.log(r.data);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+            } */
         },
         loadInvoicePreview() {
             this.$v.invoiceForm.$touch();
             if (this.$v.invoiceForm.$invalid) {
                 return;
             }
-            this.$api.post('/v1/admin/jobapply-list/generate-bill', this.invoiceForm)
+            
+            this.$api.post('/v1/admin/jobapply-list/generate-bill', this.invoiceForm).then((response) => {
+                var enURL = encodeURI(response.data.data.pdf);
+                this.invoicePreview = `data:application/pdf;base64, ${enURL}`;
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+            /* this.$api.post('/v1/admin/jobapply-list/generate-bill', this.invoiceForm)
             .then((r) => {
-                let html = r.data;
-                this.invoicePreview = html;
+                // display pdf from tmp folder of server side
+                let laravel_api = process.env.VUE_APP_API_URL;
+                let base_url    = laravel_api.replace('/api/','');
+                this.pdf_file_path  = r.data.data;
+                this.invoicePreview = `${base_url}/${this.pdf_file_path}`;
             })
             .catch(() => {
-            })
+            }); */
         },
         closeInvoicePreview() {
             this.invoicePreview = null;
@@ -593,7 +615,7 @@ dl {
     position: absolute;
     content: "~";
     top: 20px;
-    left: -7px;
+    left: -10px;
     font-size: 25px;
 }
 .job-col {

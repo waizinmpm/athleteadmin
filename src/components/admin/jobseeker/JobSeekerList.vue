@@ -102,7 +102,7 @@
                     >
                     <tbody>
                         <tr v-for="(project, index) in projects.data" :key="project.id">
-                        <td class="check-col">
+                        <!-- <td class="check-col">
                             <label class="form-checkbox">
                             <span v-if="project.record_status != 0">
                                 <input type="checkbox" :value="project.id" v-model="selected" />
@@ -116,7 +116,7 @@
                                 </div>
                             </span>
                             </label>
-                        </td>
+                        </td> -->
                         <td class="tbl-wl"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
                         <td><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
                         <td class="tbl-ws">
@@ -246,8 +246,9 @@ export default {
 
     methods: {
         changeStatus(id, status) {
-            console.log(status);
-            this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', status, { n:status }), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
+            let changed_status = status == 1 ? this.$configs.jobseeker.active.display : (status == 2 ? this.$configs.jobseeker.inactive.display :  this.$configs.jobseeker.stopped.display);
+            console.log(changed_status);
+            this.$alertService.showConfirmDialog(null, this.$tc('alertMessage.change_confirm_message', changed_status, { n:changed_status }), this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
                 if (dialogResult.value) {
                     let statusData = {};
                     this.$set(statusData, "id", id);
