@@ -645,7 +645,7 @@ dl {
     position: absolute;
     content: "~";
     top: 20px;
-    left: -7px;
+    left: -10px;
     font-size: 25px;
 }
 </style>
