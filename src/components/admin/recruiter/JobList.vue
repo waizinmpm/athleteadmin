@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-3 ml-auto">
                             <button
-                                class="btn searchbtn"
+                                class="btn searchbtn float-right"
                                 @click="getData()"
                             >{{ $t('common.search') }}</button>
                         </div>
