@@ -220,7 +220,8 @@
 						<div class="col-sm-6 invoice-col">
 							<h5 class="main-header">{{ $t('common.invoice_preview') }}</h5>
 							<div class="invoice-preview-area"  v-if="invoicePreview">
-								<iframe v-bind:srcdoc="invoicePreview" class="invoice-frame"></iframe>
+								<!-- <iframe v-bind:srcdoc="invoicePreview" class="invoice-frame"></iframe> -->
+								<iframe :src="invoicePreview" frameborder="1" class="invoice-frame"></iframe>
 							</div>
 						</div>
 					</div>
@@ -405,12 +406,14 @@ export default {
 				return;
 			}
 			this.$api.post('/v1/admin/scout-list/generate-bill', this.invoiceForm)
-			.then((r) => {
-				let html = r.data;
-				this.invoicePreview = html;
+			.then((response) => {
+				// let html = r.data;
+				// this.invoicePreview = html;
+				var enURL = encodeURI(response.data.data.pdf);
+                this.invoicePreview = `data:application/pdf;base64, ${enURL}`;
 			})
-			.catch(() => {
-				
+			.catch((e) => {
+				console.log(e);
 			})
 		},
 		closeInvoicePreview() {
