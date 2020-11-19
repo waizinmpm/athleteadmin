@@ -16,7 +16,7 @@
             <slot></slot>
         </table>
         <div v-if="totalLength === 0">
-            <h5 class="main-header text-center">{{ $t('common.no_data_found')}}</h5>
+            <p class="no-data-txt-border">{{ $t('common.no_data_found')}}</p>
         </div>
     </div>
 </template>
@@ -64,5 +64,19 @@ export default {
 .table .check-col {
     width: 40px;
     text-align: center;
+}
+.no-data-txt-border {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 99.7%;
+    margin: -20px auto 0;
+    padding: 50px 0 !important;
+    font-weight: bold;
+    font-size: 16px;
+    color: #84BE3F;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-top: 0;
 }
 </style>

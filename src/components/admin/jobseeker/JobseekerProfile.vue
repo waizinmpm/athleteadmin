@@ -3208,4 +3208,7 @@ textarea.form-control {
     color: #F60D0D;
     font-size: 13px;
 }
+.custom-checkbox-label {
+    top: 2px;
+}
 </style>

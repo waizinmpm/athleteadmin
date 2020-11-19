@@ -854,6 +854,7 @@ body {
     font-size: 11px;
     vertical-align: middle;
 }
+
 @media (max-width:1400px) {
     .inner-wrapper {
         width: 75%;
