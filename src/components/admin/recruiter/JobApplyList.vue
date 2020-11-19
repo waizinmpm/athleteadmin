@@ -409,7 +409,7 @@ export default {
             };
             // --close modal
             this.requireInvoiceForm = false;
-            if(this.pdf_file_path != ''){
+            /* if(this.pdf_file_path != ''){
                 // delete pdf from tmp folder in server
                 this.$api.post('/v1/admin/jobapply-list/generate-bill/tmp-delete', {file_path : this.pdf_file_path})
                 .then((r) => {
@@ -418,14 +418,22 @@ export default {
                 .catch((e) => {
                     console.log(e);
                 });
-            }
+            } */
         },
         loadInvoicePreview() {
             this.$v.invoiceForm.$touch();
             if (this.$v.invoiceForm.$invalid) {
                 return;
             }
-            this.$api.post('/v1/admin/jobapply-list/generate-bill', this.invoiceForm)
+            
+            this.$api.post('/v1/admin/jobapply-list/generate-bill', this.invoiceForm).then((response) => {
+                var enURL = encodeURI(response.data.data.pdf);
+                this.invoicePreview = `data:application/pdf;base64, ${enURL}`;
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+            /* this.$api.post('/v1/admin/jobapply-list/generate-bill', this.invoiceForm)
             .then((r) => {
                 // display pdf from tmp folder of server side
                 let laravel_api = process.env.VUE_APP_API_URL;
@@ -434,7 +442,7 @@ export default {
                 this.invoicePreview = `${base_url}/${this.pdf_file_path}`;
             })
             .catch(() => {
-            });
+            }); */
         },
         closeInvoicePreview() {
             this.invoicePreview = null;
