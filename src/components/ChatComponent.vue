@@ -253,13 +253,8 @@ export default {
 		},
 		scrollUserIntoView() {
 			this.$nextTick(() => {
-				var isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
 				var element = (document.getElementsByClassName('active-chattable'))[0];
-				if (isSmoothScrollSupported) {
-					element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});    
-				} else {
-					element.scrollIntoView(false);
-				}
+				element.parentNode.scrollTop = element.offsetTop - 30;
 			})	
 		},
         resetBox(){
