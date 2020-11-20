@@ -101,10 +101,10 @@
 					<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
-								<td class="tbl-wm">{{ project.management_number }}</td>
-								<td class="tbl-wxs">{{ project.payment_method }}</td>
-								<td class="tbl-ws"><span @click="loadInvoicePreview(project.scoutid_or_applyid,project.payment_job_type)">{{ project.invoice_number }}</span></td>
-								<td style="position:relative;" class="tbl-ws">
+								<td class="tbl-wm"><span class="txt-vertical-ellipsis">{{ project.management_number }}</span></td>
+								<td class="tbl-wxs"><span class="txt-vertical-ellipsis">{{ project.payment_method }}</span></td>
+								<td class="tbl-wm"><span class="txt-vertical-ellipsis" @click="loadInvoicePreview(project.scoutid_or_applyid,project.payment_job_type)">{{ project.invoice_number }}</span></td>
+								<td style="position:relative;widht:90px;">
 									<div class="scout-box">
 										<p class="scout-txt">{{ project.status }}</p>
 										<p class="btn btn-common" v-on:click="showToggle(index)">
@@ -121,32 +121,29 @@
 									
 									</div>
 								</td>
-								<td class="tbl-wxs text-right pr-2">{{ project.invoice_amount|aj-number }}</td>
+								<td class="tbl-wxs text-right pr-2"><span class="txt-vertical-ellipsis">{{ project.invoice_amount|aj-number }}</span></td>
 								<td class="tbl-ws"><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
-								<td class="tbl-ws">
-									<span>{{ project.payment_amount|aj-number }}</span>
-									<br>
-									<span v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
+								<td style="width:90px;">
+									<span class="txt-vertical-ellipsis">{{ project.payment_amount|aj-number }}</span>
+									<span class="pj-date" v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
 									<br v-if="project.actual_payment_date">
 									<button type="button" @click="editAmountDate(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
 								<td><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link></td>
 								<td  class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link></td> 
-								<!-- <td class="text-left">
-                                    <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">名</span> - {{project.recruiter_name}}</p>
-                                    <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">電話番号</span> - {{project.phone1}}</p>
-                                    <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">メールアドレス</span> - {{project.email}}</p>
-                                    <p class="mb-1"><span class="font-weight-bold tbl-ws d-inline-block">担当者名</span> - {{project.incharge_name}}</p>
-                                </td> -->
 								<td class="tbl-ws">
-									<div style="height:40px;line-height:40px;vertical-align:middle;">
+									<div class="tooltip-box">
 										<span class="txt-vertical-ellipsis text-left">{{ project.remark }}</span>
+										<span class="tooltiptext tooltiptext-payment"><pre>{{ project.remark }}</pre></span>
 									</div>
 									<button type="button" @click="editRemark(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
 							</tr>
 						</tbody>
 					</DataTable>
+					<div  v-if="projects.length == 0">
+						<p class="no-data-txt-border">データがありません</p>
+					</div>
 				</div>
 				<pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
 					<span slot="prev-nav">
@@ -451,7 +448,7 @@ export default {
 	},
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 textarea {
 	resize: vertical;
 }
@@ -565,7 +562,7 @@ textarea {
     position: absolute;
     content: "~";
     top: 0;
-    left: -10px;
+    left: -7px;
     font-size: 25px;
 }
 /* End Modal */
@@ -610,5 +607,61 @@ textarea {
     border: 1px solid #888;
     background-color: #fefefe;
 }
+//tooltip
+.tooltip-box {
+  position: relative;
+}
+.tooltip-box .tooltiptext {
+	visibility: hidden;
+	// max-height: 200px;
+	background-color: rgba(94,94,99,1);
+	color: #fff;
+	text-align: center;
+	word-break: break-word;
+	border: 1px solid #363030ee;
+	border-radius: 5px;
+	position: absolute;
+	z-index: 33;
+	bottom: 110%;
+	left: 50%;
+	width: 300px;
+	margin-left: -170px;
+	opacity: 0.9;
+	// overflow-y: auto;
+	pre{
+		margin:0px;
+		padding: 15px;
+		color: #fff;
+		background-color:rgba(94,94,99,1);
+		border: none;
+	}	
+}
 
+.tooltip-box .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 8px;
+	border-style: solid;
+	border-color: rgba(87, 87, 87, 1) transparent transparent transparent;
+}
+
+.tooltip-box:hover .tooltiptext {
+    visibility: visible;
+}
+.scout-txt.tooltip-box .tooltiptext {
+    padding: 8px 15px;
+    left: 40%;
+}
+.tooltiptext-payment{
+    left: -60% !important;
+}
+.tooltiptext-payment::after{
+    left: 90% !important;
+}
+.pj-date {
+	font-size: 13px;
+}
 </style>
