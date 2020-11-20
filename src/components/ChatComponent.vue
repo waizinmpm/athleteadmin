@@ -2,7 +2,7 @@
     <div id="boxchat" @mousedown="dragMouseDown">
         <div ref="draggableContainer" :class="`box-chat ${isToggled == true ? 'chat_show' : 'chat_hide' }`">  
                 <div class="main-chat">
-                    <div class="col-4 tab-left float-left">
+                    <div class="col-6 tab-left float-left">
                         <ul class="list-user">
 							<li class="has-input">
 								<input @keydown.enter="getUsers" v-model="filter_text" type="text" class="filter-input" placeholder="管理番号/タイトル/会員名" />
@@ -11,7 +11,7 @@
 								<img width="25" src="@/assets/loading.gif" alt="loading">
 							</li>
 							<!-- <li class="text-primary is-title">スカウト</li> -->
-                            <li v-for="item in scout_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">	
+                            <li v-for="item in jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">	
                                 <div class="status">
                                     <div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
                                     <i class="fa fa-circle text-success"></i>
@@ -29,29 +29,10 @@
                                     <span v-if="item.unread <= 5">{{item.unread}}</span>
                                     <span class="plus" v-else>5+</span>
                                 </div>                              
-                            </li>                          
-							<!-- <li class="text-primary is-title">応募/問い合わせ</li> -->
-							<li v-for="item in apply_jobs" :key="item.index" @click="getMessage(item)" :class="`${getActiveJob(item)}`">
-								<div class="status">
-									<div v-if="online.includes(item.jobseeker_user_id) | online.includes(item.recruiter_user_id)" >
-									<i class="fa fa-circle text-success"></i>
-									</div>
-									<div v-else>
-									<i class="fa fa-circle" style="color:#e1e1e1"></i>
-									</div>									
-								</div>
-								<div class="name">
-									{{item.management_number}}
-									<p class="txt-ellipsis-1">{{item.title}}</p>
-								</div>                               
-								<div class="unread" v-if="item.unread > 0">
-									<span v-if="item.unread <= 5">{{item.unread}}</span>
-									<span class="plus" v-else>5+</span>
-								</div>                              
-							</li>
+                            </li>
                         </ul>
                     </div>
-                    <div class="col-8 tab-right float-right">
+                    <div class="col-6 tab-right float-right">
                         <div class="header-chat">
                             <div class="close" @click="closeChatBox()" >
                                 <i class="fa fa-times-circle-o" title="Close"></i>
@@ -112,9 +93,8 @@ import { mapGetters } from "vuex";
 export default {
 	name: 'ChatComponent',
     data(){
-        return{
-            scout_jobs: null,
-			apply_jobs: null,
+        return {
+			jobs: [],
 			filter_text: '',
 			userListSearching: false,
             typing: false,
@@ -177,22 +157,13 @@ export default {
 				}
             });
             window.socket.on("count-message", (data) => {
-				if ('scout' == data.type) {
-					this.scout_jobs.forEach(job => {
-						if(job.scoutid_or_applyid == data.scoutid_or_applyid){
-							job.unread++;
-						}
-						this.count_all += job.unread;
-					});
-				}
-				if ('job-apply' == data.type) {
-					this.apply_jobs.forEach(job => {
-						if(job.scoutid_or_applyid == data.scoutid_or_applyid){
-							job.unread++;
-						}
-						this.count_all += job.unread;
-					});
-				}
+				this.jobs.forEach(job => {
+					if (job.scoutid_or_applyid == data.scoutid_or_applyid && 
+						job.type == data.type){
+						job.unread++;
+					}
+					this.count_all += job.unread;
+				});
 				this.sumUnRead();
             });
             window.socket.on("usertyping", (data) => {
@@ -260,13 +231,17 @@ export default {
         resetBox(){
             this.$refs.draggableContainer.style.top = 'unset';
             this.$refs.draggableContainer.style.left = 'unset';
-        },
+		},
+		loadAllUsers() {
+			if (this.filter_text.length == 0){
+				this.getUsers();
+			}
+		},
         getUsers(){
 			let role_id = this.currentUser.role_id;
 			let filter_text = encodeURIComponent(this.filter_text);
 			this.userListSearching = true;
-			this.scout_jobs = [];
-			this.apply_jobs = [];
+			this.jobs = [];
 			Promise.all([
 				// --scout chattables
 				this.$api.get(`/v1/chattables/${role_id}/scout?q=${filter_text}`)
@@ -277,8 +252,11 @@ export default {
 			])
 			.then((r) => {
 				this.userListSearching = false;
-				this.scout_jobs = r[0];
-				this.apply_jobs = r[1];
+				this.jobs = r[0].concat(r[1]);
+				// --order by created_at of scouts/apply DESC
+				this.jobs.sort((a,b) => {
+					return new Date(b.o_created_at) - new Date(a.o_created_at);
+				})
 
 				if (filter_text.length == 0) {
 					window.socket.emit('join', this.currentUser.id);
@@ -337,28 +315,17 @@ export default {
             this.$refs.scrollChat.scrollTop = this.$refs.scrollChat.scrollHeight ;   
         },
         unreadMessage(){
-			if (this.message_payload.type == 'scout') {
-				this.scout_jobs.forEach(job => {
-					if(job.scoutid_or_applyid == this.message_payload.scoutid_or_applyid){
-						job.unread = 0;
-					}
-				});
-			}
-			if (this.message_payload.type == 'job-apply') {
-				this.apply_jobs.forEach(job => {
-					if(job.scoutid_or_applyid == this.message_payload.scoutid_or_applyid){
-						job.unread = 0;
-					}
-				});
-			}
+			this.jobs.forEach(job => {
+				if(job.scoutid_or_applyid == this.message_payload.scoutid_or_applyid && 
+					job.type == this.message_payload.type){
+					job.unread = 0;
+				}
+			});
             this.sumUnRead();
         },
         sumUnRead(){
             let sum = 0;
-			this.scout_jobs.forEach(job => {
-				sum += job.unread
-			});
-			this.apply_jobs.forEach(job => {
+			this.jobs.forEach(job => {
 				sum += job.unread
 			});
             this.count_all = sum;
@@ -519,19 +486,20 @@ export default {
 	computed: {
 		...mapGetters(["currentUser"]),
 	},
+	watch: {
+		filter_text() {
+			this.loadAllUsers();
+		}
+	}
 }
 </script>
 <style lang="scss" scoped>
-.col-4 {
+.col-6 {
 	position: relative;
-	flex: 0 0 33.333333%;
-    max-width: 33.333333%;
+	flex: 0 0 50%;
+    max-width: 50%;
 }
-.col-8 {
-	position: relative;
-	flex: 0 0 66.666667%;
-    max-width: 66.666667%;
-}
+
 input:focus{
     outline: none;
 }
@@ -556,7 +524,7 @@ input:focus{
     position: fixed;
     right: 90px;
     bottom: 20px;
-    width: 600px;
+    width: 800px;
     height: 460px;
     z-index: 9;
 }
@@ -564,6 +532,7 @@ input:focus{
         right: 90px;
         bottom: 20px;
         .tab-right{
+			width: 100%;
             padding: 0;
             border-left: 1px solid #e2e2e2;
         }
@@ -612,6 +581,9 @@ input:focus{
 				width: 100%;
 				border: 0;
 				border-bottom: 1px solid#e2e2e2;
+				&::placeholder {
+					color: #A1A1A1;
+				}
 			}
             li{
                 display: flex;
