@@ -762,6 +762,7 @@ input:focus{
     border-radius: 50%;
     background:#27a09e;
     background:#84BE3F;
+    z-index: 50;
     i{
         font-size: 40px;
         padding: 10px;

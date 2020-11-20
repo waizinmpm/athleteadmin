@@ -135,6 +135,9 @@
                             </tr>
                         </tbody>
                     </DataTable>
+                    <div  v-if="projects.length == 0">
+                        <p class="no-data-txt-border">データがありません</p>
+                    </div>
                 </div>
                 <pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
                     <span slot="prev-nav">
@@ -615,7 +618,7 @@ dl {
     position: absolute;
     content: "~";
     top: 20px;
-    left: -10px;
+    left: -7px;
     font-size: 25px;
 }
 .job-col {

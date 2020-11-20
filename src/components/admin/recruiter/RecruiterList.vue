@@ -86,81 +86,84 @@
             </div> -->
             </div>
             <div class="vld-parent" style="width: 100%;" ref="loadingRef">
-            <DataTable
-                ref="datatable"
-                class="table-check"
-                :columns="$t('recruiter_list.columns')"
-                :sortKey="sortKey"
-                :sortOrders="sortOrders"
-                @check-all="selectAll"
-                @sort="sortBy"
-                :showCheckbox="true"
-                :totalLength = projects.total
+                <DataTable
+                    ref="datatable"
+                    class="table-check"
+                    :columns="$t('recruiter_list.columns')"
+                    :sortKey="sortKey"
+                    :sortOrders="sortOrders"
+                    @check-all="selectAll"
+                    @sort="sortBy"
+                    :showCheckbox="true"
+                    :totalLength = projects.total
 
-            >
-                <tbody>
-                <tr v-for="(project, index) in projects.data" :key="project.id">
-                    <!-- <td class="check-col">
-                        <label class="form-checkbox">
-                            <input type="checkbox" :value="project.id" v-model="selected" />
-                            <div v-for="undelete_id in delete_ids_transactions" :key="undelete_id.id" style="color:red;">
-                                <span v-show="undelete_id == project.id && project.record_status != 3" class="error-msg">
-                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-exclamation-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
-                                    </svg>
-                                </span>
-                            </div>
-                        </label>
-                    </td> -->
-                    <td class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_number}}</router-link></td>
-                    <td class="text-left"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{project.recruiter_name}}</router-link></td>
-                    <!-- <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td> -->
-                    
-                    <td class="tbl-ws">
-                        <div class="scout-box">
-                            <div v-if="project.record_status != 0">
-                                {{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}
-                                <br>
-                                <p class="btn btn-common" v-on:click="showToggle(index)" v-if="project.record_status != 3">
-                                    {{$t('common.change')}}
-                                    <span class="down-icon">&#9662;</span>
-                                </p>
-                                <div class="scout-toggle" :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
-                                    <p
-                                    class="custom-radio-group mr-3"
-                                    v-for="status in arr_status"
-                                    :key="status.id.id"
-                                    >
-                                    <input
-                                        type="radio"
-                                        :id="status.id.display+index"
-                                        v-model="project.record_status"
-                                        class="custion-radio"
-                                        @change="changeStatus(project.id, status.id.value)"
-                                        :value="status.id.value"
-                                    />
-                                    <label
-                                        :for="status.id.display+index"
-                                        class="custom-radio-lable status-lable"
-                                        @click="hideToggle"
-                                    >{{ status.id.display }}</label>
-                                    </p>
+                >
+                    <tbody>
+                    <tr v-for="(project, index) in projects.data" :key="project.id">
+                        <!-- <td class="check-col">
+                            <label class="form-checkbox">
+                                <input type="checkbox" :value="project.id" v-model="selected" />
+                                <div v-for="undelete_id in delete_ids_transactions" :key="undelete_id.id" style="color:red;">
+                                    <span v-show="undelete_id == project.id && project.record_status != 3" class="error-msg">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-exclamation-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                        </svg>
+                                    </span>
                                 </div>
+                            </label>
+                        </td> -->
+                        <td class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_number}}</router-link></td>
+                        <td class="text-left"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{project.recruiter_name}}</router-link></td>
+                        <!-- <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td> -->
+                        
+                        <td class="tbl-ws">
+                            <div class="scout-box">
+                                <div v-if="project.record_status != 0">
+                                    {{project.record_status == 1 ? '有効' : (project.record_status == 2 ? '停止' : '退会')}}
+                                    <br>
+                                    <p class="btn btn-common" v-on:click="showToggle(index)" v-if="project.record_status != 3">
+                                        {{$t('common.change')}}
+                                        <span class="down-icon">&#9662;</span>
+                                    </p>
+                                    <div class="scout-toggle" :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (status == true)}">
+                                        <p
+                                        class="custom-radio-group mr-3"
+                                        v-for="status in arr_status"
+                                        :key="status.id.id"
+                                        >
+                                        <input
+                                            type="radio"
+                                            :id="status.id.display+index"
+                                            v-model="project.record_status"
+                                            class="custion-radio"
+                                            @change="changeStatus(project.id, status.id.value)"
+                                            :value="status.id.value"
+                                        />
+                                        <label
+                                            :for="status.id.display+index"
+                                            class="custom-radio-lable status-lable"
+                                            @click="hideToggle"
+                                        >{{ status.id.display }}</label>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div v-else>退会</div>
                             </div>
-                            <div v-else>退会</div>
-                        </div>
-                    </td>
-                    <td class="tbl-ws">
-                    <router-link
-                        :to="'/admin/recruiter-list/' + project.id + '/edit'"
-                        class="btn btn-edit"
-                        v-if="project.record_status != 3"
-                    >{{ $t('common.edit')}}</router-link>
-                    </td>
-                </tr>
-                </tbody>
-            </DataTable>
+                        </td>
+                        <td class="tbl-ws">
+                        <router-link
+                            :to="'/admin/recruiter-list/' + project.id + '/edit'"
+                            class="btn btn-edit"
+                            v-if="project.record_status != 3"
+                        >{{ $t('common.edit')}}</router-link>
+                        </td>
+                    </tr>
+                    </tbody>
+                </DataTable>
+                <div  v-if="projects.length == 0">
+                    <p class="no-data-txt-border">データがありません</p>
+                </div>
             </div>
             <pagination
             v-if="projects.length != 0"
