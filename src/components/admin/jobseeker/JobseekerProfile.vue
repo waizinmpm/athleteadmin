@@ -502,7 +502,7 @@
                     <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
-                    <textarea name id class="form-control" v-model="basicInfo.address"></textarea>
+                    <textarea class="form-control" v-model="basicInfo.address"></textarea>
                 </div>
                 </div>
                 <div class="form-group">
@@ -929,13 +929,28 @@
                 <!-- experience array -->
                 <div class="col-md-12 experience-box" v-for="(exp,indx) in experiences" :key="exp.id">
                 <div class="form-group">
-                    <input
+                    <div class="row col-12 p-0 m-0">   
+                            勤務先 {{indx+1}}  
+                            <div class="check-private" transition="fade" @click="checkPrivateStatus(exp.private_status,indx,1)">
+                                <p class="m-0">
+                                <span :class="[exp.private_status == 1?'fa fa-check':'fa fa-check disabled']"></span>
+                            </p>
+                            </div>
+                            <label for="非公開にする">非公開に</label>   
+                            <div class="check-private" transition="fade" @click="checkPrivateStatus(exp.private_status,indx,2)">
+                                <p class="m-0">
+                                <span :class="[exp.private_status == 2?'fa fa-check':'fa fa-check disabled']"></span>
+                            </p>
+                            </div>
+                            <label for="企業名のみ非公開にする">企業名のみ非公開に</label>   
+                    </div>
+                    <!-- <input
                     type="checkbox"
                     :id="'非公開'+indx"
                     class="custom-control-input custom-checkbox"
                     v-model="exp.private_status"
                     />
-                    <label :for="'非公開'+indx" class="custom-control-label custom-checkbox-label">非公開</label>
+                    <label :for="'非公開'+indx" class="custom-control-label custom-checkbox-label">非公開</label> -->
                 </div>
 
                 <p class="delete-btn" @click="deleteExperience(indx)" v-if="experiences.length > 1">
@@ -943,6 +958,13 @@
                 </p>
 
                 <div class="form-group">
+                    <label for="">企業名</label>
+                    <div class="col-md-8 p-0">
+                        <input type="text" class="form-control" placeholder="勤務先を入力" v-model="exp.job_location"/>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group">
                     <label for>勤務先</label>
                     <div class="col-md-8 p-0">
                     <input
@@ -952,9 +974,9 @@
                         v-model="exp.job_location"
                     />
                     </div>
-                </div>
+                </div> -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for>在籍期間</label>
                     <div class="col-md-8 p-0">
                     <input
@@ -964,10 +986,10 @@
                         v-model="exp.main_duty"
                     />
                     </div>
-                </div>
+                </div> -->
 
                 <div class="form-group">
-                    <h6 class="font-weight-bold mb-3">経験職種</h6>
+                    <!-- <h6 class="font-weight-bold mb-3">経験職種</h6> -->
                     <div class="form-group">
                     <input
                         type="checkbox"
@@ -1086,7 +1108,7 @@
                 <div class="form-group">
                     <label class="col-md-12 pl-0">主な業務内容</label>
                     <div class="col-md-8 p-0">
-                    <textarea name id class="form-control" placeholder="例)リーダーとしてメンバーをまとめあげました。"></textarea>
+                    <textarea class="form-control" placeholder="例)リーダーとしてメンバーをまとめあげました。"></textarea>
                     </div>
                 </div>
                 </div>
@@ -1341,7 +1363,6 @@
                 <label for>{{$t('jobseekerprofile.other_qualifications')}}</label>
                 <div class="col-md-8 p-0">
                     <textarea
-                    name
                     class="form-control"
                     v-model="experience_qualification.other_qualifications.qualifications"
                     ></textarea>
@@ -1902,27 +1923,29 @@
             industry_list: [],
             occupation_list: [],
             date_list: [],
-            industries: [
-                {
+            industries: [{
                 id: 0,
                 jobseeker_id: null,
-                },
-            ],
-            occupations: [
-                {
+                }],
+            occupations: [{
                 id: 0,
                 jobseeker_id: null,
-                },
-            ],
+            }],
             desired_condition: {
                 desired_min_annual_income: null,
                 occupation_name: [],
-                industry_name: []
+                industry_name: [],
+                desired_location_1:null
             },
             desired_errors: {
-                industry_error: "",
-                occupation_error: "",
+                industry_error:'',
+                occupation_error:'',
+                location_error:'',
+                location_error_status:false
             },
+            experience_errors:'',
+            exp_year_errors:'',
+            exp_month_errors:'',
             //desired_condition
         };
     },
@@ -2011,6 +2034,26 @@
 
         checkGender(type) {
             this.basicInfo.gender = type;
+        },
+
+        checkPrivateStatus(type,index,status) {
+            if(type == 0){
+                    this.experiences[index].private_status = status;
+            }
+            if(type == 1){
+                if(status == 2 ){
+                    this.experiences[index].private_status = status;
+                } else{
+                    this.experiences[index].private_status = 0;
+                }
+            }
+            if(type == 2){
+                    if(status == 1 ){
+                    this.experiences[index].private_status = status;
+                }else{
+                    this.experiences[index].private_status = 0;
+                }
+            }
         },
 
         getCarrerRequiredList() {
@@ -3317,5 +3360,16 @@ textarea.form-control {
 }
 .custom-checkbox-label {
     top: 2px;
+}
+.check-private{
+    position: relative;
+    max-width: 28px;
+    list-style: none;
+    padding: 3px 15px 0px 6px;
+    display: inline-block;
+    color: #3276e0;
+    border: 1px solid #9b9898;
+    margin: -3px 10px 0px 10px;
+    max-height: 28px;
 }
 </style>
