@@ -244,15 +244,15 @@ export default {
 			},
 			showModal: false,
             form: {},
-            type: 'admin',
 		}
 	},
 	methods: {
 		loadInvoicePreview(scoutid_or_applyid,payment_job_type) {
+			var url;
 			if(payment_job_type == 'scout') {
-                var url = '/v1/recruiter/scouted-list/'+scoutid_or_applyid+'/'+this.type+'/invoice';
+                url = '/v1/admin/payment-transactions/'+scoutid_or_applyid+'/scout-invoice';
 			} else {
-                url = '/v1/recruiter/jobapply-list/'+scoutid_or_applyid+'/'+this.type+'/invoice';
+                url = '/v1/admin/payment-transactions/'+scoutid_or_applyid+'/jobapply-invoice';
 			}
 			this.$api.post(url)
 			.then((response) => {
