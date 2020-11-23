@@ -377,7 +377,7 @@ export default {
 				if (!this.online.includes(this.meta.jobseeker_user_id)) {
 					offlines.push({
 						message_id: message.id,
-						from: '運営管理',
+						from: '運営管理者',
 						to: this.meta.jobseeker_email,
 						to_name: this.meta.jobseeker_name,
 						date: Date.now(),
@@ -391,7 +391,7 @@ export default {
 				if (!this.online.includes(this.meta.recruiter_user_id)) {
 					offlines.push({
 						message_id: message.id,
-						from: '運営管理',
+						from: '運営管理者',
 						to: this.meta.recruiter_email,
 						to_name: this.meta.recruiter_name,
 						date: Date.now(),
