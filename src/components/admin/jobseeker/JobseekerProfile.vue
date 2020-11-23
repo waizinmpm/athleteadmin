@@ -1916,6 +1916,8 @@
             ],
             desired_condition: {
                 desired_min_annual_income: null,
+                occupation_name: [],
+                industry_name: []
             },
             desired_errors: {
                 industry_error: "",
