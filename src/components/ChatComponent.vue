@@ -5,7 +5,10 @@
                     <div class="col-6 tab-left float-left">
                         <ul class="list-user">
 							<li class="has-input">
-								<input @keydown.enter="getUsers" v-model="filter_text" type="text" class="filter-input" placeholder="管理番号/タイトル/会員名" />
+								<div class="search-container">
+									<span class="fa fa-search"></span>
+									<input @keydown.enter="getUsers" v-model="filter_text" type="text" class="filter-input" placeholder="キーワード" />
+								</div>
 							</li>
 							<li v-if="userListSearching" class="user-list-searching">
 								<img width="25" src="@/assets/loading.gif" alt="loading">
@@ -628,8 +631,22 @@ input:focus{
 				&.has-input {
 					padding: 7px 3px;
 					border: 0;
+					height: 70px;
 					&:hover {
 						background: transparent;
+					}
+					.search-container {
+						display: flex;
+						align-items: flex-end;
+						width: 100%;
+						height: 100%;
+						span {
+							color: #a1a1a1;
+							margin: 0px 5px;
+						}
+						input {
+							flex: 1 1 auto;
+						}
 					}
 				}
 				&.is-title {
