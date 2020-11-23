@@ -83,9 +83,9 @@
                 <dl class="detail-list clearfix">                       
                     <dt class="detail-head">希望職種</dt>
                     <dd class="detail-data"> 
-                        <!-- <p class="mb-0" v-for="occ in selfIntroDetails.occupation_name" :key="occ.id">
+                        <p class="mb-0" v-for="occ in selfIntroDetails.occupation_name" :key="occ.id">
                             {{occ}} 
-                        </p> -->
+                        </p>
                     </dd>
                     <dt class="detail-head">希望勤務地</dt>
                     <dd class="detail-data">
@@ -298,63 +298,47 @@
                     </p>
                 </div>
                 <dl class="detail-list clearfix">
-                    <dt class="detail-head">
-                    {{$t('jobseekerprofile.jobseeker_name')}}
-                    <span class="private">{{$t('jobseekerprofile.private')}}</span>
-                    </dt>
-                    <dd class="detail-data">{{basicInfo.jobseeker_name}}</dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.jobseeker_number')}}</dt>
+                    <dd class="detail-data" v-if="basicInfo.jobseeker_number != ''">{{basicInfo.jobseeker_number}}</dd>
+                    <dd class="detail-data" v-else>未入力</dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.jobseeker_name')}}<span class="private">{{$t('jobseekerprofile.private')}}</span></dt>
+                    <dd class="detail-data" v-if="basicInfo.jobseeker_name != ''">{{basicInfo.jobseeker_name}}</dd>
+                    <dd class="detail-data" v-else>未入力</dd>
                     <dt class="detail-head">{{$t('jobseekerprofile.gender')}}</dt>
-                    <dd class="detail-data">{{basicInfo.gender}}</dd>
-                    <dt class="detail-head">
-                    {{$t('jobseekerprofile.date')}}
-                    <span class="private">{{$t('jobseekerprofile.private')}}</span>
-                    </dt>
-                    <dd class="detail-data">
-                        {{basicInfo.dob}}
-                        <!-- <span v-if="basicInfo.dob">
-                            {{basicInfo.dob[0]}}年 {{basicInfo.dob[1]}}月 {{basicInfo.dob[2]}}日
-                        </span> -->
-                    </dd>
-                    <!-- <dt class="detail-head">{{$t('jobseekerprofile.Language')}}</dt>
-                    <dd class="detail-data" v-if="basicInfo.language_name == null">-</dd>
-                    <dd class="detail-data" v-else>{{basicInfo.language_name}}</dd> -->
-                    <dt class="detail-head">
-                    {{$t('jobseekerprofile.location')}}
-                    <span class="private">{{$t('jobseekerprofile.private')}}</span>
-                    </dt>
-                    <dd class="detail-data">{{basicInfo.country_name}} , {{basicInfo.city_name}}</dd>
-                    <dt class="detail-head">
-                    {{$t('jobseekerprofile.phone')}}
-                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
-                    </dt>
-                    <dd class="detail-data">{{basicInfo.phone}}</dd>
-                    <dt class="detail-head">
-                    {{$t('jobseekerprofile.email')}}
-                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
-                    </dt>
-                    <dd class="detail-data">
-                    {{basicInfo.email}}
-                    <br />
-                    </dd>
-                    <dt class="detail-head">{{$t('jobseekerprofile.skype')}}
-                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
-                    <dd class="detail-data">
-                    {{basicInfo.skype_account}}
-                    <br />
-                    </dd>
-                    <dt class="detail-head">{{$t('jobseekerprofile.education')}}</dt>
-                    <dd class="detail-data" v-if="basicInfo.final_education == null">-</dd>
-                    <dd class="detail-data" v-else>{{basicInfo.final_education}}</dd>
+                    <dd class="detail-data" v-if="basicInfo.gender != '' && basicInfo.gender != null">{{basicInfo.gender}}</dd>
+                    <dd class="detail-data" v-else>未入力</dd>
+                    <!-- {{checkDOB}} -->
+                    <dt class="detail-head">{{$t('jobseekerprofile.date')}} <span class="private">{{$t('jobseekerprofile.private')}}</span></dt>
+                    <!-- <dd class="detail-data" v-if="basicInfo.dob != '' && checkDOB != '0000,00,00'">{{basicInfo.dob[0]}}年 {{basicInfo.dob[1]}}月 {{basicInfo.dob[2]}}日</dd> -->
+                    <dd class="detail-data" v-if="basicInfo.dob">{{basicInfo.dob}}</dd>
+                    <dd class="detail-data" v-else>未入力</dd>
+                    <!-- <dt class="detail-head">{{$t('jobseekerprofile.Language')}}</dt> -->
+                    <!-- {{basicInfo}} -->
+                    <!--  <dd class="detail-data" v-if="basicInfo.language_name != null">{{basicInfo.language_name}}</dd>
+                    <dd class="detail-data" v-else>未入力</dd> -->
+                    <dt class="detail-head">{{$t('jobseekerprofile.location')}}<span class="private">{{$t('jobseekerprofile.private')}}</span></dt>
+                    <dd class="detail-data" v-if="basicInfo.country_id != ''">{{basicInfo.continent_name}} , {{basicInfo.country_name}}</dd>
+                    <dd class="detail-data" v-else>未入力</dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.phone')}}<span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
+                    <dd class="detail-data" v-if="basicInfo.phone != ''">{{basicInfo.phone}}</dd>
+                    <dd class="detail-data" v-else>未入力</dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.email')}}<span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
+                    <dd class="detail-data" v-if="basicInfo.email !=''">{{basicInfo.email}}<br /></dd>
+                    <dd class="detail-data" v-else>未入力</dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.skype')}}<span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
+                    <dd class="detail-data" v-if="basicInfo.skype_account != '' && basicInfo.skype_account != null">{{basicInfo.skype_account}}<br /></dd>
+                    <dd class="detail-data" v-else>未入力</dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.education')}}</dt> 
+                    <dd class="detail-data" v-if="basicInfo.final_education != '' && basicInfo.final_education != null">{{basicInfo.final_education}}</dd>
+                    <dd class="detail-data" v-else>未入力</dd>
                     <dd class="detail-head">{{$t('jobseekerprofile.status')}}</dd>
-                    <dd class="detail-data" v-if="basicInfo.current_situation == null">-</dd>
-                    <dd class="detail-data" v-else>{{basicInfo.current_situation}}</dd>
+                    <dd class="detail-data" v-if="basicInfo.current_situation != '' && basicInfo.current_situation !=null">{{basicInfo.current_situation}}</dd>
+                    <dd class="detail-data" v-else>未入力</dd>
                 </dl>
-            <!-- <div class="explation-note">
-                <span class="private">{{$t('jobseekerprofile.private')}}</span>
-                {{$t('jobseekerprofile.details')}}
-            </div> -->
                 <div class="explation-note">
-                    <span class="private">非公開</span> は、求人情報への問合わせ/応募、スカウトに興味を示した後に企業会員に公開されます。※一部の項目については常に非公開とすることが可能です。
+                    <span class="private">{{$t('jobseekerprofile.private')}}</span>{{$t('jobseekerprofile.details')}}<br>
+                    {{$t('jobseekerprofile.details1')}}<br>
+                    <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>{{$t('jobseekerprofile.detailsadmin')}}
                 </div>
             </div>
         </div>
@@ -644,38 +628,132 @@
                     </p>
                 </div>
                 <dl class="detail-list clearfix">
-                    <dt class="detail-head">学歴</dt>
+                    <dt class="detail-head">{{$t('jobseekerprofile.edbackground')}}</dt>
                     <dd class="detail-data">
-                    <div v-for="edu in educations" :key="edu.id">
-                        <span v-if="edu.school_name">{{edu.school_name}}</span>
-                        <span v-if="edu.school_name && edu.subject">({{edu.subject}})</span>
-                    </div>
+                        <div style="white-space:unset" v-if="educations.length > 0">
+                            <div style="white-space:unset" v-for="(edu,index) in educations" :key="edu.id">
+                                <div style="white-space:unset" v-if="(educations.length ==1 && edu.id != null) || educations.length > 1">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td style="width:51%">学校名</td>
+                                            <td>
+                                                <span v-if="edu.school_name">{{edu.school_name}}</span>
+                                                <span v-else> - </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>学部学科</td>
+                                            <td>
+                                                <span v-if="edu.subject">{{edu.subject}}</span>
+                                                <span v-else> - </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>学位 <span class="view-permission float-right">{{$t('jobseekerprofile.admin')}}</span></td>
+                                            <td>
+                                                <span v-if="edu.degree">{{edu.degree}}</span>
+                                                <span v-else> - </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>在籍期間 <span class="view-permission float-right">{{$t('jobseekerprofile.admin')}}</span></td>
+                                            <td>
+                                                <span v-if="edu.from_year != null && edu.from_month != null && edu.to_year != null  && edu.to_month != null"> {{edu.from_year}}{{edu.from_month}} ~ {{edu.to_year}}{{edu.to_month}} </span>
+
+                                                <span v-if="edu.from_year != null && edu.from_month != null && edu.to_year == null && edu.to_month == null"> {{edu.from_year}}{{edu.from_month}} ~ 在籍中 </span>
+                                                <span v-if="edu.from_year == null && edu.from_month != null"> {{edu.from_month}} ~ 在籍中 </span>
+                                                <span v-if="edu.from_year != null && edu.from_month == null"> {{edu.from_year}} ~ 在籍中 </span>
+
+                                                <span v-if="edu.from_year == null && (edu.from_month == null) && edu.to_year == null  && edu.to_month == null"> - </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>ステータス <span class="view-permission float-right">{{$t('jobseekerprofile.admin')}}</span></td>
+                                            <td>
+                                                <span v-if="edu.education_status">{{edu.education_status}} </span>
+                                                <span v-else> - </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <hr v-if="index != (educations.length-1)">
+                                </div>
+                                <span v-else> 未入力 </span>
+                            </div>
+                        </div>
+                        <div v-else> 未入力 </div>
                     </dd>
-                    <dt class="detail-head">経験社数</dt>
+
+                    <dt class="detail-head">{{$t('jobseekerprofile.experiencecompany')}}</dt>
                     <dd class="detail-data">
-                    <span
-                        v-if="carrers.num_of_experienced_companies"
-                    >{{carrers.num_of_experienced_companies}}</span>
+                        <span v-if="carrers.num_of_experienced_companies != ''"> 
+                            {{carrers.num_of_experienced_companies}}    
+                        </span>
+                        <span v-else>未入力</span>
                     </dd>
-                    <dt class="detail-head">勤務先</dt>
-                    <dd class="detail-data">
-                    <div v-for="exp in experiences" :key="exp.id">
-                        {{exp.job_location}}
-                        <span class="private" v-if="exp.private_status == 1">非公開</span>
-                    </div>
+                    <dt class="detail-head"> 勤務先  </dt>
+                    <dd class="detail-data" v-if="experiences">
+                        <div style="white-space:nowrap;" v-for="(exp,index) in experiences" :key="exp.id">
+                                <div v-if="(experiences.length ==1 && exp.id != null) || experiences.length > 1">
+                                <!-- <label>勤務先{{index + 1}}</label> -->
+                                <table style="width:100%;">
+                                    <tr>
+                                        <td style="width:51%;">企業名 <span class="private float-right" style="margin" v-if="exp.private_status == 1 || exp.private_status == 2">{{$t('jobseekerprofile.private')}}</span></td>
+                                        <td>
+                                            <span v-if="exp.job_location">{{exp.job_location}} </span>
+                                            <span v-else>-</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>在籍期間 <span class="private float-right" v-if="exp.private_status == 1">{{$t('jobseekerprofile.private')}}</span></td>
+                                        <td>
+                                            <span  v-if="exp.current == 0">
+                                                <span v-if="exp.from_year != '年' && exp.from_month != '月' && exp.to_year != '年'  && exp.to_month != '月' ">{{exp.from_year}}{{exp.from_month}} ~ {{exp.to_year}}{{exp.to_month}}</span>
+                                                <span v-if="exp.from_year != '年' && exp.from_month != '月' && exp.to_year == '年' && exp.to_month == '月'">{{exp.from_year}}{{exp.from_month}} ~ 在籍中</span>
+                                                <span v-if="exp.from_year == '年' && exp.from_month != '月'">{{exp.from_month}} ~ 在籍中</span>
+                                                <span v-if="exp.from_year != '年' && exp.from_month == '月'">{{exp.from_year}} ~ 在籍中</span>
+                                                <span v-if="exp.from_year == '年' && (exp.from_month == '月') && exp.to_year == '年'  && exp.to_month == '月' "> - </span>
+                                            </span>
+                                            <span v-else>
+                                                <span v-if="exp.from_year != '年' && exp.from_month != '月'">{{exp.from_year}}{{exp.from_month}} ~ 在籍中</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ポジション <span class="private float-right" v-if="exp.private_status == 1">{{$t('jobseekerprofile.private')}}</span></td>
+                                        <td>
+                                            <span v-if="exp.position_name"> {{exp.position_name}} </span>
+                                            <span v-else> - </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>雇用形態 <span class="private float-right" v-if="exp.private_status == 1">{{$t('jobseekerprofile.private')}}</span></td>
+                                        <td>
+                                            <span v-if="exp.employment_type_name"> {{exp.employment_type_name}} </span>
+                                            <span v-else> - </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>主な業務 <span class="private float-right" v-if="exp.private_status == 1">{{$t('jobseekerprofile.private')}}</span></td>
+                                        <td>
+                                            <span v-if="exp.main_duty"> {{exp.main_duty}} </span>
+                                            <span v-else> - </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <hr v-if="index != (experiences.length-1)">
+                            </div>
+                            <span v-else>未入力</span>
+                        </div> 
                     </dd>
-                    <!-- <dt class="detail-head">勤務先</dt>
-                                <dd class="detail-data">
-                                    <div v-for="exp in experiences" :key="exp.id">{{exp.school_name}} ({{exp.subject}})</div>
-                    </dd>-->
-                    <dt class="detail-head">最終年収</dt>
-                    <dd class="detail-data">{{carrers.last_annual_income}} {{carrers.last_currency}}</dd>
+                    <dt class="detail-head">{{$t('jobseekerprofile.annualincome')}}</dt>
+                    <dd class="detail-data" v-if="carrers.last_currency != null || carrers.last_annual_income != null">
+                        <span v-if="carrers.last_annual_income != null && carrers.last_annual_income != null">{{ carrers.last_annual_income}}</span> <span v-if="carrers.last_currency != null && carrers.last_currency != null">{{carrers.last_currency}}</span>
+                    </dd>
+                    <dd class="detail-data" v-else>未入力</dd>
                 </dl>
-                <!-- <div class="explation-note">
-                    <span class="private">非公開</span>は求人への問い合わせ/応募やスカウトへの興味を示した場合のみ、求職者会員が閲覧可能になります。
-                </div> -->
-                <div class="explation-note">
-                    <span class="private">非公開</span> は、求人情報への問合わせ/応募、スカウトに興味を示した後に企業会員に公開されます。※一部の項目については常に非公開とすることが可能です。
+                <div class="explation-note"><span class="private">{{$t('jobseekerprofile.private')}}</span>{{$t('jobseekerprofile.details')}}<br>
+                {{$t('jobseekerprofile.details1')}}<br>
+                <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>{{$t('jobseekerprofile.detailsadmin')}}
                 </div>
             </div>
         </div>
@@ -1067,44 +1145,79 @@
             v-if="!expQualificationEdit && showDetails"
         >
             <div class="col-md-12">
-            <div class="tit-box">
-                <h3 class="profile-edit-tit">経験・資格</h3>
-                <p class="profile-edit-txt" @click="editBox('expQualificationEdit','open')" v-if="edit_page">
-                <span class="icon icon-edit"></span>編集
-                </p>
-            </div>
-            <dl class="detail-list clearfix">
-                <dt class="detail-head">経験業種・職種</dt>
-                <dd class="detail-data">
-                <p v-for="exp_job in experience_qualification.experience_jobs" :key="exp_job.id">
-                    <span v-if="!containNullOnly(exp_job)">
-                    <span v-show="exp_job.experience_year > 0">{{exp_job.experience_year}}年</span>
-                    <span v-for="occupation in occupation_list" :key="'occupation'+occupation.id">
-                        <span
-                        v-if="occupation.id == exp_job.experience_occupation"
-                        >{{occupation.occupation_name}}</span>
-                    </span>
-                    <span v-for="position in positions" :key="'position'+position.id">
-                        <span
-                        v-if="position.id == exp_job.experience_position"
-                        >・{{position.position_name}}</span>
-                    </span>
-                    <span v-for="industry in industry_list" :key="'industry'+industry.id">
-                        <div
-                        v-if="industry.id == exp_job.experience_industry"
-                        >{{industry.industry_name}}</div>
-                    </span>
-                    </span>
-                    <span v-else>未入力</span>
-                </p>
-                </dd>
-                <dt class="detail-head">その他資格</dt>
-                <dd
-                class="detail-data"
-                >
-                    <pre>{{experience_qualification.other_qualifications.qualifications || '未入力'}}</pre>
-                </dd>
-            </dl>
+                <div class="tit-box">
+                    <h3 class="profile-edit-tit">経験・資格</h3>
+                    <p class="profile-edit-txt" @click="editBox('expQualificationEdit','open')" v-if="edit_page">
+                    <span class="icon icon-edit"></span>編集
+                    </p>
+                </div>
+                <dl class="detail-list clearfix">
+                    <dt class="detail-head">経験業種・職種</dt>
+                    <dd class="detail-data">
+                        <div v-for="(exp_job,index) in experience_qualification.experience_jobs" :key="exp_job.id">
+                            <!-- <span v-if="!containNullOnly(exp_job)">
+                                <span v-show="exp_job.experience_year > 0">{{exp_job.experience_year}}年</span>
+                                <span v-for="occupation in occupation_list" :key="'occupation'+occupation.id">
+                                    <span v-if="occupation.id == exp_job.experience_occupation">{{occupation.occupation_name}}</span>
+                                </span>
+                                <span v-for="position in positions" :key="'position'+position.id">
+                                    <span v-if="position.id == exp_job.experience_position">・{{position.position_name}}</span>
+                                </span>
+                                <span v-for="industry in industry_list" :key="'industry'+industry.id">
+                                    <div v-if="industry.id == exp_job.experience_industry">{{industry.industry_name}}</div>
+                                </span>
+                            </span> -->
+                            <div v-if="(experience_qualification.experience_jobs.length ==1 && exp_job.industry_history_id != null) || experience_qualification.experience_jobs.length > 1">
+                                <table style="width:100%">
+                                    <tr>
+                                        <td>経験年数</td>
+                                        <td>
+                                            <span v-if="exp_job.experience_year != 0">{{exp_job.experience_year}}年</span>
+                                            <span v-else>-</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>経験業種</td>
+                                        <td>
+                                            <span v-if="exp_job.experience_occupation != '' && exp_job.experience_occupation != null">
+                                                <span v-for="occupation in occupation_list" :key="'occupation'+occupation.id">
+                                                    <span v-if="occupation.id == exp_job.experience_occupation">{{occupation.occupation_name}}</span>
+                                                </span>
+                                            </span>
+                                            <span v-else>-</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>経験職種</td>
+                                        <td>
+                                            <span v-if="exp_job.experience_industry != '' && exp_job.experience_industry != null">
+                                                <span v-for="industry in industry_list" :key="'industry'+industry.id">
+                                                    <div v-if="industry.id == exp_job.experience_industry">{{industry.industry_name}}</div>
+                                                </span>
+                                            </span>
+                                            <span v-else>-</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25%">ポジション</td>
+                                        <td>
+                                            <span v-if="exp_job.experience_position != '' && exp_job.experience_position != null">
+                                                <span v-for="position in positions" :key="'position'+position.id">
+                                                    <span v-if="position.id == exp_job.experience_position">{{position.position_name}}</span>
+                                                </span>
+                                            </span>
+                                            <span v-else>-</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <hr v-if="index != (experience_qualification.experience_jobs.length-1)">
+                            </div>
+                            <span v-else>未入力</span>
+                        </div>
+                    </dd>
+                    <dt class="detail-head">その他資格</dt>
+                    <dd class="detail-data"><pre>{{experience_qualification.other_qualifications.qualifications ? experience_qualification.other_qualifications.qualifications : '未入力'}}</pre></dd>
+                </dl>
             </div>
         </div>
         <div class="row tab-content qualification-content mb-3 m-0" v-if="expQualificationEdit">
@@ -1259,57 +1372,42 @@
                 </p>
             </div>
             <dl class="detail-list clearfix">
-                <dt class="detail-head">転職意欲</dt>
-                <dd class="detail-data">{{desired_condition.job_change_reason}}</dd>
-                <dt class="detail-head">転職活動状況</dt>
-                <dd class="detail-data">{{desired_condition.job_search_activity}}</dd>
-                <dt class="detail-head">転臓で最も重視すること</dt>
-                <dd class="detail-data">{{desired_condition.main_fact_when_change}}</dd>
-                <dt class="detail-head">転職希望時期</dt>
-                <dd class="detail-data">{{desired_condition.desired_change_period}}</dd>
-                <dt class="detail-head">希望勤務地</dt>
-                <dd
-                class="detail-data"
-                >{{desired_condition.desired_location_1}} {{desired_condition.desired_location_2}} {{desired_condition.desired_location_3}}</dd>
-                <dt class="detail-head">希望業種</dt>
+                <dt class="detail-head">{{$t('jobseekerprofile.changejobs')}}</dt>
+                <dd class="detail-data" v-if="desired_condition.job_change_reason != null && desired_condition.job_change_reason != ''">{{desired_condition.job_change_reason}}</dd>
+                <dd class="detail-data" v-else>未入力</dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.activitystatus')}}</dt>
+                <dd class="detail-data" v-if="desired_condition.job_search_activity != '' && desired_condition.job_search_activity != null">{{desired_condition.job_search_activity}}</dd>
+                <dd class="detail-data" v-else>未入力</dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.translocation')}}</dt>
+                <dd class="detail-data" v-if="desired_condition.main_fact_when_change != null && desired_condition.main_fact_when_change != ''">{{desired_condition.main_fact_when_change}}</dd>
+                <dd class="detail-data" v-else>未入力</dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.timetochagejobs')}}</dt>
+                <dd class="detail-data" v-if="desired_condition.desired_change_period != null && desired_condition.desired_change_period != ''">{{desired_condition.desired_change_period}}</dd>
+                <dd class="detail-data" v-else>未入力</dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.preferredworkplace')}}</dt>
+                <dd class="detail-data" v-if="desired_condition.desired_locations_1  || desired_condition.desired_locations_2 || desired_condition.desired_locations_3  "> {{desired_condition.desired_locations_1}} {{desired_condition.desired_locations_2}} {{desired_condition.desired_locations_3}}</dd>
+                <dd class="detail-data" v-else>未入力</dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.preferredindustry')}}</dt>
                 <dd class="detail-data">
-                <span
-                    v-if="desired_condition.js_industry_name != null"
-                >{{desired_condition.js_industry_name}}</span>
-                <span v-if="desired_condition.industry_name != ''">
-                    <span
-                    v-for="industry in desired_condition.industry_name"
-                    v-bind:key="industry.id"
-                    >{{industry.industry_name}}</span>
-                </span>
-                <span
-                    v-if="desired_condition.industry_name == '' && desired_condition.js_industry_name == null"
-                >こだわらない</span>
+                    <span v-if="desired_condition.industry_name">
+                        <span v-for="industry in desired_condition.industry_name" v-bind:key="industry.id">{{industry.industry_name}}  </span>
+                    </span>
+                        <span  v-if="desired_condition.industry_name.length == 0 && desired_condition.desired_industry_status == 0">未入力</span>
+                    <span v-if="desired_condition.desired_industry_status == 1">こだわらない </span>
                 </dd>
-                <dt class="detail-head">希望職種</dt>
+                <dt class="detail-head">{{$t('jobseekerprofile.desiredoccupation')}}</dt>
                 <dd class="detail-data">
-                <span
-                    v-if="desired_condition.js_occupation_name != null"
-                >{{desired_condition.js_occupation_name}}</span>
-                <span v-if="desired_condition.occupation_name != ''">
-                    <span
-                    v-for="occupation in desired_condition.occupation_name"
-                    v-bind:key="occupation.id"
-                    >{{occupation.occupation_name}}</span>
-                </span>
-                <span
-                    v-if="desired_condition.occupation_name == '' && desired_condition.js_occupation_name == null"
-                >こだわらない</span>
+                    <span v-if="desired_condition.occupation_name">
+                        <span v-for="occupation in desired_condition.occupation_name" v-bind:key="occupation.id">{{occupation.occupation_name}}  </span>
+                    </span>
+                        <span  v-if="desired_condition.occupation_name.length == 0 && desired_condition.desired_occupation_status == 0">未入力</span>
+                    <span v-if="desired_condition.desired_occupation_status == 1">こだわらない </span>
                 </dd>
-                <dt class="detail-head">希望年収</dt>
-                <dd
-                class="detail-data"
-                v-if="!desired_condition.desired_max_annual_income"
-                >{{desired_condition.desired_min_annual_income}}万 円以上</dd>
-                <dd
-                class="detail-data"
-                v-else
-                >{{desired_condition.desired_min_annual_income}}万 ~ {{desired_condition.desired_max_annual_income}}万 {{desired_condition.desired_currency}}</dd>
+                <dt class="detail-head">{{$t('jobseekerprofile.desiredsalary')}}</dt>
+                <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income"> 未入力 </dd>
+                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}}万 円以上 </dd>
+                <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_max_annual_income}}万 円 </dd>
+                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}}万 ~ {{desired_condition.desired_max_annual_income}}万 {{desired_condition.desired_currency}}</dd>
             </dl>
             </div>
         </div>
@@ -1938,6 +2036,13 @@
                 this.currentImage = this.selfIntro.face_image_url;
 
                 this.selfIntroDetails = r.data.data.selfIntroDetails; //to show selfintro details
+
+                if(this.selfIntroDetails.occupation_name != null) {
+                    this.selfIntroDetails.occupation_name = this.selfIntroDetails.occupation_name.split(',');
+                }
+                else{
+                    this.selfIntroDetails.occupation_name = [];
+                }
 
                 this.activeImage = 4;
                 this.$emit('showDeactivateInDetail', this.selfIntro.record_status);
