@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-8 form-right-block">
                             <div class="row col-12 p-0 m-0">
-                            <div class="col-md-4" v-for="result in employment_types" :key="result.id">
+                            <div class="col-md-4" v-for="(result, index) in employment_types" :key="result.id">
                                 <input
                                 type="checkbox"
                                 v-bind:value="result.employment_type_name"
@@ -105,11 +105,7 @@
                                 <label
                                 :for="result.employment_type_name"
                                 class="custom-control-label custom-checkbox-label"
-                                >{{result.employment_type_name}}</label>
-                                <!-- <label
-                                :for="result.employment_type_name"
-                                class="custom-control-label custom-checkbox-label"
-                                >{{$t('jobcreate.employment_type['+ index+']')}}</label> -->
+                                >{{$t('jobcreate.employment_type['+ index+']')}}</label>
                             </div>
                             </div>
                         </div>

@@ -8,13 +8,12 @@
             <dd class="detail-data">{{ recruiter_job.occupation_description }}</dd>
             <dt class="detail-head">雇用形態</dt>
             <dd class="detail-data">
-                <div v-for="result in employment_types" :key="result.id">
+                <div v-for="(result, index) in employment_types" :key="result.id">
                     <input type="checkbox" v-bind:value="result.employment_type_name" v-bind:id="result.employment_type_name" class="custom-control-input custom-checkbox"              v-model="recruiter_job.employment_types" disabled />
-                    <label :for="result.employment_type_name" class="custom-control-label custom-checkbox-label">{{result.employment_type_name}}</label>
-                    <!-- <label
+                    <label
                     :for="result.employment_type_name"
                     class="custom-control-label custom-checkbox-label"
-                    >{{$t('jobcreate.employment_type['+ index+']')}}</label> -->
+                    >{{$t('jobcreate.employment_type['+ index+']')}}</label>
                 </div>
             </dd>
             <dt class="detail-head">仕事内容</dt>
