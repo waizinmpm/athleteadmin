@@ -21,20 +21,15 @@
                             <transition name="list">
                                 <div class="col-md-9 pr-0">
                                     <div class="row col-md-12 face-img-block pr-0">
-                                            <img v-if="currentImage" :src="currentImage" alt="faceimage" @click="imagePopup(currentImage)" />
-                                        </div>
-                                    <div class="row col-md-12 pr-0">
-                                    <!-- <div class="col-md-6 p-0">
-                                        <p>{{selfIntroDetails.occupation_name}}</p>
-                                        <p>{{selfIntroDetails.language_level}}</p>
-                                        <p>{{selfIntroDetails.desired_location_1}}</p>
-                                    </div> -->
-                                    <div class="col-md-4  pr-0 float-right">
-                                        <div :class="['face-image', (activeImage == 4) ? 'active' : '']" @click="activateImage('face_image',4) ">
-                                            <img :src="selfIntro.face_image_url" alt />
-                                            <p class="show-info">顔写真</p> 
-                                        </div>
+                                        <img v-if="currentImage" :src="currentImage" alt="faceimage" @click="imagePopup(currentImage)" />
                                     </div>
+                                    <div class="row col-md-12 pr-0">
+                                        <div class="col-md-4  pr-0 float-right">
+                                            <div :class="['face-image', (activeImage == 4) ? 'active' : '']" @click="activateImage('face_image',4) ">
+                                                <img :src="selfIntro.face_image_url" alt />
+                                                <p class="show-info">顔写真</p> 
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- popup images--> 
                                     <div class="img-modal-wrapper" v-if="showModal">
@@ -1959,6 +1954,8 @@
             exp_year_errors:'',
             exp_month_errors:'',
             //desired_condition
+            showModal : false,
+            imgUrl: '',
         };
     },
     validations: {
@@ -2805,6 +2802,7 @@
             }
         },
         // Su Sandy
+
         imagePopup(url) {
             this.showModal =  true;
             this.imgUrl = url;
@@ -2840,12 +2838,14 @@
 .face-img-block {
     height: 240px;
     margin-bottom: 10px !important;
+    cursor: pointer;
 }
 .face-img-block img {
     width: 100%;
     height: 100%;
     -o-object-fit: contain;
     object-fit: contain;
+    cursor: pointer;
 }
 .face-image-wrapper {
   position: relative;

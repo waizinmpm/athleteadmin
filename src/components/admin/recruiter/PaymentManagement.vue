@@ -104,7 +104,7 @@
 								<td class="tbl-wm"><span class="txt-vertical-ellipsis">{{ project.management_number }}</span></td>
 								<td class="tbl-wxs"><span class="txt-vertical-ellipsis">{{ project.payment_method }}</span></td>
 								<td class="tbl-wm"><span class="txt-vertical-ellipsis" @click="loadInvoicePreview(project.scoutid_or_applyid,project.payment_job_type)">{{ project.invoice_number }}</span></td>
-								<td style="position:relative;width:90px;">
+								<td class="tbl-ws">
 									<div class="scout-box">
 										<p class="scout-txt">{{ project.status }}</p>
 										<p class="btn btn-common" v-on:click="showToggle(index)">
@@ -123,7 +123,7 @@
 								</td>
 								<td class="tbl-wxs text-right pr-2"><span class="txt-vertical-ellipsis">{{ project.invoice_amount|aj-number }}</span></td>
 								<td class="tbl-ws"><span v-show="project.invoice_date">{{ project.invoice_date|date('%Y-%m-%d') }}</span></td>
-								<td style="width:90px;">
+								<td class="tbl-ws">
 									<span class="txt-vertical-ellipsis">{{ project.payment_amount|aj-number }}</span>
 									<span class="pj-date" v-show="project.actual_payment_date">{{  project.actual_payment_date|date('%Y-%m-%d') }}</span>
 									<br v-if="project.actual_payment_date">
@@ -562,7 +562,7 @@ textarea {
     position: absolute;
     content: "~";
     top: 0;
-    left: -10px;
+    left: -7px;
     font-size: 25px;
 }
 /* End Modal */
