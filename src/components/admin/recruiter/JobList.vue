@@ -163,7 +163,7 @@
                                 <td class="tbl-ws">{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month", "subtract", "1 day") | moment('YYYY/MM/D') }}</td>
                                 <td class="tbl-ws tbl-status">
                                     <div class="scout-box">
-                                        <div class="scout-txt tooltip-box">
+                                       <!--  <div class="scout-txt tooltip-box">
                                             <span v-for="status in arr_status" :key="status.id.id">
                                                 {{project.record_status == status.id.value ? status.id.display : ''}}
                                             </span>
@@ -173,7 +173,7 @@
                                                {{ status.id.display }}
                                             </span>
                                             </p>
-                                        </div>
+                                        </div> -->
                                         <p class="btn btn-common" v-on:click="showToggle(index)">
                                             {{$t('common.change')}}
                                             <span class="down-icon">&#9662;</span>
