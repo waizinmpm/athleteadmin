@@ -41,7 +41,7 @@ export default {
 	"remark": "備考",
 	"invoice_preview": "請求書プレビュー",
 	"send_invoice": "請求書をメールで送付",
-	"mail_is_sent": "メールが送信されます",
+	"mail_is_sent": "請求書をメールで送信しました。",
     "payment_confirmed_question": "支払いを確認しますか",
     "management_no" : "管理番号"
 };
