@@ -104,7 +104,7 @@
 								<td class="tbl-wm"><span class="txt-vertical-ellipsis">{{ project.management_number }}</span></td>
 								<td class="tbl-wxs"><span class="txt-vertical-ellipsis">{{ project.payment_method }}</span></td>
 								<td class="tbl-wm"><span class="txt-vertical-ellipsis" @click="loadInvoicePreview(project.scoutid_or_applyid,project.payment_job_type)">{{ project.invoice_number }}</span></td>
-								<td style="position:relative;widht:90px;">
+								<td style="position:relative;width:90px;">
 									<div class="scout-box">
 										<p class="scout-txt">{{ project.status }}</p>
 										<p class="btn btn-common" v-on:click="showToggle(index)">

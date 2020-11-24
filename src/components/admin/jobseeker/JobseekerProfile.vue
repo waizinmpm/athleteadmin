@@ -21,7 +21,7 @@
                             <transition name="list">
                                 <div class="col-md-9 pr-0">
                                     <div class="row col-md-12 face-img-block pr-0">
-                                            <img v-if="currentImage" :src="currentImage" alt="faceimage"  />
+                                            <img v-if="currentImage" :src="currentImage" alt="faceimage" @click="imagePopup(currentImage)" />
                                         </div>
                                     <div class="row col-md-12 pr-0">
                                     <!-- <div class="col-md-6 p-0">
@@ -35,6 +35,18 @@
                                             <p class="show-info">顔写真</p> 
                                         </div>
                                     </div>
+                                    </div>
+                                    <!-- popup images--> 
+                                    <div class="img-modal-wrapper" v-if="showModal">
+                                        <div class="img-modal-block">
+                                            <div class="img-modal-container">
+                                                <button class="cross-btn" @click="showModal = false">
+                                                    <span class="icon icon-times"></span>
+                                                    閉じる
+                                                </button>
+                                                <img  :src="this.imgUrl" class="img-popup"/>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </transition>
@@ -69,7 +81,7 @@
                         <div class="mt-3 movie-col">
                             <div v-if="!selfIntroDetails.video">
                                 <p class="no-video movie-link">
-                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>動画は利用できません
+                                     <img src="/images/youtube.png" alt="動画なし">
                                 </p>
                             </div>
                             <div v-if="selfIntroDetails.video">
@@ -1954,6 +1966,8 @@
         desired_condition: {
             desired_min_annual_income: { required },
         },
+        showModal : false,
+        imgUrl: '',
     },
 
     created() {
@@ -2748,6 +2762,11 @@
             }
         },
         // Su Sandy
+        imagePopup(url) {
+            this.showModal =  true;
+            this.imgUrl = url;
+            console.log(this.showModal);
+        },
     },
 };
 </script>
@@ -3010,6 +3029,24 @@
     margin: 15px 0 30px 0;
     overflow-y: auto;
 }
+.about-box::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);   
+    border-radius: 5px;
+}
+
+.about-box::-webkit-scrollbar
+{
+    width: 5px;   
+}
+
+.about-box::-webkit-scrollbar-thumb
+{
+    background-color: #e6eec8;
+    background-image: none;
+    border: 1px solid #b4c574;
+    border-radius: 20px;
+}
 .movie-row {
     padding-bottom: 20px;
 }
@@ -3249,7 +3286,7 @@ textarea.form-control {
 }
 .no-video {
     display: flex;
-    background: #000;
+    background: #f0f0f0;
     justify-content: center;
     align-items: center;
     height: 200px;
@@ -3318,4 +3355,67 @@ textarea.form-control {
 .custom-checkbox-label {
     top: 2px;
 }
+/* img-modal-wrapper */
+.img-modal-wrapper {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+    z-index: 10001;
+}
+.img-modal-wrapper .img-modal-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 950px;
+    height: 80vh;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+.img-modal-wrapper .img-modal-container {
+    height: 100%;
+}
+.img-modal-wrapper .cross-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 16px;
+    background: #999;
+    padding: 4px 10px;
+    border-radius: 50px;
+    color:#fff;
+    border: 1px solid;
+}
+.img-modal-wrapper .icon-times:before {
+    color: #fff;
+}
+.img-modal-wrapper .cross-btn span {
+    font-size: 13px;
+}
+.img-cursor {
+    cursor: pointer;
+}
+.img-popup {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.check-private{
+    position: relative;
+    max-width: 28px;
+    list-style: none;
+    padding: 3px 15px 0px 6px;
+    display: inline-block;
+    color: #3276e0;
+    border: 1px solid #9b9898;
+    margin: -3px 10px 0px 10px;
+    max-height: 28px;
+}
+/* img-modal-wrapper */
 </style>

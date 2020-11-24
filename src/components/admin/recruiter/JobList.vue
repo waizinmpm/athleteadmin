@@ -322,7 +322,7 @@ export default {
 };
 </script>
 <style scoped>
-.tooltip-box {
+/* .tooltip-box {
   position: relative;
   display: inline-block;
 }
@@ -364,7 +364,7 @@ export default {
 }
 tr:first-child .tbl-status .tooltip-box .tooltiptext::after {
     top: 112%;
-}
+} */
 .job-col {
     position: relative;
 }
