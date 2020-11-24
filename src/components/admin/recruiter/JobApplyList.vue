@@ -84,7 +84,7 @@
                     <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
                         <tbody>
                             <tr v-for="(project, index) in projects.data" :key="project.id">
-                                <td class="tbl-ws"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.management_number}}</router-link></td>
+                                <td class="tbl-ws">{{project.management_number}}</td>
                                 <td class="tbl-w135"><p class="tbl-ws m-auto">{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</p></td>
                                 <td class="text-left tbl-wl">
                                     <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}" class="d-flex">{{project.recruiter_number}}
