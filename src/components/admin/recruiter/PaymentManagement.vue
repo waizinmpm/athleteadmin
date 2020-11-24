@@ -101,9 +101,9 @@
 					<DataTable ref="datatable" :columns="$t('payment_management.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
-								<td class="tbl-wm"><span class="txt-vertical-ellipsis">{{ project.management_number }}</span></td>
+								<td class="tbl-wm">{{ project.management_number }}</td>
 								<td class="tbl-wxs"><span class="txt-vertical-ellipsis">{{ project.payment_method }}</span></td>
-								<td class="tbl-wm"><span class="txt-vertical-ellipsis" @click="loadInvoicePreview(project.scoutid_or_applyid,project.payment_job_type)">{{ project.invoice_number }}</span></td>
+								<td class="tbl-wm"><span  @click="loadInvoicePreview(project.scoutid_or_applyid,project.payment_job_type)">{{ project.invoice_number }}</span></td>
 								<td class="tbl-ws">
 									<div class="scout-box">
 										<p class="scout-txt">{{ project.status }}</p>
@@ -573,7 +573,7 @@ textarea {
 }
 
 .invoice-preview-area {
-    height: 95%;
+    height: 100%;
 	border: 10px solid #ccc;
 }
 
@@ -603,7 +603,7 @@ textarea {
     width: 80%;
     height: 100%;
     margin: 70px auto; /* 15% from the top and centered */
-    padding: 20px;
+    padding: 60px 30px 50px 30px;
     border: 1px solid #888;
     background-color: #fefefe;
 }
@@ -662,6 +662,26 @@ textarea {
     left: 90% !important;
 }
 .pj-date {
+	font-size: 13px;
+}
+.close-ico {
+	position: absolute;
+    top: 10px;
+	right: 15px;
+	width: 35px;
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 35px;
+    font-size: 16px;
+    background: transparent;
+    border-radius: 50px;
+    color: #919191;
+	border: 1px solid;
+	cursor: pointer;
+	z-index: 100;
+}
+.close-ico .icon {
 	font-size: 13px;
 }
 </style>
