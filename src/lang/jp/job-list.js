@@ -6,7 +6,7 @@ export default {
         // {"label":"job_number", "name": "求人番号"},
         // {"label":"title", "name": "求人タイトル"},
         {"label":"title", "name": "求人"},
-        {"label":"recruiter", "name": "企業"},
+        {"label":"recruiter", "name": "企業会員"},
         {"label":"jobapplied_count", "name": "求人問合わせ/応募者数"},
         {"label":"scout_count", "name": "スカウト興味あり数"},
         {"label":"job_post_date", "name": "掲載期間"},

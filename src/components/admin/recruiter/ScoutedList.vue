@@ -131,7 +131,7 @@
 								</td>
 								<td class="tbl-wm">
 									<span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
-									<span class="btn btn-default mb-1" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span>
+									<!-- <span class="btn btn-default mb-1" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span> -->
 									<span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.scout_status)">{{$t('common.invoice_generate')}}</span>
 								</td>
 							</tr>
@@ -192,7 +192,7 @@
 										<input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
 										<div class="invalid-feedback">
 											<div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
-											<div class="error" v-if="!$v.invoiceForm.default_amount.numeric">電話番号は数字のみである必須があります</div>
+											<div class="error" v-if="!$v.invoiceForm.default_amount.numeric">半角数字で入力してください</div>
 										</div>
 									</div>
 									<label class="pl-1 pt-2">円</label>

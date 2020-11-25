@@ -18,10 +18,6 @@
                             <label for="企業名">{{ $t('common.recruiter_name') }}</label>
                             <input type="text" placeholder="企業名" class="form-control" v-model.trim="filteredData.recruiter_name">
                         </div>
-                        <div class="col-md-3">
-                            <label for="求職者会員氏名">{{ $t('common.jobseeker_name') }}</label>
-                            <input type="text" placeholder="求職者会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
@@ -31,7 +27,15 @@
                         <div class="col-md-3">
                             <label for="求人タイトル">{{ $t('common.job_title') }}</label>
                             <input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
-                        </div>                       
+                        </div>
+                        <div class="col-md-3">
+							<label for="求職者会員番号">{{ $t('jobapply_list.jobseeker_number') }}</label>
+							<input type="text" :placeholder="$t('jobapply_list.jobseeker_number')" class="form-control" v-model.trim="filteredData.jobseeker_number">
+						</div>
+                        <div class="col-md-3">
+                            <label for="求職者会員氏名">{{ $t('common.jobseeker_name') }}</label>
+                            <input type="text" placeholder="求職者会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
+                        </div>                   
                     </div>
                     <div class="row date-row">
                         <div class="col-md-3 datepicker-wrapper">
@@ -129,7 +133,7 @@
                                 </td>
                                 <td class="tbl-ws">
                                     <span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.job_apply_status)">{{$t('common.chat')}}</span>
-                                    <span class="btn btn-default mb-1" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span>
+                                   <!--  <span class="btn btn-default mb-1" @click="confirmPayment(project.jobapply_id, index)" v-if="allowPaymentConfirm(project.job_apply_status)">{{$t('common.payment_confirm')}}</span> -->
                                     <span class="btn btn-default" @click="generateBill(project.jobapply_id, index)" v-if="allowBilling(project.job_apply_status)">{{$t('common.invoice_generate')}}</span>
                                 </td>
                             </tr>
@@ -189,7 +193,7 @@
                                         <input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
                                         <div class="invalid-feedback">
                                             <div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
-                                            <div class="error" v-if="!$v.invoiceForm.default_amount.numeric">電話番号は数字のみである必須があります</div>
+                                            <div class="error" v-if="!$v.invoiceForm.default_amount.numeric">半角数字で入力してください</div>
                                         </div>
                                     </div>
                                     <label class="pl-1 pt-2">円</label>
@@ -268,6 +272,7 @@ export default {
                 recruiter_number: '',
                 recruiter_name: '',
                 job_number: '',
+                jobseeker_number: '',
                 jobseeker_name: '',
                 job_title: '',
                 from_date: '',
