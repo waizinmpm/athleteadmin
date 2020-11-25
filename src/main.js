@@ -21,10 +21,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import VueScrollTo  from 'vue-scrollto';
 import io from 'socket.io-client';
 import VueChatScroll from 'vue-chat-scroll';
+import vSelect from 'vue-select'
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
 Vue.use(require('vue-moment'));
+Vue.component('v-select', vSelect);
 Vue.use(VueFilter);
 Vue.use(DatePicker);
 Vue.use(Vuelidate);
