@@ -18,10 +18,6 @@
                             <label for="企業名">{{ $t('common.recruiter_name') }}</label>
                             <input type="text" placeholder="企業名" class="form-control" v-model.trim="filteredData.recruiter_name">
                         </div>
-                        <div class="col-md-3">
-                            <label for="求職者会員氏名">{{ $t('common.jobseeker_name') }}</label>
-                            <input type="text" placeholder="求職者会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
@@ -31,7 +27,15 @@
                         <div class="col-md-3">
                             <label for="求人タイトル">{{ $t('common.job_title') }}</label>
                             <input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
-                        </div>                       
+                        </div>
+                        <div class="col-md-3">
+							<label for="求職者会員番号">{{ $t('jobapply_list.jobseeker_number') }}</label>
+							<input type="text" :placeholder="$t('jobapply_list.jobseeker_number')" class="form-control" v-model.trim="filteredData.jobseeker_number">
+						</div>
+                        <div class="col-md-3">
+                            <label for="求職者会員氏名">{{ $t('common.jobseeker_name') }}</label>
+                            <input type="text" placeholder="求職者会員氏名" class="form-control" v-model.trim="filteredData.jobseeker_name">
+                        </div>                   
                     </div>
                     <div class="row date-row">
                         <div class="col-md-3 datepicker-wrapper">
@@ -268,6 +272,7 @@ export default {
                 recruiter_number: '',
                 recruiter_name: '',
                 job_number: '',
+                jobseeker_number: '',
                 jobseeker_name: '',
                 job_title: '',
                 from_date: '',
