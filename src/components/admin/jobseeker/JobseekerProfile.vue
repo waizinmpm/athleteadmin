@@ -1139,7 +1139,7 @@
                             />
                         </div>
                         <div class="col-md-6">
-                            <select class="form-control" v-model.trim="carrers.last_currency">
+                            <!-- <select class="form-control" v-model.trim="carrers.last_currency">
                             <option :value="null" v-if="carrers.last_currency  == null" selected>通貨を選択</option>
                             <option v-else :value="null" selected>通貨を選択</option>
                             <option
@@ -1147,7 +1147,18 @@
                                 :key="status.id"
                                 v-bind:value="status.id"
                             >{{status.id}}</option>
-                            </select>
+                            </select> -->
+                            <v-select v-model="carrers.last_currency"
+                                :options="iso_list" 
+                                label="iso_list"
+                                class="form-control"
+                                :placeholder="$t('jobseekerprofile.selectcurrency')"
+                                :reduce="iso_list=>iso_list" 
+                                aria-autocomplete="on">
+                                <span slot="no-options" @click="$refs.select.open = false">
+                                検索条件当てはまるデータはありません。
+                                </span>
+                            </v-select>
                         </div>
                     </div>
                 </div>
@@ -1244,7 +1255,8 @@
                             <span v-else>未入力</span>
                         </div>
                     </dd>
-                    <dt class="detail-head">その他資格</dt>
+                    <dt class="detail-head">資格</dt>
+                    <!-- その他資格 -->
                     <dd class="detail-data"><pre>{{experience_qualification.other_qualifications.qualifications ? experience_qualification.other_qualifications.qualifications : '未入力'}}</pre></dd>
                 </dl>
             </div>
@@ -1435,7 +1447,7 @@
                 <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income"> 未入力 </dd>
                 <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}}万 円以上 </dd>
                 <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_max_annual_income}}万 円 </dd>
-                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}}万 ~ {{desired_condition.desired_max_annual_income}}万 {{desired_condition.desired_currency}}</dd>
+                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}} ~ {{desired_condition.desired_max_annual_income}} {{desired_condition.desired_currency}}</dd>
             </dl>
             </div>
         </div>
@@ -1670,15 +1682,10 @@
                 <div class="form-group row">
                 <label for class="col-md-2 pl-5">最低年収</label>
                 <div class="col-md-4">
-                    <input
-                    type="text"
-                    placeholder="数字(金額)を入力"
-                    :class="['form-control',$v.desired_condition.desired_min_annual_income.$error?'is-invalid':'']"
-                    v-model.trim="$v.desired_condition.desired_min_annual_income.$model "
-                    />
-                    <span class="invalid-feedback">
+                    <input type="text"  :placeholder="[[$t('jobseekerprofile.enteramount') ]]" class="form-control" v-model="desired_condition.desired_min_annual_income " />  
+                    <!-- <span class="invalid-feedback">
                     <span v-if="$v.desired_condition.desired_min_annual_income.$error">最低年収が必要です</span>
-                    </span>
+                    </span> -->
                 </div>
                 <div class="col-md-2" style="margin-top:5px;">万</div>
                 </div>
@@ -1699,11 +1706,22 @@
                 <label for class="col-md-2"></label>
                 <div class="col-md-2">
                     <div class="select-wrap">
-                    <select id class="form-control" v-model="desired_condition.desired_currency">
-                        <option :value="null">通貨を選択</option>
-                        <option v-for="curr in currency" :key="curr.id" :value="curr.id">{{ curr.id }}</option>
-                    </select>
-                    <span class="sort-desc">&#9662;</span>
+                        <v-select v-model="desired_condition.desired_currency"
+                            :options="iso_list" 
+                            label="iso_list"
+                            class="form-control"
+                            :placeholder="$t('jobseekerprofile.selectcurrency')"
+                            :reduce="iso_list=>iso_list" 
+                            aria-autocomplete="on">
+                            <span slot="no-options" @click="$refs.select.open = false">
+                            検索条件当てはまるデータはありません。
+                            </span>
+                        </v-select>
+                        <!-- <select id class="form-control" v-model="desired_condition.desired_currency">
+                            <option :value="null">通貨を選択</option>
+                            <option v-for="curr in currency" :key="curr.id" :value="curr.id">{{ curr.id }}</option>
+                        </select>
+                        <span class="sort-desc">&#9662;</span> -->
                     </div>
                 </div>
                 </div>
@@ -1782,6 +1800,7 @@
             currentImage: "",
             imageError: "",
             employment_types: [],
+            iso_list:[],
             positions: [],
             carrers: [
                 {
@@ -1822,8 +1841,10 @@
             ],
             //basicInfo
             basicInfo: {
+                jobseeker_number:'',
                 dob:'',
-                city_name: 0,
+                continent_name:0,
+                country_name:0,
                 final_education: "",
                 current_situation: "",
             },
@@ -1852,7 +1873,7 @@
                 { id: "定年退職" },
                 { id: "その他" },
             ],
-            //currency : [{ id: "円"},{ id: "元"},{ id: "USドル"},{ id: "バーツ"}],
+            // currency : [{ id: "円"},{ id: "元"},{ id: "USドル"},{ id: "バーツ"}],
             //basicInfo
 
             // (start) experience qualification
@@ -1938,10 +1959,10 @@
                 id: 0,
                 jobseeker_id: null,
             }],
-            desired_condition: {
-                desired_min_annual_income: null,
-                occupation_name: [],
-                industry_name: [],
+            desired_condition:{
+                occupation_name:'',
+                industry_name:'',
+                desired_min_annual_income:null,
                 desired_location_1:null
             },
             desired_errors: {
@@ -1983,9 +2004,9 @@
             },
         },
 
-        desired_condition: {
-            desired_min_annual_income: { required },
-        },
+        // desired_condition: {
+        //     desired_min_annual_income: { required },
+        // },
         showModal : false,
         imgUrl: '',
     },
@@ -2035,6 +2056,20 @@
     },
 
     methods: {
+        chooseLocation(){            
+            
+            if(this.desired_condition.desired_location_1 != null || this.desired_condition.desired_location_2 != null || this.desired_condition.desired_location_3 != null){
+            
+                this.desired_errors.location_error_status = true;
+                this.desired_errors.location_error = '';
+                
+            }
+            else if(this.desired_condition.desired_location_1 == null && this.desired_condition.desired_location_2 == null && this.desired_condition.desired_location_3 == null){
+                
+                this.desired_errors.location_error_status = false;
+                
+            }
+        },
         getData(status) {
             if (status == "industry") {
                 this.desired_errors.industry_error = "";
@@ -2071,6 +2106,7 @@
             this.$api.get("/v1/jobseeker/required-list").then((response) => {
                 this.positions = response.data.data.positions;
                 this.employment_types = response.data.data.employment_types;
+                this.iso_list = response.data.data.iso_list;
             });
         },
 
@@ -2631,25 +2667,23 @@
 
         // Thuzar
         saveCarrer() {
-            for (var i = this.experiences.length - 1; i >= 0; i--) {
-                if (this.experiences.length != 1) {
-                if (
-                    this.experiences[i].job_location == null ||
-                    this.experiences[i].job_location == ""
-                ) {
-                    this.experiences.splice(i, 1);
-                }
+            for(var i =this.experiences.length-1;i>=0;i--){
+                if(this.experiences.length != 1)
+                {
+                    if(this.experiences[i].job_location == null || this.experiences[i].job_location == '')
+                    {
+                        this.experiences.splice(i,1);
+                    }
                 }
             }
 
-            for (var j = this.educations.length - 1; j >= 0; j--) {
-                if (this.educations.length != 1) {
-                if (
-                    this.educations[j].school_name == null ||
-                    this.educations[jsonData].school_name == ""
-                ) {
-                    this.educations.splice(j, 1);
-                }
+            for(var j =this.educations.length-1;j>=0;j--){
+                if(this.educations.length != 1)
+                {
+                    if(this.educations[j].school_name == null || this.educations[j].school_name == '')
+                    {
+                        this.educations.splice(j,1);
+                    }
                 }
             }
 
@@ -2686,7 +2720,6 @@
 
         //Su Sandy
         getDesiredCondition(request_id) {
-            console.log(request_id);
         this.$api
             .get(`/v1/jobseeker/profile/desired-condition/?jobseekerid=${request_id}`)
             .then((response) => {
@@ -2695,40 +2728,23 @@
                 this.occupation_list = response.data.occupation_list;
                 this.date_list = response.data.date_list;
                 this.desired_condition = response.data.desired_condition;
+                this.chooseLocation();
 
-                if (this.desired_condition.desired_industry_id != 0) {
-                    this.industries = [
+                    if(response.data.industries.length)
                     {
-                        id: this.desired_condition.desired_industry_id,
-                        jobseeker_id: this.desired_condition.id,
-                    },
-                    ];
-                    this.industries = this.industries.concat(response.data.industries);
-                } else {
-                    if (response.data.industries.length) {
-                    this.industries = response.data.industries;
-                    } else {
-                    this.industries = [{ id: 0, jobseeker_id: null }];
+                        this.industries = response.data.industries;
                     }
-                }
+                    else{
+                        this.industries=[{id:0,jobseeker_id:null}];
+                    }
 
-                if (this.desired_condition.desired_occupation_id != 0) {
-                    this.occupations = [
+                    if(response.data.occupations.length)
                     {
-                        id: this.desired_condition.desired_occupation_id,
-                        jobseeker_id: this.desired_condition.id,
-                    },
-                    ];
-                    this.occupations = this.occupations.concat(
-                    response.data.occupations
-                    );
-                } else {
-                    if (response.data.occupations.length) {
-                    this.occupations = response.data.occupations;
-                    } else {
-                    this.occupations = [{ id: 0, jobseeker_id: null }];
+                        this.occupations = response.data.occupations;
                     }
-                }
+                    else{
+                        this.occupations=[{id:0,jobseeker_id:null}];
+                    }
             });
         },
 
@@ -2739,48 +2755,36 @@
                 industries: this.industries,
                 occupations: this.occupations,
             };
-            var indexArray = [];
-            //check industry error
-            if (this.desired_condition.desired_industry_status) {
+
+            //delete industry null 
+            if(this.desired_condition.desired_industry_status) {
                 jsonData.industries = [];
-            } else {
-                //var indexArray = [];
-                this.industries.forEach(function (value, index) {
-                if (value.id != 0) {
-                    indexArray.push(index);
-                }
-                });
-                if (indexArray.length == 0) {
-                this.desired_errors.industry_error = "希望業種を選択してください";
-                }
+            }else{
+                var indexArray = [];
+                this.industries.forEach(function(value, index) {
+                    if (value.id != 0) {
+                        indexArray.push(index);
+                    }
+                })
+            
             }
 
-            //check occupation error
-            if (this.desired_condition.desired_occupation_status) {
+            //delete occupation null 
+            if(this.desired_condition.desired_occupation_status){
                 jsonData.occupations = [];
-            } else {
-                //var indexArray = [];
-                this.occupations.forEach(function (value, index) {
-                if (value.id != 0) {
-                    indexArray.push(index);
-                }
-                });
-                if (indexArray.length == 0) {
-                this.desired_errors.occupation_error = "希望業種を選択してください";
-                }
             }
-
-            this.$v.desired_condition.desired_min_annual_income.$touch();
-            if (this.$v.desired_condition.desired_min_annual_income.$error) {
-                return;
+            else{
+                indexArray = [];
+                this.occupations.forEach(function(value, index) {
+                    if (value.id != 0) {
+                        indexArray.push(index);
+                    }
+                })
             }
-
-            if (
-                this.desired_errors.industry_error == "" &&
-                this.desired_errors.occupation_error == ""
-            ) {
-                let loader = this.$loading.show();
-                this.$api
+            console.log(jsonData);
+            
+            let loader = this.$loading.show();
+            this.$api
                 .post("/v1/jobseeker/profile/desired-condition", jsonData)
                 .then((response) => {
                     console.log(response);
@@ -2795,11 +2799,10 @@
                     this.getDesiredCondition(`${this.$route.params.id}`);
                     loader.hide();
                 })
-                .catch((errors) => {
-                    console.log(errors);
-                    loader.hide();
-                });
-            }
+            .catch((errors) => {
+                console.log(errors);
+                loader.hide();
+            });
         },
         // Su Sandy
 
