@@ -28,6 +28,10 @@
             <dd class="detail-data">{{ recruiter_info.incharge_name }}</dd>
             <dt class="detail-head">担当者名(フリガナ)</dt>
             <dd class="detail-data">{{ recruiter_info.incharge_name_furigana }}</dd>
+            <dt class="detail-head">秘密の質問</dt>
+            <dd class="detail-data">{{ recruiter_info.question }}</dd>
+            <dt class="detail-head">秘密の質問の答え</dt>
+            <dd class="detail-data">{{ recruiter_info.answer }}</dd>
             <dt class="detail-head">会社ロゴ</dt>
             <dd class="detail-data">
                 <img :src="recruiter_info.logo_url" class="img-contain" alt="Recruiter Logo" />
