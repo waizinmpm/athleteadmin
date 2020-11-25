@@ -28,7 +28,44 @@
             <dd class="detail-data">{{ recruiter_info.incharge_name }}</dd>
             <dt class="detail-head">担当者名(フリガナ)</dt>
             <dd class="detail-data">{{ recruiter_info.incharge_name_furigana }}</dd>
+            <dt class="detail-head">会社ロゴ</dt>
+            <dd class="detail-data">
+                <img :src="recruiter_info.logo_url" class="img-contain" alt="Recruiter Logo" />
+            </dd>
+            <dt class="detail-head">担当者顔写真（スカウトした人材のみ閲覧可）</dt>
+            <dd class="detail-data">
+                <img :src="recruiter_info.incharge_photo_url" class="img-contain" />
+            </dd>
+            <dt class="detail-head">関連画像</dt>
+            <dd class="detail-data">
+                <div class="row m-0" v-if="recruiter_info.related_images">
+                    <div v-for="(image,index) in recruiter_info.related_images" :key="image.id" class="col-md-6 pl-0 mb-3 related-block" >
+                        <img v-if="hasRelatedImage(index) " :src="image.file_url" class="img-fluid img-contain" :alt="'Recruiter related image'+(index+1)" />
+                    </div>                
+                    <div class="col-md-6 mb-3 pl-0 related-block" v-for="n in 4 - recruiter_info.related_images.length" :key="n.id">
+                        <img :src="defaultImageUrl" class="img-contain" alt="Recruiter related image 4" />
+                    </div>
+                </div>
+            </dd>
+            <dt class="detail-head">関連画像</dt>
+            <dd class="detail-data">
+                <div v-if="!recruiter_info.video" class="movie-col">
+                    <p class="no-video movie-link"><img src="/images/youtube.png" alt="動画なし" class="img-fluid"></p>
+                </div>
+                <div v-else class="movie-col">
+                    <iframe class="movie-link" :src="recruiter_info.video_url" frameBorder="0"></iframe>
+                </div>
+                
+            </dd>
         </dl>
+        <dt class="row">
+            <label>会社PR等</label>
+            <div class="about-row">
+                <pre>
+                    {{recruiter_info.company_pr}}
+                </pre>
+            </div>
+        </dt>
         <span @click="$router.go(-1)" class="btn btn-back float-right">一覧へ戻る</span> 
     </div>
 </template>
@@ -37,12 +74,19 @@
 export default {
     data(){
         return {
-            recruiter_info : ''
+            recruiter_info : {
+                related_images : ''
+            },
+            defaultImageUrl:'',
+            imgUrl: '',
         }
     },
 
     created() {
         let loading = this.$loading.show();
+        this.$api.get('/v1/default-image')
+        .then(r => { this.defaultImageUrl = r.data.data; });
+
         this.$api.get("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/edit").then(r => {
             console.log("recruiter_info",r.data);
             this.recruiter_info = r.data.data;
@@ -52,7 +96,13 @@ export default {
             console.log("errors",e);
         })
         .finally(() => loading.hide());
-    }
+    },
+
+    methods : {
+        hasRelatedImage(index) {
+            return this.recruiter_info.related_images && this.recruiter_info.related_images[index];
+        },
+    },
 }
 </script>
 
@@ -83,5 +133,14 @@ export default {
   width: 57%;
   background-color: #fff;
   min-height: 50px;
+}
+img {
+    width: 160px;
+    height: 160px;
+}
+.about-row {
+    line-height: 2;
+    border: 1px solid #ddd;
+    margin: 30px 0;
 }
 </style>
