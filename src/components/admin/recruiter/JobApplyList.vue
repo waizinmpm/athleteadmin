@@ -60,12 +60,12 @@
                             <span class="custom-check-label-post">{{status.id}}</span>
                         </label>                          
                     </div> 
-                    <div>
-                       <label class="custom-control-label custom-checkbox-label">                       
-                            <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="de_status.id" :checked="de_status.checked" v-model="filteredData.jobapply_status" @change="getData()">
-                            <span class="custom-check-label-post">{{de_status.id}}</span>
-                        </label> 
-                    </div> 
+                </div>
+                <div class="status-row">
+                    <label class="custom-control-label custom-checkbox-label">                       
+                    <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="de_status.id" :checked="de_status.checked" v-model="filteredData.jobapply_status" @change="getData()">
+                    <span class="custom-check-label-post">{{de_status.id}}</span>
+                    </label> 
                 </div>                    
                 <!--end advanced search-->     
             </div>
