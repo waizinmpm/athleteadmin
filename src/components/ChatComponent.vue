@@ -2,7 +2,7 @@
     <div id="boxchat" @mousedown="dragMouseDown">
         <div ref="draggableContainer" :class="`box-chat ${isToggled == true ? 'chat_show' : 'chat_hide' }`">  
                 <div class="main-chat">
-                    <div class="col-6 tab-left float-left">
+                    <div class="col-4 tab-left float-left">
                         <ul class="list-user">
 							<li class="has-input">
 								<div class="search-container">
@@ -35,7 +35,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-6 tab-right float-right">
+                    <div class="col-8 tab-right float-right">
                         <div class="header-chat">
                             <div class="close" @click="closeChatBox()" >
                                 <i class="fa fa-times-circle-o" title="Close"></i>
@@ -497,12 +497,16 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.col-6 {
+.col-4 {
 	position: relative;
 	flex: 0 0 50%;
-    max-width: 50%;
+    max-width: 200px;
 }
-
+.col-8 {
+	position: relative;
+	flex: 0 0 50%;
+    max-width:400px;
+}
 input:focus{
     outline: none;
 }
