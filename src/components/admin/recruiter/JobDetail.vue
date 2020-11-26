@@ -1,11 +1,28 @@
 <template>
     <div class="job-detail row">
         <h5 class="main-header"><span class="job-no">{{ recruiter_job.job_number }}</span> {{ recruiter_job.title }}</h5>
-        <dl class="detail-list">
+        <label v-if="$route.name == 'scout-job'">より、以下の条件で求職者会員をスカウトしました。</label>
+        <dl class="detail-list" v-if="$route.name == 'scout-job'">
+            <dt class="detail-head" v-if="$route.name == 'scout-job'">募集ポジション</dt>
+            <dt class="detail-head" v-else>職種</dt>
+            <dd class="detail-data">
+                <pre>{{ recruiter_job.occupation_description }}</pre>
+            </dd>
+            <dt class="detail-head">雇用形態</dt>
+            <dd class="detail-data">
+                <div v-for="(result, index) in employment_types" :key="result.id">
+                    <input type="checkbox" v-bind:value="result.employment_type_name" v-bind:id="result.employment_type_name" class="custom-control-input custom-checkbox"              v-model="recruiter_job.employment_types" disabled />
+                    <label :for="result.employment_type_name" class="custom-control-label custom-checkbox-label" >{{$t('jobcreate.employment_type['+ index+']')}}</label>
+                </div>
+            </dd>
+            <dt class="detail-head">勤務地詳細</dt>
+            <dd class="detail-data"><pre>{{ recruiter_job.job_location }}</pre></dd>
+        </dl>
+        <dl class="detail-list" v-else>
             <!-- <dt class="detail-head">求人タイトル</dt>
             <dd class="detail-data">{{ recruiter_job.title }}</dd> -->
             <dt class="detail-head">職種</dt>
-            <dd class="detail-data">{{ recruiter_job.occupation_description }}</dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.occupation_description }}</pre></dd>
             <dt class="detail-head">雇用形態</dt>
             <dd class="detail-data">
                 <div v-for="(result, index) in employment_types" :key="result.id">
