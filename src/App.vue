@@ -846,7 +846,9 @@ body {
     font-weight: bold;
     font-size: 16px;
 }
-
+.swal2-title {
+    font-size: 18px!important;
+}
 // width 
 .w-100 {
     width: 100px;
