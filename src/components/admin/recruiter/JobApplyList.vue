@@ -181,8 +181,8 @@
                             </div>      
                             <div class="border">
                                 <dl class="row email-box">                                  
-                                    <dt class="col-sm-6">{{ $t('common.billing_mail') }}</dt>
-                                    <dd class="col-sm-6">{{ invoiceForm.email }}</dd>
+                                    <dt class="col-sm-5">{{ $t('common.billing_mail') }}</dt>
+                                    <dd class="col-sm-7">{{ invoiceForm.email }}</dd>
                                 </dl>
                             </div>
                             <div class="border">
@@ -192,7 +192,7 @@
                                     <div class="col-sm-6  pr-0">
                                         <input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
                                         <div class="invalid-feedback">
-                                            <div class="error" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
+                                            <div class="error txt-red" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
                                             <div class="error" v-if="!$v.invoiceForm.default_amount.numeric">半角数字で入力してください</div>
                                         </div>
                                     </div>

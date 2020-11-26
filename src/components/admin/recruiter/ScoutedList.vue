@@ -180,8 +180,8 @@
 							</div>		
 							<div class="border">
 								<dl class="row email-box">									
-									<dt class="col-sm-6">{{ $t('common.billing_mail') }}</dt>
-									<dd class="col-sm-6">{{ invoiceForm.email }}</dd>
+									<dt class="col-sm-5">{{ $t('common.billing_mail') }}</dt>
+									<dd class="col-sm-7">{{ invoiceForm.email }}</dd>
 								</dl>
 							</div>
 							<div class="border">
