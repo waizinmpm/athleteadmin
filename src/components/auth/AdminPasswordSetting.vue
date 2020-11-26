@@ -32,10 +32,12 @@
                         @keyup="clearSuccess"
                         :class="{'input-error': $v.formLogin.password.$error}"
                     />
-                    <span class="showpwd" @click="showPass = !showPass">
-                        <span v-show="!showPass" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                        <span v-show="showPass" class="fa fa-fw fa-eye-slash"></span>
-                    </span>
+                    <p  v-if="formLogin.password != ''">
+                        <span class="showpwd" @click="showPass = !showPass">
+                            <span v-show="!showPass" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            <span v-show="showPass" class="fa fa-fw fa-eye-slash"></span>
+                        </span>
+                    </p>
                     <div class="has-error has-feedback" v-if="$v.formLogin.password.$error">
                         <label for="inputError2" class="control-label" v-if="!$v.formLogin.password.required">{{ $t('admin_password_setting.password_required') }}</label>
                     </div>
@@ -268,7 +270,7 @@ export default {
     margin-right: 20px;
 }
 .showpwd {
-    top: 7px;
+    top: 10px;
 }
 .form-group {
     margin-bottom: 25px;

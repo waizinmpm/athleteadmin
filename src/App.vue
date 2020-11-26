@@ -60,6 +60,8 @@ body {
         background-color: color(primary);
     }
     .main-header {
+        margin: 20px 0 25px 0;
+        font-size: 18px;
         color: color(primary)
     }
     header {
