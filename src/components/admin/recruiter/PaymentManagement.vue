@@ -103,7 +103,7 @@
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td class="tbl-wm">{{ project.management_number }}</td>
 								<td class="tbl-wxs"><span class="txt-vertical-ellipsis">{{ project.payment_method }}</span></td>
-								<td class="tbl-wm"><span  @click="loadInvoicePreview(project.scoutid_or_applyid,project.payment_job_type)">{{ project.invoice_number }}</span></td>
+								<td class="tbl-wm"><span class="invoice-preview" @click="loadInvoicePreview(project.scoutid_or_applyid,project.payment_job_type)">{{ project.invoice_number }}</span></td>
 								<td class="tbl-ws">
 									<div class="scout-box">
 										<p class="scout-txt">{{ project.status }}</p>
@@ -683,5 +683,13 @@ textarea {
 }
 .close-ico .icon {
 	font-size: 13px;
+}
+.invoice-preview {
+	color: #004bb1;
+    text-decoration: none;
+	cursor: pointer;
+}
+.invoice-preview:hover {
+	color: #4fc1e9;
 }
 </style>
