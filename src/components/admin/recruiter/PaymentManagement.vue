@@ -158,31 +158,31 @@
 		</div>
 		<!-- Amount/Date edit modal -->
 		<transition name="modal">
-		<div class="modal-mask" v-if="showModal">
-		<div class="modal-wrapper">
-			<div class="modal-container">
-			<div class="modal-header mb-0">
-				{{ $t('payment_management.payment_date') }}・{{ $t('payment_management.payment_amount') }}
-				<p class="close-ico pull-right" @click="closeModal">
-					<span class="icon icon-times"></span>
-				</p>
+			<div class="modal-mask" v-if="showModal">
+				<div class="modal-wrapper">
+					<div class="modal-container">
+					<div class="modal-header mb-0">
+						<h3>{{ $t('payment_management.payment_date') }}・{{ $t('payment_management.payment_amount') }}</h3>
+						<p class="date-close-ico" @click="closeModal">
+							<span class="icon icon-times"></span>
+						</p>
+					</div>
+					<div class="modal-body">
+						<div class="mb-4">
+							<label>{{ $t('payment_management.payment_date') }}</label>
+							<input type="text" v-model="form.payment_amount" @keypress="isNumber($event)" class="form-control mb-1">
+						</div>				
+						<label>{{ $t('payment_management.payment_amount') }}</label>
+						<date-picker v-model="form.actual_payment_date" value-type="format" class="datepicker w-100" :lang="lang" 
+							placeholder="年 - 月 - 日"></date-picker>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-comfirm" @click="onEditingComplete(form)">保存</button>
+						<button class="btn" @click="closeModal">キャンセル</button>
+					</div>
+					</div>
+				</div>
 			</div>
-			<div class="modal-body">
-				<div class="mb-2">
-					<label>{{ $t('payment_management.payment_date') }}</label>
-					<input type="text" v-model="form.payment_amount" @keypress="isNumber($event)" class="form-control mb-1">
-				</div>				
-				<label>{{ $t('payment_management.payment_amount') }}</label>
-				<date-picker v-model="form.actual_payment_date" value-type="format" class="datepicker w-100" :lang="lang" 
-					placeholder="年 - 月 - 日"></date-picker>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-comfirm" @click="onEditingComplete(form)">保存</button>
-				<button class="btn" @click="closeModal">キャンセル</button>
-			</div>
-			</div>
-		</div>
-		</div>
 		</transition>
         <div id="myModal" :class="['modal',showPDF ? 'modal-open' : 'modal-close' ]">
             <div class="modal-content">
@@ -476,41 +476,20 @@ textarea {
 	width: 100%;
 }
 /* Modal added by MKK */
-.modal-mask {
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
-	display: table;
-	transition: opacity 0.3s ease;
-}
-
-.modal-wrapper {
-	display: table-cell;
-	vertical-align: middle;
-}
-
 .modal-container {
-	width: 300px !important;
-	margin: 0px auto;
+	position: relative;
+	width: 400px !important;
 	padding: 20px 30px;
-	background-color: #fff;
-	border-radius: 2px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-	transition: all 0.3s ease;
-	font-family: Helvetica, Arial, sans-serif;
 }
 
 .modal-header {
 	padding: 5px 5px !important;
+	border-bottom: 0 !important;
 }
 
 .modal-header h3 {
 	margin-top: 0;	
-	color: #42b983;
+	color: #84BE3F;
 }
 
 .modal-body {
@@ -520,7 +499,9 @@ textarea {
 .modal-default-button {
 	float: right;
 }
-
+.modal-footer {
+	padding-right: 0;
+}
 /*
  * The following styles are auto-applied to elements with
  * transition="modal" when their visibility is toggled
@@ -663,6 +644,11 @@ textarea {
 }
 .pj-date {
 	font-size: 13px;
+}
+.date-close-ico {
+	position: absolute;
+    top: 20px;
+	right: 15px;
 }
 .close-ico {
 	position: absolute;

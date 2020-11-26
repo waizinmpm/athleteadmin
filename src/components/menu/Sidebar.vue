@@ -59,7 +59,7 @@
                 <router-link to="/password-setting" class="list-group-item"><i class="glyphicon glyphicon-lock"></i>{{$t('menu.change_password')}}</router-link>
             </li>
             <li>
-                <a to="#" class="list-group-item" @click.prevent="logout"><i class="glyphicon glyphicon-log-out"></i> {{$t('menu.logout')}}</a>
+                <a href="#" class="list-group-item cursor-pointer" @click.prevent="logout"><i class="glyphicon glyphicon-log-out"></i> {{$t('menu.logout')}}</a>
             </li>
         </ul>
         <!--end sidebar-->
