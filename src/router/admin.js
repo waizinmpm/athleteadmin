@@ -162,7 +162,17 @@ const route = [{
             admin: true, // for only admin component
             jobseeker: false
         }
-    }
+    },
+    {
+        name: 'scout-job',
+        path: '/job-list/scout/:id/detail',
+        component: JobDetail,
+        meta: {
+            reqiuresAuth: false,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    },
 ];
 
 export default route;

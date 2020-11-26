@@ -88,7 +88,7 @@
 					<DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
-								<td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.management_number}}</router-link></td>
+								<td><router-link :to="{ name: 'scout-job', params: {id: project.job_id}}">{{project.management_number}}</router-link></td>
 								<td>{{project.scouted_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
 								<!-- <td>{{project.recruiter_number}}</td>
 								<td>{{project.recruiter_name}}</td> -->
