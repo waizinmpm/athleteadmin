@@ -2556,7 +2556,7 @@
 
         getCarrerDetails(request_id) {
             this.$api.get(`/v1/jobseeker/profile/carrerinfo/?jobseekerid=${request_id}`).then((response) => {
-                console.log('getCarrerDetails'+response);
+                
                 this.educations = response.data.data.educations;
                 this.experiences = response.data.data.experiences;
                 if (this.educations.length > 0) {
@@ -2594,18 +2594,19 @@
                     }
                 });
                 } else {
-                this.educations.push({
-                    id: null,
-                    jobseeker_id: null,
-                    school_name: "",
-                    subject: "",
-                    degree: 0,
-                    from_year: "年",
-                    from_month: "月",
-                    to_year: "年",
-                    to_month: "月",
-                    education_status: 0,
-                });
+                    this.educations.push({
+                        id: null,
+                        jobseeker_id: null,
+                        school_name: "",
+                        subject: "",
+                        degree: null,
+                        from_year: null,
+                        from_month: null,
+                        to_year: null,
+                        to_month: null,
+                        education_status: null,
+                        
+                    });
                 }
 
                 if (this.experiences.length > 0) {
@@ -2643,20 +2644,20 @@
                     }
                 });
                 } else {
-                this.experiences.push({
-                    id: null,
-                    jobseeker_id: null,
-                    position_id: 0,
-                    employment_type_id: 0,
-                    job_location: "",
-                    main_duty: "",
-                    from_year: "年",
-                    from_month: "月",
-                    to_year: "年",
-                    to_month: "月",
-                    current: null,
-                    private_status: "",
-                });
+                    this.experiences.push({
+                        id: null,
+                        jobseeker_id: null,
+                        position_id: 0,
+                        employment_type_id: 0,
+                        job_location: "",
+                        main_duty: "",
+                        from_year: "年",
+                        from_month: "月",
+                        to_year: "年",
+                        to_month: "月",
+                        current: 0,
+                        private_status: 0,
+                    });
                 }
 
                 this.carrers = response.data.data.carrers;
