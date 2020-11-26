@@ -252,7 +252,12 @@ export default {
     color: #5da017;
 }
 .input-error {
-    border: 1px solid red;
+    border: 1px solid #d6a1a1 !important;
+}
+.has-error .control-label {
+    color: #F60D0D;
+    font-weight: 400;
+    font-size: 13px;
 }
 .form-content {
     width: 30%;
@@ -268,9 +273,6 @@ export default {
     padding: 8px 0;
     border-radius: 0;
     margin-right: 20px;
-}
-.showpwd {
-    top: 10px;
 }
 .form-group {
     margin-bottom: 25px;

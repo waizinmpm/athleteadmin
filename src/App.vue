@@ -481,7 +481,9 @@ body {
     }
 }
 
-
+.form-control:focus {
+    border-color: color(primary);
+}
 /*sweet alert*/
 
 .swal2-popup{
@@ -802,7 +804,7 @@ body {
     padding: 50px 0 !important;
     font-weight: bold;
     font-size: 16px;
-    color: #84BE3F;
+    color: color(primary);
     background: #fff;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-top: 0;
@@ -824,6 +826,9 @@ body {
 }
 .mx-input {
     height: 40px !important;
+}
+.mx-input:hover, .mx-input:focus {
+    border-color: color(primary) !important;
 }
 .txt-red {
     color: #F60D0D;

@@ -11,7 +11,7 @@
                             <input
                                 type="text"
                                 :placeholder="$t('common.recruiter_number')"
-                                class="form-control mx-input"
+                                class="form-control"
                                 name="企業番号"
                                 v-model="filteredData.company_number"
                             />
@@ -21,7 +21,7 @@
                             <input
                                 type="text"
                                 :placeholder="$t('common.recruiter_name')"
-                                class="form-control mx-input"
+                                class="form-control"
                                 v-model="filteredData.company_name"
                             />
                         </div>
@@ -32,7 +32,7 @@
                             <input
                                 type="text"
                                 :placeholder="$t('common.job_number')"
-                                class="form-control mx-input"
+                                class="form-control"
                                 v-model="filteredData.job_number"
                             />
                         </div>
@@ -41,7 +41,7 @@
                             <input
                                 type="text"
                                 :placeholder="$t('common.job_title')"
-                                class="form-control mx-input"
+                                class="form-control"
                                 v-model="filteredData.job_title"
                             />
                         </div>
@@ -373,5 +373,8 @@ tr:first-child .tbl-status .tooltip-box .tooltiptext::after {
 }
 .job-tit {
     margin-left: 95px;
+}
+.mx-input:focus {
+    border-color: #84BE3F;
 }
 </style>
