@@ -7,7 +7,7 @@
 							<li class="has-input">
 								<div class="search-container">
 									<span class="fa fa-search"></span>
-									<input @keydown.enter="getUsers" v-model="filter_text" type="text" class="filter-input" placeholder="キーワード" />
+									<input @keydown.enter="getUsers" v-model="filter_text" type="text" class="filter-input" placeholder="キーワードを入力" />
 								</div>
 							</li>
 							<li v-if="userListSearching" class="user-list-searching">
@@ -527,7 +527,7 @@ input:focus{
     position: fixed;
     right: 90px;
     bottom: 20px;
-    width: 800px;
+    width: 600px;
     height: 460px;
     z-index: 9;
 }
@@ -584,6 +584,7 @@ input:focus{
 				width: 100%;
 				border: 0;
 				border-bottom: 1px solid#e2e2e2;
+				line-height: 60px; 
 				&::placeholder {
 					color: #A1A1A1;
 				}
@@ -643,6 +644,7 @@ input:focus{
 						span {
 							color: #a1a1a1;
 							margin: 0px 5px;
+							padding-bottom: 23px; 
 						}
 						input {
 							flex: 1 1 auto;
