@@ -193,7 +193,7 @@
                                         <input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
                                         <div class="invalid-feedback">
                                             <div class="error txt-red" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
-                                            <div class="error" v-if="!$v.invoiceForm.default_amount.numeric">半角数字で入力してください</div>
+                                            <div class="error txt-red" v-if="!$v.invoiceForm.default_amount.numeric">半角数字で入力してください</div>
                                         </div>
                                     </div>
                                     <label class="pl-1 pt-2">円</label>
@@ -599,7 +599,9 @@ dl {
 .list-pl {
     padding-left: 90px;
 }
-
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: #dc3545;
+}
 .chatbox-container {
 	position: fixed;
 	bottom: 10px;
