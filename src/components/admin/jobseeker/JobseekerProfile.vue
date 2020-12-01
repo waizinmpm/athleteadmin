@@ -2014,19 +2014,19 @@
     created() {
         // this.$loading.show();
         window.scrollTo(0, 0);
-        let jobseeker_id = `${this.$route.params.id}`;
         this.edit_page = this.$route.name == 'jobseeker-detail' ? false : true;
         this.selfIntro.face_image_private_status = 0;
-        
-        this.getSelfIntroDetails(jobseeker_id);
-        this.getCarrerRequiredList();
-        this.getBasicInfoDetails(jobseeker_id);
-        this.getCarrerDetails(jobseeker_id);
-        this.getDesiredCondition(jobseeker_id);
+        this.landingProfileInfos();
+        // let jobseeker_id = `${this.$route.params.id}`;
+        // this.getSelfIntroDetails(jobseeker_id);
+        // this.getCarrerRequiredList();
+        // this.getBasicInfoDetails(jobseeker_id);
+        // this.getCarrerDetails(jobseeker_id);
+        // this.getDesiredCondition(jobseeker_id);
 
-        let request_id = {};
-        this.$set(request_id, "id", jobseeker_id);
-        this.getJobIndustryExpDetails(request_id);
+        // let request_id = {};
+        // this.$set(request_id, "id", jobseeker_id);
+        // this.getJobIndustryExpDetails(request_id);
     },
 
     computed: {
@@ -2286,23 +2286,37 @@
             // });
         },
 
+        landingProfileInfos() {
+            let jobseeker_id = `${this.$route.params.id}`;
+            this.getSelfIntroDetails(jobseeker_id);
+            this.getCarrerRequiredList();
+            this.getBasicInfoDetails(jobseeker_id);
+            this.getCarrerDetails(jobseeker_id);
+            this.getDesiredCondition(jobseeker_id);
+
+            let request_id = {};
+            this.$set(request_id, "id", jobseeker_id);
+            this.getJobIndustryExpDetails(request_id);
+        },
+
         // Edit Button Click
         editBox(boxName, action) {
             this.showDetails = !this.showDetails;
             this[boxName] = !this[boxName];
-            let request_id = {};
-            this.$set(request_id, "id", `${this.$route.params.id}`);
-            // this.getBasicInfoDetails();
-            this.getSelfIntroDetails(`${this.$route.params.id}`);
+            this.landingProfileInfos();
+            // let request_id = {};
+            // this.$set(request_id, "id", `${this.$route.params.id}`);
+            // // this.getBasicInfoDetails();
+            // this.getSelfIntroDetails(`${this.$route.params.id}`);
             // this.getCarrerDetails();
             if (action == "open") {
                 window.scrollTo(0, 0);
                 this.$emit('menuShowHide',this.showMenuBar = false)
             } else {
-                if (boxName == "expQualificationEdit") {
-                    this.getJobIndustryExpDetails(request_id); // request_id
-                    // call getData func back to clear empty array in data collection
-                }
+                // if (boxName == "expQualificationEdit") {
+                //     this.getJobIndustryExpDetails(request_id); // request_id
+                //     // call getData func back to clear empty array in data collection
+                // }
                 this.$emit('menuShowHide',this.showMenuBar = true);
                 this.$nextTick(() => {
                 var ele = this.$el.querySelector("#" + boxName);
@@ -2370,7 +2384,6 @@
             this.$api
                 .post("/v1/jobseeker/profile/experiences-qualifications", request_id)
                 .then((res) => {
-                    console.log(res);
                 let response            = res.data.data;
                 this.industry_list      = response.industries;
                 this.country_list       = response.countries;
