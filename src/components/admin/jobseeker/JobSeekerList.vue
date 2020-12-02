@@ -118,7 +118,7 @@
                             </label>
                         </td> -->
                         <td class="tbl-wl"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
-                        <td><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
+                        <td class="text-left"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
                         <td class="tbl-ws">
                             <div class="toggle-box" v-if="project.record_status != 0">
                                 <div class="scout-box">
