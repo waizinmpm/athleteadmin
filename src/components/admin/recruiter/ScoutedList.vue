@@ -100,13 +100,13 @@
 							<span class="custom-check-label-post">{{status.id}}</span>
 						</label>                          
 					</div> 
-					<div>
-                       <label class="custom-control-label custom-checkbox-label">                       
-                            <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="de_status.id" :checked="de_status.checked" v-model="filteredData.scout_status" @change="getData()">
-                            <span class="custom-check-label-post">{{de_status.id}}</span>
-                        </label> 
-                    </div>  
 				</div>
+				<div class="status-row">
+					<label class="custom-control-label custom-checkbox-label">	   
+					<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="de_status.id" :checked="de_status.checked" v-model="filteredData.scout_status" @change="getData()">
+					<span class="custom-check-label-post">{{de_status.id}}</span>
+					</label> 
+                </div>  
                 <!--end advanced search-->     
             </div>
         </div>   
@@ -220,8 +220,8 @@
 							</div>		
 							<div class="border">
 								<dl class="row email-box">									
-									<dt class="col-sm-6">{{ $t('common.billing_mail') }}</dt>
-									<dd class="col-sm-6">{{ invoiceForm.email }}</dd>
+									<dt class="col-sm-5">{{ $t('common.billing_mail') }}</dt>
+									<dd class="col-sm-7">{{ invoiceForm.email }}</dd>
 								</dl>
 							</div>
 							<div class="border">
