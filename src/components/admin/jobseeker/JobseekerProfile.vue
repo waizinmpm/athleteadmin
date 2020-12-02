@@ -1536,7 +1536,7 @@
                         <option
                             v-for="city in desired_city_list"
                             :key="city.id"
-                            :value="city.country_name"
+                            :value="city.id"
                         >{{ city.country_name }}</option>
                         </select>
                         <span class="sort-desc">&#9662;</span>
@@ -1551,7 +1551,7 @@
                         <option
                             v-for="city in desired_city_list"
                             :key="city.id"
-                            :value="city.country_name"
+                            :value="city.id"
                         >{{ city.country_name }}</option>
                         </select>
                         <span class="sort-desc">&#9662;</span>
@@ -1566,7 +1566,7 @@
                         <option
                             v-for="city in desired_city_list"
                             :key="city.id"
-                            :value="city.country_name"
+                            :value="city.id"
                         >{{ city.country_name }}</option>
                         </select>
                         <span class="sort-desc">&#9662;</span>
