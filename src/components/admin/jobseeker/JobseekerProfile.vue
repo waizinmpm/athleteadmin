@@ -1115,7 +1115,7 @@
                 <div class="form-group">
                     <label class="col-md-12 pl-0">主な業務内容</label>
                     <div class="col-md-8 p-0">
-                    <textarea class="form-control" placeholder="例)リーダーとしてメンバーをまとめあげました。"></textarea>
+                    <textarea class="form-control" v-model="exp.main_duty" placeholder="例)リーダーとしてメンバーをまとめあげました。"></textarea>
                     </div>
                 </div>
                 </div>
