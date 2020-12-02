@@ -637,12 +637,12 @@
                 <dl class="detail-list clearfix">
                     <dt class="detail-head">{{$t('jobseekerprofile.edbackground')}}</dt>
                     <dd class="detail-data">
-                        <div style="white-space:unset" v-if="educations.length > 0">
-                            <div style="white-space:unset" v-for="(edu,index) in educations" :key="edu.id">
-                                <div style="white-space:unset" v-if="(educations.length ==1 && edu.id != null) || educations.length > 1">
-                                    <table style="width:100%">
+                        <div style="white-space: unset;" v-if="educations.length > 0">
+                            <div style="white-space: unset;" v-for="(edu,index) in educations" :key="edu.id">
+                                <div style="white-space: unset;" v-if="(educations.length ==1 && edu.id != null) || educations.length > 1">
+                                    <table class="history-edit-tbl">
                                         <tr>
-                                            <td style="width:51%">学校名</td>
+                                            <td>学校名</td>
                                             <td>
                                                 <span v-if="edu.school_name">{{edu.school_name}}</span>
                                                 <span v-else> - </span>
@@ -3137,14 +3137,14 @@
 .detail-head {
     display: flex;
     float: left;
-    width: 40%;
+    width: 35%;
     margin-right: 6%;
     align-items: flex-start;
     font-weight: normal;
 }
 .detail-data {
     float: left;
-    width: 54%;
+    width: 59%;
     background-color: #fff;
     min-height: 50px;
 }
@@ -3474,5 +3474,11 @@ textarea.form-control {
     border: 1px solid #9b9898;
     margin: -3px 10px 0px 10px;
     max-height: 28px;
+}
+.history-edit-tbl td {
+   padding: 5px 0;
+}
+.history-edit-tbl td:first-child {
+    width: 260px;
 }
 </style>
