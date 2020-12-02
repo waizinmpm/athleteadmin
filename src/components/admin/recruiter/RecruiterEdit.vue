@@ -1,7 +1,7 @@
 <template>
     <div class="profile-edit row">
         <form @submit.prevent="updateProfile">
-            <h5 class="mb-3 main-header">企業プロフィール設定</h5>
+            <h5 class="mb-3 main-header">企業プロフィール</h5>
             <div class="pt-2" id="information">
                 <div class="border">
                     <div class="form-group">
