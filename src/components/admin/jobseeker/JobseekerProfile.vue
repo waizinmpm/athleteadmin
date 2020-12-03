@@ -8,8 +8,8 @@
             v-if="!selfIntroEdit && showDetails"
         >
             <div class="col-md-12">
-                <div class="tit-box" v-if="edit_page">
-                    <h3 class="profile-edit-tit" v-if="edit_page">スカウト待ち人材検索用自己紹介</h3>
+                <div class="tit-box">
+                    <h3 class="profile-edit-tit" >スカウト待ち人材検索用自己紹介</h3>
                     <p class="profile-edit-txt" @click="editBox('selfIntroEdit','open')" v-if="edit_page">
                         <span class="icon icon-edit"></span>編集
                     </p>
