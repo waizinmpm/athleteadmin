@@ -1207,7 +1207,8 @@
                                     <div v-if="industry.id == exp_job.experience_industry">{{industry.industry_name}}</div>
                                 </span>
                             </span> -->
-                            <div v-if="(experience_qualification.experience_jobs.length ==1 && exp_job.industry_history_id != null) || experience_qualification.experience_jobs.length > 1">
+                            <!-- <div v-if="(experience_qualification.experience_jobs.length ==1 && exp_job.industry_history_id != null) || experience_qualification.experience_jobs.length > 1"> -->
+                            <div v-if="!containNullOnly(exp_job)">
                                 <table style="width:100%">
                                     <tr>
                                         <td>経験年数</td>
@@ -1252,7 +1253,7 @@
                                 </table>
                                 <hr v-if="index != (experience_qualification.experience_jobs.length-1)">
                             </div>
-                            <span v-else>未入力</span>
+                            <div v-else>未入力</div>
                         </div>
                     </dd>
                     <dt class="detail-head">資格</dt>
@@ -1313,7 +1314,6 @@
                         >
                         <option
                             value
-                            disabled
                         >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_industry') }) }}</option>
                         <option
                             v-for="industry in industry_list"
@@ -1335,7 +1335,6 @@
                         >
                         <option
                             value
-                            disabled
                         >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_occupation') }) }}</option>
                         <option
                             v-for="occupation in exp_occupations"
@@ -1354,7 +1353,6 @@
                         >
                         <option
                             value
-                            disabled
                         >{{ $t('jobseekerprofile.select_field', { field: $t('jobseekerprofile.experience_position') }) }}</option>
                         <option
                             v-for="position in exp_positions"
@@ -2303,7 +2301,6 @@
         editBox(boxName, action) {
             this.showDetails = !this.showDetails;
             this[boxName] = !this[boxName];
-            this.landingProfileInfos();
             // let request_id = {};
             // this.$set(request_id, "id", `${this.$route.params.id}`);
             // // this.getBasicInfoDetails();
@@ -2313,6 +2310,7 @@
                 window.scrollTo(0, 0);
                 this.$emit('menuShowHide',this.showMenuBar = false)
             } else {
+                this.landingProfileInfos();
                 // if (boxName == "expQualificationEdit") {
                 //     this.getJobIndustryExpDetails(request_id); // request_id
                 //     // call getData func back to clear empty array in data collection
