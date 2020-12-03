@@ -26,7 +26,7 @@
                         <label>設立年月</label>
                         <div class="row col-12">
                             <div class="col-md-4">
-                                <input id="exampleInput1" type="text" name="" class="form-control"  placeholder="年 - 月 - 日" v-model="recruiterForm.establishment_date">
+                                <input id="exampleInput1" type="text" name="" class="form-control" v-model="recruiterForm.establishment_date">
                                 <!-- <select class="form-control" v-model="recruiterForm.establishment_year">
                                     <option disabled value=""></option>
                                     <option v-for="year in 100" :key="year">{{ 1920 + year }}</option>
