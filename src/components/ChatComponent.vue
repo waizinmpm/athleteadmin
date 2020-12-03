@@ -73,7 +73,7 @@
                         </div>
                         <div class="footer-chat">
                             <div v-if="typing" class="typing"><img width="50" src="/images/loading.gif" alt="loading"></div>
-                            <input @keyup="userTyping" @keydown.enter="sendMessage" v-model="message_payload.message" type="text" placeholder="Type your message">
+                            <input @keyup="userTyping" @keydown.enter="sendMessage" v-model="message_payload.message" type="text" placeholder="メッセージを入力">
                             <i class="fa fa-paper-plane-o" @click="sendMessage" title="Press Enter to send"></i>
                         </div>
                     </div>
