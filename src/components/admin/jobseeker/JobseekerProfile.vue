@@ -448,61 +448,54 @@
                 </div>
 
                 <div class="form-group">
-                <label for>{{$t('jobseekerprofile.location')}}</label>
-                <div class="row col-md-7 p-0 m-0">
-                    <div class="col-md-4 pl-0">
-                    <select
-                        v-model.trim="basicInfo.country_name"
-                        @change="getCity()"
-                        class="form-control"
-                    >
-                        <option value="0" disabled selected>国・地域を選択</option>
-                        <option
-                        v-for="country in countries"
-                        :key="country.id"
-                        v-bind:value="country.country_name"
-                        >{{country.country_name}}</option>
-                    </select>
+                    <label for>{{$t('jobseekerprofile.location')}}</label>
+                    <div class="row col-md-7 p-0 m-0">
+                        <div class="col-md-4 pl-0">
+                            <select v-model.trim="basicInfo.continent_name" @change="getCity()" class="form-control">
+                                <option :value="null" v-if="basicInfo.continent_name == null" disabled selected>国・地域を選択</option>
+                                <option selected disabled v-else :value="0">国・地域を選択</option>
+                                <option v-for="country in countries" :key="country.id" v-bind:value="country.continent_name">
+                                    {{country.continent_name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" v-model.trim="basicInfo.country_name">
+                                <option :value="null" v-if="basicInfo.country_name == null" disabled selected>都市を選択</option>
+                                <option selected disabled v-else :value="0">都市を選択</option>
+                                <option v-for="city in city_list" :key="city.id" v-bind:value="city.country_name">
+                                    {{city.country_name}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-4 pl-0">
-                    <select class="form-control" v-model.trim="basicInfo.city_name">
-                        <option value="0" disabled selected>都市を選択</option>
-                        <option
-                        v-for="city in city_list"
-                        :key="city.id"
-                        v-bind:value="city.city_name"
-                        >{{city.city_name}}</option>
-                        <!-- <span class="sort-desc">&#9662;</span> -->
-                    </select>
-                    </div>
+                    <!-- <div class="row col-md-7 p-0 m-0">
+                        <div class="col-md-4 pl-0">
+                        <select
+                            v-model.trim="basicInfo.country_name"
+                            @change="getCity()"
+                            class="form-control"
+                        >
+                            <option value="0" disabled selected>国・地域を選択</option>
+                            <option
+                            v-for="country in countries"
+                            :key="country.id"
+                            v-bind:value="country.country_name"
+                            >{{country.country_name}}</option>
+                        </select>
+                        </div>
+                        <div class="col-md-4 pl-0">
+                        <select class="form-control" v-model.trim="basicInfo.city_name">
+                            <option value="0" disabled selected>都市を選択</option>
+                            <option
+                            v-for="city in city_list"
+                            :key="city.id"
+                            v-bind:value="city.city_name"
+                            >{{city.city_name}}</option>
+                        </select>
+                        </div>
+                    </div> -->
                 </div>
-                </div>
-               <!--  <div class="form-group">
-                <label for>{{$t('jobseekerprofile.Language')}}</label>
-                <div class="row">
-                    <div class="col-md-6">
-                    <select class="form-control" v-model.trim="basicInfo.language_id">
-                        <option
-                        :value="null"
-                        v-if="basicInfo.language_id  == null"
-                        selected
-                        disabled
-                        >{{$t('jobseekerprofile.selectlang')}}</option>
-                        <option
-                        v-else
-                        :value="null"
-                        selected
-                        disabled
-                        >{{$t('jobseekerprofile.selectlang')}}</option>
-                        <option
-                        v-for="lang in languages"
-                        v-bind:value="lang.id"
-                        :key="lang.id"
-                        >{{lang.language_name}}</option>
-                    </select>
-                    </div>
-                </div>
-                </div> -->
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.loca_details')}}
@@ -2557,12 +2550,16 @@
         },
 
         getCity() {
-            this.basicInfo.city_name = 0;
+            /* this.basicInfo.city_name = 0;
             this.$api
                 .get("/v1/jobseeker/city-list/" + this.basicInfo.country_name)
                 .then((res) => {
                 this.city_list = res.data;
-                });
+                }); */
+            this.basicInfo.country_name = 0;
+            this.$api.get("/v1/jobseeker/city-list/" + this.basicInfo.continent_name).then((res) => {
+                this.city_list = res.data;
+            });
         },
 
         getCarrerDetails(request_id) {
