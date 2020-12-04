@@ -73,7 +73,7 @@
                 </div>
             </transition>
             <div class="col-md-6">
-                <h6 class="text-label-color">関連画像</h6>
+                <h6 class="text-label-color">関連動画</h6>
                 <div class="row">
                     <div class="col-md-12">
                         <div v-if="!recruiter_info.video" class="movie-col">
