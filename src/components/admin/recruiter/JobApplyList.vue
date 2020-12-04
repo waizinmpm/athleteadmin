@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="tbl-wrap">
-                    <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
+                    <DataTable ref="datatable" :columns="$t('jobapply_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total" :hasSearched="hasSearched">
                         <tbody>
                             <tr v-for="(project, index) in projects.data" :key="project.id">
                                 <td class="tbl-ws">{{project.management_number}}</td>

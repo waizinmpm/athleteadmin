@@ -14,7 +14,7 @@ export default {
                 default: 1,
                 type: Number
             },
-
+			hasSearched: false,
             delete_ids_transactions: [],
             selected: [],
             parentChecked: false,
@@ -45,6 +45,18 @@ export default {
 
     methods: {
         getData(page) {
+			for (const k of Object.keys(this.filteredData)) {
+				if (typeof this.filteredData[k] === 'string' && this.filteredData[k] != '') {
+					this.hasSearched = true;
+					break;
+				} else if (Array.isArray(this.filteredData[k]) && this.filteredData[k].length > 0) {
+					this.hasSearched = true;
+					break;
+				} else {
+					this.hasSearched = false;
+				}
+			}
+
             this.$route.name == 'job-list' ? this.tableData.column = 9 : '';
             this.selectAll();
             this.tableData.draw++;

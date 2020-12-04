@@ -15,14 +15,17 @@
             </thead>
             <slot></slot>
         </table>
-        <div v-if="totalLength === 0">
+        <div v-if="totalLength === 0 && hasSearched">
             <p class="no-data-txt-border">{{ $t('common.no_data_found')}}</p>
+        </div>
+		<div v-if="totalLength === 0 && !hasSearched">
+            <p class="no-data-txt-border">{{ $t('common.no_data')}}</p>
         </div>
     </div>
 </template>
 <script>
 export default {
-    props: ["columns", "sortKey", "sortOrders", "removeChecked", 'showCheckbox', 'totalLength'],
+    props: ["columns", "sortKey", "sortOrders", "removeChecked", 'showCheckbox', 'totalLength','hasSearched'],
     data() {
             return {
                checkornot:false,

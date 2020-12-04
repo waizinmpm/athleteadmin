@@ -127,6 +127,7 @@
                         @sort="sortBy"
                         :showCheckbox="true"
                         :totalLength = projects.total
+						:hasSearched="hasSearched"
                     >
                         <tbody>
                             <tr v-for="(project, index) in projects.data" :key="project.id">

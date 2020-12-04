@@ -637,9 +637,10 @@ input:focus{
 					padding: 7px 3px;
 					border: 0;
 					height: 70px;
-					&:hover {
-						background: transparent;
-					}
+					position: sticky;
+					top: 0px;
+					z-index: 99;
+					background: white;
 					.search-container {
 						display: flex;
 						align-items: flex-end;

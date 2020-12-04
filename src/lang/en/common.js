@@ -17,7 +17,9 @@ export default {
     "invoice_generate": "Invoice Generate",
     "total_results": "Number of searched results",
     "item": "{n}item | {n}items",
-    "displayed_page": "page display",
+	"displayed_page": "page display",
+	"no_data_found" : "Your search does not match any data",
+	"no_data": "No data found",
     //--  Recruiter Fields
     "recruitment": "Job List",
     "recruiter_number": "Recruiter Number",

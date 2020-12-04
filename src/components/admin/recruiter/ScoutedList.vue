@@ -125,7 +125,7 @@
                     </div>
                 </div>
 				<div class="tbl-wrap">
-					<DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total">
+					<DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total" :hasSearched="hasSearched">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td><router-link :to="{ name: 'scout-job', params: {id: project.job_id}}">{{project.management_number}}</router-link></td>
@@ -177,9 +177,7 @@
 							</tr>
 						</tbody>
 					</DataTable>
-					<div  v-if="projects.length == 0">
-						<p class="no-data-txt-border">データがありません</p>
-					</div>
+					
 				</div>
                 <pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
                     <span slot="prev-nav">
@@ -524,7 +522,7 @@ export default {
 		},
 		totalScouts: function() {
 			return this.$data.projects.total;
-		}		
+		}
 	},
 	watch: {
 		'invoiceForm.default_amount': function() {
