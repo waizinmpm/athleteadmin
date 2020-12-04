@@ -124,21 +124,21 @@
             <label class="info">
                 <span class="glyphicon glyphicon-info-sign"></span>「希望職種・希望勤務地→希望条件」「語学レベル→経験・資格」にて設定してください。
             </label>
-            <div class="popup-databox">
+            <!-- <div class="popup-databox">
                 <label for class="mb-3">ニックネーム</label>
                 <div class="form-group"> 
                     <div class="col-md-6 float-none m-auto">
                         <input type="text" class="form-control" v-model="selfIntro.jobseeker_nick_name" />
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="popup-databox">
                 <div class="form-group">
                 <label for class="mb-3">顔写真</label>
                 <br />
                 <span
                     class="label-txt"
-                >※ 容量3MB以下のJPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。推奨サイズ :600px x 600px以上</span>
+                >※ 容量3MB以下のJPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。</span>
 
                 <div
                     class="col-md-12 p-0 drag-wrapper mt-2 float-none"
@@ -214,7 +214,7 @@
                 <br />
                 <span
                     class="label-txt"
-                >※ 容量3MB以下のJPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。推奨サイズ :600px x 600px以上</span>
+                >※ 容量3MB以下のJPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。</span>
                 <div
                     class="col-md-12 p-0 mt-2"
                     @drop.prevent="changeRelatedImages($event)"
@@ -826,7 +826,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>経験職種</label>
+                    <label>在籍期間</label>
                     <div class="row mb-2 align-items-center">
                         <div class="col-md-2 pr-1">
                             <div class="select-wrap">
@@ -913,7 +913,7 @@
             <div class="popup-databox">
                 <h6 class="font-weight-bold">職歴</h6>
                 <div class="form-group mt-4">
-                <label for>経験者数</label>
+                <label for>経験社数</label>
                 <div class="col-md-3 p-0">
                     <input
                     type="text"
@@ -1127,7 +1127,7 @@
                             <input
                             type="text"
                             v-model="carrers.last_annual_income"
-                            placeholder="数字(金額)を入力"
+                            placeholder="金額を入力"
                             class="form-control"
                             />
                         </div>
@@ -1673,12 +1673,12 @@
                 <div class="form-group row">
                 <label for class="col-md-2 pl-5">最低年収</label>
                 <div class="col-md-4">
-                    <input type="text"  :placeholder="[[$t('jobseekerprofile.enteramount') ]]" class="form-control" v-model="desired_condition.desired_min_annual_income " />  
+                    <input type="text" :placeholder="[[$t('jobseekerprofile.enteramount') ]]" class="form-control" v-model="desired_condition.desired_min_annual_income " />  
                     <!-- <span class="invalid-feedback">
                     <span v-if="$v.desired_condition.desired_min_annual_income.$error">最低年収が必要です</span>
                     </span> -->
                 </div>
-                <div class="col-md-2" style="margin-top:5px;">万</div>
+                <!-- <div class="col-md-2" style="margin-top:5px;">万</div> -->
                 </div>
 
                 <div class="form-group row">
@@ -1687,11 +1687,11 @@
                     <input
                     type="text"
                     class="form-control"
-                    placeholder="数字(金額)を入力"
+                    :placeholder="[[$t('jobseekerprofile.enteramount') ]]"
                     v-model="desired_condition.desired_max_annual_income"
                     />
                 </div>
-                <div class="col-md-2" style="margin-top:5px;">万</div>
+                <!-- <div class="col-md-2" style="margin-top:5px;">万</div> -->
                 </div>
                 <div class="form-group row">
                 <label for class="col-md-2"></label>

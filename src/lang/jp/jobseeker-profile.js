@@ -103,7 +103,7 @@ export default {
     salaryreq : '最低年収は必須です',
     minannulaincome : '最低年収',
     maxannualincome : '最高年収',
-    enteramount : '数字(金額)を入力',
+    enteramount : '金額を入力',
     notconsidering : 'こだわらない',
 
     selectjobmotivation : '転職意欲を選択',
