@@ -63,7 +63,7 @@
                                             {{ message.message }}
                                         </div>
                                         <div :class="`time ${ isSender(message) ? 'float-right' : ''}`">
-                                            {{ message.created_at | date('%Y-%m-%d %I:%M %p') }}
+                                            {{ message.created_at | date('%Y-%m-%d %H:%M') }}
                                         </div>
                                         
                                     </li>
@@ -179,7 +179,12 @@ export default {
             });
             window.socket.on("usernames", (data) => {
                 this.online = data;
-            });
+			});
+			window.socket.on("scout-status-changed", () => {
+				if (this.currentUser.role_id == 1 || this.currentUser.role_id == 2) {
+					this.getUsers();
+				}
+			});
 		},
 		isSender(message_payload) {
 			return (message_payload.speaker_role_id == this.currentUser.role_id);
