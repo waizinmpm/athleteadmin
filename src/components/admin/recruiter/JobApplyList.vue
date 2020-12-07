@@ -100,12 +100,18 @@
                         </label>                          
                     </div> 
                 </div>
-                <div class="status-row">
+                <!-- <div class="status-row">
                     <label class="custom-control-label custom-checkbox-label">                       
-                    <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="de_status.id" :checked="de_status.checked" v-model="filteredData.jobapply_status" @change="getData()">
+                    <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="de_status.id" :checked="de_status.checked" v-model="filteredData.recruiter_status" @change="getData()">
                     <span class="custom-check-label-post">{{de_status.id}}</span>
                     </label> 
-                </div>                    
+                </div>  -->
+                <div class="status-row" v-for="recruiter_status in recruiter_arr_status" v-bind:key="recruiter_status.id">
+                        <label class="custom-control-label custom-checkbox-label">                       
+                            <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="recruiter_status.id" :checked="recruiter_status.checked" v-model="filteredData.recruiter_status" @change="getData()">
+                            <span class="custom-check-label-post">{{recruiter_status.id}}</span>
+                        </label>
+                </div>               
                 <!--end advanced search-->     
             </div>
         </div> 
@@ -318,6 +324,7 @@ export default {
                 to_date:'',
                 management_no: '',
                 jobapply_status: [],
+                recruiter_status: [],
             },
             arr_status: [
                 { id: this.$configs.job_apply.under_review, checked: false },
@@ -326,7 +333,10 @@ export default {
                 { id: this.$configs.job_apply.billed, checked: false },
                 { id: this.$configs.job_apply.payment_confirmed, checked: false },
             ],
-            de_status: { id: this.$configs.job_apply.deactivated, checked: false },
+            recruiter_arr_status: [
+                { id: this.$configs.job_apply.deactivated, checked: false },
+                { id: this.$configs.job_apply.suspended, checked: false },
+            ],
             lang:{
                 days: ['日', '月', '火', '水', '木', '金', '土'],
                 months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
