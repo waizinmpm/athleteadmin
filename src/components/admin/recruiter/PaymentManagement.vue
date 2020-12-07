@@ -584,7 +584,7 @@ textarea {
     position: absolute;
     content: "~";
     top: 0;
-    left: -7px;
+    left: -10px;
     font-size: 25px;
 }
 /* End Modal */
