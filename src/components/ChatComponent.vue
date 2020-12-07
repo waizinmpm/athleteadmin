@@ -60,7 +60,7 @@
 											<div v-if="!isSender(message)" class="name">
 												<strong>{{ senderName(message) }}</strong>
 											</div>
-                                            {{ message.message }}
+                                            <div v-html="$options.filters.highlight(message.message, search)"></div>
                                         </div>
                                         <div :class="`time ${ isSender(message) ? 'float-right' : ''}`">
                                             {{ message.created_at | date('%Y-%m-%d %H:%M') }}
@@ -92,13 +92,24 @@
     </div>
 </template>
 <script>
+import Vue from 'vue';
 import { mapGetters } from "vuex";
+
+Vue.filter('highlight', function(stringToSearch, searchTerm){
+	if (searchTerm === '') return stringToSearch;
+	var iQuery = new RegExp(searchTerm, "ig");
+	return stringToSearch.toString().replace(iQuery, function(matchedText){
+		return ('<span class=\'search-highlight\' style=\'background: yellow\'>' + matchedText + '</span>');
+	});
+});
+
 export default {
 	name: 'ChatComponent',
     data(){
         return {
 			jobs: [],
 			filter_text: '',
+			search: '',
 			userListSearching: false,
             typing: false,
             isToggled: false,
@@ -292,7 +303,7 @@ export default {
 			])
 			.then(r => {
 				// --messages response
-				this.messages = r[0].data;
+				this.messages = r[0].data.reverse();
 
 				// --metadata response
 				let meta = r[1];
@@ -314,7 +325,6 @@ export default {
 
 				this.markAsRead();
 
-				this.$refs.scrollChat.scrollTop = this.$refs.scrollChat.scrollHeight ; 
 			})
 			.catch(r => {
 				console.log('Error when fetching data', r);
@@ -424,7 +434,7 @@ export default {
             this.$api.get(`v1/messages/${this.message_payload.type}/${this.message_payload.scoutid_or_applyid}?page=${page+1}`)
             .then(res => {
 				const r = res.data;
-                this.messages = r.data.concat(this.messages);
+                this.messages = r.data.reverse().concat(this.messages);
                 this.current_page = r.current_page;
                 this.last_page = r.last_page;
             })
@@ -511,6 +521,10 @@ export default {
 	position: relative;
 	flex: 0 0 50%;
     max-width:400px;
+}
+span.search-highlight {
+	background: yellow !important;
+	color: red;
 }
 input:focus{
     outline: none;
