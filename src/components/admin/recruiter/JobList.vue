@@ -161,7 +161,7 @@
                                 <td class="text-left" style="min-width:200px;" @click="textEllipsis($event)"><p class="txt-vertical-ellipsis"><router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">{{ project.title }}</router-link></p></td> -->
                                 <td class="tbl-wl">{{ project.jobapplied_count == 0 ? '-' : project.jobapplied_count }}</td>
                                 <td class="tbl-wl">{{ project.scout_count == 0 ? '-' : project.scout_count}}</td>
-                                <td class="tbl-ws">{{ project.job_post_date | moment('YYYY/MM/D') }} ~ {{ project.job_post_date | moment("add", "1 month", "subtract", "1 day", "YYYY/MM/D") }}</td>
+                                <td class="tbl-ws">{{ project.job_post_date | moment('YYYY/MM/DD') }} ~ {{ project.job_post_date | moment("add", "1 month", "subtract", "1 day", "YYYY/MM/DD") }}</td>
                                 <td class="tbl-ws tbl-status">
                                     <div class="scout-box">
                                         <div class="scout-txt tooltip-box">
