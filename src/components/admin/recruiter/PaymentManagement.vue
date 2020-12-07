@@ -100,8 +100,8 @@
 							</thead>
 							<tbody>
 								<tr><td class="w-105">内定済未請求</td><td>企業会員からの内定の連絡があったが、手数料を未請求。</td></tr>
-		                        <tr><td class="w-105">請求済</td><td>企業会員に手数料を請求済。</td></tr>
-		                        <tr><td class="w-105">入金確認済</td><td>企業会員からの手数料の入金を確認済。</td></tr>
+								<tr><td class="w-105">請求済</td><td>企業会員に手数料を請求済。</td></tr>
+								<tr><td class="w-105">入金確認済</td><td>企業会員からの手数料の入金を確認済。</td></tr>
 							</tbody>
 						</table>
                      </span>                    
