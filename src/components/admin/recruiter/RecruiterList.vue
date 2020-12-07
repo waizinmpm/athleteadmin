@@ -113,8 +113,8 @@
                                 </div>
                             </label>
                         </td> -->
-                        <td class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_number}}</router-link></td>
-                        <td class="text-left"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{project.recruiter_name}}</router-link></td>
+                        <td class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}"><span :class="[project.password_locked == 3 ? 'txt-red' : '' ]">{{project.recruiter_number}}</span></router-link></td>
+                        <td class="text-left"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis"><span :class="[project.password_locked == 3 ? 'txt-red' : '' ]">{{project.recruiter_name}}</span><span v-if="project.password_locked == 3" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span></router-link></td>
                         <!-- <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td> -->
                         
                         <td class="tbl-ws">
