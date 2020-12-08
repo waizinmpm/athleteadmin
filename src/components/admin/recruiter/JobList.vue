@@ -53,7 +53,43 @@
                         </div>
                     </div>
                 </div>
-                <label for="ステータス">{{ $t('common.status') }}</label>
+                <label for="ステータス">
+                {{ $t('common.status') }}
+                <!--status click-->                    
+                    <span @click="visible = !visible" ref="tooltip-box" style="cursor:pointer">                   
+                        <svg x="0px" y="0px" viewBox="0 0 512 512" style="width: 15px; height: 15px; opacity: 1;"><g>
+                        <path class="st0" d="M256,0C114.616,0,0,114.612,0,256s114.616,256,256,256s256-114.612,256-256S397.385,0,256,0z M207.678,378.794
+                        c0-17.612,14.281-31.893,31.893-31.893c17.599,0,31.88,14.281,31.88,31.893c0,17.595-14.281,31.884-31.88,31.884
+                        C221.959,410.678,207.678,396.389,207.678,378.794z M343.625,218.852c-3.596,9.793-8.802,18.289-14.695,25.356
+                        c-11.847,14.148-25.888,22.718-37.442,29.041c-7.719,4.174-14.533,7.389-18.769,9.769c-2.905,1.604-4.479,2.95-5.256,3.826
+                        c-0.768,0.926-1.029,1.306-1.496,2.826c-0.273,1.009-0.558,2.612-0.558,5.091c0,6.868,0,12.512,0,12.512
+                        c0,6.472-5.248,11.728-11.723,11.728h-28.252c-6.475,0-11.732-5.256-11.732-11.728c0,0,0-5.645,0-12.512
+                        c0-6.438,0.752-12.744,2.405-18.777c1.636-6.008,4.215-11.718,7.508-16.694c6.599-10.083,15.542-16.802,23.984-21.48
+                        c7.401-4.074,14.723-7.455,21.516-11.281c6.789-3.793,12.843-7.91,17.302-12.372c2.988-2.975,5.31-6.05,7.087-9.52
+                        c2.335-4.628,3.955-10.067,3.992-18.389c0.012-2.463-0.698-5.702-2.632-9.405c-1.926-3.686-5.066-7.694-9.264-11.29
+                        c-8.45-7.248-20.843-12.545-35.054-12.521c-16.285,0.058-27.186,3.876-35.587,8.62c-8.36,4.776-11.029,9.595-11.029,9.595
+                        c-4.268,3.718-10.603,3.85-15.025,0.314l-21.71-17.397c-2.719-2.173-4.322-5.438-4.396-8.926c-0.063-3.479,1.425-6.81,4.061-9.099
+                        c0,0,6.765-10.43,22.451-19.38c15.62-8.992,36.322-15.488,61.236-15.429c20.215,0,38.839,5.562,54.268,14.661
+                        c15.434,9.148,27.897,21.744,35.851,36.876c5.281,10.074,8.525,21.43,8.533,33.38C349.211,198.042,347.248,209.058,343.625,218.852
+                        z" style="fill: rgb(145 145 145);"></path>
+                        </g>
+                        </svg>                  
+                    </span>
+                    <span class="bg" v-if="visible" @click="visible=!visible"></span>
+                    <span class="tooltip-box" v-if="visible">
+                        <table class="tooltiptext">
+                            <thead>
+                                <tr><th colspan="2" class="tooltip-head">ステータスの説明</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="w-105">公開</td><td>求職者会員全員に公開している求人。スカウトに用いることも可能。</td></tr>
+                                <tr><td class="w-105">非公開</td><td>スカウト専用の非公開の求人</td></tr>
+                                <tr><td class="w-105">停止</td><td>募集を停止している求人</td></tr>
+                            </tbody>
+                        </table>
+                    </span>                    
+                    <!-- end status click -->
+                </label>
                 <div class="status-row">
                     <div class="status-col " v-for="status in arr_status" :key="status.id.id">
                         <label
@@ -253,7 +289,8 @@ export default {
 				{ id: this.$configs.job.public, checked: false },
 				{ id: this.$configs.job.private, checked: false },
                 { id: this.$configs.job.stopped, checked: false },
-			],
+            ],
+            visible: false
         };
     },
 
@@ -366,6 +403,64 @@ export default {
 tr:first-child .tbl-status .tooltip-box .tooltiptext::after {
     top: 112%;
 } */
+
+/* tooltip for status */
+.tooltip {
+    width: 500px;
+    background-color: #5cb1ab;
+    color: #fff;   
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+}
+.tooltip-box .tooltiptext {     
+    visibility: visible;
+    background-color: rgba(94,94,99,1);
+    color: #fff;
+    text-align: center;
+    word-break: break-word;
+    border: 1px solid #363030ee;
+    border-radius: 5px;
+    padding: 20px;
+    position: absolute;
+    z-index: 33;
+    bottom: 20%;
+    opacity: 0.9;
+    min-width: 517px;
+    text-align: left;
+    margin-left: 0px;
+}
+.tooltip-box .tooltiptext::after{
+    display: none;
+}
+.tooltip-box table{
+    border-collapse: initial !important;
+}
+.tooltip-box table tr{
+    vertical-align: top;
+    background: none !important;
+}
+.tooltip-head{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+.w-105{
+    width: 105px;
+}
+.bg {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  transition: .3s;
+}
+
 .job-col {
     position: relative;
 }
