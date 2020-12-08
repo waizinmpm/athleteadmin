@@ -618,9 +618,9 @@ textarea {
 }
 
 .modal-content {
-    max-width: 1200px;
-    width: 80%;
-    height: 100%;
+    max-width: 950px;
+    width: 70%;
+    height: 90%;
     margin: 70px auto; /* 15% from the top and centered */
     padding: 60px 30px 50px 30px;
     border: 1px solid #888;
