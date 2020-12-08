@@ -6,7 +6,7 @@
             <dt class="detail-head" v-if="$route.name == 'scout-job'">募集ポジション</dt>
             <dt class="detail-head" v-else>職種</dt>
             <dd class="detail-data">
-                <pre>{{ recruiter_job.occupation_description }}</pre>
+                <pre>{{ recruiter_job.occupation_description || '-' }}</pre>
             </dd>
             <dt class="detail-head">雇用形態</dt>
             <dd class="detail-data">
@@ -16,13 +16,13 @@
                 </div>
             </dd>
             <dt class="detail-head">勤務地詳細</dt>
-            <dd class="detail-data"><pre>{{ recruiter_job.job_location }}</pre></dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.job_location || '-' }}</pre></dd>
         </dl>
         <dl class="detail-list" v-else>
             <!-- <dt class="detail-head">求人タイトル</dt>
             <dd class="detail-data">{{ recruiter_job.title }}</dd> -->
             <dt class="detail-head">職種</dt>
-            <dd class="detail-data"><pre>{{ recruiter_job.occupation_description }}</pre></dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.occupation_description || '-' }}</pre></dd>
             <dt class="detail-head">雇用形態</dt>
             <dd class="detail-data">
                 <div v-for="(result, index) in employment_types" :key="result.id">
@@ -34,19 +34,19 @@
                 </div>
             </dd>
             <dt class="detail-head">仕事内容</dt>
-            <dd class="detail-data"><pre>{{ recruiter_job.job_description }}</pre></dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.job_description || '-' }}</pre></dd>
             <dt class="detail-head">応募資格</dt>
-            <dd class="detail-data"><pre>{{ recruiter_job.qualification }}</pre></dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.qualification || '-' }}</pre></dd>
             <dt class="detail-head">給与・待遇</dt>
-            <dd class="detail-data"><pre>{{ recruiter_job.allowance }}</pre></dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.allowance || '-' }}</pre></dd>
             <dt class="detail-head">勤務開始日</dt>
-            <dd class="detail-data">{{ recruiter_job.job_start_date }}</dd>
+            <dd class="detail-data">{{ recruiter_job.job_start_date || '-' }}</dd>
             <dt class="detail-head">勤務地詳細</dt>
-            <dd class="detail-data"><pre>{{ recruiter_job.job_location }}</pre></dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.job_location || '-' }}</pre></dd>
             <dt class="detail-head">応募先アドレス</dt>
-            <dd class="detail-data"><pre>{{ recruiter_job.application_address }}</pre></dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.application_address || '-' }}</pre></dd>
             <dt class="detail-head">求職者へのメッセージ</dt>
-            <dd class="detail-data"><pre>{{ recruiter_job.message }}</pre></dd>
+            <dd class="detail-data"><pre>{{ recruiter_job.message || '-' }}</pre></dd>
             <dt class="detail-head">勤務地 (検索用キーワード)</dt>
             <dd class="detail-data">
                 <span v-for="country in countries" :key="country.id">
@@ -77,7 +77,7 @@
                 </div>
             </dd>
             <dt class="detail-head">掲載開始日</dt>
-            <dd class="detail-data">{{ recruiter_job.job_post_date }}</dd>
+            <dd class="detail-data">{{ recruiter_job.job_post_date || '-' }}</dd>
             <!-- <dt class="detail-head">仕事の内容</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.job_description }}</pre></dd>
             <dt class="detail-head">応募資格</dt>
