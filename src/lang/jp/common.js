@@ -44,5 +44,10 @@ export default {
 	"send_invoice": "請求書をメールで送付",
 	"mail_is_sent": "請求書をメールで送信しました。",
     "payment_confirmed_question": "支払いを確認しますか",
-    "management_no" : "管理番号"
+    "management_no" : "管理番号",
+    'send':'有効',
+    'unsend':'無効',
+    'add':'追加',
+    'action':'アクション',
+    "save" : "保存する",
 };
