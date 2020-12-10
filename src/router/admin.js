@@ -127,6 +127,7 @@ const route = [{
     },
     {
         path: '/admin-jobseeker-list/jobseeker/:id/edit',
+        name: 'JobseekerEdit',
         component: JobseekerProfileEdit,
         meta: {
             reqiuresAuth: false,

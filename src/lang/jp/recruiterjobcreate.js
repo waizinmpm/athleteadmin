@@ -87,7 +87,7 @@ export default {
     message_jobs_ex4 : ' 海のきれいなオフィスであなたの力を生かしてみませんか？',
 
     area : ' 勤務地 (検索用キーワード) ',
-    area_select : '勤務エリア',
+    area_select : '勤務地を選択',
     area_required : 'エリアを選択してください',
     occupation_keyword : ' 職種(検索用キーワード) ',
     occupation_select : ' 職種を選択',

@@ -1,7 +1,8 @@
 <template>
     <div class="user-main">
         <div class="d-flex align-items-end mb-20">
-            <h3 class="mb-0">詳細情報 <span style="color:red">{{record_status == 3 ? '退会' : ''}}</span></h3> 
+            <h3 class="mb-0" v-if="$route.name == 'jobseeker-detail'">詳細情報 <span style="color:red">{{record_status == 3 ? '退会' : ''}}</span></h3> 
+            <h3 class="mb-0" v-if="$route.name == 'JobseekerEdit'">プロフィール編集<span style="color:red">{{record_status == 3 ? '退会' : ''}}</span></h3> 
             <span @click="$router.go(-1)" class="ml-auto btn btn-back">一覧へ戻る</span>
         </div>      
             <div class="col-12 tab-list sticky-top" v-if="showMenuBar" v-on:scroll="handleScroll">
