@@ -13,6 +13,7 @@ import Invoice from '../components/admin/recruiter/Invoice';
 import AdminPasswordSetting from '../components/auth/AdminPasswordSetting';
 import AdminRegister from '../components/auth/AdminRegister';
 import RecruiterProfileDetail from '../components/admin/recruiter/RecruiterProfileDetail';
+import AdminSetting from '../components/admin/setting/AdminSetting';
 
 const route = [{
         path: '/',
@@ -167,6 +168,16 @@ const route = [{
         name: 'scout-job',
         path: '/job-list/scout/:id/detail',
         component: JobDetail,
+        meta: {
+            reqiuresAuth: false,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    },
+    {
+        name: 'admin-setting',
+        path: '/admin/admin-setting',
+        component: AdminSetting,
         meta: {
             reqiuresAuth: false,
             admin: true, // for only admin component
