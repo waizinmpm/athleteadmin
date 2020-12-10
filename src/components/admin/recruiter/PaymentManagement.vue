@@ -621,7 +621,7 @@ textarea {
     max-width: 950px;
     width: 70%;
     height: 90%;
-    margin: 70px auto; /* 15% from the top and centered */
+    margin: 70px auto;
     padding: 60px 30px 50px 30px;
     border: 1px solid #888;
     background-color: #fefefe;
