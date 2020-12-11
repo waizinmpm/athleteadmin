@@ -52,9 +52,9 @@
                                 <tr><th colspan="2" class="tooltip-head">ステータスの説明</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td class="w-105">有効</td><td>求職者会員から求人に応募があった。</td></tr>
-                                <tr><td class="w-105">停止</td><td>企業会員からの不採用又は求職者会員の辞退。</td></tr>
-                                <tr><td class="w-105">退会</td><td>企業会員からの内定の連絡があったが、手数料を未請求。</td></tr>
+                                <tr><td class="w-105">有効</td><td>有効な会員</td></tr>
+                                <tr><td class="w-105">停止</td><td>一時的にアカウントの利用を停止している会員</td></tr>
+                                <tr><td class="w-105">退会</td><td>退会した会員</td></tr>
                             </tbody>
                         </table>
                     </span>                    
