@@ -13,10 +13,11 @@
                         <small style="color:black;">%</small>
                     </span>
                     <br v-if="editTax">
-                    <span v-if="message" class="error txt-red">{{message}}</span>                    
+                    <span v-if="message" class="error">{{message}}</span>   
+                    <br v-if="message">                 
                     <span v-if="editTax" class="btnClass">
                         <span @click="cancelTax" class="btn back-btn" style="margin-top:10px;">{{$t('common.cancel')}}</span>
-                        <span v-if="save" @click="updateTax" class="btn searchbtn" style="margin-top:10px;">{{$t('jobseekerprofile.save')}}</span>
+                        <span @click="() => {if(message){return false}else{updateTax()}}" class="btn searchbtn" style="margin-top:10px;">{{$t('jobseekerprofile.save')}}</span>
                     </span>
                     <div class="text-right cursor-pointer">
                         <span v-if="!editTax" @click="editTax = !editTax">
@@ -64,7 +65,13 @@
                     <tbody>
                         <tr v-for="(email, index) in addEmail" :key="index" >
                             <td class="text-left position-relative">
-                                <input type="email" v-model="email.current_email"  v-if="email.edit" class="form-control">
+                                <input type="email" v-model="$v.addEmail.$each.$iter[index].current_email.$model"  v-if="email.edit" :class="['form-control',$v.addEmail.$each.$iter[index].current_email.$error ? 'is-invalid':'']">
+                                    <div class="form-group has-error has-feedback" v-if="$v.addEmail.$each.$iter[index].current_email.$error"> 
+                                       
+                                        <div  class="error" v-if="!$v.addEmail.$each.$iter[index].current_email.required">メールアドレスは必須です  {{$v.addEmail.$each.$iter[index].current_email.$required}}</div>
+                                        <div  class="error" v-if="!$v.addEmail.$each.$iter[index].current_email.email">メールアドレスの形式が正しくありません</div>
+                                        <!-- <div class="error" v-if="!$v.email.current_email.isUnique">このメールアドレスは、既に使われています</div> -->
+                                    </div>
                                 <span v-if="email.edit" @click="cancel(index,email.email)" class="close-btn"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span v-if="!email.edit">{{email.email}}</span>
                             </td>
@@ -72,7 +79,6 @@
                                 <span @click="deleteRow(index)" class="btn back-btn btn-default">{{$t('common.delete')}}</span>
                                 <span v-if="email.edit" @click="updateEmail(index,email.current_email)" class="btn searchbtn btn-default">{{$t('jobseekerprofile.save')}}</span>
                                 <span v-if="!email.edit" @click="editEmail(index)" class="btn btn-default">{{$t('common.edit')}}</span>
-                                
                             </td>
                         </tr>
                     </tbody>
@@ -83,7 +89,7 @@
     </div>
 </template>
 <script>
-
+import { required, email} from "vuelidate/lib/validators";
 export default {
     data(){
         return {
@@ -96,11 +102,24 @@ export default {
             edit:false,
             value:null,
             message:'',
-            save:true,
+            // save:true,
             oldNum:'',
             checked: null,
+            // email:[{
+            //         current_email : ''
+            //     }]
             
         }
+    },
+    validations:{
+        
+            addEmail:{
+               $each:{
+                    current_email:{required,email}
+               }
+            }
+        
+        
     },
     created(){
         this.get_taxes();
@@ -112,7 +131,6 @@ export default {
         admin_email(){
             return this.$store.getters.currentUser
         },
-
     },
     methods:{
         filterInput(evt){
@@ -122,12 +140,12 @@ export default {
             if(percent <= 0 ){
                 this.current_taxes.percent = ''
             }
-            if(percent <= 0 || percent >100){
+            if(percent <= 0){
                 this.message = '0以上で入力してください';
-                this.save = false;
+                // this.save = false;
             }else{
                 this.message = '';
-                this.save = true;
+                // this.save = true;
             }
             // alert(charCode)
             if(charCode == 8 || charCode == 190 || charCode == 35 || charCode == 36 || charCode == 37 || charCode == 39 || charCode == 46 || (charCode > 47 && charCode < 58) || (charCode > 95 && charCode < 106) || charCode == 110){
@@ -139,7 +157,6 @@ export default {
             else{
                 evt.preventDefault();
             }
-
             // if((charCode == 37 || charCode == 39) && (charCode > 95 || charCode < 106)){
             //     return true;
             // }
@@ -151,13 +168,12 @@ export default {
             // else {
             //     return true;
             // }
-
         },
         get_taxes(){
             this.$api.get('/v1/admin/admin-setting-taxes').then(res => {
                     let taxes = res.data.reduce((x, y) => y);
                     this.current_taxes = taxes
-			});
+            });
         },
         get_extra_eamil(){
             this.$api.get('/v1/admin/get-extra').then(res => {
@@ -170,22 +186,23 @@ export default {
                         })
                     }
                     
-			});
+            });
         },
         cancelTax(){
             this.get_taxes();
             this.editTax = false;
             this.message = '';
-            this.save = true;
+            // this.save = true;
         },
         updateTax(){
-            const min_length = 0;
-                const max_length = 100;
+            
+                const min_length = 0;
+                // const max_length = 100;
                 console.log(this.current_taxes.percent)
-                if(this.current_taxes.percent >= min_length && this.current_taxes.percent <= max_length){
+                if(this.current_taxes.percent >= min_length){
                     this.editTax = false;
-                    this.$api.post('/v1/admin/update-taxes',this.current_taxes).then(res => {
-                        console.log(res.data)
+                    this.$api.post('/v1/admin/update-taxes',this.current_taxes).then(() => {
+                       this.get_taxes();
                     })
                 }else{
                     this.message = '0以上で入力してください';
@@ -196,7 +213,6 @@ export default {
             this.addEmail.push({email: '',current_email:'',edit:true})
         },
         deleteRow(index) {
-
             let c_email = this.addEmail[index].current_email
             if(!c_email){
                 this.addEmail.splice(index,1)
@@ -211,24 +227,51 @@ export default {
             
         },
         editEmail(index){
-            this.addEmail.map(v => {
-              return  v.edit = false
+             
+            this.addEmail.map((v , indx) => {
+                 v.edit = false
+                if(v.email == ''){
+                    this.addEmail.splice(indx)
+                }else{
+                    v.current_email =v.email
+                }
+              //
             })
             this.addEmail[index].edit = true
+            // this.email[index]['current_email'].edit = true
            
         },
         cancel(index,email){
+            // alert(index)
+             console.log(this.addEmail)
+            console.log(index,email)
+            
             let c_email = this.addEmail[index].current_email
             if(!c_email){
+                console.log('if')
                this.addEmail.splice(index,1) 
             }else{
-                this.addEmail[index].current_email = email
-                this.addEmail[index].edit = false  
+                 this.addEmail.map(v => {
+                     if(v.email != c_email && v.edit == true && v.email == ''){
+                        this.addEmail.splice(index,1)  
+                     }else{
+                         v.current_email = email
+                         v.edit =false
+                     }
+                 })
+                //  this.addEmail[index].current_email = email
+                //  this.addEmail[index].edit = false 
+                
             }
             
         },
         updateEmail(index,currentEmail){
-           let old_email = this.addEmail[index].email;
+            this.$v.addEmail.$each.$iter[index].current_email.$touch()
+            if (this.$v.addEmail.$each.$iter[index].current_email.$invalid) {
+                return;
+            }
+            // console.log(this.email[0]['current_email'])
+            let old_email = this.addEmail[index].email;
             if(this.addEmail[index].email != currentEmail){
                 this.$api.post(`/v1/admin/update-email/${'update'}`,{oldEmail:old_email,c_email:currentEmail}).then( () => {
                     this.addEmail[index].email = currentEmail
@@ -248,7 +291,6 @@ export default {
                 this.checked = res.data
             })
         }   
-
         
     }
 }
@@ -291,7 +333,6 @@ export default {
     border: 1px solid #ccc;
     border-radius: 4px;   
 }
-
 .admin-dashboard-card{   
     align-items: center;
     border-radius: 4px;
@@ -314,7 +355,6 @@ export default {
   display: block;
   padding-left: 1.25rem;
 }
-
 .form-check-input {
   position: absolute;
   margin-top: 0.3rem;
@@ -323,7 +363,6 @@ export default {
 .form-check-label {
   margin-bottom: 0;
 }
-
 .form-check-inline {
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -332,7 +371,6 @@ export default {
   padding-left: 0;
   margin-right: 0.75rem;
 }
-
 .form-check-inline .form-check-input {
   position: static;
   margin-top: 0;
@@ -349,25 +387,25 @@ export default {
 }
 .btn_1 {
     cursor: pointer;
-	display: inline-block;
-	outline: none;
-	*zoom: 1;
-	text-align: center;
-	text-decoration: none;
-	font-family: inherit;
-	font-weight: 300;
-	letter-spacing: 1px;
-	vertical-align: middle;
-	border: 1px solid;
-	transition: all 0.2s ease;
-	box-sizing: border-box;
+    display: inline-block;
+    outline: none;
+    *zoom: 1;
+    text-align: center;
+    text-decoration: none;
+    font-family: inherit;
+    font-weight: 300;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    border: 1px solid;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
     margin-left:3px;
-	text-shadow: 0 1px 0 rgba(0,0,0,0.01);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.01);
     box-shadow: 0px 2px 3px 0px #80808059;
 }
 .btn-small {
-	font-size: 0.8125em;
-	padding: 0.4125em 1.25em;
+    font-size: 0.8125em;
+    padding: 0.4125em 1.25em;
 }
 .icon-edit{
     font-size: 30px;
@@ -379,8 +417,8 @@ export default {
 .btn-edit {
     width: 120px;
     padding:10px 0px;
-	color: #434a54;
-	border-color: #8c949f;
+    color: #434a54;
+    border-color: #8c949f;
     background-color: #fff;
     border-radius: 20px;
     box-shadow: 2px 2px 8px #e0d7d7;
@@ -388,7 +426,7 @@ export default {
     margin-bottom:10px;
 }
 .btn-edit:hover {
- opacity: 0.9;		
+ opacity: 0.9;      
 }
 .back-btn {
     margin-right: 10px;
@@ -419,6 +457,7 @@ export default {
 }
 .error{
     margin-bottom: 5px;
+    color:red; 
 }
 // custom radio
 .custion-radio {
@@ -501,5 +540,23 @@ export default {
         }
     }
 }
-
+.is-invalid {
+  border-color: #dc3545;
+  display: block;
+  +{
+      .invalid-feedback{
+          display: block;
+      }
+  }
+}
+.is-invalid > .invalid-feedback{
+    display: block;
+}
+.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+.hide{
+    display: none;
+}
 </style>
