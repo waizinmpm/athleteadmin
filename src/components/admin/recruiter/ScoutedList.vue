@@ -336,8 +336,8 @@ export default {
 				{ id: this.$configs.scouts.payment_confirmed, checked: false },
 			],
 			recruiter_arr_status: [
-                { id: this.$configs.scouts.deactivated, checked: false },
-                { id: this.$configs.scouts.suspended, checked: false },
+                { id: this.$configs.deactivated, checked: false },
+                { id: this.$configs.suspended, checked: false },
             ],
 			lang:{
 				days: ['日', '月', '火', '水', '木', '金', '土'],
