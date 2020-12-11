@@ -236,7 +236,7 @@
                                     <div class="col-sm-6  pr-0">
                                         <input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
                                         <div class="invalid-feedback">
-                                            <div class="error txt-red" v-if="!$v.invoiceForm.default_amount.required">入力されていません</div>
+                                            <div class="error txt-red" v-if="!$v.invoiceForm.default_amount.required">金額は必須です</div>
                                             <div class="error txt-red" v-if="!$v.invoiceForm.default_amount.numeric">半角数字で入力してください</div>
                                         </div>
                                     </div>
