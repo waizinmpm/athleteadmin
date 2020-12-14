@@ -151,7 +151,8 @@
                             </label>
                         </td> -->
                         <td class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}"><span :class="[project.password_locked == 3 ? 'txt-red' : '' ]">{{project.recruiter_number}}</span></router-link></td>
-                        <td class="text-left"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis"><span :class="[project.password_locked == 3 ? 'txt-red' : '' ]">{{project.recruiter_name}}</span><span v-if="project.password_locked == 3" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span></router-link></td>
+                        <td class="text-left"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis"></router-link></td>
+                        <!-- <span :class="[project.password_locked == 3 ? 'txt-red' : '' ]">{{project.recruiter_name}}</span><span v-if="project.password_locked == 3" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span> -->
                         <!-- <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td> -->
                         
                         <td class="tbl-ws">
@@ -283,9 +284,9 @@ export default {
                     this.$api
                     .post(this.base_url + `/change-status`, statusData)
                     .then((response) => {
-                        console.log("changeStatus", response.data);
                         // let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
                         this.getData(this.projects.current_page);
+                        window.socket.emit("deactived", [id,'recruiter']);
                     })
                     .catch((errors) => {
                         console.log(errors);
@@ -323,7 +324,11 @@ export default {
         },
     },
 
-    mounted() {},
+    mounted() {
+        if (!window.socket.connected) {
+          window.socket.connect()
+        }
+    },
 };
 </script>
 <style  scoped>

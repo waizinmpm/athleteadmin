@@ -276,7 +276,11 @@ export default {
             visible: false
         };
     },
-
+    mounted(){
+        if (!window.socket.connected) {
+            window.socket.connect()
+        }
+    },
     computed: {
         isDisabled() {
             //if dont select any row, set disable delete button
@@ -297,6 +301,7 @@ export default {
                     .then((res) => {
                         console.log(res.data);
                         this.getData(this.projects.current_page);
+                        window.socket.emit("deactived", [id,'jobseeker']);
                     })
                     .catch((errors) => {
                         console.log(errors);
