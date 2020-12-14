@@ -162,11 +162,11 @@
                                 <td class="tbl-ws">
                                     <div class="scout-box">
                                         <p class="scout-txt">{{project.job_apply_status}} </p>
-                                        <p class="btn btn-common" v-on:click="showToggle(index)">
+                                        <p v-if="project.job_apply_status != '入金確認済'" class="btn btn-common" v-on:click="showToggle(index)">
                                             {{$t('common.change')}}
                                             <span class="down-icon">&#9662;</span>
                                         </p>
-                                        <div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
+                                        <div v-if="project.job_apply_status != '入金確認済'" class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
                                             <p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
                                                 <input type="radio" :id="status.id+index" v-model="project.job_apply_status" class="custion-radio" 
                                                     @change="onStatusChange(index, $event, project.recruiter_id)" :value="status.id">

@@ -154,18 +154,17 @@
 								<td style="position:relative;">
 									<div class="scout-box">
 										<p class="scout-txt">{{project.scout_status}} </p>
-										<p class="btn btn-common" v-on:click="showToggle(index)">
+										<p v-if="project.scout_status != '入金確認済'" class="btn btn-common" v-on:click="showToggle(index)">
 											{{$t('common.change')}}
 											<span class="down-icon">&#9662;</span>
 										</p>
-										<div class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
+										<div v-if="project.scout_status != '入金確認済'" class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
 											<p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
 												<input type="radio" :id="status.id+index" v-model="project.scout_status" class="custion-radio" 
-													@change="onStatusChange(index, $event)" :value="status.id">
-												<label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle">{{ status.id }}</label>
+													@change="onStatusChange(index, $event)" :value="status.id" v-if="status.id != '期限切れ'">
+												<label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle" v-if="status.id != '期限切れ'">{{ status.id }}</label>
 											</p>
 										</div>
-									
 									</div>
 								</td>
 								<td class="tbl-wm">
