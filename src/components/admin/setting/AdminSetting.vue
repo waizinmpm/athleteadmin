@@ -137,10 +137,10 @@ export default {
         evt = evt ? evt : window.event;
         var charCode = evt.which ? evt.which : evt.keyCode;
         let percent = this.current_taxes.percent;
-            if(percent <= 0 ){
-                this.current_taxes.percent = ''
-            }
-            if(percent <= 0){
+            // if(percent <= 0 ){
+            //     this.current_taxes.percent = ''
+            // }
+            if(percent < 0 || percent == ''){
                 this.message = '0以上で入力してください';
                 // this.save = false;
             }else{
@@ -199,7 +199,7 @@ export default {
                 const min_length = 0;
                 // const max_length = 100;
                 console.log(this.current_taxes.percent)
-                if(this.current_taxes.percent >= min_length){
+                if(this.current_taxes.percent >= min_length && this.current_taxes.percent != ''){
                     this.editTax = false;
                     this.$api.post('/v1/admin/update-taxes',this.current_taxes).then(() => {
                        this.get_taxes();
@@ -217,6 +217,7 @@ export default {
             if(!c_email){
                 this.addEmail.splice(index,1)
             }else{
+
                 this.$api.post(`/v1/admin/update-email/${'delete'}`,{oldEmail:c_email}).then( res => {
                     // this.addEmail[index].email = currentEmail
                     console.log(res.data)
