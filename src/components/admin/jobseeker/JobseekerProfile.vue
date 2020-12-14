@@ -308,14 +308,22 @@
                     <dt class="detail-head">{{$t('jobseekerprofile.jobseeker_number')}}</dt>
                     <dd class="detail-data" v-if="basicInfo.jobseeker_number != ''">{{basicInfo.jobseeker_number}}</dd>
                     <dd class="detail-data" v-else>未入力</dd>
-                    <dt class="detail-head">{{$t('jobseekerprofile.jobseeker_name')}}<span class="private">{{$t('jobseekerprofile.private')}}</span></dt>
+                    <dt class="detail-head">
+                        {{$t('jobseekerprofile.jobseeker_name')}}
+                        <span v-if="basicInfo.jobseeker_furigana_name_status == 1" class="private">{{$t('jobseekerprofile.private')}}</span>
+                    </dt>
                     <dd class="detail-data" v-if="basicInfo.jobseeker_name != ''">{{basicInfo.jobseeker_name}}</dd>
                     <dd class="detail-data" v-else>未入力</dd>
-                    <dt class="detail-head">{{$t('jobseekerprofile.gender')}}</dt>
+                    <dt class="detail-head">{{$t('jobseekerprofile.gender')}}
+                        <span v-if="basicInfo.gender_status == 1" class="private">{{$t('jobseekerprofile.private')}}</span>
+                    </dt>
                     <dd class="detail-data" v-if="basicInfo.gender != '' && basicInfo.gender != null">{{basicInfo.gender}}</dd>
                     <dd class="detail-data" v-else>未入力</dd>
                     <!-- {{checkDOB}} -->
-                    <dt class="detail-head">{{$t('jobseekerprofile.date')}} <span class="private">{{$t('jobseekerprofile.private')}}</span></dt>
+                    <dt class="detail-head">
+                        {{$t('jobseekerprofile.date')}}
+                        <span v-if="basicInfo.dob_status == 1" class="private">{{$t('jobseekerprofile.private')}}</span>
+                    </dt>
                     <!-- <dd class="detail-data" v-if="basicInfo.dob != '' && checkDOB != '0000,00,00'">{{basicInfo.dob[0]}}年 {{basicInfo.dob[1]}}月 {{basicInfo.dob[2]}}日</dd> -->
                     <dd class="detail-data" v-if="basicInfo.dob">{{basicInfo.dob}}</dd>
                     <dd class="detail-data" v-else>未入力</dd>
@@ -323,7 +331,10 @@
                     <!-- {{basicInfo}} -->
                     <!--  <dd class="detail-data" v-if="basicInfo.language_name != null">{{basicInfo.language_name}}</dd>
                     <dd class="detail-data" v-else>未入力</dd> -->
-                    <dt class="detail-head">{{$t('jobseekerprofile.location')}}<span class="private">{{$t('jobseekerprofile.private')}}</span></dt>
+                    <dt class="detail-head">
+                        {{$t('jobseekerprofile.location')}}
+                        <span v-if="basicInfo.current_address_status == 1" class="private">{{$t('jobseekerprofile.private')}}</span>
+                    </dt>
                     <dd class="detail-data" v-if="basicInfo.country_id != ''">{{basicInfo.continent_name}} , {{basicInfo.country_name}}</dd>
                     <dd class="detail-data" v-else>未入力</dd>
                     <dt class="detail-head">{{$t('jobseekerprofile.phone')}}<span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
@@ -362,7 +373,6 @@
                 <div class="form-group">
                 <label for>
                     {{$t('jobseekerprofile.jobseeker_name')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
                     <input
@@ -380,10 +390,11 @@
                 </div>
                 </div>
                 <div class="form-group">
-                <label for>
-                    {{$t('jobseekerprofile.furigana')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
-                </label>
+                <label for>{{$t('jobseekerprofile.furigana')}}</label>
+                <span class="status">
+                    <input type="checkbox" id="jobseeker_furigana_name_status_id" class="custom-control-input custom-checkbox" v-model="basicInfo.jobseeker_furigana_name_status" />
+                    <label for="jobseeker_furigana_name_status_id" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
+                </span>
                 <div class="col-md-8 p-0">
                     <input
                     type="text"
@@ -404,6 +415,10 @@
                 </div>
                 <div class="form-group gender-group">
                 <label for>{{$t('jobseekerprofile.gender')}}</label>
+                <span class="status">
+                    <input type="checkbox" id="gender_status_id" class="custom-control-input custom-checkbox" v-model="basicInfo.gender_status" />
+                    <label for="gender_status_id" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
+                </span>
                 <div class="row col-md-7 p-0 m-0">
                     <div class="col-md-4 pl-0">
                     <p class="check-item m-0" transition="fade" @click="checkGender('女性')">
@@ -420,10 +435,11 @@
                 </div>
                 </div>
                 <div class="form-group">
-                <label for>
-                    {{$t('jobseekerprofile.date')}}
-                    <span class="private ml-4">{{$t('jobseekerprofile.private')}}</span>
-                </label>
+                <label for>{{$t('jobseekerprofile.date')}}</label>
+                <span class="status">
+                    <input type="checkbox" id="dob_status_id" class="custom-control-input custom-checkbox" v-model="basicInfo.dob_status" />
+                    <label for="dob_status_id" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
+                </span>
                 <div class="row col-md-7 p-0 m-0">
                     <div class="col-md-4 pl-0">
                         <input type="text" class="form-control" placeholder="年 - 月 - 日" v-model="basicInfo.dob"/>
@@ -449,10 +465,14 @@
 
                 <div class="form-group">
                     <label for>{{$t('jobseekerprofile.location')}}</label>
+                    <span class="status"> 
+                        <input type="checkbox" id="current_address_status_id" class="custom-control-input custom-checkbox" v-model="basicInfo.current_address_status" />
+                        <label for="current_address_status_id" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
+                    </span>
                     <div class="row col-md-7 p-0 m-0">
                         <div class="col-md-4 pl-0">
                             <select v-model.trim="basicInfo.continent_name" @change="getCity()" class="form-control">
-                                <option :value="null" v-if="basicInfo.continent_name == null" disabled selected>国・地域を選択</option>
+                                <option :value="null" v-if="basicInfo.continent_name == null" selected>国・地域を選択</option>
                                 <option selected disabled v-else :value="0">国・地域を選択</option>
                                 <option v-for="country in countries" :key="country.id" v-bind:value="country.continent_name">
                                     {{country.continent_name}}
@@ -461,7 +481,7 @@
                         </div>
                         <div class="col-md-4">
                             <select class="form-control" v-model.trim="basicInfo.country_name">
-                                <option :value="null" v-if="basicInfo.country_name == null" disabled selected>都市を選択</option>
+                                <option :value="null" v-if="basicInfo.country_name == null" selected>都市を選択</option>
                                 <option selected disabled v-else :value="0">都市を選択</option>
                                 <option v-for="city in city_list" :key="city.id" v-bind:value="city.country_name">
                                     {{city.country_name}}
@@ -2535,17 +2555,17 @@
                 this.city_list = response.data.data.cities;
                 this.languages = response.data.data.languages;
                 this.countries = response.data.data.countries;
-                if(this.basicInfo.dob == '' ){
-                    this.basicInfo.dobyears = null;
-                    this.basicInfo.dobmonth = null;
-                    this.basicInfo.dobday = null;
-                }
-                else{
-                    const dob = new Date(this.basicInfo.dob);
-                    this.basicInfo.dobyears = dob.getFullYear() + ' 年';
-                    this.basicInfo.dobmonth = dob.getMonth() + 1 + ' 月';
-                    this.basicInfo.dobday = dob.getDate() + ' 日';
-                }
+                // if(this.basicInfo.dob == '' ){
+                //     this.basicInfo.dobyears = null;
+                //     this.basicInfo.dobmonth = null;
+                //     this.basicInfo.dobday = null;
+                // }
+                // else{
+                //     const dob = new Date(this.basicInfo.dob);
+                //     this.basicInfo.dobyears = dob.getFullYear() + ' 年';
+                //     this.basicInfo.dobmonth = dob.getMonth() + 1 + ' 月';
+                //     this.basicInfo.dobday = dob.getDate() + ' 日';
+                // }
             });
         },
 
