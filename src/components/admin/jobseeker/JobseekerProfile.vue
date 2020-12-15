@@ -473,7 +473,7 @@
                         <div class="col-md-4 pl-0">
                             <select v-model.trim="basicInfo.continent_name" @change="getCity()" class="form-control">
                                 <option :value="null" v-if="basicInfo.continent_name == null" selected>国・地域を選択</option>
-                                <option selected disabled v-else :value="0">国・地域を選択</option>
+                                <option selected v-else :value="0">国・地域を選択</option>
                                 <option v-for="country in countries" :key="country.id" v-bind:value="country.continent_name">
                                     {{country.continent_name}}
                                 </option>
@@ -482,7 +482,7 @@
                         <div class="col-md-4">
                             <select class="form-control" v-model.trim="basicInfo.country_name">
                                 <option :value="null" v-if="basicInfo.country_name == null" selected>都市を選択</option>
-                                <option selected disabled v-else :value="0">都市を選択</option>
+                                <option selected v-else :value="0">都市を選択</option>
                                 <option v-for="city in city_list" :key="city.id" v-bind:value="city.country_name">
                                     {{city.country_name}}
                                 </option>
