@@ -93,12 +93,18 @@
                         <p class="mb-0" v-for="occ in selfIntroDetails.occupation_name" :key="occ.id">
                             {{occ}} 
                         </p>
+                        <p class="mb-0" v-if="selfIntroDetails.occupation_name.length === 0">
+                            未入力
+                        </p>
                     </dd>
                     <dt class="detail-head">希望勤務地</dt>
                     <dd class="detail-data">
                         <p class="mb-0">{{selfIntroDetails.desired_location_1}}</p>   
                         <p class="mb-0">{{selfIntroDetails.desired_location_2}}</p>   
                         <p class="mb-0">{{selfIntroDetails.desired_location_3}}</p>
+                        <p class="mb-0" v-if="selfIntroDetails.desired_location_1 === null && selfIntroDetails.desired_location_2 === null && selfIntroDetails.desired_location_3 === null">
+                            未入力
+                        </p>
                     </dd>
                 </dl>
                 <!-- info-->
