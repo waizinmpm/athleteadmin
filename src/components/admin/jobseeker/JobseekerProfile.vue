@@ -1813,7 +1813,9 @@
                 delete_related_images: [],
                 delete_fac_image: false,
             },
-            selfIntroDetails: {},
+            selfIntroDetails: {
+                occupation_name : []
+            },
             currentImage: "",
             imageError: "",
             employment_types: [],
