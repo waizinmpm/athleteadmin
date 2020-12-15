@@ -46,10 +46,11 @@
                     </div>
                     <div class="form-group">
                         <label>従業員数</label>
-                        <input type="text" :class="['form-control',$v.recruiterForm.num_of_employees.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.num_of_employees.$model" />
+                        <input type="text" class="form-control"  v-model.trim="recruiterForm.num_of_employees">
+                        <!-- <input type="text" :class="['form-control',$v.recruiterForm.num_of_employees.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.num_of_employees.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.num_of_employees.numeric">This field must be number only.</div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="form-group">
                         <label>事業内容</label>
@@ -63,17 +64,17 @@
                         <label><span class="align-label">電話番号 1</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.phone1.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.phone1.$model" />
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.phone1.required">Phone number is required</div>
-                            <div class="error" v-else-if="!$v.recruiterForm.phone1.numeric">Phone number must be number only.</div>
-                            <div class="error" v-else-if="!$v.recruiterForm.phone1.minLength || !$v.recruiterForm.phone1.maxLength">Phone number must be between 10 and 14 numbers.</div>
+                            <div class="error" v-if="!$v.recruiterForm.phone1.required">電話番号は必須です</div>
+                            <div class="error" v-else-if="!$v.recruiterForm.phone1.numeric">電話番号は数字で入力してください</div>
+                            <div class="error" v-else-if="!$v.recruiterForm.phone1.minLength || !$v.recruiterForm.phone1.maxLength">電話番号の形式が正しくありません</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>電話番号 ２</label>
                         <input type="text" class="form-control" :class="['form-control',$v.recruiterForm.phone2.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.phone2.$model" />
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.phone2.numeric">Phone number must be number only.</div>
-                            <div class="error" v-else-if="!$v.recruiterForm.phone2.minLength || !$v.recruiterForm.phone2.maxLength">Phone number must be between 10 and 14 numbers.</div>
+                            <div class="error" v-if="!$v.recruiterForm.phone2.numeric">電話番号は数字で入力してください</div>
+                            <div class="error" v-else-if="!$v.recruiterForm.phone2.minLength || !$v.recruiterForm.phone2.maxLength">電話番号の形式が正しくありません</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -84,8 +85,8 @@
                         <label><span class="align-label">サイトURL</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.website.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.website.$model" />
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.website.required && $v.recruiterForm.website.$error">URL is required</div>
-                            <div class="error" v-if="!$v.recruiterForm.website.url">URL is invalid</div>
+                            <div class="error" v-if="!$v.recruiterForm.website.required && $v.recruiterForm.website.$error">WEBサイトURLは必須です</div>
+                            <div class="error" v-if="!$v.recruiterForm.website.url">URLの形式が正しくありません</div>
                         </div>
                     </div>
                 </div>
@@ -95,15 +96,15 @@
                         <label><span class="align-label">ご担当者名</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.incharge_name.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.incharge_name.$model" />
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.incharge_name.required">Incharge name is required</div>
+                            <div class="error" v-if="!$v.recruiterForm.incharge_name.required">ご担当者名は必須です</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label><span class="align-label">担当者名(フリガナ)</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.incharge_name_furigana.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.incharge_name_furigana.$model" />
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.incharge_name_furigana.required">Incharge name (furigana) is required</div>
-                            <div class="error" v-if="!$v.recruiterForm.incharge_name_furigana.isFurigana">Incharge name (Furigana) is not furigana</div>
+                            <div class="error" v-if="!$v.recruiterForm.incharge_name_furigana.required">担当者名(フリガナ)は必須です</div>
+                            <div class="error" v-if="!$v.recruiterForm.incharge_name_furigana.isFurigana">全角カタカナで入力してください</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -115,16 +116,16 @@
                         <select v-model="questionType" @change="onQuestionTypeChange" class="form-control">
                             <option v-for="(question, key) in $configs.questions" :value="question" :key="key">{{ question }}</option>
                         </select>
-                        <input type="text" v-model.trim="recruiterForm.question" v-show="questionType == $configs.questions.other" class="form-control" style="margin-top:10px;"/>
+                        <input type="text" v-model="recruiterForm.question" v-show="questionType == $configs.questions.other" class="form-control" style="margin-top:10px;"/>
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.question.required">Secret question is required</div>
+                            <div class="error" v-if="!$v.recruiterForm.question.required">秘密の質問は必須です</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label><span class="align-label">秘密の質問の答え </span><span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.answer.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.answer.$model" />
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.answer.required">Answer is required</div>
+                            <div class="error" v-if="!$v.recruiterForm.answer.required">秘密の質問の答えをは必須です</div>
                         </div>
                     </div>
                 </div>
@@ -146,7 +147,8 @@
                             <!-- <label class="custom-file-label">ファイルを選択</label> -->
                         </div>
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.logo.isTrueImage">Invalid image file.</div>
+                            <div class="error" v-if="!$v.recruiterForm.logo.isTrueImage">無効な画像ファイル</div>
+                            <div class="error" v-if="!$v.recruiterForm.logo.limitFileSize">無効な画像ファイル</div>
                         </div>
                     </div>
                     <div class="logo-box-photo">                       
@@ -172,8 +174,10 @@
                             <!-- <label class="custom-file-label">ファイルを選択</label> -->
                         </div>
                         <div class="invalid-feedback">
-                                <div class="error" v-if="!$v.recruiterForm.incharge_photo.isTrueImage">Invalid image file.</div>
-                            </div>
+                            <div class="error" v-if="!$v.recruiterForm.incharge_photo.isTrueImage">無効な画像ファイル</div>
+                            <div class="error" v-if="!$v.recruiterForm.incharge_photo.limitFileSize">無効な画像ファイル</div>
+                            <!-- <div class="error" v-if="!$v.recruiterForm.incharge_photo.isTrueImage">Invalid image file.</div> -->
+                        </div>
                     </div>
 
                     <div class="scout-box-photo">                   
@@ -194,6 +198,10 @@
                                     </div>
                                 </div>
                             </div>
+                        <div class="invalid-feedback">
+                            <div class="error" v-if="!$v.temp_related_image.isTrueImage">無効な画像ファイル</div>
+                            <div class="error" v-if="!$v.temp_related_image.limitFileSize">無効な画像ファイル</div>
+                        </div>
                         <div class="custom-file">
                             <input type="file" class="hidden upload-file hide" accept="image/x-png,image/gif,image/jpeg" multiple @change="onRelatedImagesChange" ref="relatedImagesInput"/>
                             <!-- <label class="custom-file-label">ファイルを選択</label> -->
@@ -264,6 +272,14 @@
         return file.type ? file.type.startsWith("image") : true;
     };
 
+    const limitFileSize = (params) => (value) => {
+        if (!value || typeof value === 'string') {
+            return true;
+        }
+        let file = value;
+        return (file.size/1024/1024).toFixed(2) <= params;
+    };
+
     // function buildFormData(formData, data, parentKey) {
     //     if (data && typeof data === "object" && !(data instanceof Date) && !(data instanceof File)) {
     //         Object.keys(data).forEach((key) => {
@@ -332,7 +348,7 @@
         validations: {
             recruiterForm: {
                 recruiter_name: { required },
-                num_of_employees: { numeric },
+                // num_of_employees: { numeric },
                 phone1: { required, numeric, minLength: minLength(10), maxLength: maxLength(14) },
                 phone2: { numeric, minLength: minLength(10), maxLength: maxLength(14) },
                 website: { required, url },
@@ -341,10 +357,10 @@
                 question: { required },
                 answer: { required },
                 video: { matchYoutubeUrl },
-                logo: { isTrueImage },
-                incharge_photo: { isTrueImage },
+                logo: { isTrueImage, limitFileSize: limitFileSize(3) },
+                incharge_photo: { isTrueImage, limitFileSize: limitFileSize(3) },
             },
-            temp_related_image: { isTrueImage },
+            temp_related_image: { isTrueImage, limitFileSize: limitFileSize(3) },
         },
 
         methods: {
