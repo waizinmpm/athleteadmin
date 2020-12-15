@@ -238,9 +238,6 @@
                             </tr>
                         </tbody>
                     </DataTable>
-                    <div  v-if="projects.length == 0">
-                        <p class="no-data-txt-border">データがありません</p>
-                    </div>
                 </div>
                 <pagination
                     v-if="projects.length != 0"
