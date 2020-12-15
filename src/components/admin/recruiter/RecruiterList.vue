@@ -133,7 +133,7 @@
                     @sort="sortBy"
                     :showCheckbox="true"
                     :totalLength = projects.total
-
+                    :hasSearched="hasSearched"
                 >
                     <tbody>
                     <tr v-for="(project, index) in projects.data" :key="project.id">
@@ -199,9 +199,6 @@
                     </tr>
                     </tbody>
                 </DataTable>
-                <div  v-if="projects.length == 0">
-                    <p class="no-data-txt-border">データがありません</p>
-                </div>
             </div>
             <pagination
             v-if="projects.length != 0"
@@ -283,7 +280,7 @@ export default {
                     this.$set(statusData, "status", status);
                     this.$api
                     .post(this.base_url + `/change-status`, statusData)
-                    .then((response) => {
+                    .then(() => {
                         // let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
                         this.getData(this.projects.current_page);
                         window.socket.emit("deactived", [id,'recruiter']);
