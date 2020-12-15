@@ -283,7 +283,7 @@ export default {
                     this.$set(statusData, "status", status);
                     this.$api
                     .post(this.base_url + `/change-status`, statusData)
-                    .then((response) => {
+                    .then(() => {
                         // let getpage = this.projects.to > this.projects.from ? this.projects.current_page : 1;
                         this.getData(this.projects.current_page);
                         window.socket.emit("deactived", [id,'recruiter']);
