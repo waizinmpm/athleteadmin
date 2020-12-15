@@ -179,7 +179,7 @@
 				</div>
                 <pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
                     <span slot="prev-nav">
-                        <i class="fas fa-angle-left"></i> 前へ
+                        <i class="fa fa-angle-left"></i> 前へ
                     </span>
                     <span slot="next-nav">
                         次へ <i class="fa fa-angle-right"></i>
