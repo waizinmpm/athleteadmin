@@ -677,7 +677,7 @@
                                         <tr>
                                             <td>学位 <span class="view-permission float-right">{{$t('jobseekerprofile.admin')}}</span></td>
                                             <td>
-                                                <span v-if="edu.degree">{{edu.degree}}</span>
+                                                <span v-if="edu.degree">{{edu.degree != 'null' ? edu.degree : '-'}}</span>
                                                 <span v-else> - </span>
                                             </td>
                                         </tr>
@@ -696,7 +696,7 @@
                                         <tr>
                                             <td>ステータス <span class="view-permission float-right">{{$t('jobseekerprofile.admin')}}</span></td>
                                             <td>
-                                                <span v-if="edu.education_status">{{edu.education_status}} </span>
+                                                <span v-if="edu.education_status">{{edu.education_status != 'null' ? edu.education_status : '-'}} </span>
                                                 <span v-else> - </span>
                                             </td>
                                         </tr>
@@ -829,7 +829,7 @@
                     <div class="row">
                     <div class="col-md-4">
                         <select class="form-control" v-model="edu.degree">
-                        <option value="0" selected>学位を選択する</option>
+                        <option value="null" selected>学位を選択</option>
                         <option
                             v-for="status in finaleducation"
                             :key="status.id"
@@ -862,7 +862,7 @@
                             </select>-->
 
                             <select class="form-control" v-model="edu.from_year">
-                                <option disabled value="年">年</option>
+                                <option value="null">年</option>
                                 <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
                             </select>
                             <span class="sort-desc">&#9662;</span>
@@ -875,7 +875,7 @@
                                                         <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
                             </select>-->
                             <select class="form-control" v-model="edu.from_month">
-                                <option disabled value="月">月</option>
+                                <option value="null">月</option>
                                 <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
                             </select>
                             <span class="sort-desc">&#9662;</span>
@@ -891,7 +891,7 @@
                                                     <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
                         </select>-->
                         <select class="form-control" v-model="edu.to_year">
-                            <option disabled value="年">年</option>
+                            <option value="null">年</option>
                             <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
                         </select>
                         <span class="sort-desc">&#9662;</span>
@@ -904,7 +904,7 @@
                                                     <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
                         </select>-->
                         <select class="form-control" v-model="edu.to_month">
-                            <option disabled value="月">月</option>
+                            <option value="null">月</option>
                             <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
                         </select>
                         <span class="sort-desc">&#9662;</span>
@@ -919,7 +919,7 @@
                     <div class="col-4">
                         <div class="select-wrap">
                         <select v-model="edu.education_status" id class="form-control">
-                            <option value="0" selected>ステータスを選択する</option>
+                            <option value="null" selected>ステータスを選択</option>
                             <option value="卒業">卒業</option>
                             <option value="卒業予定">卒業予定</option>
                             <option value="中退">中退</option>
@@ -1015,86 +1015,50 @@
                 </div> -->
 
                 <div class="form-group">
-                    <!-- <h6 class="font-weight-bold mb-3">経験職種</h6> -->
+                    <!--  <h6 class="font-weight-bold mb-3">{{$t('jobseekerprofile.experiencetype')}}</h6> -->
                     <div class="form-group">
-                    <input
-                        type="checkbox"
-                        :id="'現在も在籍中'+indx"
-                        class="custom-control-input custom-checkbox"
-                        v-model="exp.current"
-                    />
-                    <label
-                        :for="'現在も在籍中'+indx"
-                        class="custom-control-label custom-checkbox-label"
-                    >現在も在籍中</label>
+                        <input type="checkbox" :id="'現在も在籍中'+indx" class="custom-control-input custom-checkbox"  v-model="exp.current"/>
+                        <label :for="'現在も在籍中'+indx" class="custom-control-label custom-checkbox-label">{{$t('jobseekerprofile.currentperoid')}}</label>
                     </div>
                     <div class="form-group">
-                    <div class="row mb-2">
-                        <div class="col-md-2 pr-1">
-                        <!-- <select v-model="exp.from_year" id="" class="form-control">
-                                                    <option value="">年</option>
-                                                    <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
-                        </select>-->
-                        <div class="select-wrap">
-                            <select
-                            class="form-control"
-                            v-model="exp.from_year"
-                            v-bind:disabled="exp.current != 0 && exp.current != null"
-                            >
-                            <option disabled value="年">年</option>
-                            <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
-                            </select>
+                        <div class="row mb-2">
+                            <div class="col-md-2 pr-1">
+                                <div class="select-wrap">
+                                    <select class="form-control" v-model="exp.from_year" @change="change('year',exp.from_year,indx)">
+                                        <option  value="年">年</option>
+                                        <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                                    </select>
+                                    
+                                </div>
+                                <span class="error" v-if="exp.current == 1 && exp.from_year == '年' "> 開始年を入力してください </span>
+                            </div>
+                            <div class="col-md-2 pl-1">
+                                <div class="select-wrap">
+                                    <select class="form-control" v-model="exp.from_month" @change="change('month',exp.from_month,indx)" >
+                                        <option  value="月">月</option>
+                                        <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
+                                    </select>
+                                    
+                                </div>
+                                <span class="error" v-if="exp.current == 1 && exp.from_month == '月' "> 開始月を入力してください </span>
+                            </div>
+                            <label for="">から</label>
                         </div>
+                        <div class="row">
+                            <div class="col-md-2 pr-1">
+                                <select class="form-control" v-model="exp.to_year" v-bind:disabled="(exp.current != 0 && exp.current != null) || (exp.from_year == '年' && exp.from_month == '月')">
+                                    <option  value="年">年</option>
+                                    <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 pl-1">
+                                <select class="form-control" v-model="exp.to_month" v-bind:disabled="(exp.current != 0 && exp.current != null) || (exp.from_year == '年' && exp.from_month == '月')">
+                                    <option  value="月">月</option>
+                                    <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
+                                </select>
+                            </div>
+                            <label for="" style="line-height: 35px;">まで</label>
                         </div>
-                        <div class="col-md-2 pl-1">
-                        <!-- <select v-model="exp.from_month" id="" class="form-control">
-                                                    <option value="">月</option>
-                                                    <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
-                        </select>-->
-                        <div class="select-wrap">
-                            <select
-                            class="form-control"
-                            v-model="exp.from_month"
-                            v-bind:disabled="exp.current != 0 && exp.current != null"
-                            >
-                            <option disabled value="月">月</option>
-                            <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
-                            </select>
-                        </div>
-                        </div>
-                        <label for>から</label>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 pr-1">
-                        <!-- <select v-model="exp.to_year" id="" class="form-control">
-                                                    <option value="">年</option>
-                                                    <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
-                        </select>-->
-                        <select
-                            class="form-control"
-                            v-model="exp.to_year"
-                            v-bind:disabled="exp.current != 0 && exp.current != null"
-                        >
-                            <option disabled value="年">年</option>
-                            <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
-                        </select>
-                        </div>
-                        <div class="col-md-2 pl-1">
-                        <!-- <select v-model="exp.to_month" id="" class="form-control">
-                                                    <option value="">月</option>
-                                                    <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
-                        </select>-->
-                        <select
-                            class="form-control"
-                            v-model="exp.to_month"
-                            v-bind:disabled="exp.current != 0 && exp.current != null"
-                        >
-                            <option disabled value="月">月</option>
-                            <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
-                        </select>
-                        </div>
-                        <label for style="line-height: 35px;">まで</label>
-                    </div>
                     </div>
                 </div>
 
@@ -1103,7 +1067,7 @@
                     <div class="col-md-4 pl-0">
                         <div class="select-wrap">
                             <select v-model="exp.position_id" id class="form-control">
-                            <option value="0" selected>ポジションを選択する</option>
+                            <option value="0" selected>ポジションを選択</option>
                             <option
                                 v-for="pos in positions"
                                 :key="pos.id"
@@ -2129,6 +2093,22 @@
             });
         },
 
+        change(type,value,index)
+        {
+            if(type == 'year')
+            {
+                if(value == '年'){
+                        this.experiences[index].to_year = '年';
+                }
+                
+            }else{
+                    if(value == '月'){
+                    this.experiences[index].to_month = '月';
+                }
+                
+            }
+        },
+
         //su sandy
         getSelfIntroDetails(request_id) {
             let loader = this.$loading.show();
@@ -2351,12 +2331,12 @@
                 jobseeker_id: null,
                 school_name: "",
                 subject: "",
-                degree: 0,
-                from_year: "年",
-                from_month: "月",
-                to_year: "年",
-                to_month: "月",
-                education_status: 0,
+                degree: null,
+                from_year: null,
+                from_month: null,
+                to_year: null,
+                to_month: null,
+                education_status: null,
             });
         },
 
@@ -2608,25 +2588,25 @@
                     if (element.from_year) {
                     element.from_year = element.from_year + 1920 + " 年";
                     } else {
-                    element.from_year = "年";
+                    element.from_year = null;
                     }
 
                     if (element.from_month) {
                     element.from_month = element.from_month + 12 + " 月";
                     } else {
-                    element.from_month = "月";
+                    element.from_month = null;
                     }
 
                     if (element.to_year) {
                     element.to_year = element.to_year + 1920 + " 年";
                     } else {
-                    element.to_year = "年";
+                    element.to_year = null;
                     }
 
                     if (element.to_month) {
                     element.to_month = element.to_month + 12 + " 月";
                     } else {
-                    element.to_month = "月";
+                    element.to_month = null;
                     }
                 });
                 } else {
@@ -2704,7 +2684,68 @@
 
         // Thuzar
         saveCarrer() {
+            let current = this.experiences.filter(x=>x.current == 1 && (x.from_year == '年' || x.from_month == '月'));
+            if(current.length > 0){
+                this.exp_year_errors = "errors";
+                this.exp_month_errors = "errors";
+            }
+            else{
+                this.exp_year_errors = '';
+                this.exp_month_errors = '';
+
+            }
+
             for(var i =this.experiences.length-1;i>=0;i--){
+                if(this.experiences.length != 1){
+                    if((this.experiences[i].job_location == null || this.experiences[i].job_location == '') && this.experiences[i].from_year == '年' && this.experiences[i].from_month == '月' && 
+                        this.experiences[i].to_year == '年' && this.experiences[i].to_month == '月' && this.experiences[i].position_id == "0" && this.experiences[i].employment_type_id == "0" && 
+                        (this.experiences[i].main_duty == null || this.experiences[i].main_duty == '' && this.experiences[i].private_status == 0 ) && (this.experiences[i].current == false || this.experiences[i].current == 0)
+                        && this.exp_year_errors == '' && this.exp_month_errors == '')  {
+                        this.experiences.splice(i,1);
+                        
+                    }
+                }
+                    
+            }
+
+            for(var j =this.educations.length-1;j>=0;j--){
+                if(this.educations.length != 1) {
+                    if((this.educations[j].school_name == null || this.educations[j].school_name == '' ) && (this.educations[j].degree == null || this.educations[j].degree == '' )  && (this.educations[j].subject == null || this.educations[j].subject == '' ) && this.educations[j].from_year == null && this.educations[j].to_year == null && this.educations[j].from_month == null && this.educations[j].to_month == null && this.educations[j].education_status == null ){
+                        this.educations.splice(j,1);
+                    }
+                }
+            }
+            if(this.exp_year_errors == '' && this.exp_month_errors == ''){
+                let loader = this.$loading.show();
+                
+                let jsonData = {
+                    jobseekerid : `${this.$route.params.id}`,
+                    educations: this.educations,
+                    experiences: this.experiences,
+                    carrers: this.carrers,
+                };
+                this.$api.post("/v1/jobseeker/profile/carrer", jsonData).then((response) => {
+                this.$alertService.showSuccessDialog(
+                        null,
+                        this.$t("alertMessage.updateSuccess"),
+                        this.$t("common.close")
+                    );
+                    // this.editBox("careerEdit", "close");
+                    // this.getCarrerDetails(); 
+                    // loader.hide();
+                    console.log(response);
+                    this.careerEdit = false;
+                    this.showDetails = true;
+                    this.getCarrerDetails(`${this.$route.params.id}`);
+                    this.$emit('menuShowHide',this.showMenuBar = true);
+                    loader.hide();
+                })
+                .catch((errors) => {
+                    console.log(errors);
+                    loader.hide();
+                });
+            }
+            /* for(var i =this.experiences.length-1;i>=0;i--){
                 if(this.experiences.length != 1)
                 {
                     if(this.experiences[i].job_location == null || this.experiences[i].job_location == '')
@@ -2751,7 +2792,7 @@
                 .catch((errors) => {
                     console.log(errors);
                     loader.hide();
-                });
+                }); */
         },
         // Thuzar
 
