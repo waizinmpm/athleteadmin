@@ -195,10 +195,11 @@ export default {
             // this.save = true;
         },
         updateTax(){
-            
+                this.current_taxes.percent = parseFloat(this.current_taxes.percent).toFixed(3);
+                this.current_taxes.percent = this.current_taxes.percent.slice(0,-1);
                 const min_length = 0;
                 // const max_length = 100;
-                console.log(this.current_taxes.percent)
+               
                 if(this.current_taxes.percent >= min_length && this.current_taxes.percent != ''){
                     this.editTax = false;
                     this.$api.post('/v1/admin/update-taxes',this.current_taxes).then(() => {
