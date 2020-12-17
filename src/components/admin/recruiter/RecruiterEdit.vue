@@ -66,7 +66,7 @@
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.phone1.required">電話番号は必須です</div>
                             <div class="error" v-else-if="!$v.recruiterForm.phone1.numeric">電話番号は数字で入力してください</div>
-                            <div class="error" v-else-if="!$v.recruiterForm.phone1.minLength || !$v.recruiterForm.phone1.maxLength">電話番号の形式が正しくありません</div>
+                            <div class="error" v-else-if="!$v.recruiterForm.phone1.minLength || !$v.recruiterForm.phone1.maxLength">電話番号は半角数字で、10から14桁である必要があります</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -74,7 +74,7 @@
                         <input type="text" class="form-control" :class="['form-control',$v.recruiterForm.phone2.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.phone2.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.phone2.numeric">電話番号は数字で入力してください</div>
-                            <div class="error" v-else-if="!$v.recruiterForm.phone2.minLength || !$v.recruiterForm.phone2.maxLength">電話番号の形式が正しくありません</div>
+                            <div class="error" v-else-if="!$v.recruiterForm.phone2.minLength || !$v.recruiterForm.phone2.maxLength">電話番号は半角数字で、10から14桁である必要があります</div>
                         </div>
                     </div>
                     <div class="form-group">

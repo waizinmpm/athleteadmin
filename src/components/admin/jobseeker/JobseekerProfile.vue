@@ -549,11 +549,11 @@
                     >{{$t('jobseekerprofile.phone_req')}}</div>
                     <div
                         class="error"
-                        v-if="!$v.basicInfo.phone.numeric"
+                        v-else-if="!$v.basicInfo.phone.numeric"
                     >{{$t('jobseekerprofile.number_only')}}</div>
                     <div
                         class="error"
-                        v-if="!$v.basicInfo.phone.minLength || !$v.basicInfo.phone.maxLength"
+                        v-else-if="!$v.basicInfo.phone.minLength || !$v.basicInfo.phone.maxLength"
                     >{{$t('jobseekerprofile.phone_length')}}</div>
                     </div>
                 </div>
