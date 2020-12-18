@@ -150,8 +150,12 @@
                                 </div>
                             </label>
                         </td> -->
-                        <td class="tbl-ws"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}"><span>{{project.recruiter_number}}</span></router-link></td>
-                        <td class="text-left"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{project.recruiter_name}}</router-link></td>
+                        <td class="tbl-ws">
+                            <router-link :to="{ name: 'recruiter-detail', params: { id: project.id, paging: projects.current_page }}"><span>{{project.recruiter_number}}</span></router-link>
+                        </td>
+                        <td class="text-left">
+                            <router-link :to="{ name: 'recruiter-detail', params: { id: project.id, paging: projects.current_page }}" class="txt-vertical-ellipsis">{{project.recruiter_name}}</router-link>
+                        </td>
                        <!--  <span :class="[project.password_locked == 3 ? 'txt-red' : '' ]">{{project.recruiter_name}}</span><span v-if="project.password_locked == 3" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span> -->
                         <!-- <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td> -->
                         
@@ -190,11 +194,12 @@
                             </div>
                         </td>
                         <td class="tbl-ws">
-                        <router-link
+                            <button type="button" class="btn btn-edit" @click="recruiterEdit(project.id)">{{ $t('common.edit')}}</button>
+                        <!-- <router-link
                             :to="'/admin/recruiter-list/' + project.id + '/edit'"
                             class="btn btn-edit"
                             v-if="project.record_status != 3"
-                        >{{ $t('common.edit')}}</router-link>
+                        >{{ $t('common.edit')}}</router-link> -->
                         </td>
                     </tr>
                     </tbody>
@@ -250,7 +255,11 @@ export default {
                 { id: this.$configs.recruiter.inactive, checked: false },
                 { id: this.$configs.recruiter.stopped, checked: false },
             ],
-            visible: false
+            visible: false,
+            paging : {
+                page: 'recruiter-list',
+                page_no: 1,
+            }
         };
     },
     computed: {
@@ -304,6 +313,12 @@ export default {
                 "custion-radio",
             ];
             statusToggleClasses.includes(targetClassName) ? "" : this.hideToggle();
+        },
+
+        recruiterEdit(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ path: "/admin/recruiter-list/" + id + "/edit" });
         },
        
         showToggle(index) {

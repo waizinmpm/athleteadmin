@@ -154,8 +154,8 @@
                             </span>
                             </label>
                         </td> -->
-                        <td class="tbl-wl"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link></td>
-                        <td class="text-left"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link></td>
+                        <td class="tbl-wl"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id, paging: projects.current_page }}">{{project.jobseeker_number}}</router-link></td>
+                        <td class="text-left"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id, paging: projects.current_page }}">{{project.jobseeker_name}}</router-link></td>
                         <td class="tbl-ws">
                             <div class="toggle-box" v-if="project.record_status != 0">
                                 <div class="scout-box">
@@ -180,7 +180,8 @@
                             </div>
                         </td>
                         <td class="tbl-ws">
-                            <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" v-if="project.record_status != 3" >{{ $t('common.edit') }}</router-link>
+                            <button type="button" class="btn btn-edit" @click="jobseekerEdit(project.id)">{{ $t('common.edit')}}</button>
+                            <!-- <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" v-if="project.record_status != 3" >{{ $t('common.edit') }}</router-link> -->
                         </td>
                         </tr>
                     </tbody>
@@ -271,7 +272,11 @@ export default {
                 { id: this.$configs.jobseeker.inactive, checked: false },
                 { id: this.$configs.jobseeker.stopped, checked: false },
             ],
-            visible: false
+            visible: false,
+            paging : {
+                page: 'jobseeker-list',
+                page_no: 1,
+            }
         };
     },
     mounted(){
@@ -308,6 +313,12 @@ export default {
                     this.getData(this.projects.current_page);
                 }
             });
+        },
+
+        jobseekerEdit(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ path: "/admin-jobseeker-list/jobseeker/" + id + "/edit" });
         },
 
         /* showBasicInfoModal(id) {

@@ -40,7 +40,10 @@ export default {
         };
     },
     mounted() {
-        this.getData();
+        let getPageName = this.$store.getters.getPaging.page;
+        let getPageNo = this.$route.name == getPageName ? this.$store.getters.getPaging.page_no : 1;
+        console.log(`getPage: ${getPageName} getPageNo: ${getPageNo}`);
+        this.getData(getPageNo);
     },
 
     methods: {
@@ -65,7 +68,7 @@ export default {
                 filteredData: this.filteredData,
                 columns:this.columns
             };
-            page = page || 1;
+            // page = page || 1;
             let loader = this.$loading.show({
                 container: this.$refs.loadingRef,
                 isFullPage: false

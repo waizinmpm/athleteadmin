@@ -444,7 +444,8 @@
             </div>
         </form>
         <div class="d-flex  justify-content-end  mt-5">
-                <router-link to="/job-list" class="btn btn-back mr-4">{{ $t('common.cancel') }}</router-link>
+            <span @click="goBack" class="btn btn-back mr-4">一覧へ戻る</span>
+                <!-- <router-link to="/job-list" class="btn btn-back mr-4">{{ $t('common.cancel') }}</router-link> -->
                 <!-- <router-link to="/job-list" class="btn btn-back mr-4">求⼈⼀覧 へ戻る</router-link> -->
                 <!-- <button
                     type="submit"
@@ -453,13 +454,13 @@
                     class="btn btn-save"
                     @click="changeStatus('post')"
                 >{{$t('jobcreate.confirm')}}</button> -->
-                <button
-                    type="submit"
-                    id="post"
-                    value="確認"
-                    class="btn btn-save"
-                    @click="changeStatus('post')"
-                >保存する</button>
+            <button
+                type="submit"
+                id="post"
+                value="確認"
+                class="btn btn-save"
+                @click="changeStatus('post')"
+            >保存する</button>
         </div>
     </div>
   </div>
@@ -549,37 +550,47 @@ export default {
 
     methods: {
         jobpostcreate() {
-        this.$v.$touch();
-        if (this.$v.$invalid) {
-            return;
-        }
-        if (this.$route.params.id) {
-            this.$api.post("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/update", this.formRegister)
-            .then(res => {
-                console.log('Update:'+ res);
-                this.$router.push({ path: "/job-list" });
-            })
-            .catch((e) => {
-                console.log(e);
-            })
-            .finally((f) => {
-                console.log(f);
-                this.loading = false;
-            });
-        }
-        /* else {
-            this.$api.post("/v1/recruiter/jobs/add", this.formRegister)
-            .then(
-                this.$router.push({
-                path:
-                    this.formRegister.job_post_status == "post"
-                    ? "/recruiter/jobs"
-                    : "/recruiter/job-draft"
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                return;
+            }
+            if (this.$route.params.id) {
+                this.$api.post("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/update", this.formRegister)
+                .then(res => {
+                    console.log('Update:'+ res.data);
+                    let paginate = {
+                        page: 'job-list',
+                        page_no: this.$store.getters.getPaging.page_no,
+                    }
+                    this.$store.commit('setPaging',paginate);
+                    this.$router.push({ path: "/job-list" });
                 })
-            )
-            .catch(error => console.log(error))
-            .finally(() => (this.loading = false));
-        } */
+                .catch((e) => {
+                    console.log(e);
+                });
+            }
+            /* else {
+                this.$api.post("/v1/recruiter/jobs/add", this.formRegister)
+                .then(
+                    this.$router.push({
+                    path:
+                        this.formRegister.job_post_status == "post"
+                        ? "/recruiter/jobs"
+                        : "/recruiter/job-draft"
+                    })
+                )
+                .catch(error => console.log(error))
+                .finally(() => (this.loading = false));
+            } */
+        },
+
+        goBack() {
+            let paginate = {
+                page: 'job-list',
+                page_no: this.$store.getters.getPaging.page_no,
+            }
+            this.$store.commit('setPaging',paginate);
+            this.$router.go(-1);
         },
 
         changeStatus($status) {

@@ -183,13 +183,13 @@
                                     </label>
                                 </td>
                                 <td class="text-left job-col">
-                                    <router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id }}">
+                                    <router-link :to="{ name: 'recruiter-job-detail', params: { id: project.id, paging: projects.current_page }}">
                                         <span class="job-no">{{ project.job_number }}</span>
                                         <span class="txt-vertical-ellipsis job-tit">{{ project.title }}</span>
                                     </router-link>
                                 </td>
                                 <td class="text-left tbl-wl">
-                                    <router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id }}" class="d-flex">{{ project.recruiter_number }}
+                                    <router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiters_id, paging: projects.current_page }}" class="d-flex">{{ project.recruiter_number }}
                                      <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.recruiter_name }}</span>
                                     </router-link>
                                 </td>
@@ -233,7 +233,8 @@
                                     >{{ $t('common.change') }}</button> -->
                                 </td>
                                 <td class="tbl-ws">
-                                    <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn btn-info">{{ $t('common.edit')}}</router-link>
+                                    <button type="button" class="btn btn-edit" @click="jobEdit(project.id)">{{ $t('common.edit')}}</button>
+                                    <!-- <router-link :to="{ name: 'edit', params: { id: project.id } }" class="btn btn-info">{{ $t('common.edit')}}</router-link> -->
                                 </td>
                             </tr>
                         </tbody>
@@ -287,7 +288,11 @@ export default {
 				{ id: this.$configs.job.private, checked: false },
                 { id: this.$configs.job.stopped, checked: false },
             ],
-            visible: false
+            visible: false,
+            paging : {
+                page: 'job-list',
+                page_no: 1,
+            }
         };
     },
 
@@ -313,6 +318,12 @@ export default {
 
         textEllipsis(event){
             event.target.className = textEllipsis(event.target.className);
+        },
+
+        jobEdit(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ name: 'edit', params: { id: id } });
         },
 
         changeStatus(id, status) {

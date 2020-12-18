@@ -94,7 +94,8 @@
                 <pre>{{recruiter_info.company_pr}}</pre>
             </div>
         </div>
-        <span @click="$router.go(-1)" class="btn btn-back float-right">一覧へ戻る</span> 
+        <!-- <span @click="$router.go(-1)" class="btn btn-back float-right">一覧へ戻る</span>  -->
+        <span @click="goBack" class="btn btn-back float-right">一覧へ戻る</span>
     </div>
 </template>
 
@@ -129,6 +130,15 @@ export default {
     },
 
     methods : {
+        goBack() {
+            let paginate = {
+                page: 'recruiter-list',
+                page_no: this.$route.params.paging,
+            }
+            this.$store.commit('setPaging',paginate);
+            this.$router.go(-1);
+        },
+
         hasRelatedImage(index) {
             return this.recruiter_info.related_images && this.recruiter_info.related_images[index];
         },
