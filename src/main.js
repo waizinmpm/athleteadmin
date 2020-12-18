@@ -22,6 +22,7 @@ import VueScrollTo  from 'vue-scrollto';
 import io from 'socket.io-client';
 import VueChatScroll from 'vue-chat-scroll';
 import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
