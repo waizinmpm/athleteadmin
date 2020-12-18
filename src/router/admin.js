@@ -26,6 +26,7 @@ const route = [{
     },
     {
         path: '/admin-recruiter-list',
+        name: 'recruiter-list',
         component: RecruiterList,
         meta: {
             reqiuresAuth: false,
@@ -91,6 +92,7 @@ const route = [{
     },
     {
         path: '/admin-jobseeker-list',
+        name: 'jobseeker-list',
         component: JobSeekerList,
         meta: {
             reqiuresAuth: false,
@@ -137,7 +139,7 @@ const route = [{
     },
     {
         name: 'jobseeker-detail',
-        path: '/admin-jobseeker-list/jobseeker/:id/detail',
+        path: '/admin-jobseeker-list/jobseeker/:id/detail/:paging',
         component: JobseekerProfileEdit,
         meta: {
             reqiuresAuth: false,
@@ -147,7 +149,7 @@ const route = [{
     },
     {
         name: 'recruiter-detail',
-        path: '/admin-recruiter-list/recruiter/:id/detail',
+        path: '/admin-recruiter-list/recruiter/:id/detail/:paging',
         component: RecruiterProfileDetail,
         meta: {
             reqiuresAuth: false,
@@ -157,7 +159,7 @@ const route = [{
     },
     {
         name: 'recruiter-job-detail',
-        path: '/job-list/:id/detail',
+        path: '/job-list/:id/detail/:paging',
         component: JobDetail,
         meta: {
             reqiuresAuth: false,
