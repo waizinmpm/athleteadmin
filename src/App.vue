@@ -856,6 +856,10 @@ body {
 .swal2-title {
     font-size: 18px!important;
 }
+.swal2-icon.swal2-info{
+    border-color: #84BE3F !important; 
+    color:#84BE3F !important; 
+}
 // width 
 .w-100 {
     width: 100px;

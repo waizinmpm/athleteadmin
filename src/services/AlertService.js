@@ -89,6 +89,21 @@ const inputDialog = (title, ok = "OK", cancel = "Cancel") => {
 		}
 	});
 }
+const infoDialog = (title, message, ok = "閉じる") => {
+	return Vue.swal({
+		allowOutsideClick: false,		
+		icon: "info",
+		width: 350,
+		title: title,
+		text: message,
+		confirmButtonText: ok,
+		confirmButtonColor: "#84BE3F",
+		customClass: {
+			confirmButton: 'border-style',
+			cancelButton: 'cancelbtn border-style'
+		},
+	});
+}
 
 const toast = (title, message) => {
 	return Vue.swal({
@@ -108,5 +123,6 @@ export default {
 	showWarningDialog: warningDialog,
 	showConfirmDialog: confirmDialog,
 	showInputDialog: inputDialog,
+	showInfoDialog:infoDialog,
 	showToast: toast,
 }

@@ -214,8 +214,8 @@
 							placeholder="年 - 月 - 日"></date-picker>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-comfirm" @click="onEditingComplete(form)">保存</button>
 						<button class="btn" @click="closeModal">キャンセル</button>
+						<button class="btn btn-comfirm" @click="onEditingComplete(form,'amt')">保存</button>
 					</div>
 					</div>
 				</div>
@@ -385,7 +385,7 @@ export default {
 				
 			});
 		},
-		onEditingComplete(payment) {
+		onEditingComplete(payment,type) {
 			this.$api.put('/v1/admin/payment-transactions/'+payment.id, payment)
 			.then(() => {
 				let i = this.projects.data.findIndex(x => x.id == payment.id);
@@ -396,6 +396,9 @@ export default {
 				}
 				if (this.showModal) {
 					this.closeModal();
+				}
+				if(type == 'amt'){
+					this.$alertService.showInfoDialog(null,'ステータスの変更が必要な場合は忘れずに変更してください。',this.$t('common.close'))
 				}
 			})
 			.catch((e) => {
@@ -452,11 +455,12 @@ export default {
 				showCloseButton: true,
 				showCancelButton: true,
 				inputValue: payment.remark,
+				reverseButtons: true,
 			});
 			inputDialog.then(r => {
 				if (r.value !== undefined) {
 					payment.remark = r.value;
-					this.onEditingComplete(payment);
+					this.onEditingComplete(payment,'remark');
 				}
 			})
 		},

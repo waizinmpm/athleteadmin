@@ -458,9 +458,9 @@ export default {
                 recruiter_number: '',
                 recruiter_name: '',
                 email: '',
-                default_amount: 200000,
-                invoice_amount: 220000,
-                tax:20000,
+                default_amount: 0,
+                invoice_amount: 0,
+                tax:0,
 				remark: '',
 				tax_id: this.tax.id,
             };
