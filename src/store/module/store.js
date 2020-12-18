@@ -11,6 +11,10 @@ export const state = {
     auth_error: null,
     reg_error: null,
     registeredUser: null,
+    paging : {
+        page: '',
+        page_no: 1,
+    }
 };
 
 export const getters = {
@@ -40,6 +44,9 @@ export const getters = {
         }
         return false;
     },
+    getPaging(state){
+        return state.paging;
+    }
 };
 
 
@@ -71,6 +78,9 @@ export const mutations = {
     registerFailed(state, payload) {
         state.reg_error = payload.error;
     },
+    setPaging(state, payload) {
+        state.paging = payload;
+    }
 
 }
 
