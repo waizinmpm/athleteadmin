@@ -1464,14 +1464,14 @@
                 <label for>転職活動状況</label>
                 <div class="col-md-8 p-0">
                     <div class="select-wrap">
-                    <select id class="form-control" v-model="desired_condition.job_search_activity">
-                        <option :value="null">転職活動状況を選択</option>
-                        <option
-                        v-for="status in activity_status"
-                        :key="status.id"
-                        :value="status.id"
-                        >{{ status.id }}</option>
-                    </select>
+                        <select id class="form-control" v-model="desired_condition.job_search_activity">
+                            <option :value="null">転職活動状況を選択</option>
+                            <option
+                            v-for="status in activity_status"
+                            :key="status.id"
+                            :value="status.id"
+                            >{{ status.id }}</option>
+                        </select>
                     <span class="sort-desc">&#9662;</span>
                     </div>
                 </div>
@@ -1685,7 +1685,7 @@
                 </div>
                 <div class="form-group row">
                 <label for class="col-md-2"></label>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div class="select-wrap">
                         <v-select v-model="desired_condition.desired_currency"
                             :options="iso_list" 
@@ -3546,5 +3546,21 @@ textarea.form-control {
 }
 .history-edit-tbl td:first-child {
     width: 260px;
+}
+
+.vs__dropdown-toggle{
+    border: none!important;
+}
+.vs__search, .vs__search:focus{
+    padding: 0px !important;
+    margin: 0px !important;
+        color: #666;
+}
+.vs__selected{
+    margin: 0px !important;
+    padding:0px !important;
+}
+.vs__clear{
+    margin-top:-3px !important;
 }
 </style>
