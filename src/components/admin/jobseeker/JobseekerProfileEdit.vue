@@ -3,8 +3,8 @@
         <div class="d-flex align-items-end mb-20">
             <h3 class="mb-0" v-if="$route.name == 'jobseeker-detail'">詳細情報 <span style="color:red">{{record_status == 3 ? '退会' : ''}}</span></h3> 
             <h3 class="mb-0" v-if="$route.name == 'JobseekerEdit'">プロフィール編集<span style="color:red">{{record_status == 3 ? '退会' : ''}}</span></h3> 
-            <!-- <span @click="$router.go(-1)" class="ml-auto btn btn-back">一覧へ戻る</span> -->
-            <span @click="goBack" class="ml-auto btn btn-back">一覧へ戻る</span>
+            <span @click="$router.go(-1)" class="ml-auto btn btn-back">一覧へ戻る</span>
+            <!-- <span @click="goBack" class="ml-auto btn btn-back">一覧へ戻る</span> -->
         </div>      
             <div class="col-12 tab-list sticky-top" v-if="showMenuBar" v-on:scroll="handleScroll">
                 <ul class="tab-list-row">   
@@ -89,14 +89,14 @@
                 this.record_status  = status;
             },
 
-            goBack() {
+            /* goBack() {
                 let paginate = {
                     page: 'jobseeker-list',
                     page_no: this.$route.params.paging || this.$store.getters.getPaging.page_no,
                 }
                 this.$store.commit('setPaging',paginate);
                 this.$router.go(-1);
-            }
+            } */
         }
         
     }

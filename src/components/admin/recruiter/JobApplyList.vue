@@ -135,27 +135,39 @@
                                 <td class="tbl-ws">{{project.management_number}}</td>
                                 <td class="tbl-w135"><p class="tbl-ws m-auto">{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</p></td>
                                 <td class="text-left tbl-wl">
-                                    <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail/'+ projects.current_page}" class="d-flex">{{project.recruiter_number}}
+                                    <span @click="recruiterDetail(project.recruiter_id)" class="d-flex detail-link">
+                                        {{project.recruiter_number}}
+                                        <span class="ml-2 txt-vertical-ellipsis">{{ project.recruiter_name }}</span>
+                                    </span>
+                                    <!-- <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}" class="d-flex">{{project.recruiter_number}}
                                     <span class="ml-2 txt-vertical-ellipsis">{{ project.recruiter_name }}</span>
-                                    </router-link>
+                                    </router-link> -->
                                 </td>
                                 <!-- <td>{{project.recruiter_number}}</td>
                                 <td>{{project.recruiter_name}}</td> -->
                                 <td class="text-left job-col">
-                                    <router-link :to="{ path: '/job-list/'+ project.job_id +'/detail/'+ projects.current_page}">
+                                    <span @click="jobDetail(project.job_id)" class="detail-link">
                                         <span class="job-no">{{ project.job_number }}</span>
                                         <span class="txt-vertical-ellipsis job-tit">{{ project.title }}</span>
-                                    </router-link>
+                                    </span>
+                                    <!-- <router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">
+                                        <span class="job-no">{{ project.job_number }}</span>
+                                        <span class="txt-vertical-ellipsis job-tit">{{ project.title }}</span>
+                                    </router-link> -->
                                 </td>
                                 <!-- <td><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">{{project.job_number}}</router-link></td>
                                 <td class="text-left tbl-titw"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">
                                     <span class="txt-vertical-ellipsis">{{project.title}}</span></router-link>
                                 </td> -->
                                 <td class="text-left tbl-wl">
-                                    <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail/'+ projects.current_page}" class="d-flex">
+                                    <span @click="jobseekerDetail(project.jobseeker_id)" class="d-flex detail-link">
+                                        {{project.jobseeker_number}}
+                                        <span class="ml-2 txt-vertical-ellipsis">{{project.jobseeker_name}}</span>
+                                    </span>
+                                    <!-- <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}" class="d-flex">
                                     {{project.jobseeker_number}}
                                     <span class="ml-2 txt-vertical-ellipsis">{{project.jobseeker_name}}</span>
-                                    </router-link>
+                                    </router-link> -->
                                 </td>
                                 <!-- <td><router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_number}}</router-link></td>
                                 <td><router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_name}}</router-link></td> -->
@@ -357,10 +369,33 @@ export default {
 			},
 			tax: {},
             chatBoxes: [],
-            visible: false
+            visible: false,
+            paging : {
+                page: 'jobapply-list',
+                page_no: 1,
+            }
         }
     },
     methods: {
+        
+        recruiterDetail(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ path: '/admin-recruiter-list/recruiter/'+ id +'/detail/'});
+        },
+
+        jobDetail(id) {
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ path: '/job-list/'+ id +'/detail'});
+        },
+
+        jobseekerDetail(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ path: '/admin-jobseeker-list/jobseeker/'+ id +'/detail'});
+        },
+
         handleStatusToggle(e) {
 			if(handleStatus(e.target.className) == false) 
 				this.toggle_status = false;
@@ -564,6 +599,7 @@ export default {
         }
 	},
 	created() {
+        console.log(this.$route.params);
 		this.$api.get('/v1/tax/current')
 		.then(r => {
 			this.tax = r.data.data;

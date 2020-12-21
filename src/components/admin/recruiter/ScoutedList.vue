@@ -127,19 +127,32 @@
 					<DataTable ref="datatable" :columns="$t('scouted_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total" :hasSearched="hasSearched">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
-								<td><router-link :to="{ name: 'scout-job', params: {id: project.job_id}}">{{project.management_number}}</router-link></td>
+								<td>
+									<span @click="scoutJobDetail(project.job_id)" class="detail-link">
+										{{project.management_number}}
+									</span>
+									<!-- <router-link :to="{ name: 'scout-job', params: {id: project.job_id}}">{{project.management_number}}</router-link> -->
+								</td>
 								<td>{{project.scouted_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
 								<!-- <td>{{project.recruiter_number}}</td>
 								<td>{{project.recruiter_name}}</td> -->
 								<td class="text-left tbl-wl">
                                     <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_number}} </router-link></p>
                                     <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_name}} </router-link></p> -->
-									<router-link class="d-flex" :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail/'+ projects.current_page}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{project.recruiter_name}}</span></router-link>
+									<span @click="recruiterDetail(project.recruiter_id)" class="d-flex detail-link">
+										{{project.recruiter_number}}
+										<span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{project.recruiter_name}}</span>
+									</span>
+									<!-- <router-link class="d-flex" :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail/'+ projects.current_page}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{project.recruiter_name}}</span></router-link> -->
                                 </td>
 								<td class="text-left tbl-titw">
-									<router-link class="d-flex" :to="{ path: '/job-list/'+ project.job_id +'/detail/'+ projects.current_page}"> {{project.job_number}} 
+									<span @click="jobDetail(project.job_id)" class="d-flex detail-link">
+										{{project.job_number}} 
+										<span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.title }}</span>
+									</span>
+									<!-- <router-link class="d-flex" :to="{ path: '/job-list/'+ project.job_id +'/detail/'+ projects.current_page}"> {{project.job_number}} 
 									<span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.title }}</span>
-									</router-link>
+									</router-link> -->
 								</td>
 								<!-- <td  class="text-left tbl-titw" @click="textEllipsis($event)"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"><span class="txt-vertical-ellipsis">{{ project.title }}</span></router-link></td> -->
 								
@@ -149,7 +162,10 @@
 								<td class="text-left tbl-wl ">
                                     <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}"> {{project.jobseeker_number}} </router-link></p>
                                     <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}"> {{project.jobseeker_name}} </router-link></p> -->
-									<router-link class="d-flex" :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail/'+ projects.current_page}">{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;overflow-wrap: break-word;">{{project.jobseeker_name}}</span></router-link>
+									<span @click="jobseekerDetail(project.jobseeker_id)" class="d-flex detail-link">
+										{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;overflow-wrap: break-word;">{{project.jobseeker_name}}</span>
+									</span>
+									<!-- <router-link class="d-flex" :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail/'+ projects.current_page}">{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;overflow-wrap: break-word;">{{project.jobseeker_name}}</span></router-link> -->
                                 </td>
 								<td style="position:relative;">
 									<div class="scout-box">
@@ -360,11 +376,40 @@ export default {
 			isToggle : false ,
 			tax: {},
 			chatBoxes: [],
-			visible: false
+			visible: false,
+			paging : {
+                page: 'scouted-list',
+                page_no: 1,
+            }
 		}
 	},
 	
 	methods: {
+
+		scoutJobDetail(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ name: 'scout-job', params: {id: id}});
+        },
+
+		recruiterDetail(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ path: '/admin-recruiter-list/recruiter/'+ id +'/detail/'});
+        },
+
+        jobDetail(id) {
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ path: '/job-list/'+ id +'/detail'});
+        },
+
+        jobseekerDetail(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ path: '/admin-jobseeker-list/jobseeker/'+ id +'/detail'});
+		},
+		
 		handleStatusToggle(e) {
 			if(handleStatus(e.target.className) == false) 
 				this.toggle_status = false;

@@ -85,8 +85,8 @@
             <dt class="detail-head">給与・待遇</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.allowance }}</pre></dd> -->
         </dl>
-        <!-- <span @click="$router.go(-1)" class="btn btn-back float-right">一覧へ戻る</span> -->
-        <span @click="goBack" class="btn btn-back float-right">一覧へ戻る</span>
+        <span @click="$router.go(-1)" class="btn btn-back float-right">一覧へ戻る</span>
+        <!-- <span @click="goBack" class="btn btn-back float-right">一覧へ戻る</span> -->
     </div>
 </template>
 
@@ -143,14 +143,14 @@ export default {
             loading.hide();
         },
 
-        goBack() {
-            let paginate = {
-                page: 'job-list',
-                page_no: this.$route.params.paging,
-            }
-            this.$store.commit('setPaging',paginate);
+        /* goBack() {
+            // let paginate = {
+            //     page: this.$route.name,
+            //     page_no: this.$store.getters.getPaging.page_no,
+            // }
+            // this.$store.commit('setPaging',paginate);
             this.$router.go(-1);
-        },
+        }, */
     }
     
 }

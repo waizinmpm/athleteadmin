@@ -154,8 +154,14 @@
                             </span>
                             </label>
                         </td> -->
-                        <td class="tbl-wl"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id, paging: projects.current_page }}">{{project.jobseeker_number}}</router-link></td>
-                        <td class="text-left"><router-link  :to="{ name: 'jobseeker-detail', params: { id: project.id, paging: projects.current_page }}">{{project.jobseeker_name}}</router-link></td>
+                        <td class="tbl-wl">
+                            <span @click="jobseekerDetail(project.id)" class="detail-link">{{project.jobseeker_number}}</span>
+                            <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link> -->
+                        </td>
+                        <td class="text-left">
+                            <span @click="jobseekerDetail(project.id)" class="detail-link">{{project.jobseeker_name}}</span>
+                            <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
+                        </td>
                         <td class="tbl-ws">
                             <div class="toggle-box" v-if="project.record_status != 0">
                                 <div class="scout-box">
@@ -319,6 +325,12 @@ export default {
             this.paging.page_no = this.projects.current_page;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ path: "/admin-jobseeker-list/jobseeker/" + id + "/edit" });
+        },
+
+        jobseekerDetail(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ name: 'jobseeker-detail', params: { id: id }});
         },
 
         /* showBasicInfoModal(id) {
