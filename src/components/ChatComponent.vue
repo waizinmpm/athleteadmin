@@ -63,7 +63,7 @@
                                             <div v-html="$options.filters.highlight(message.message, search)"></div>
                                         </div>
                                         <div :class="`time ${ isSender(message) ? 'float-right' : ''}`">
-                                            {{ message.created_at | date('%Y-%m-%d %H:%M') }}
+                                            {{ formatDate(message.created_at) }}
                                         </div>
                                         
                                     </li>
@@ -428,6 +428,10 @@ export default {
 				console.log(error);
 			})
         },
+		formatDate(date){
+			let datx = new Date(date).toLocaleString('en-us', { timeZone: 'Asia/Tokyo' });
+			return this.$options.filters.date(datx, '%Y-%m-%d %T');
+		},
         scrollTop(channel,page) {
 			if (this.current_page > this.last_page) { return }
 			
