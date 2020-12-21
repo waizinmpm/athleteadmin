@@ -134,10 +134,10 @@
 								<td class="text-left tbl-wl">
                                     <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_number}} </router-link></p>
                                     <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_name}} </router-link></p> -->
-									<router-link class="d-flex" :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{project.recruiter_name}}</span></router-link>
+									<router-link class="d-flex" :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail/'+ projects.current_page}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{project.recruiter_name}}</span></router-link>
                                 </td>
 								<td class="text-left tbl-titw">
-									<router-link class="d-flex" :to="{ path: '/job-list/'+ project.job_id +'/detail'}"> {{project.job_number}} 
+									<router-link class="d-flex" :to="{ path: '/job-list/'+ project.job_id +'/detail/'+ projects.current_page}"> {{project.job_number}} 
 									<span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.title }}</span>
 									</router-link>
 								</td>
@@ -149,7 +149,7 @@
 								<td class="text-left tbl-wl ">
                                     <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}"> {{project.jobseeker_number}} </router-link></p>
                                     <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}"> {{project.jobseeker_name}} </router-link></p> -->
-									<router-link class="d-flex" :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}">{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;overflow-wrap: break-word;">{{project.jobseeker_name}}</span></router-link>
+									<router-link class="d-flex" :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail/'+ projects.current_page}">{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;overflow-wrap: break-word;">{{project.jobseeker_name}}</span></router-link>
                                 </td>
 								<td style="position:relative;">
 									<div class="scout-box">

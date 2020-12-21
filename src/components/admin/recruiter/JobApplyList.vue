@@ -135,14 +135,14 @@
                                 <td class="tbl-ws">{{project.management_number}}</td>
                                 <td class="tbl-w135"><p class="tbl-ws m-auto">{{project.job_apply_date | moment('YYYY/MM/D HH:mm:ss')}}</p></td>
                                 <td class="text-left tbl-wl">
-                                    <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}" class="d-flex">{{project.recruiter_number}}
+                                    <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail/'+ projects.current_page}" class="d-flex">{{project.recruiter_number}}
                                     <span class="ml-2 txt-vertical-ellipsis">{{ project.recruiter_name }}</span>
                                     </router-link>
                                 </td>
                                 <!-- <td>{{project.recruiter_number}}</td>
                                 <td>{{project.recruiter_name}}</td> -->
                                 <td class="text-left job-col">
-                                    <router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}">
+                                    <router-link :to="{ path: '/job-list/'+ project.job_id +'/detail/'+ projects.current_page}">
                                         <span class="job-no">{{ project.job_number }}</span>
                                         <span class="txt-vertical-ellipsis job-tit">{{ project.title }}</span>
                                     </router-link>
@@ -152,7 +152,7 @@
                                     <span class="txt-vertical-ellipsis">{{project.title}}</span></router-link>
                                 </td> -->
                                 <td class="text-left tbl-wl">
-                                    <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}" class="d-flex">
+                                    <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail/'+ projects.current_page}" class="d-flex">
                                     {{project.jobseeker_number}}
                                     <span class="ml-2 txt-vertical-ellipsis">{{project.jobseeker_name}}</span>
                                     </router-link>
