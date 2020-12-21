@@ -421,6 +421,7 @@ export default {
 					})
 				}
 				offlines.forEach(x => {
+					console.log(`Sending chat notification mail to: ${x.to}`);
 					this.sendMail(x);
 				})
 			})
