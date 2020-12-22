@@ -84,6 +84,7 @@ const route = [{
         }
     },
     {
+        name: 'payment-management',
         path: '/payment-management',
         component: PaymentManagement,
         meta: {
