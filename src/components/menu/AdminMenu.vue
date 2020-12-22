@@ -15,18 +15,24 @@
              <span>{{$t('menu.logotxt')}}</span>
              </a>           
           </div>
+          <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">             
+              <li><a class="no-href name">運営管理者用画面</a></li>              
+            </ul>
+          </div> 
 
           <!-- Collect the nav links, forms, and other content for toggling -->
-          <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
+          <!-- <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
               <li class="form-group" style="margin-top:15px;margin-right:15px;margin-left:15px;">
                 <select v-model="$i18n.locale" class="form-control input-sm">
-                  <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang" style="width:80px;height:80px;border-color:#aab2bd;border-radius:3px;">{{ lang }}</option>
+                  <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang.locale" style="width:80px;height:80px;border-color:#aab2bd;border-radius:3px;">{{ lang.description }}</option>
                 </select>                 
               </li>
               <li class="active" style="min-width:90px;"><a>{{$t('menu.Home')}}</a></li>              
             </ul>
-          </div><!-- /.navbar-collapse -->
+          </div> -->
+          <!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
     <!--nav-->  
@@ -38,7 +44,10 @@ export default {
     name: 'app-header',
     data(){
       return{
-        langs:['日本語','English']
+        langs:[
+			{ locale: 'jp', description: '日本語' },
+			{ locale: 'en', description: 'English' }	
+		]
         
       }
     },
@@ -65,6 +74,14 @@ select {
 }
 select::-ms-expand {
     display: none; /* Hide the default arrow in Internet Explorer 10 and Internet Explorer 11 */
+}
+.name{
+    font-size: 18px !important;
+}
+.no-href:hover{
+    color: #fff;
+    text-decoration: none;
+    background:none !important;
 }
 </style>
 

@@ -11,6 +11,10 @@ export const state = {
     auth_error: null,
     reg_error: null,
     registeredUser: null,
+    paging : {
+        page: '',
+        page_no: 1,
+    }
 };
 
 export const getters = {
@@ -40,6 +44,9 @@ export const getters = {
         }
         return false;
     },
+    getPaging(state){
+        return state.paging;
+    }
 };
 
 
@@ -53,14 +60,14 @@ export const mutations = {
         state.isLoggedin = true;
         state.loading = false;
         state.currentUser = Object.assign({}, payload.user, { token: payload.access_token });
-        localStorage.setItem("user", JSON.stringify(state.currentUser));
+        localStorage.setItem("adminuser", JSON.stringify(state.currentUser));
     },
     loginFailed(state, payload) {
         state.loading = false;
         state.auth_error = payload.error;
     },
     logout(state) {
-        localStorage.removeItem("user");
+        localStorage.removeItem("adminuser");
         state.isLoggedin = false;
         state.currentUser = null;
     },
@@ -71,6 +78,9 @@ export const mutations = {
     registerFailed(state, payload) {
         state.reg_error = payload.error;
     },
+    setPaging(state, payload) {
+        state.paging = payload;
+    }
 
 }
 

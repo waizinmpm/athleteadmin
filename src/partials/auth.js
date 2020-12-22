@@ -1,7 +1,7 @@
 import api from '../api/apiBasePath';
 export function registerUser(credentials) {
     return new Promise((res, rej) => {
-        api.post('/auth/register', credentials)
+        api.post('/v1/auth/register', credentials)
             .then(response => {
                 res(response.data);
             })
@@ -12,20 +12,19 @@ export function registerUser(credentials) {
 }
 
 export function login(credentials) {
-    return new Promise((res, rej) => {
-        api.post('/auth/login', credentials)
-            .then(response => {
-                console.log(response.data)
-                res(response.data);
+    return new Promise((resolve, reject) => {
+        api.post('/v1/auth/login', credentials)
+            .then(response => {                
+                resolve(response.data);
             })
             .catch(err => {
-                rej('Wrong Email/Password combination.' + err)
+                reject(err);
             })
     })
 }
 
 export function getLoggedinUser() {
-    const userStr = localStorage.getItem('user');
+    const userStr = localStorage.getItem('adminuser');
 
     if (!userStr) {
         return null

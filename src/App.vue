@@ -15,17 +15,20 @@ $borderradius1:25px;
 $borderradius2:3px;
 $bordercolor:#e7e7e7;
 $colors:( 
-primary: #004bb1, primary-ligtht:#1A74C0, primary-dark:#233977, 
-second:#FB8C00, secondary-light:#a5a5a5, 
+primary: #84BE3F, 
+second:#9fb746, second-light:#b4c574,
 text-color:#000, 
-errorcolor:red, 
+errorcolor:#F60D0D, 
 bordercolor:#dee2e6, 
-tablecolor:#91a8bf, 
+tablecolor:#b4c574, 
 listcolor:#f5f5f5, 
-buttoneditcolor:#f5ecd1, 
-buttonchangecolor:#d1f5df, 
+buttoneditcolor:#90a051,
+buttonchangecolor:#fff, 
 buttondeletecolor:#ffcdd5, 
-buttonenablecolor:#cbddf3);
+buttonenablecolor:#cbddf3,
+buttoncancelcolor:#919191,
+buttonbackcolor:#aab2bd,
+buttonsavecolor: #EF8B1E,);
 
 @function color($color-name) {
     @return map-get($colors, $color-name)
@@ -45,6 +48,15 @@ $desktop: 1000px;
     padding: 0;
 }
 
+.detail-link {
+	color: #004bb1;
+    text-decoration: none;
+	cursor: pointer;
+}
+.detail-link:hover {
+	color: #4fc1e9;
+}
+
 body {
     // background-color: #fefefe;
     h5 {
@@ -53,28 +65,12 @@ body {
     h3 {
         font-size: 20px;
     }
-    .bg-color {
+    .bg-primary {
         background-color: color(primary);
     }
-    .custom-btn {
-        border-radius: none !important;
-        color: color(text-color);
-        width: 100px;
-        padding: 5px 0;
-    }
-    .edit {
-        background-color: color(buttoneditcolor);
-    }
-    .change {
-        background-color: color(buttonchangecolor);
-    }
-    .delete {
-        background-color: color(buttondeletecolor);
-    }
-    .enable {
-        background-color: color(buttonenablecolor);
-    }
     .main-header {
+        margin: 20px 0 25px 0;
+        font-size: 18px;
         color: color(primary)
     }
     header {
@@ -168,9 +164,8 @@ body {
     .searchbtn {
         background-color: color(primary);
         color: #fff;
-        width: 150px;
-        padding: 10px 0;
-        border-radius: 20px;
+        width: 140px;
+        padding: 8px 0;
     }
     .search-btn {
         background-color: color(primary);
@@ -212,7 +207,7 @@ body {
     /*modal*/
     .modal-mask {
         position: fixed;
-        z-index: 9998;
+        z-index: 998;
         top: 0;
         left: 0;
         width: 100%;
@@ -460,6 +455,10 @@ body {
         background-color: color(tablecolor);
         color: #fff;
     }
+    table>thead>tr input[type=checkbox] {
+        width: 14px;
+        height: 14px;
+    }
     .page-link {
         color: color(tablecolor) !important;
     }
@@ -488,6 +487,413 @@ body {
             display: block;
             width: 100%;
         }
+    }
+}
+
+.form-control:focus {
+    border-color: color(primary);
+}
+/*sweet alert*/
+
+.swal2-popup{
+    width: 400px !important;
+}
+
+.swal2-modal .swal2-close {
+    font-size: 30px !important;
+    color: #807979 !important;
+    font-weight: bold !important;
+}
+
+.swal2-modal .swal2-styled {
+    font-size: 14px !important;
+}
+
+.swal2-cancel {
+    width: 100px !important;
+    padding: 10px 0px !important;
+}
+
+.swal2-icon.swal2-warning {
+    color: #ffb700 !important;
+    border-color: #ffb700 !important;
+}
+
+.swal2-popup .swal2-styled:focus {
+    box-shadow: none !important;
+}
+.swal2-content {   
+    padding: 0px !important;   
+    font-size: 14px !important;   
+}
+.swal2-actions button{
+    width: 100px !important;
+}
+.cancelbtn {
+    background: #828fa5 !important;
+}
+
+
+
+// edit button toggle
+.btn-common {
+    position: relative;
+    width: 75px;
+    height: 29px;
+    padding: 0 12px;
+    border-color: #A6A6A6 !important;
+    background-color: #fff;
+    box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    color: #000  !important;
+    vertical-align: middle;
+    line-height: 28px;
+    text-align: left;    
+}
+.btn-common .down-icon {
+    position: absolute;
+    right: 5px;
+    padding-left: 2px;
+    font-size: 20px;
+    transition: all ease .3s;
+    border-left: 2px solid #A6A6A6;
+}
+.scout-box {
+    position: relative;
+    // display: flex;
+    // justify-content: center;
+}
+.scout-txt {
+    min-width: 90px;
+}
+.scout-toggle {
+    position: absolute;
+    color: #333;
+    width: 200px;
+    padding: 20px 20px 0 20px;
+    top: 70px;
+    left: -40px;
+    background: #fff;
+    z-index: 9;
+    transform: scaleY(0);    
+    transform-origin: top;
+    transition: transform 0.4s ease;
+    box-shadow: 0 0.2rem 2rem rgba(0, 0, 0, 0.15);
+    text-align: left;
+}
+.scout-toggle:before {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    top: -10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent #fff transparent;
+}
+.scout-expand {
+    transform: scaleY(1);
+}
+.custion-radio:checked {
+    position: absolute;
+    left: -9999px;
+}
+
+.custion-radio:checked + .custom-radio-lable {
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    line-height: 30px;
+    display: inline-block;
+}
+
+.custion-radio:checked + .custom-radio-lable:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    border: 1px solid #aab2bd;
+    border-radius: 100%;
+    background: #fff;
+}
+
+.custion-radio:checked + .custom-radio-lable:after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: #90a051;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    border-radius: 100%;
+    transition: all 0.2s ease;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.custion-radio:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+
+.custion-radio:not(:checked) + .custom-radio-lable {
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    line-height: 30px;
+    display: inline-block;
+}
+
+.custion-radio:not(:checked) + .custom-radio-lable:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    border: 1px solid #aab2bd;
+    border-radius: 100%;
+    background: #fff;
+}
+
+.custion-radio:not(:checked) + .custom-radio-lable:after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: #91A8BF;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    border-radius: 100%;
+    transition: all 0.2s ease;
+    opacity: 0;
+    transform: scale(0);
+}
+[contenteditable] {
+  outline: 0px solid transparent;
+}
+// edit button toggle
+
+.inner-wrapper {
+    width: 65%;
+    padding: 20px 20px 0 20px;
+    border: 1px solid #9b9898;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.custom-checkbox-label {
+    line-height: 20px;
+    font-weight: 400;
+    position: relative;
+    margin-bottom: 0;
+    vertical-align: top;
+    cursor: pointer;
+}
+.custom-check-label-post {
+    padding-left: 5px;
+}
+.custom-checkbox {
+    height: 20px!important;
+    width: 20px!important;
+    margin: 0!important;
+    vertical-align: bottom;
+}
+
+// Button
+.btn-save{
+    width: 140px;
+    padding: 9px;
+    border-color: color(buttonsavecolor);
+    background-color: color(buttonsavecolor);
+}
+.btn-back {
+    width: 140px;
+    padding: 9px;
+    border-color:color(buttonbackcolor);
+    background-color: color(buttonbackcolor);
+}
+
+.custom-btn {
+    border-radius: 0 !important;
+    color: color(text-color);
+    width: 100px;
+    padding: 7px 0;
+}
+.border-none {
+    border-color: transparent;
+}
+.btn-alert {
+    width: 110px;
+    padding: .625em .5em !important;
+}
+.btn-edit {
+    min-width: 80px;
+    padding: 4px 0;
+    background-color: color(buttoneditcolor);
+    border-color: transparent;
+}
+.btn-cancel {
+    border-color: color(buttoncancelcolor);
+    background-color: color(buttoncancelcolor);
+}
+.btn-change {
+    width: 60px;
+    padding: 3px;
+    color: #434a54;
+    background-color: color(buttonchangecolor);
+}
+.btn-second {
+    border-color: color(second-light);
+    background-color: color(second);
+}
+.delete {
+    background-color: color(buttondeletecolor);
+}
+.enable {
+    background-color: color(buttonenablecolor);
+}
+
+// table
+.tbl-wrap {
+    width: 100%;
+    // overflow-x: auto ;
+}
+.tbl-wrap .table {
+    // width: 1300px;
+    // overflow-x: scroll;
+}
+// .tbl-wrap .table th , .tbl-wrap .table td {
+//     min-width: 200px;
+// }
+.tbl-wxs {
+    width: 80px;
+}
+.tbl-ws {
+    width: 100px;
+}
+.tbl-wm {
+    width: 130px;
+}
+.tbl-wl {
+    width: 160px;
+}
+.tbl-wxl {
+    width: 200px;
+}
+.tbl-w110 {
+    width: 110px;
+}
+.tbl-w135 {
+    width: 135px;
+}
+.tbl-titw {
+    width: 250px;
+}
+.text-left {
+    text-align: left !important;
+}
+.text-center {
+    text-align: center !important;
+}
+ .font-weight-bold {
+    font-weight: 700 !important;
+}
+// no data table
+.no-data-txt-border {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 99.7%;
+    margin: -20px auto 0;
+    padding: 50px 0 !important;
+    font-weight: bold;
+    font-size: 16px;
+    color: color(primary);
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-top: 0;
+}
+.fa-angle-right {
+    font-weight: bold;
+}
+// padding & margin
+.mb-0 {
+    margin-bottom: 0;
+}
+.m-auto {
+    margin: 0 auto;
+}
+// date
+.date-row {
+	display: flex;
+	align-items: flex-end;
+}
+.mx-input {
+    height: 40px !important;
+}
+.mx-input:hover, .mx-input:focus {
+    border-color: color(primary) !important;
+}
+.txt-red {
+    color: #F60D0D;
+}
+.txt-vertical-ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+.input-group-addon {
+    cursor: pointer;
+}
+.page-link .fa {
+    font-weight: bold;
+    font-size: 16px;
+}
+.swal2-title {
+    font-size: 18px!important;
+}
+.swal2-icon.swal2-info{
+    border-color: #84BE3F !important; 
+    color:#84BE3F !important; 
+}
+// width 
+.w-100 {
+    width: 100px;
+}
+.status-row {
+    display: flex;
+    margin-bottom: 40px;
+}
+.status-col {
+    margin-right: 20px;
+}
+.required {
+    float: right;
+    margin: 0 50px 0 5px;
+    padding: 0px 4px 2px 4px;
+    background: #F60D0D;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 11px;
+    vertical-align: middle;
+}
+
+@media (max-width:1400px) {
+    .inner-wrapper {
+        width: 75%;
     }
 }
 </style>

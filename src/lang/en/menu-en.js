@@ -1,9 +1,16 @@
 export default {
     admin: 'Admin Menu',
+    close_menu: 'Close Menu',
     logoheader: 'LOGO',
     logotxt: 'This is logo text',
     Home: 'Home',
     login: 'Login',
     logout: 'Logout',
     post: 'Post',
+    management_screen: 'Management Panel',
+    recruiter_member: 'Recruiter Member',
+    jobseeker_member: 'Job Seeker Member',
+    member_information_list: 'Member Information List',
+    payment_management: 'Payment Management',
+    change_password: 'Change Password',
 };
