@@ -446,9 +446,11 @@ export default {
                     })
                     .catch((r) => {
 						const data = r.response.data;
-						this.$alertService.showErrorDialog(null,data.error.message);
-						// --Rebind original status
-						this.getData(this.projects.current_page);
+						this.$alertService.showErrorDialog(null,data.error.message)
+						.then(() => {
+							// --Rebind original status
+							this.getData(this.projects.current_page);
+						})
                     })
                 }
                 else {
