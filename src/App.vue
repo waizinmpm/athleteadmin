@@ -890,7 +890,20 @@ body {
     font-size: 11px;
     vertical-align: middle;
 }
-
+.vs__dropdown-toggle{
+    border: none!important;
+}
+.vs__search, .vs__search:focus{
+    padding: 0px !important;
+    margin: 0px !important;
+    color: #666;
+}
+.vs__selected{
+    padding:0px !important;
+}
+.vs__clear{
+    margin-top:-3px !important;
+}
 @media (max-width:1400px) {
     .inner-wrapper {
         width: 75%;

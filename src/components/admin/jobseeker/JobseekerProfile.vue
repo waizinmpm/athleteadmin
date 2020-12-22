@@ -3547,20 +3547,4 @@ textarea.form-control {
 .history-edit-tbl td:first-child {
     width: 260px;
 }
-
-.vs__dropdown-toggle{
-    border: none!important;
-}
-.vs__search, .vs__search:focus{
-    padding: 0px !important;
-    margin: 0px !important;
-        color: #666;
-}
-.vs__selected{
-    margin: 0px !important;
-    padding:0px !important;
-}
-.vs__clear{
-    margin-top:-3px !important;
-}
 </style>
