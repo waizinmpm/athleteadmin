@@ -30,7 +30,7 @@ export default {
     loca_details : ' 住所詳細',
     phone : ' 電話番号',
     email : ' メールアドレス',
-    skype : ' スカイプI名 ',
+    skype : ' スカイプ名 ',
     education : ' 最終学歴',
     status : ' 現在の状況',
     male : '男性',
