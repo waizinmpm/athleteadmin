@@ -48,6 +48,15 @@ $desktop: 1000px;
     padding: 0;
 }
 
+.detail-link {
+	color: #004bb1;
+    text-decoration: none;
+	cursor: pointer;
+}
+.detail-link:hover {
+	color: #4fc1e9;
+}
+
 body {
     // background-color: #fefefe;
     h5 {
