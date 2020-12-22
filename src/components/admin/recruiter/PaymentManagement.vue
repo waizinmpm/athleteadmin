@@ -166,8 +166,18 @@
 									<br v-if="project.actual_payment_date">
 									<button type="button" @click="editAmountDate(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
-								<td  class="text-left" style="min-width:120px;"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiter_id }}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link></td>
-								<td  class="tbl-wm"><router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiter_id }}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link></td> 
+								<td class="text-left" style="min-width:120px;">
+									<span @click="recruiterDetail(project.recruiter_id)" class="txt-vertical-ellipsis detail-link">
+										{{ project.recruiter_name }}
+									</span>
+									<!-- <router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiter_id }}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link> -->
+								</td>
+								<td  class="tbl-wm">
+									<span @click="recruiterDetail(project.recruiter_id)" class="txt-vertical-ellipsis detail-link">
+										{{ project.incharge_name }}
+									</span>
+									<!-- <router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiter_id }}" class="txt-vertical-ellipsis">{{ project.incharge_name }}</router-link> -->
+								</td> 
 								<td class="tbl-ws">
 									<div class="tooltip-box">
 										<span class="txt-vertical-ellipsis text-left">{{ project.remark }}</span>
@@ -281,10 +291,21 @@ export default {
 			},
 			showModal: false,
 			form: {},
-			visible: false
+			visible: false,
+			paging : {
+                page: 'payment-management',
+                page_no: 1,
+            }
 		}
 	},
 	methods: {
+
+		recruiterDetail(id){
+            this.paging.page_no = this.projects.current_page;
+            this.$store.commit('setPaging',this.paging);
+            this.$router.push({ name: 'recruiter-detail', params: { id: id }});
+		},
+		
 		loadInvoicePreview(scoutid_or_applyid,payment_job_type) {
 			var url;
 			if(payment_job_type == 'scout') {
