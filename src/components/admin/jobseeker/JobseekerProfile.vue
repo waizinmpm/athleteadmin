@@ -341,7 +341,7 @@
                         {{$t('jobseekerprofile.location')}}
                         <span v-if="basicInfo.current_address_status == 1" class="private">{{$t('jobseekerprofile.private')}}</span>
                     </dt>
-                    <dd class="detail-data" v-if="basicInfo.country_id != ''">{{basicInfo.continent_name}} , {{basicInfo.country_name}}</dd>
+                    <dd class="detail-data" v-if="basicInfo.continent_name">{{basicInfo.continent_name}} , {{basicInfo.country_name}}</dd>
                     <dd class="detail-data" v-else>未入力</dd>
                     <dt class="detail-head">{{$t('jobseekerprofile.phone')}}<span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
                     <dd class="detail-data" v-if="basicInfo.phone != ''">{{basicInfo.phone}}</dd>
@@ -3546,5 +3546,21 @@ textarea.form-control {
 }
 .history-edit-tbl td:first-child {
     width: 260px;
+}
+
+.vs__dropdown-toggle{
+    border: none!important;
+}
+.vs__search, .vs__search:focus{
+    padding: 0px !important;
+    margin: 0px !important;
+        color: #666;
+}
+.vs__selected{
+    margin: 0px !important;
+    padding:0px !important;
+}
+.vs__clear{
+    margin-top:-3px !important;
 }
 </style>
