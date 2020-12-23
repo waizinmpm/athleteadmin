@@ -341,7 +341,7 @@
                         {{$t('jobseekerprofile.location')}}
                         <span v-if="basicInfo.current_address_status == 1" class="private">{{$t('jobseekerprofile.private')}}</span>
                     </dt>
-                    <dd class="detail-data" v-if="basicInfo.continent_name">{{basicInfo.continent_name}} , {{basicInfo.country_name}}</dd>
+                    <dd class="detail-data" v-if="basicInfo.country_id != ''">{{basicInfo.continent_name}}<span v-if="basicInfo.country_name">, {{basicInfo.country_name}}</span></dd>
                     <dd class="detail-data" v-else>未入力</dd>
                     <dt class="detail-head">{{$t('jobseekerprofile.phone')}}<span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
                     <dd class="detail-data" v-if="basicInfo.phone != ''">{{basicInfo.phone}}</dd>
@@ -487,8 +487,8 @@
                         </div>
                         <div class="col-md-4">
                             <select class="form-control" v-model.trim="basicInfo.country_name">
-                                <option :value="null" v-if="basicInfo.country_name == null" selected>都市を選択</option>
-                                <option selected v-else :value="0">都市を選択</option>
+                                <!-- <option value="" v-if="basicInfo.country_name == basicInfo.continent_name" selected>都市を選択</option> -->
+                                <option value="">都市を選択</option>
                                 <option v-for="city in city_list" :key="city.id" v-bind:value="city.country_name">
                                     {{city.country_name}}
                                 </option>
@@ -2587,7 +2587,7 @@
                 .then((res) => {
                 this.city_list = res.data;
                 }); */
-            this.basicInfo.country_name = 0;
+            this.basicInfo.country_name = '';
             this.$api.get("/v1/jobseeker/city-list/" + this.basicInfo.continent_name).then((res) => {
                 this.city_list = res.data;
             });
