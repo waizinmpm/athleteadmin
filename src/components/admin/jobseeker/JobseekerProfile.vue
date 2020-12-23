@@ -1017,7 +1017,7 @@
                 <div class="form-group">
                     <!--  <h6 class="font-weight-bold mb-3">{{$t('jobseekerprofile.experiencetype')}}</h6> -->
                     <div class="form-group">
-                        <input type="checkbox" :id="'現在も在籍中'+indx" class="custom-control-input custom-checkbox"  v-model="exp.current"/>
+                        <input type="checkbox" :id="'現在も在籍中'+indx" class="custom-control-input custom-checkbox" @change="yearChange(indx,exp.current)" v-model="exp.current"/>
                         <label :for="'現在も在籍中'+indx" class="custom-control-label custom-checkbox-label">{{$t('jobseekerprofile.currentperoid')}}</label>
                     </div>
                     <div class="form-group">
@@ -2093,6 +2093,16 @@
             });
         },
 
+        yearChange(index,istrue)
+        {
+            if(istrue){
+                this.experiences[index].to_year = '年';
+                this.experiences[index].to_month = '月';
+
+            }
+        
+        },
+
         change(type,value,index)
         {
             if(type == 'year')
@@ -2603,7 +2613,7 @@
                     element.to_year = null;
                     }
 
-                    if (element.to_month) {
+                    if(element.to_month || element.to_month == 0){
                     element.to_month = element.to_month + 12 + " 月";
                     } else {
                     element.to_month = null;
