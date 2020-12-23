@@ -684,13 +684,22 @@
                                         <tr>
                                             <td>在籍期間 <span class="view-permission float-right">{{$t('jobseekerprofile.admin')}}</span></td>
                                             <td>
-                                                <span v-if="edu.from_year != null && edu.from_month != null && edu.to_year != null  && edu.to_month != null"> {{edu.from_year}}{{edu.from_month}} ~ {{edu.to_year}}{{edu.to_month}} </span>
+                                                <span v-if="edu.from_year != null || edu.from_month != null">
+                                                    <span v-if="edu.from_year != null">{{edu.from_year}}</span>
+                                                    <span v-if="edu.from_month != null">{{edu.from_month}}</span>
 
-                                                <span v-if="edu.from_year != null && edu.from_month != null && edu.to_year == null && edu.to_month == null"> {{edu.from_year}}{{edu.from_month}} ~ 在籍中 </span>
-                                                <span v-if="edu.from_year == null && edu.from_month != null"> {{edu.from_month}} ~ 在籍中 </span>
-                                                <span v-if="edu.from_year != null && edu.from_month == null"> {{edu.from_year}} ~ 在籍中 </span>
-
-                                                <span v-if="edu.from_year == null && (edu.from_month == null) && edu.to_year == null  && edu.to_month == null"> - </span>
+                                                    <span v-if="edu.to_year != null  && edu.to_month != null"> ~ {{edu.to_year}}{{edu.to_month}}</span>
+                                                    <span v-if="edu.to_year != null  && edu.to_month == null"> ~ {{edu.to_year}}</span>
+                                                    <span v-if="edu.to_year == null  && edu.to_month != null"> ~ {{edu.to_month}}</span>
+                                                    <span v-if="edu.to_year == null  && edu.to_month == null"> ~ 在籍中</span>
+                                                </span>
+                                                <span v-else>
+                                                    <span v-if="edu.to_year != null || edu.to_month != null">
+                                                        ~ <span v-if="edu.to_year != null">{{edu.to_year}}</span>
+                                                        <span v-if="edu.to_month != null">{{edu.to_month}}</span>
+                                                    </span>
+                                                    <span v-else> - </span>
+                                                </span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -732,12 +741,16 @@
                                     <tr>
                                         <td>在籍期間 <span class="private float-right" v-if="exp.private_status == 1">{{$t('jobseekerprofile.private')}}</span></td>
                                         <td>
-                                            <span  v-if="exp.current == 0">
-                                                <span v-if="exp.from_year != '年' && exp.from_month != '月' && exp.to_year != '年'  && exp.to_month != '月' ">{{exp.from_year}}{{exp.from_month}} ~ {{exp.to_year}}{{exp.to_month}}</span>
-                                                <span v-if="exp.from_year != '年' && exp.from_month != '月' && exp.to_year == '年' && exp.to_month == '月'">{{exp.from_year}}{{exp.from_month}} ~ 在籍中</span>
-                                                <span v-if="exp.from_year == '年' && exp.from_month != '月'">{{exp.from_month}} ~ 在籍中</span>
-                                                <span v-if="exp.from_year != '年' && exp.from_month == '月'">{{exp.from_year}} ~ 在籍中</span>
-                                                <span v-if="exp.from_year == '年' && (exp.from_month == '月') && exp.to_year == '年'  && exp.to_month == '月' "> - </span>
+                                            <span  v-if="exp.current == 0 || exp.current == null">
+                                                <span v-if="exp.from_year != '年' || exp.from_month != '月'">
+                                                    <span v-if="exp.from_year != '年'">{{exp.from_year}}</span>
+                                                    <span v-if="exp.from_month != '月'">{{exp.from_month}}</span>
+                                                    <span v-if="exp.to_year != '年'  && exp.to_month != '月'"> ~ {{exp.to_year}}{{exp.to_month}}</span>
+                                                    <span v-if="exp.to_year != '年'  && exp.to_month == '月'"> ~ {{exp.to_year}}</span>
+                                                    <span v-if="exp.to_year == '年'  && exp.to_month != '月'"> ~ {{exp.to_month}}</span>
+                                                    <span v-if="exp.to_year == '年'  && exp.to_month == '月'"> ~ 在籍中</span>
+                                                </span>
+                                                <span v-else> - </span> 
                                             </span>
                                             <span v-else>
                                                 <span v-if="exp.from_year != '年' && exp.from_month != '月'">{{exp.from_year}}{{exp.from_month}} ~ 在籍中</span>
