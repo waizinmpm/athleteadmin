@@ -2585,40 +2585,35 @@
                 
                 this.educations = response.data.data.educations;
                 this.experiences = response.data.data.experiences;
-                if (this.educations.length > 0) {
-                this.educations.forEach((element) => {
-                    if (element.degree == null) {
-                    element.degree = 0;
-                    }
+                if(this.educations.length > 0){
+                            
+                    this.educations.forEach(element => {
+                        
+                        if(element.from_year){
+                            element.from_year = element.from_year + 1920+ " 年";
+                        }else{
+                            element.from_year = null;
+                        }
 
-                    if (element.education_status == null) {
-                    element.education_status = 0;
-                    }
+                        if(element.from_month || element.from_month == 0){
+                            element.from_month = element.from_month + 12+ " 月";
+                        }else{
+                            element.from_month = null;
+                        }
 
-                    if (element.from_year) {
-                    element.from_year = element.from_year + 1920 + " 年";
-                    } else {
-                    element.from_year = null;
-                    }
+                        if(element.to_year){
+                            element.to_year = element.to_year + 1920+ " 年";
+                        }else{
+                            element.to_year = null ;
+                        }
 
-                    if (element.from_month) {
-                    element.from_month = element.from_month + 12 + " 月";
-                    } else {
-                    element.from_month = null;
-                    }
-
-                    if (element.to_year) {
-                    element.to_year = element.to_year + 1920 + " 年";
-                    } else {
-                    element.to_year = null;
-                    }
-
-                    if(element.to_month || element.to_month == 0){
-                    element.to_month = element.to_month + 12 + " 月";
-                    } else {
-                    element.to_month = null;
-                    }
-                });
+                        if(element.to_month){
+                            element.to_month = element.to_month + 12+ " 月";
+                        }else{
+                            element.to_month =  null;
+                        }   
+                        
+                    });
                 } else {
                     this.educations.push({
                         id: null,
