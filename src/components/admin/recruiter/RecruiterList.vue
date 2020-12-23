@@ -152,20 +152,13 @@
                         </td> -->
                         <td class="tbl-ws">
                             <span @click="recruiterDetail(project.id)" class="detail-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16" v-if="project.login_locked">
-                                    <path fill-rule="evenodd" d="M11.5 8h-7a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-7-1a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7zm0-3a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"/>
-                                </svg>
                                 {{project.recruiter_number}}
                             </span>
                             <!-- <router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}"><span>{{project.recruiter_number}}</span></router-link> -->
                         </td>
                         <td class="text-left">
-                            <span @click="recruiterDetail(project.id)" class="detail-link">{{project.recruiter_name}}</span>
-                            <!-- <router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}" class="txt-vertical-ellipsis">{{project.recruiter_name}}</router-link> -->
+                            <span :class="[project.login_locked ? 'txt-red' : '' ]" class="detail-link" @click="recruiterDetail(project.id)" >{{project.recruiter_name}}</span><span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
                         </td>
-                       <!--  <span :class="[project.password_locked == 3 ? 'txt-red' : '' ]">{{project.recruiter_name}}</span><span v-if="project.password_locked == 3" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span> -->
-                        <!-- <td class="text-left tbl-wxl"><router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}">{{project.recruiter_nick_name}}</router-link></td> -->
-                        
                         <td class="tbl-ws">
                             <div class="scout-box">
                                 <div v-if="project.record_status != 0">

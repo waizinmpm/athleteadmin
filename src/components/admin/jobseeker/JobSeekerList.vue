@@ -156,15 +156,13 @@
                         </td> -->
                         <td class="tbl-wl">
                             <span @click="jobseekerDetail(project.id)" class="detail-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16" v-if="project.login_locked">
-                                    <path fill-rule="evenodd" d="M11.5 8h-7a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-7-1a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7zm0-3a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"/>
-                                </svg>
                                 {{project.jobseeker_number}}
                             </span>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link> -->
                         </td>
                         <td class="text-left">
-                            <span @click="jobseekerDetail(project.id)" class="detail-link">{{project.jobseeker_name}}</span>
+                            <span :class="[project.login_locked ? 'txt-red' : '' ]" class="detail-link" @click="jobseekerDetail(project.id)">{{project.jobseeker_name}}</span>
+                            <span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
                         </td>
                         <td class="tbl-ws">
