@@ -862,7 +862,7 @@
                             </select>-->
 
                             <select class="form-control" v-model="edu.from_year">
-                                <option value="null">年</option>
+                                <option :value="null">年</option>
                                 <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
                             </select>
                             <span class="sort-desc">&#9662;</span>
@@ -875,7 +875,7 @@
                                                         <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
                             </select>-->
                             <select class="form-control" v-model="edu.from_month">
-                                <option value="null">月</option>
+                                <option :value="null">月</option>
                                 <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
                             </select>
                             <span class="sort-desc">&#9662;</span>
@@ -891,7 +891,7 @@
                                                     <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
                         </select>-->
                         <select class="form-control" v-model="edu.to_year">
-                            <option value="null">年</option>
+                            <option :value="null">年</option>
                             <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
                         </select>
                         <span class="sort-desc">&#9662;</span>
@@ -904,7 +904,7 @@
                                                     <option v-for="m in months" :value="m" :key="m">{{ m }}</option>
                         </select>-->
                         <select class="form-control" v-model="edu.to_month">
-                            <option value="null">月</option>
+                            <option :value="null">月</option>
                             <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
                         </select>
                         <span class="sort-desc">&#9662;</span>
@@ -2607,7 +2607,7 @@
                             element.to_year = null ;
                         }
 
-                        if(element.to_month){
+                        if(element.to_month || element.to_month == 0){
                             element.to_month = element.to_month + 12+ " 月";
                         }else{
                             element.to_month =  null;
