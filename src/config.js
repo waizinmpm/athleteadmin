@@ -101,7 +101,7 @@ export default {
 		question_8: 'あなたの趣味は？',
 		question_9: '初恋の人のファーストネームは？',
 		question_10: 'もし透明人間になれるとしたら、どんなことをしたいですか？',
-		other: 'その他',
+		other: 'その他（全角54文字以下）',
 	},
 	deactivated:'退会した会員のデータも表示',
 	suspended: '停止した会員のデータも表示',

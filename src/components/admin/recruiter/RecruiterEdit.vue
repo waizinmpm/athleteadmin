@@ -119,6 +119,7 @@
                         <input type="text" v-model="recruiterForm.question" v-show="questionType == $configs.questions.other" class="form-control" style="margin-top:10px;"/>
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.question.required">秘密の質問は必須です</div>
+                            <div class="error" v-if="!$v.recruiterForm.question.maxLength">秘密の質問は全角54文字以下である必要があります</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -355,7 +356,7 @@
                 website: { required, url },
                 incharge_name: { required },
                 incharge_name_furigana: { required, isFurigana },
-                question: { required },
+                question: { required, maxLength: maxLength(54) },
                 answer: { required },
                 video: { matchYoutubeUrl },
                 logo: { isTrueImage, limitFileSize: limitFileSize(3) },
