@@ -105,7 +105,7 @@
                     <span class="custom-check-label-post">{{de_status.id}}</span>
                     </label> 
                 </div>  -->
-                <div class="status-row" v-for="recruiter_status in recruiter_arr_status" v-bind:key="recruiter_status.id">
+                <div class="status-row" style="margin-bottom: 15px;" v-for="recruiter_status in recruiter_arr_status" v-bind:key="recruiter_status.id">
                         <label class="custom-control-label custom-checkbox-label">                       
                             <input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="recruiter_status.id" :checked="recruiter_status.checked" v-model="filteredData.recruiter_status" @change="getData()">
                             <span class="custom-check-label-post">{{recruiter_status.id}}</span>
