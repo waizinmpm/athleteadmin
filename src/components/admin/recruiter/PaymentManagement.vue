@@ -470,8 +470,7 @@ export default {
 				cancelButtonColor: "#aab2bd",                       
 				cancelButtonText: 'キャンセル',
 				customClass: {
-					confirmButton: 'btn-alert',
-					cancelButton: 'btn-alert'
+					container: 'swal-remark',
 				},
 				showCloseButton: true,
 				showCancelButton: true,
@@ -563,7 +562,7 @@ textarea {
 	float: right;
 }
 .modal-footer {
-	padding-right: 0;
+	text-align: center;
 }
 /*
  * The following styles are auto-applied to elements with

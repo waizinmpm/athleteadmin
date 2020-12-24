@@ -497,6 +497,7 @@ body {
 
 .swal2-popup{
     width: 400px !important;
+    border-radius: 0 !important;
 }
 
 .swal2-modal .swal2-close {
@@ -533,7 +534,27 @@ body {
     background: #828fa5 !important;
 }
 
-
+.swal-remark  .swal2-content {
+    padding: 0 10px!important;
+}
+.swal-remark .swal2-popup {
+   padding-bottom: 30px;
+}
+.swal-remark .swal2-header {
+    display: block;
+    padding: 0 10px!important;
+}
+.swal-remark  .swal2-title {
+    font-size: 20px !important;
+	color: #84BE3F;
+}
+.swal-remark .swal2-textarea {
+    height: 165px;
+    margin-top: 20px;
+}
+.swal-remark  .swal2-modal .swal2-close {
+    font-weight: normal !important;
+}
 
 // edit button toggle
 .btn-common {
