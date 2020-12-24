@@ -161,7 +161,7 @@
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link> -->
                         </td>
                         <td class="text-left">
-                            <span :class="[project.login_locked ? 'txt-red' : '' ]" class="detail-link" @click="jobseekerDetail(project.id)">{{project.jobseeker_name}}</span>
+                            <span  class="detail-link" @click="jobseekerDetail(project.id)">{{project.jobseeker_name}}</span>
                             <span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
                         </td>
