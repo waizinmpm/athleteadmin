@@ -449,7 +449,7 @@ export default {
 						this.$alertService.showErrorDialog(null,data.error.message)
 						.then(() => {
 							// --Rebind original status
-							this.getData(this.projects.current_page);
+							this.getData(this.projects.current_page, false);
 						})
 					})
 				}

@@ -47,7 +47,7 @@ export default {
     },
 
     methods: {
-        getData(page) {
+        getData(page, showLoading = true) {
 			for (const k of Object.keys(this.filteredData)) {
 				if (typeof this.filteredData[k] === 'string' && this.filteredData[k] != '') {
 					this.hasSearched = true;
@@ -68,23 +68,24 @@ export default {
                 filteredData: this.filteredData,
                 columns:this.columns
             };
-            // page = page || 1;
-            let loader = this.$loading.show({
-                container: this.$refs.loadingRef,
-                isFullPage: false
-                //-- အထက်ပါ option 2 ခုမပါရင် loading bar ဟာ full page ဖြစ်သွားပါလိမ့်မယ်
-            });
-            this.$api
-                .post(this.base_url + "?page=" + page, jsonData)
-                .then(response => {
-                    loader.hide();
-                    this.projects = response.data;
-                    this.checkedAll = false;
-                })
-                .catch(errors => {
-                    loader.hide();
-                    console.log(errors);
-                });
+			// page = page || 1;
+			let loader = null;
+			if (showLoading) {
+				loader = this.$loading.show({
+					container: this.$refs.loadingRef,
+					isFullPage: false
+				});
+			}
+            this.$api.post(this.base_url + "?page=" + page, jsonData)
+			.then(response => {
+				if (loader) loader.hide();
+				this.projects = response.data;
+				this.checkedAll = false;
+			})
+			.catch(errors => {
+				if (loader) loader.hide();
+				console.log(errors.response);
+			});
         },
 
         deleteData() {
