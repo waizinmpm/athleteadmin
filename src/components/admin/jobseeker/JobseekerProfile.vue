@@ -3565,4 +3565,13 @@ textarea.form-control {
 .history-edit-tbl td:first-child {
     width: 260px;
 }
+.status {
+    display: inline-block;
+    width: 100px;
+    height: 35px;
+    background-color: #eee;
+    margin: 0px 0px 8px 0px;
+    padding: 8px 8px 5px 8px;
+    border-radius: 3px;
+}
 </style>
