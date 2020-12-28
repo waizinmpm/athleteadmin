@@ -282,16 +282,16 @@
         return (file.size/1024/1024).toFixed(2) <= params;
     };
 
-    // function buildFormData(formData, data, parentKey) {
-    //     if (data && typeof data === "object" && !(data instanceof Date) && !(data instanceof File)) {
-    //         Object.keys(data).forEach((key) => {
-    //             buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
-    //         });
-    //     } else {
-    //         const value = data == null ? "" : data;
-    //         formData.append(parentKey, value);
-    //     }
-    // }
+    function buildFormData(formData, data, parentKey) {
+        if (data && typeof data === "object" && !(data instanceof Date) && !(data instanceof File)) {
+            Object.keys(data).forEach((key) => {
+                buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+            });
+        } else {
+            const value = data == null ? "" : data;
+            formData.append(parentKey, value);
+        }
+    }
     export default {
         data() {
             return {
@@ -485,12 +485,12 @@
                 if (this.$v.recruiterForm.$invalid) {
                     return;
                 }
-                //   console.log(this.recruiterForm.logo)
-                //  let data = new FormData();
-                //  buildFormData(data, this.recruiterForm);
-                this.$set(this.recruiterForm, "id", this.$route.params.id);
+                let data = new FormData();
+                buildFormData(data, this.recruiterForm);
+                // this.$set(this.recruiterForm, "id", this.$route.params.id);
+                console.log("before update:", this.recruiterForm);
                 this.$api
-                    .post("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/update", this.recruiterForm)
+                    .post("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/update", data)
                     .then((res) => {
                         console.log("update:", res.data);
                         let paginate = {
