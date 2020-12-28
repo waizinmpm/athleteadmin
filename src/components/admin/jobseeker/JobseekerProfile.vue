@@ -575,7 +575,7 @@
                 </div>
                 <div class="form-group">
                 <label for>
-                    {{$t('jobseekerprofile.email')}} Heloo world
+                    {{$t('jobseekerprofile.email')}}
                     <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
