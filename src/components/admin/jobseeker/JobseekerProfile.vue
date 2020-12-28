@@ -1374,7 +1374,7 @@
             <div class="popup-databox">
                 <h6 class="font-weight-bold">{{$t('jobseekerprofile.qualifications')}}</h6>
                 <div class="form-group">
-                <label for>{{$t('jobseekerprofile.other_qualifications')}}</label>
+                <!-- <label for>{{$t('jobseekerprofile.other_qualifications')}}</label> -->
                 <div class="col-md-8 p-0">
                     <textarea
                     class="form-control"
