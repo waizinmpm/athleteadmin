@@ -99,12 +99,27 @@
                     </dd>
                     <dt class="detail-head">希望勤務地</dt>
                     <dd class="detail-data">
-                        <p class="mb-0">{{selfIntroDetails.desired_location_1}}</p>   
+                        <p class="mb-0">
+                            <label class="desired-label">第一希望</label>
+                            <span v-if="desired_condition.desired_locations_1 != null">{{desired_condition.desired_locations_1}}</span>
+                            <span v-else>未入力</span>
+                        </p>
+                        <p class="mb-0">
+                            <label class="desired-label">第二希望</label>
+                            <span v-if="desired_condition.desired_locations_2 != null">{{desired_condition.desired_locations_2}}</span>
+                            <span v-else>未入力</span>
+                        </p>
+                        <p class="mb-0">
+                            <label class="desired-label">第三希望</label>
+                            <span v-if="desired_condition.desired_locations_3 != null">{{desired_condition.desired_locations_3}}</span>
+                            <span v-else>未入力</span>
+                        </p>
+                        <!-- <p class="mb-0">{{selfIntroDetails.desired_location_1}}</p>   
                         <p class="mb-0">{{selfIntroDetails.desired_location_2}}</p>   
                         <p class="mb-0">{{selfIntroDetails.desired_location_3}}</p>
                         <p class="mb-0" v-if="selfIntroDetails.desired_location_1 === null && selfIntroDetails.desired_location_2 === null && selfIntroDetails.desired_location_3 === null">
                             未入力
-                        </p>
+                        </p> -->
                     </dd>
                 </dl>
                 <!-- info-->
@@ -1420,8 +1435,25 @@
                 <dd class="detail-data" v-if="desired_condition.desired_change_period != null && desired_condition.desired_change_period != ''">{{desired_condition.desired_change_period}}</dd>
                 <dd class="detail-data" v-else>未入力</dd>
                 <dt class="detail-head">{{$t('jobseekerprofile.preferredworkplace')}}</dt>
-                <dd class="detail-data" v-if="desired_condition.desired_locations_1  || desired_condition.desired_locations_2 || desired_condition.desired_locations_3  "> {{desired_condition.desired_locations_1}} {{desired_condition.desired_locations_2}} {{desired_condition.desired_locations_3}}</dd>
-                <dd class="detail-data" v-else>未入力</dd>
+                <dd class="detail-data">                            
+                    <p class="mb-0">
+                        <label class="desired-label">第一希望</label>
+                        <span v-if="desired_condition.desired_locations_1 != null">{{desired_condition.desired_locations_1}}</span>
+                        <span v-else>未入力</span>
+                    </p>
+                    <p class="mb-0">
+                        <label class="desired-label">第二希望</label>
+                        <span v-if="desired_condition.desired_locations_2 != null">{{desired_condition.desired_locations_2}}</span>
+                        <span v-else>未入力</span>
+                    </p>
+                    <p class="mb-0">
+                        <label class="desired-label">第三希望</label>
+                        <span v-if="desired_condition.desired_locations_3 != null">{{desired_condition.desired_locations_3}}</span>
+                        <span v-else>未入力</span>
+                    </p>
+                </dd>
+                <!-- <dd class="detail-data" v-if="desired_condition.desired_locations_1  || desired_condition.desired_locations_2 || desired_condition.desired_locations_3  "> {{desired_condition.desired_locations_1}} {{desired_condition.desired_locations_2}} {{desired_condition.desired_locations_3}}</dd>
+                <dd class="detail-data" v-else>未入力</dd> -->
                 <dt class="detail-head">{{$t('jobseekerprofile.preferredindustry')}}</dt>
                 <dd class="detail-data">
                     <span v-if="desired_condition.industry_name">
@@ -3574,5 +3606,9 @@ textarea.form-control {
     margin: 0px 0px 8px 0px;
     padding: 8px 8px 5px 8px;
     border-radius: 3px;
+}
+.desired-label {
+    width: 100px;
+    margin-bottom: 0px;
 }
 </style>
