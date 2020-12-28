@@ -560,11 +560,12 @@
                 </div>
                 <div class="form-group">
                 <label for>
-                    {{$t('jobseekerprofile.email')}}
+                    {{$t('jobseekerprofile.email')}} Heloo world
                     <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>
                 </label>
                 <div class="col-md-8 p-0">
-                    <input
+                    <input type="email" class="form-control" v-model.trim="basicInfo.email" disabled>
+                    <!-- <input
                     type="text"
                     :class="['form-control',$v.basicInfo.email.$error?'is-invalid':'']"
                     v-model.trim="$v.basicInfo.email.$model"
@@ -578,7 +579,7 @@
                         class="error"
                         v-if="!$v.basicInfo.email.email"
                     >{{$t('jobseekerprofile.email_type')}}</div>
-                    </div>
+                    </div> -->
                 </div>
                 </div>
                 <div class="form-group">
@@ -1730,7 +1731,7 @@
     </div>
 </template>
 <script>
-    import {required, minLength, maxLength, numeric, helpers, email} from "vuelidate/lib/validators";
+    import {required, minLength, maxLength, numeric, helpers} from "vuelidate/lib/validators";
     import { matchYoutubeUrl } from "../../../partials/common";
 
     const isFurigana = (value) => {
@@ -1994,10 +1995,10 @@
             jobseeker_name: {
                 required,
             },
-            email: {
+            /* email: {
                 required,
                 email,
-            },
+            }, */
         },
 
         // desired_condition: {
