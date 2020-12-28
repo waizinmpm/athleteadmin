@@ -356,7 +356,7 @@
                         {{$t('jobseekerprofile.location')}}
                         <span v-if="basicInfo.current_address_status == 1" class="private">{{$t('jobseekerprofile.private')}}</span>
                     </dt>
-                    <dd class="detail-data" v-if="basicInfo.country_id != ''">{{basicInfo.continent_name}}<span v-if="basicInfo.country_name">, {{basicInfo.country_name}}</span></dd>
+                    <dd class="detail-data" v-if="basicInfo.country_id != '' && basicInfo.country_id != null">{{basicInfo.continent_name}}<span v-if="basicInfo.country_name">, {{basicInfo.country_name}}</span></dd>
                     <dd class="detail-data" v-else>未入力</dd>
                     <dt class="detail-head">{{$t('jobseekerprofile.phone')}}<span class="view-permission">{{$t('jobseekerprofile.admin')}}</span></dt>
                     <dd class="detail-data" v-if="basicInfo.phone != ''">{{basicInfo.phone}}</dd>
