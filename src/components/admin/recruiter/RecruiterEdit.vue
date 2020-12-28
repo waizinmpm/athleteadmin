@@ -107,10 +107,10 @@
                             <div class="error" v-if="!$v.recruiterForm.incharge_name_furigana.isFurigana">全角カタカナで入力してください</div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>アカウントID</label>
                         <input type="text" class="form-control" v-model.trim="recruiterForm.account_id" />
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label><span class="align-label">秘密の質問</span> <span class="required">必須</span></label>
                         <select v-model="questionType" @change="onQuestionTypeChange" class="form-control">
