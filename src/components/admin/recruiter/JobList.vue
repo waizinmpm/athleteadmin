@@ -300,6 +300,7 @@ export default {
             paging : {
                 page: 'job-list',
                 page_no: 1,
+                length : 5,
             }
         };
     },
@@ -330,18 +331,21 @@ export default {
 
         jobEdit(id) {
             this.paging.page_no = this.projects.current_page;
+            this.paging.length  = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ name: 'edit', params: { id: id } });
         },
 
         jobDetail(id) {
             this.paging.page_no = this.projects.current_page;
+            this.paging.length  = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ name: 'recruiter-job-detail', params: { id: id }});
         },
 
         recruiterDetail(id){
             this.paging.page_no = this.projects.current_page;
+            this.paging.length  = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ name: 'recruiter-detail', params: { id: id }});
         },

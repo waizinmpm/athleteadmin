@@ -294,14 +294,16 @@ export default {
 			visible: false,
 			paging : {
                 page: 'payment-management',
-                page_no: 1,
+				page_no: 1,
+				length: 5,
             }
 		}
 	},
 	methods: {
 
 		recruiterDetail(id){
-            this.paging.page_no = this.projects.current_page;
+			this.paging.page_no = this.projects.current_page;
+			this.paging.length  = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ name: 'recruiter-detail', params: { id: id }});
 		},

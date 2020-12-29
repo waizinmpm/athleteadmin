@@ -373,6 +373,7 @@ export default {
             paging : {
                 page: 'jobapply-list',
                 page_no: 1,
+                length: 5
             }
         }
     },
@@ -380,18 +381,21 @@ export default {
         
         recruiterDetail(id){
             this.paging.page_no = this.projects.current_page;
+            this.paging.length  = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ path: '/admin-recruiter-list/recruiter/'+ id +'/detail/'});
         },
 
         jobDetail(id) {
             this.paging.page_no = this.projects.current_page;
+            this.paging.length  = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ path: '/job-list/'+ id +'/detail'});
         },
 
         jobseekerDetail(id){
             this.paging.page_no = this.projects.current_page;
+            this.paging.length  = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ path: '/admin-jobseeker-list/jobseeker/'+ id +'/detail'});
         },

@@ -42,7 +42,7 @@ export default {
     mounted() {
         let getPageName = this.$store.getters.getPaging.page;
         let getPageNo = this.$route.name == getPageName ? this.$store.getters.getPaging.page_no : 1;
-        console.log(`getPage: ${getPageName} getPageNo: ${getPageNo}`);
+        this.tableData.length = this.$route.name == getPageName ? this.$store.getters.getPaging.length : 5;
         this.getData(getPageNo);
     },
 

@@ -285,6 +285,7 @@ export default {
             paging : {
                 page: 'jobseeker-list',
                 page_no: 1,
+                length : 5,
             }
         };
     },
@@ -326,12 +327,14 @@ export default {
 
         jobseekerEdit(id){
             this.paging.page_no = this.projects.current_page;
+            this.paging.length = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ path: "/admin-jobseeker-list/jobseeker/" + id + "/edit" });
         },
 
         jobseekerDetail(id){
             this.paging.page_no = this.projects.current_page;
+            this.paging.length = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ name: 'jobseeker-detail', params: { id: id }});
         },

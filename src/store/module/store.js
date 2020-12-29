@@ -14,6 +14,7 @@ export const state = {
     paging : {
         page: '',
         page_no: 1,
+        length : 5,
     }
 };
 

@@ -252,8 +252,7 @@
                 
             </div>
             <div class="d-flex justify-content-end  p-3">
-                <!-- <router-link to="/admin-recruiter-list" class="btn btn-back mr-4">{{ $t('common.cancel') }}</router-link> -->
-                <span @click="goBack" class="btn btn-back mr-4">一覧へ戻る</span>
+                <router-link to="/admin-recruiter-list" class="btn btn-back mr-4">{{ $t('common.cancel') }}</router-link>
                 <button type="submit" class="btn btn-save">保存する</button>
             </div>
         </form>
@@ -471,15 +470,6 @@
                 if (this.recruiterForm.delete_related_images.indexOf(filename) == -1) this.recruiterForm.delete_related_images.push(filename);
             },
 
-            goBack() {
-                let paginate = {
-                    page: 'recruiter-list',
-                    page_no: this.$store.getters.getPaging.page_no,
-                }
-                this.$store.commit('setPaging',paginate);
-                this.$router.go(-1);
-            },
-
             updateProfile() {
                 this.$v.recruiterForm.$touch();
                 if (this.$v.recruiterForm.$invalid) {
@@ -493,11 +483,11 @@
                     .post("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/update", data)
                     .then((res) => {
                         console.log("update:", res.data);
-                        let paginate = {
+                        /* let paginate = {
                             page: 'recruiter-list',
                             page_no: this.$store.getters.getPaging.page_no,
                         }
-                        this.$store.commit('setPaging',paginate);
+                        this.$store.commit('setPaging',paginate); */
 
                         this.$router.push({ path: "/admin-recruiter-list" });
                     })
