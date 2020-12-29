@@ -1785,7 +1785,7 @@
     let file = value;
     return file.type ? file.type.startsWith("image") : true;
     };
-    /* function buildFormData(formData, data, parentKey) {
+    function buildFormData(formData, data, parentKey) {
         if (
             data &&
             typeof data === "object" &&
@@ -1803,7 +1803,7 @@
             const value = data == null ? "" : data;
             formData.append(parentKey, value);
         }
-    } */
+    }
     export default {
     data() {
         return {
@@ -2537,12 +2537,13 @@
             if (this.$v.selfIntro.$invalid) {
                 return;
             }
-            // let data = new FormData();
-            // buildFormData(data, this.selfIntro);
+            alert('Self Intro');
             let loading = this.$loading.show();
             this.$set(this.selfIntro, "jobseekerid", this.$route.params.id);
+            let data = new FormData();
+            buildFormData(data, this.selfIntro);
             this.$api
-                .post("/v1/jobseeker/profile/selfintro", this.selfIntro)
+                .post("/v1/jobseeker/profile/selfintro", data)
                 .then((r) => {
                     console.log(r);
                 this.$alertService.showSuccessDialog(
@@ -2567,6 +2568,7 @@
             if (this.$v.basicInfo.$invalid) {
                 return;
             }
+            alert('Basic Info');
             // let data = new FormData();
             // buildFormData(data, this.basicInfo);
             this.$set(this.basicInfo, "jobseekerid", this.$route.params.id);
