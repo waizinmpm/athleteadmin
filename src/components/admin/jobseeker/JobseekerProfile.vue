@@ -2537,7 +2537,7 @@
             if (this.$v.selfIntro.$invalid) {
                 return;
             }
-            alert('Self Intro');
+
             let loading = this.$loading.show();
             this.$set(this.selfIntro, "jobseekerid", this.$route.params.id);
             let data = new FormData();
@@ -2555,10 +2555,10 @@
                 this.getSelfIntroDetails(`${this.$route.params.id}`);
                 })
                 .catch((e) => {
-                console.log(e);
+                    console.log(e);
                 })
                 .finally(() => {
-                loading.hide();
+                    loading.hide();
                 });
         },
 
@@ -2568,7 +2568,7 @@
             if (this.$v.basicInfo.$invalid) {
                 return;
             }
-            alert('Basic Info');
+
             // let data = new FormData();
             // buildFormData(data, this.basicInfo);
             this.$set(this.basicInfo, "jobseekerid", this.$route.params.id);
