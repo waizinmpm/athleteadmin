@@ -493,8 +493,8 @@
                     <div class="row col-md-7 p-0 m-0">
                         <div class="col-md-4 pl-0">
                             <select v-model.trim="basicInfo.continent_name" @change="getCity()" class="form-control">
-                                <option :value="null" v-if="basicInfo.continent_name == null" selected>国・地域を選択</option>
-                                <option selected v-else :value="0">国・地域を選択</option>
+                                <option :value="null" v-if="basicInfo.continent_name == null" selected>地域を選択</option>
+                                <option selected v-else :value="0">地域を選択</option>
                                 <option v-for="country in countries" :key="country.id" v-bind:value="country.continent_name">
                                     {{country.continent_name}}
                                 </option>
@@ -1457,7 +1457,7 @@
                 <dt class="detail-head">{{$t('jobseekerprofile.preferredindustry')}}</dt>
                 <dd class="detail-data">
                     <span v-if="desired_condition.industry_name">
-                        <span v-for="industry in desired_condition.industry_name" v-bind:key="industry.id">{{industry.industry_name}}  </span>
+                        <span v-for="industry in desired_condition.industry_name" v-bind:key="industry.id">{{industry.industry_name}}<br></span>
                     </span>
                         <span  v-if="desired_condition.industry_name.length == 0 && desired_condition.desired_industry_status == 0">未入力</span>
                     <span v-if="desired_condition.desired_industry_status == 1">こだわらない </span>
@@ -1465,7 +1465,7 @@
                 <dt class="detail-head">{{$t('jobseekerprofile.desiredoccupation')}}</dt>
                 <dd class="detail-data">
                     <span v-if="desired_condition.occupation_name">
-                        <span v-for="occupation in desired_condition.occupation_name" v-bind:key="occupation.id">{{occupation.occupation_name}}  </span>
+                        <span v-for="occupation in desired_condition.occupation_name" v-bind:key="occupation.id">{{occupation.occupation_name}}<br></span>
                     </span>
                         <span  v-if="desired_condition.occupation_name.length == 0 && desired_condition.desired_occupation_status == 0">未入力</span>
                     <span v-if="desired_condition.desired_occupation_status == 1">こだわらない </span>
