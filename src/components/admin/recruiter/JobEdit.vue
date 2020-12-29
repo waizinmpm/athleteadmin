@@ -557,7 +557,11 @@ export default {
             if (this.$route.params.id) {
                 this.$api.post("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/update", this.formRegister)
                 .then(res => {
-                    console.log('Update:'+ res.data);
+                    if(res.data.data.job){
+                        this.$alertService.showSuccessDialog(null, 'New Job Created', this.$t('common.close'));
+                    }else{
+                        this.$alertService.showSuccessDialog(null, 'Updated Job', this.$t('common.close'));
+                    }
                     let paginate = {
                         page: 'job-list',
                         page_no: this.$store.getters.getPaging.page_no,
@@ -594,8 +598,8 @@ export default {
         },
 
         changeStatus($status) {
-        this.formRegister.job_post_status = $status;
-        this.jobpostcreate();
+            this.formRegister.job_post_status = $status;
+            this.jobpostcreate();
         },
 
         callFunction: function () {
