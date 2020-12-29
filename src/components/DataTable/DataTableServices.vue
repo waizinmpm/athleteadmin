@@ -20,7 +20,8 @@ export default {
             parentChecked: false,
             projects: [],
             sortKey: "deadline",
-            perPage: ["5", "10", "20", "30"],
+            // perPage: ["5", "10", "20", "30"],
+            perPage: [5, 10, 20, 30],
             tableData: {
                 draw: 0,
                 length: 5,
