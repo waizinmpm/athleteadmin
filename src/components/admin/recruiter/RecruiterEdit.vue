@@ -134,7 +134,7 @@
                 <div class="border" id="logo">
                     <div class="form-group mb-5">
                         <label>会社ロゴ</label>
-                        <div class="label-txt label-txt01">※JPEG、PNGいずれかの形式の画像をアップロード可能です。</div>
+                        <div class="label-txt label-txt01">※JPG、JPEG、PNGいずれかの形式の画像をアップロード可能です。</div>
                             <div @drop.prevent="onLogoChange" @dragover.prevent  :class="['upload-content', $v.recruiterForm.logo.$error ? 'is-invalid':''] ">
                                 <div class="d-flex align-items-center">
                                     <i class="fa fa-cloud-upload upload-icon mx-3"></i>
@@ -162,7 +162,7 @@
                 <div class="border img-block" id="incharge-photo">
                     <div class="form-group mb-5">
                         <label>担当者顔写真(スカウトした人材のみ閲覧可)</label>
-                        <div class="label-txt label-txt01">※JPEG、PNGいずれかの形式の画像をアップロード可能です。</div>
+                        <div class="label-txt label-txt01">※JPG、JPEG、PNGいずれかの形式の画像をアップロード可能です。</div>
                             <div @drop.prevent="onInchargePhotoChange" @dragover.prevent :class="['upload-content', $v.recruiterForm.incharge_photo.$error ? 'is-invalid':''] ">
                                     <div class="d-flex align-items-center">
                                         <i class="fa fa-cloud-upload upload-icon mx-3"></i>

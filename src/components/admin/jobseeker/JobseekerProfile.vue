@@ -159,7 +159,7 @@
                 <br />
                 <span
                     class="label-txt"
-                >※ 容量3MB以下のJPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。</span>
+                >※ 容量3MB以下のJPG、JPEG、PNGいずれかの形式の画像をアップロード可能です。</span>
 
                 <div
                     class="col-md-12 p-0 drag-wrapper mt-2 float-none"
@@ -2322,6 +2322,7 @@
                     });
                 }
             });
+            e.target.value = ''; 
         },
 
         //su sandy
