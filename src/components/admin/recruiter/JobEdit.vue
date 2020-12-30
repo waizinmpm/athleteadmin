@@ -548,35 +548,24 @@ export default {
             if (this.$route.params.id) {
                 this.$api.post("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/update", this.formRegister)
                 .then(res => {
-                    if(res.data.data.job){
-                        this.$alertService.showSuccessDialog(null, 'New Job Created', this.$t('common.close'));
+                    if(res.data.data.job === 'new'){
+                            this.$alertService.showConfirmDialog(null, 'Would you like to create a new job?', this.$t('alertMessage.yes'), this.$t('alertMessage.no')) 
+                            .then(r => {
+                                if(r.value){
+                                    this.$api.post("/v1/recruiter/jobs/add", this.formRegister).then((resp) =>{
+                                        console.log('return Job Created', resp.data.data.job);
+                                    });
+                                }
+                            });
                     }else{
                         this.$alertService.showSuccessDialog(null, 'Updated Job', this.$t('common.close'));
                     }
-                    /* let paginate = {
-                        page: 'job-list',
-                        page_no: this.$store.getters.getPaging.page_no,
-                    }
-                    this.$store.commit('setPaging',paginate); */
                     this.$router.push({ path: "/job-list" });
                 })
                 .catch((e) => {
                     console.log(e);
                 });
             }
-            /* else {
-                this.$api.post("/v1/recruiter/jobs/add", this.formRegister)
-                .then(
-                    this.$router.push({
-                    path:
-                        this.formRegister.job_post_status == "post"
-                        ? "/recruiter/jobs"
-                        : "/recruiter/job-draft"
-                    })
-                )
-                .catch(error => console.log(error))
-                .finally(() => (this.loading = false));
-            } */
         },
 
         changeStatus($status) {
