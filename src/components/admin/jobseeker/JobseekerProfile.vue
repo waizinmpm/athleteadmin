@@ -2942,9 +2942,12 @@
         // Su Sandy
 
         imagePopup(url) {
-            this.showModal =  true;
-            this.imgUrl = url;
-            console.log(this.showModal);
+            if(url.includes('images/default.png') || url.includes('images/no_public.png')){
+                return false;
+            }else{
+                this.showModal =  true;
+                this.imgUrl = url;
+            }  
         },
     },
 };
