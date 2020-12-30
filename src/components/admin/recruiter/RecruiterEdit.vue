@@ -134,6 +134,7 @@
                 <div class="border" id="logo">
                     <div class="form-group mb-5">
                         <label>会社ロゴ</label>
+                        <div class="label-txt label-txt01">※JPEG、PNGいずれかの形式の画像をアップロード可能です。</div>
                             <div @drop.prevent="onLogoChange" @dragover.prevent  :class="['upload-content', $v.recruiterForm.logo.$error ? 'is-invalid':''] ">
                                 <div class="d-flex align-items-center">
                                     <i class="fa fa-cloud-upload upload-icon mx-3"></i>
@@ -144,12 +145,12 @@
                                 </div>
                             </div>
                         <div>
-                            <input type="file" class="hidden upload-file hide" name="logo" @change="onLogoChange" accept="image/x-png,image/gif,image/jpeg" ref="logoInput"/>
+                            <input type="file" class="hidden upload-file hide" name="logo" @change="onLogoChange" accept="image/x-png,image/jpeg" ref="logoInput"/>
                             <!-- <label class="custom-file-label">ファイルを選択</label> -->
                         </div>
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.logo.isTrueImage">無効な画像ファイル</div>
-                            <div class="error" v-if="!$v.recruiterForm.logo.limitFileSize">無効な画像ファイル</div>
+                            <!-- <div class="error" v-if="!$v.recruiterForm.logo.isTrueImage">無効な画像ファイル</div>
+                            <div class="error" v-if="!$v.recruiterForm.logo.limitFileSize">無効な画像ファイル</div> -->
                         </div>
                     </div>
                     <div class="logo-box-photo">                       
@@ -161,6 +162,7 @@
                 <div class="border img-block" id="incharge-photo">
                     <div class="form-group mb-5">
                         <label>担当者顔写真(スカウトした人材のみ閲覧可)</label>
+                        <div class="label-txt label-txt01">※JPEG、PNGいずれかの形式の画像をアップロード可能です。</div>
                             <div @drop.prevent="onInchargePhotoChange" @dragover.prevent :class="['upload-content', $v.recruiterForm.incharge_photo.$error ? 'is-invalid':''] ">
                                     <div class="d-flex align-items-center">
                                         <i class="fa fa-cloud-upload upload-icon mx-3"></i>
@@ -171,13 +173,12 @@
                                     </div>
                             </div>
                         <div>
-                            <input type="file" class="hidden upload-file hide" accept="image/x-png,image/gif,image/jpeg" @change="onInchargePhotoChange" ref="inchargePhotoInput"/>
+                            <input type="file" accept="image/x-png,image/jpeg" class="hidden upload-file hide" @change="onInchargePhotoChange" ref="inchargePhotoInput">
                             <!-- <label class="custom-file-label">ファイルを選択</label> -->
                         </div>
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.incharge_photo.isTrueImage">無効な画像ファイル</div>
-                            <div class="error" v-if="!$v.recruiterForm.incharge_photo.limitFileSize">無効な画像ファイル</div>
-                            <!-- <div class="error" v-if="!$v.recruiterForm.incharge_photo.isTrueImage">Invalid image file.</div> -->
+                            <!-- <div class="error" v-if="!$v.recruiterForm.incharge_photo.isTrueImage">無効な画像ファイル</div>
+                            <div class="error" v-if="!$v.recruiterForm.incharge_photo.limitFileSize">無効な画像ファイル</div> -->
                         </div>
                     </div>
 
@@ -190,6 +191,7 @@
                 <div class="border clearfix" id="related-photo">
                     <div class="form-group mb-5">
                         <label>関連画像</label>
+                        <div class="label-txt label-txt01">※JPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。</div>
                         <div @drop.prevent="onRelatedImagesChange" @dragover.prevent :class="['upload-content', $v.temp_related_image.$error ? 'is-invalid':''] ">
                                 <div class="d-flex align-items-center">
                                     <i class="fa fa-cloud-upload upload-icon mx-3"></i>
@@ -200,11 +202,11 @@
                                 </div>
                             </div>
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.temp_related_image.isTrueImage">無効な画像ファイル</div>
-                            <div class="error" v-if="!$v.temp_related_image.limitFileSize">無効な画像ファイル</div>
+                            <!-- <div class="error" v-if="!$v.temp_related_image.isTrueImage">無効な画像ファイル</div>
+                            <div class="error" v-if="!$v.temp_related_image.limitFileSize">無効な画像ファイル</div> -->
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="hidden upload-file hide" accept="image/x-png,image/gif,image/jpeg" multiple @change="onRelatedImagesChange" ref="relatedImagesInput"/>
+                            <input type="file" class="hidden upload-file hide" accept="image/x-png,image/jpeg" multiple @change="onRelatedImagesChange" ref="relatedImagesInput">
                             <!-- <label class="custom-file-label">ファイルを選択</label> -->
                         </div>
                     </div>
@@ -273,13 +275,13 @@
         return file.type ? file.type.startsWith("image") : true;
     };
 
-    const limitFileSize = (params) => (value) => {
+    /* const limitFileSize = (params) => (value) => {
         if (!value || typeof value === 'string') {
             return true;
         }
         let file = value;
         return (file.size/1024/1024).toFixed(2) <= params;
-    };
+    }; */
 
     function buildFormData(formData, data, parentKey) {
         if (data && typeof data === "object" && !(data instanceof Date) && !(data instanceof File)) {
@@ -351,17 +353,17 @@
                 recruiter_name: { required },
                 // num_of_employees: { numeric },
                 phone1: { required, numeric, minLength: minLength(10), maxLength: maxLength(14) },
-                phone2: { numeric, minLength: minLength(10), maxLength: maxLength(14) },
+                phone2: { numeric, minLength: minLength(10), maxLength: maxLength(14) },			
                 website: { required, url },
                 incharge_name: { required },
                 incharge_name_furigana: { required, isFurigana },
                 question: { required, maxLength: maxLength(54) },
                 answer: { required },
                 video: { matchYoutubeUrl },
-                logo: { isTrueImage, limitFileSize: limitFileSize(3) },
-                incharge_photo: { isTrueImage, limitFileSize: limitFileSize(3) },
+                logo: { isTrueImage,  },
+                incharge_photo: { isTrueImage, },
             },
-            temp_related_image: { isTrueImage, limitFileSize: limitFileSize(3) },
+            temp_related_image: { isTrueImage, },
         },
 
         methods: {
@@ -375,32 +377,51 @@
                 } else {
                     this.recruiterForm.question = this.questionType;
                 }
-                console.log(this.recruiterForm.question);
             },
 
-            onLogoChange(e) {
-                const files = e.target.files || e.dataTransfer.files;
+            onLogoChange(e) {			
+                const files =  e.target.files || e.dataTransfer.files;
                 const file = files[0];
+                const ext = file.name.split(".").pop().toLowerCase();
+                if (ext == "png" || ext == "jpg" || ext == "jpeg") {
+                    console.log(ext);
+                } else {
+                    this.$alertService.showWarningDialog(null, this.$t('alertMessage.imageTypeWarning'),this.$t('common.close')).then(r => {
+                        console.log(r);
+                    });
+                    return;
+                }
+
                 this.recruiterForm.logo = file;
-                // console.log('aaaaa',this.recruiterForm.logo)
                 this.$v.recruiterForm.logo.$touch();
                 if (this.$v.recruiterForm.logo.$error) {
                     return;
                 }
                 this.recruiterForm.logo_url = URL.createObjectURL(file);
                 this.recruiterForm.delete_logo = false;
+                e.target.value = '';
             },
 
             onInchargePhotoChange(e) {
-                const files = e.target.files || e.dataTransfer.files;
+                const files =  e.target.files || e.dataTransfer.files;
                 const file = files[0];
+                const ext = file.name.split(".").pop().toLowerCase();
+                if (ext == "png" || ext == "jpg" || ext == "jpeg") {
+                    console.log(ext);
+                } else {
+                    this.$alertService.showWarningDialog(null, this.$t('alertMessage.imageTypeWarning'),this.$t('common.close')).then(r => {
+                        console.log(r);
+                    });
+                    return;
+                }
                 this.recruiterForm.incharge_photo = file;
                 this.$v.recruiterForm.incharge_photo.$touch();
-                if (this.$v.recruiterForm.incharge_photo.$error) {
+                if (this.$v.recruiterForm.incharge_photo.$error) {				
                     return;
                 }
                 this.recruiterForm.incharge_photo_url = URL.createObjectURL(file);
                 this.recruiterForm.delete_incharge_photo = false;
+                e.target.value = '';
             },
 
             onRelatedImagesChange(e) {
@@ -416,56 +437,54 @@
                     if (this.$v.temp_related_image.$error) 
                         return;
                 }
+
                 let file_names = [ 'photo_1', 'photo_2', 'photo_3', 'photo_4' ];
                 let taken = this.recruiterForm.related_images.map(x => { return x.url.slice(6, x.url.indexOf('.')); });
                 let availables = file_names.filter(x => !taken.includes(x));
                 const vm = this;
-                Array.from(files).forEach((file) => {
+                Array.from(files).forEach((file, i) => {
+                    console.log(i);
                     let relateImagesIndex = file_names.indexOf(availables.shift());
                     let filename = `${vm.recruiterForm.recruiter_number}_${file_names[relateImagesIndex]}`;
                     let extension = file.type.split('/').pop();
-                    let entry = {
-                        file: file,
-                        url: `${filename}.${extension}`,
-                        file_url: URL.createObjectURL(file),
-                        file_type: 'photo',
-                        user_type: 'recruiter',
-                    }				
-                    vm.recruiterForm.related_images.splice(relateImagesIndex, 0, entry);
-                    let deleteFlagIndex = vm.recruiterForm.delete_related_images.indexOf(filename);
-                    if (deleteFlagIndex == -1) {
-                        vm.recruiterForm.delete_related_images.splice(deleteFlagIndex, 1);
+                    const ext = extension.toLowerCase();
+                    if (ext == "png" || ext == "jpg" || ext == "jpeg") {
+                        let entry = {
+                            file: file,
+                            url: `${filename}.${extension}`,
+                            file_url: URL.createObjectURL(file),
+                            file_type: 'photo',
+                            user_type: 'recruiter',
+                        }				
+                        vm.recruiterForm.related_images.splice(relateImagesIndex, 0, entry);
+                        let deleteFlagIndex = vm.recruiterForm.delete_related_images.indexOf(filename);
+                        if (deleteFlagIndex == -1) {
+                            vm.recruiterForm.delete_related_images.splice(deleteFlagIndex, 1);
+                        }
+                    } else {
+                        this.$alertService.showWarningDialog(null, this.$t('alertMessage.imageTypeWarning'),this.$t('common.close'));
                     }
                 });
                 e.target.value = '';
             },
 
             deleteLogo() {
-                // this.$alertService.showConfirmDialog(null, "Are you sure to delete logo?")
-                // .then(r => {
-                // if (r.value) {
                 this.recruiterForm.logo = "";
                 this.recruiterForm.logo_url = this.defaultImageUrl;
                 this.recruiterForm.delete_logo = true;
-                // }
-                // });
             },
 
             deleteInchargePhoto() {
-                // this.$alertService.showConfirmDialog(null, "Are you sure to delete incharge person photo?")
-                // .then(r => {
-                // if (r.value) {
                 this.recruiterForm.incharge_photo = "";
                 this.recruiterForm.incharge_photo_url = this.defaultImageUrl;
                 this.recruiterForm.delete_incharge_photo = true;
-                // }
-                // });
             },
 
             deleteRelatedImage(index) {
                 let uploadedFile = this.recruiterForm.related_images.splice(index, 1);
                 let filename = uploadedFile[0].url.slice(0, uploadedFile[0].url.indexOf("."));
-                if (this.recruiterForm.delete_related_images.indexOf(filename) == -1) this.recruiterForm.delete_related_images.push(filename);
+                if (this.recruiterForm.delete_related_images.indexOf(filename) == -1)
+                    this.recruiterForm.delete_related_images.push(filename);
             },
 
             updateProfile() {
@@ -476,30 +495,20 @@
                 let data = new FormData();
                 buildFormData(data, this.recruiterForm);
                 // this.$set(this.recruiterForm, "id", this.$route.params.id);
-                console.log("before update:", this.recruiterForm);
                 this.$api
                     .post("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/update", data)
                     .then((res) => {
                         console.log("update:", res.data);
-                        /* let paginate = {
-                            page: 'recruiter-list',
-                            page_no: this.$store.getters.getPaging.page_no,
-                        }
-                        this.$store.commit('setPaging',paginate); */
-
                         this.$router.push({ path: "/admin-recruiter-list" });
                     })
                     .catch((e) => {
                         console.log(e);
                     });
-                    // .finally((f) => {
-                    //     console.log(f);
-                    //     this.loading = false;
-                    // });
             },
         },
     };
 </script>
+
 <style lang="scss" scoped>
 .border{
     margin-bottom: 20px;
@@ -544,6 +553,7 @@
     align-items: center;
 }
 .upload-content::after {
+    margin-top: 0.5rem;
     content: "";
     position: absolute;
     background: linear-gradient(to right, #B5C4CC 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(#B5C4CC 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, #B5C4CC 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(#B5C4CC 50%, rgba(255, 255, 255, 0) 0%);
