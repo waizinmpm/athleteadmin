@@ -404,42 +404,40 @@
             },
 
             onRelatedImagesChange(e) {
-                console.log(e.target);
-                const files = e.target.files || e.dataTransfer.files;
-                if (files.length + this.recruiterForm.related_images.length > 4) {
-                    // alert("Maximum file allowed exceed.");
-                    this.$alertService.showErrorDialog(null, '許可されている最大ファイル数を超えています。');
-                    return;
+                const files =  e.target.files || e.dataTransfer.files;
+                if ((files.length + this.recruiterForm.related_images.length) > 4) {
+                    this.$alertService.showErrorDialog(null, this.$t('recruiter-profile.max_file'));
+                    return;				
                 }
                 // --Validation of files
-			for (let index = 0; index < files.length; index++) {
-				this.temp_related_image = files[index];
-				this.$v.temp_related_image.$touch();
-				if (this.$v.temp_related_image.$error) 
-					return;
-			}
-                let file_names = ["photo_1", "photo_2", "photo_3", "photo_4"];
-                let taken = this.recruiterForm.related_images.map((x) => {
-                    return x.url.slice(6, x.url.indexOf("."));
-                });
-                let availables = file_names.filter((x) => !taken.includes(x));
+                for (let index = 0; index < files.length; index++) {
+                    this.temp_related_image = files[index];
+                    this.$v.temp_related_image.$touch();
+                    if (this.$v.temp_related_image.$error) 
+                        return;
+                }
+                let file_names = [ 'photo_1', 'photo_2', 'photo_3', 'photo_4' ];
+                let taken = this.recruiterForm.related_images.map(x => { return x.url.slice(6, x.url.indexOf('.')); });
+                let availables = file_names.filter(x => !taken.includes(x));
                 const vm = this;
                 Array.from(files).forEach((file) => {
                     let relateImagesIndex = file_names.indexOf(availables.shift());
                     let filename = `${vm.recruiterForm.recruiter_number}_${file_names[relateImagesIndex]}`;
-                    let extension = file.type.split("/").pop();
+                    let extension = file.type.split('/').pop();
                     let entry = {
                         file: file,
                         url: `${filename}.${extension}`,
                         file_url: URL.createObjectURL(file),
-                        file_type: "photo",
-                        user_type: "recruiter",
-                    };
+                        file_type: 'photo',
+                        user_type: 'recruiter',
+                    }				
                     vm.recruiterForm.related_images.splice(relateImagesIndex, 0, entry);
-
                     let deleteFlagIndex = vm.recruiterForm.delete_related_images.indexOf(filename);
-                    if (deleteFlagIndex == -1) vm.recruiterForm.delete_related_images.splice(deleteFlagIndex, 1);
+                    if (deleteFlagIndex == -1) {
+                        vm.recruiterForm.delete_related_images.splice(deleteFlagIndex, 1);
+                    }
                 });
+                e.target.value = '';
             },
 
             deleteLogo() {
