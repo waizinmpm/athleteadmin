@@ -12,7 +12,7 @@ export default {
     close: '閉じる',
     fileSizeWarning: "ファイルサイズが最大値を超えています。",
     fileTypeWarning: "PDF,WORD,EXCELファイルのみアップロード可能です。",
-    imageTypeWarning: "ファイルはJPG,PNGの形式でお願いします。",
+    imageTypeWarning: "ファイルはJPG,JPEG、PNGの形式でお願いします。",
     imageSizeWarning:"ファイルサイズは3MB以下アプロード可能です。",
     imageMaximunWarning:"アップロードできる画像数を超えています。",
     updateSuccess: "更新しました。",

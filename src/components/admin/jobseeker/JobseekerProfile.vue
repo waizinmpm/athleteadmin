@@ -2244,6 +2244,7 @@
                     console.log(r);
                 });
             }
+            e.target.value = ''; 
         },
 
         //su sandy
