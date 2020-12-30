@@ -740,10 +740,10 @@
 
                     <dt class="detail-head">{{$t('jobseekerprofile.experiencecompany')}}</dt>
                     <dd class="detail-data">
-                        <span v-if="carrers.num_of_experienced_companies != ''"> 
-                            {{carrers.num_of_experienced_companies}}    
+                        <span v-if="(carrers.num_of_experienced_companies != '' && carrers.num_of_experienced_companies != null) || (carrers.num_of_experienced_companies == 0)">
+                            {{carrers.num_of_experienced_companies}}
                         </span>
-                        <span v-else>未入力</span>
+                        <span v-else>未経験</span>
                     </dd>
                     <dt class="detail-head"> 勤務先  </dt>
                     <dd class="detail-data" v-if="experiences">
@@ -974,12 +974,7 @@
                 <div class="form-group mt-4">
                 <label for>経験社数</label>
                 <div class="col-md-3 p-0">
-                    <input
-                    type="text"
-                    v-model="carrers.num_of_experienced_companies"
-                    class="form-control"
-                    placeholder="経験社数を選択"
-                    />
+                    <input type="text" v-model="carrers.num_of_experienced_companies" class="form-control" placeholder="経験社数を入力" />
                 </div>
                 </div>
 
