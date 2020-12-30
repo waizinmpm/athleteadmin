@@ -5,14 +5,14 @@
             <div class="pt-2" id="information">
                 <div class="border">
                     <div class="form-group">
-                        <label>企業番号</label>
+                        <label>企業会員番号</label>
                         <input type="text" class="form-control" readonly :value="recruiterForm.recruiter_number" />
                     </div>
                     <div class="form-group">
                         <label><span class="align-label">企業名</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.recruiter_name.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.recruiter_name.$model" />
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.recruiter_name.required">企業名は入力は必須です。</div>
+                            <div class="error" v-if="!$v.recruiterForm.recruiter_name.required">企業名は必須です</div>
                         </div>
                     </div>
                     <!-- <div class="form-group">
@@ -82,7 +82,7 @@
                         <input type="text" class="form-control" :value="recruiterForm.email" readonly />
                     </div>
                     <div class="form-group">
-                        <label><span class="align-label">サイトURL</span> <span class="required">必須</span></label>
+                        <label><span class="align-label">WEBサイトURL</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.website.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.website.$model" />
                         <div class="invalid-feedback">
                             <div class="error" v-if="!$v.recruiterForm.website.required && $v.recruiterForm.website.$error">WEBサイトURLは必須です</div>
@@ -232,7 +232,7 @@
                     <div class="form-group">
                         <label>関連動画</label>
                         <div class="row">
-                            <label class="col-sm-3 col-form-label">Youtube URL</label>
+                            <label class="col-sm-3 col-form-label">YoutubeのURL</label>
                             <div class="col-sm-9">
                                 <input type="text" :class="['form-control',$v.recruiterForm.video.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.video.$model" />
                                 <div class="invalid-feedback">

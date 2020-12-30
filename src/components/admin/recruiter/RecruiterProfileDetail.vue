@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="row mb-0"> 
-            <h6 class="col-md-12 mb-1">会社 PR 等</h6>
+            <h6 class="col-md-12 mb-1">会社PR等</h6>
         </div>
         <div class="row about-row">
             <div class="col-md-12 p-0">                           
