@@ -554,13 +554,14 @@ export default {
                                 if(r.value){
                                     this.$api.post("/v1/recruiter/jobs/add", this.formRegister).then((resp) =>{
                                         console.log('return Job Created', resp.data.data.job);
+                                        this.$router.push({ path: "/job-list" });
                                     });
                                 }
                             });
                     }else{
                         this.$alertService.showSuccessDialog(null, 'Updated Job', this.$t('common.close'));
+                        this.$router.push({ path: "/job-list" });
                     }
-                    this.$router.push({ path: "/job-list" });
                 })
                 .catch((e) => {
                     console.log(e);
