@@ -41,6 +41,9 @@ import AdminMenu from "../menu/AdminMenu";
 import Sidebar from "../menu/Sidebar";
 import ChatComponent from '../ChatComponent';
 import { mapGetters } from "vuex";
+import api from '../../api/apiBasePath';
+import router from "../../router";
+import store from '../../store';
 
 export default {
   data() {
@@ -53,8 +56,22 @@ export default {
 	Sidebar,
 	ChatComponent,    
   },
+
   created(){
-      
+    var interval = setInterval(function(){
+        api.post('/v1/auth/me')
+        .then(response => {
+            console.log("Success setInterval", response.status);
+        })
+        .catch(error => {
+            if(error.response.status == 400){
+                alert('Login Timeout');
+                clearInterval(interval);
+                store.commit("logout");
+                router.push("/");
+            }
+        });
+    }, 5000);
   },
   
   mounted() {
