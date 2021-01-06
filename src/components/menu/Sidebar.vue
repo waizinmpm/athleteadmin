@@ -66,9 +66,7 @@
     </div>
 </template>
 <script>
-import api from '../../api/apiBasePath';
-import router from "../../router";
-import store from '../../store';
+
 export default {
     name: "app-header",
     data() {
@@ -78,17 +76,17 @@ export default {
     },
 
     created() {
+        var that = this;
         var itv = setInterval(function(){
-            api.post('/v1/auth/me')
+            that.$api.post('/v1/auth/me')
             .then(response => {
-                console.log("Success setInterval", response);
+                console.log("Success setInterval", response.status);
             })
             .catch(error => {
+                console.log("Token Expired", error.response.status);
                 if(error.response.status == 400){
                     // alert('Login Timeout');
-                    clearInterval(itv);
-                    store.commit("logout");
-                    router.push("/");
+                    that.logout();
                 }
             });
         }, 600000); // 10* 60000(1min)
