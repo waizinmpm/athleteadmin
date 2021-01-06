@@ -553,6 +553,7 @@ export default {
                             .then(r => {
                                 if(r.value){
                                     this.$api.post("/v1/recruiter/jobs/add", this.formRegister).then((resp) =>{
+                                        console.log(resp); 
                                         this.$alertService.showSuccessDialog(null,this.$t('jobcreate.saveSuccess'), this.$t('common.close'));
                                         this.$router.push({ path: "/job-list" });
                                     });
