@@ -66,12 +66,40 @@
     </div>
 </template>
 <script>
+import api from '../../api/apiBasePath';
+import router from "../../router";
+import store from '../../store';
 export default {
     name: "app-header",
+    data() {
+        return {
+            interval : null,
+        }
+    },
+
+    created() {
+        var itv = setInterval(function(){
+            api.post('/v1/auth/me')
+            .then(response => {
+                console.log("Success setInterval", response);
+            })
+            .catch(error => {
+                if(error.response.status == 400){
+                    // alert('Login Timeout');
+                    clearInterval(itv);
+                    store.commit("logout");
+                    router.push("/");
+                }
+            });
+        }, 600000); // 10* 60000(1min)
+        this.interval = itv;
+    },
+
     methods: {
         logout() {
-        this.$store.commit("logout");
-        this.$router.push("/");
+            clearInterval(this.interval);
+            this.$store.commit("logout");
+            this.$router.push("/");
         },
     },
     computed: {
