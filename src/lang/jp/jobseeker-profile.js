@@ -117,7 +117,7 @@ export default {
 
     selectindustry : '業種を選択',
     selectjobcategory : '職種を選択',
-    selectcurrency : '通貨を選択',
+    selectcurrency : '通貨単位を選択',
 
     add : '追加する',
     save : '保存する',

@@ -1471,8 +1471,8 @@
                 </dd>
                 <dt class="detail-head">{{$t('jobseekerprofile.desiredsalary')}}</dt>
                 <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income"> 未入力 </dd>
-                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}}万 円以上 </dd>
-                <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_max_annual_income}}万 円 </dd>
+                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}}以上 </dd>
+                <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_max_annual_income}} </dd>
                 <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}} ~ {{desired_condition.desired_max_annual_income}} {{desired_condition.desired_currency}}</dd>
             </dl>
             </div>
