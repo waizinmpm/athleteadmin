@@ -427,7 +427,7 @@
             onRelatedImagesChange(e) {
                 const files =  e.target.files || e.dataTransfer.files;
                 if ((files.length + this.recruiterForm.related_images.length) > 4) {
-                    this.$alertService.showErrorDialog(null, this.$t('recruiter-profile.max_file'));
+                    this.$alertService.showErrorDialog(null, '許可されている最大ファイル数を超えています。');
                     return;				
                 }
                 // --Validation of files
