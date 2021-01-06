@@ -467,7 +467,7 @@
                 </span>
                 <div class="row col-md-7 p-0 m-0">
                     <div class="col-md-4 pl-0">
-                        <input type="text" class="form-control" placeholder="年 - 月 - 日" v-model="basicInfo.dob"/>
+                        <input type="text" class="form-control" placeholder="生年月日" v-model="basicInfo.dob"/>
                         <!-- <select class="form-control" v-model="basicInfo.dobyears">
                             <option disabled :value="null">年</option>
                             <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
@@ -1224,7 +1224,7 @@
                                     <tr>
                                         <td>経験年数</td>
                                         <td>
-                                            <span v-if="exp_job.experience_year != 0">{{exp_job.experience_year}}年</span>
+                                            <span v-if="exp_job.experience_year != null">{{exp_job.experience_year}}年</span>
                                             <span v-else>-</span>
                                         </td>
                                     </tr>
