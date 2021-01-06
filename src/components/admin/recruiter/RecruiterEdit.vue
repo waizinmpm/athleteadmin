@@ -191,7 +191,7 @@
                 <div class="border clearfix" id="related-photo">
                     <div class="form-group mb-5">
                         <label>関連画像</label>
-                        <div class="label-txt label-txt01">※JPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。</div>
+                        <div class="label-txt label-txt01">※JPG、JPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。</div>
                         <div @drop.prevent="onRelatedImagesChange" @dragover.prevent :class="['upload-content', $v.temp_related_image.$error ? 'is-invalid':''] ">
                                 <div class="d-flex align-items-center">
                                     <i class="fa fa-cloud-upload upload-icon mx-3"></i>
