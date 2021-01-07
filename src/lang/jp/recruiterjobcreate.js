@@ -24,7 +24,7 @@ export default {
         '正社員','契約社員/嘱託社員','業務委託','パートタイマー','アルバイト','派遣社員'
     ],
 
-    title: '求人タイトル',
+    title: '求人編集',
     
     occupation : ' 職種',
     occupation_ex : ' (記入例)',
