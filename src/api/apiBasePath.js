@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from '../store';
 import router from '../router';
-import AlertService from '../services/AlertService';
+// import AlertService from '../services/AlertService';
 let errorShowing = false;
 const api = axios.create({
     baseURL: process.env.VUE_APP_API_URL, 
@@ -30,16 +30,11 @@ api.interceptors.response.use(function (response) {
 		}
 		if (!errorShowing) {
 			errorShowing = true;
-			AlertService.showErrorDialog(null, "Your login is invalid").then(() => {
-				let redirect = '/';
-				// if (router.currentRoute.path.includes('recruiter')) {
-				// 	redirect = '/recruiter/login'
-				// } else if (router.currentRoute.path.includes('jobseeker')) {
-				// 	redirect = '/jobseeker/login'
-				// }
-				localStorage.removeItem('adminuser');
-				window.location = redirect;
-			});
+			// AlertService.showErrorDialog(null, "Your login is invalid").then(() => {
+            let redirect = '/';
+            localStorage.removeItem('adminuser');
+            window.location = redirect;
+			// });
 		}
 		
 	}
