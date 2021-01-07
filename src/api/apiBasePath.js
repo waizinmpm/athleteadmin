@@ -23,7 +23,7 @@ api.interceptors.response.use(function (response) {
 }, function (error) {
     // response error
     console.log('api response.status', error.response.status);
-	if (401 === error.response.status) 
+	if (400 === error.response.status) 
 	{	
 		if (router.currentRoute.path.includes('login')|| router.currentRoute.path.includes('password-setting') || router.currentRoute.path.includes('setting')) {
 			return Promise.reject(error);
