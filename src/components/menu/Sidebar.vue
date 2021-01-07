@@ -85,8 +85,8 @@ export default {
             .catch(error => {
                 console.log("Token Expired", error.response.status);
                 if(error.response.status == 400){
-                    // alert('Login Timeout');
-                    that.logout();
+                    clearInterval(itv);
+                    that.$store.commit("logout");
                 }
             });
         }, 600000); // 10* 60000(1min)

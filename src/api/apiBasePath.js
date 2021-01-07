@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from '../store';
 import router from '../router';
-// import AlertService from '../services/AlertService';
+import AlertService from '../services/AlertService';
 let errorShowing = false;
 const api = axios.create({
     baseURL: process.env.VUE_APP_API_URL, 
@@ -29,12 +29,12 @@ api.interceptors.response.use(function (response) {
 			return Promise.reject(error);
 		}
 		if (!errorShowing) {
-			errorShowing = true;
-			// AlertService.showErrorDialog(null, "Your login is invalid").then(() => {
-            let redirect = '/';
-            localStorage.removeItem('adminuser');
-            window.location = redirect;
-			// });
+            errorShowing = true;
+			AlertService.showInfoDialog(null,'長時間操作がなかったため、ログアウトしました。').then(() => {
+                let redirect = '/';
+                localStorage.removeItem('adminuser');
+                window.location = redirect;
+			});
 		}
 		
 	}
