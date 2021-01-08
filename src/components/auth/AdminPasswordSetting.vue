@@ -130,7 +130,7 @@
                     @click="changePassword"
                 >変更</button>
                 <button
-                    class="btn loginbtn"
+                    class="btn btn-cancel"
                     type="button"
                     @click="cancelChange"
                 >戻る</button>
@@ -215,10 +215,13 @@ export default {
 					password: this.$data.formChangePassword.newPassword
 				})
 				.then(() => {
-					this.success = this.$t(
-						"admin_password_setting.password_changed"
-					);
+					// this.success = this.$t(
+					// 	"admin_password_setting.password_changed"
+					// );
+                    this.$alertService.showSuccessDialog(null, this.$t('admin_password_setting.password_changed'), this.$t('common.close'));
 					this.cancelChange();
+                    this.$store.commit('logout');
+                    this.$router.push('/');
 				})
 				.catch(err => {
 					let errObj = err.response.data.error.message;
@@ -245,14 +248,7 @@ export default {
 };
 </script>
 <style scoped>
-.loginbtn {
-    background-color: #004bb1;
-    color: #fff;
-    width: 120px;
-    padding: 10px 0;
-    border-radius: 20px;
-    margin-right: 20px;
-}
+
 .has-success .control-label {
     color: #5da017;
 }
@@ -278,6 +274,10 @@ export default {
     padding: 8px 0;
     border-radius: 0;
     margin-right: 20px;
+}
+.btn-cancel {
+    width: 120px;
+    padding: 8px 0;
 }
 .form-group {
     margin-bottom: 25px;

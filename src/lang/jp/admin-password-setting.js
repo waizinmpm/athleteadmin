@@ -3,7 +3,7 @@ export default {
 	enter_new_password: "新しいパスワードを入力してください",
 	enter_password_again: "もう一度パスワードを入力してください",
 	password_wrong: "パスワードが間違っています",
-	password_changed: "パスワードが変更されました",
+	password_changed: "パスワードが変更されました。",
 	password_required: "パスワードを入力してください",
 	password_minlength: "パスワードは8文字以上必要です",
 	password_match: "パスワードが一致しません",
