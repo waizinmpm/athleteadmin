@@ -215,10 +215,13 @@ export default {
 					password: this.$data.formChangePassword.newPassword
 				})
 				.then(() => {
-					this.success = this.$t(
-						"admin_password_setting.password_changed"
-					);
+					// this.success = this.$t(
+					// 	"admin_password_setting.password_changed"
+					// );
+                    this.$alertService.showSuccessDialog(null, this.$t('admin_password_setting.password_changed'), this.$t('common.close'));
 					this.cancelChange();
+                    this.$store.commit('logout');
+                    this.$router.push('/');
 				})
 				.catch(err => {
 					let errObj = err.response.data.error.message;
