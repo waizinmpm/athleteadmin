@@ -548,21 +548,22 @@ export default {
             if (this.$route.params.id) {
                 this.$api.post("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/update", this.formRegister)
                 .then(res => {
-                    if(res.data.data.job === 'new'){
-                            this.$alertService.showConfirmDialog(null, 'Would you like to create a new job?', this.$t('alertMessage.yes'), this.$t('alertMessage.no')) 
-                            .then(r => {
-                                if(r.value){
-                                    this.$api.post("/v1/recruiter/jobs/add", this.formRegister).then((resp) =>{
-                                        console.log(resp); 
-                                        this.$alertService.showSuccessDialog(null,this.$t('jobcreate.saveSuccess'), this.$t('common.close'));
-                                        this.$router.push({ path: "/job-list" });
-                                    });
-                                }
-                            });
-                    }else{
-                        this.$alertService.showSuccessDialog(null, '保存しました。', this.$t('common.close'));
-                        this.$router.push({ path: "/job-list" });
-                    }
+                    // if(res.data.data.job === 'new'){
+                    //         this.$alertService.showConfirmDialog(null, 'Would you like to create a new job?', this.$t('alertMessage.yes'), this.$t('alertMessage.no')) 
+                    //         .then(r => {
+                    //             if(r.value){
+                    //                 this.$api.post("/v1/recruiter/jobs/add", this.formRegister).then((resp) =>{
+                    //                     console.log(resp); 
+                    //                     this.$alertService.showSuccessDialog(null,this.$t('jobcreate.saveSuccess'), this.$t('common.close'));
+                    //                     this.$router.push({ path: "/job-list" });
+                    //                 });
+                    //             }
+                    //         });
+                    // }else{
+                    console.log('Update:'+ res.data.data.job);
+                    this.$alertService.showSuccessDialog(null, '保存しました。', this.$t('common.close'));
+                    this.$router.push({ path: "/job-list" });
+                    // }
                 })
                 .catch((e) => {
                     console.log(e);
