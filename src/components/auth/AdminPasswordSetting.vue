@@ -114,6 +114,14 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group has-error has-feedback" v-if="errors">
+                <label for="inputError2" class="control-label">{{ errors }}</label>
+            </div>
+            <div class="form-group has-success has-feedback" v-if="success">
+                <label for="inputError2" class="control-label">{{ success }}</label>
+            </div>
+
             <div class="fomr-group m-t-30">
                 <button
                     class="btn loginbtn"
@@ -129,14 +137,7 @@
             </div>
         </form>
 
-        <div class>
-            <div class="form-group has-error has-feedback" v-if="errors">
-                <label for="inputError2" class="control-label">{{ errors }}</label>
-            </div>
-            <div class="form-group has-success has-feedback" v-if="success">
-                <label for="inputError2" class="control-label">{{ success }}</label>
-            </div>
-        </div>
+        
     </div>
 </template>
 <script>
@@ -264,7 +265,7 @@ export default {
 }
 .form-content {
     width: 30%;
-    height: 100vh;
+    height: 100%;
 }
 .form-control {
     border-radius: 5px !important;
