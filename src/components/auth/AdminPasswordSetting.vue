@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="fomr-group">
-                <button class="btn loginbtn" type="submit">変更する</button>
+                <button class="btn loginbtn" type="submit">次へ</button>
             </div>
         </form>
 
@@ -120,12 +120,12 @@
                     type="submit"
                     :disabled="$v.formChangePassword.$invalid"
                     @click="changePassword"
-                >OK</button>
+                >変更</button>
                 <button
                     class="btn loginbtn"
                     type="button"
                     @click="cancelChange"
-                >{{ $t('common.cancel') }}</button>
+                >戻る</button>
             </div>
         </form>
 
