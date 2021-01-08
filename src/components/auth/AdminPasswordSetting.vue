@@ -41,7 +41,7 @@
                     <div class="has-error has-feedback" v-if="$v.formLogin.password.$error">
                         <label for="inputError2" class="control-label" v-if="!$v.formLogin.password.required">{{ $t('admin_password_setting.password_required') }}</label>
                     </div>
-					<div class="has-error has-feedback" v-if="errors">
+					<div class="has-error has-feedback" v-else-if="errors">
 						<label for="inputError2" class="control-label">{{ errors }}</label>
 					</div>
                 </div>
@@ -239,6 +239,7 @@ export default {
         },
         clearSuccess: function() {
             this.success = null;
+			this.errors = null;
         }
     }
 };
