@@ -159,6 +159,11 @@
                         <td class="text-left">
                             <span  class="detail-link" @click="recruiterDetail(project.id)" >{{project.recruiter_name}}</span><span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
                         </td>
+                        <td class="text-left">
+                            <span @click="recruiterDetail(project.id)" class="detail-link">
+                                {{project.email}}
+                            </span>
+                        </td>
                         <td class="tbl-ws">
                             <div class="scout-box">
                                 <div v-if="project.record_status != 0">

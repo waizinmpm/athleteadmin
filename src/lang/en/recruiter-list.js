@@ -10,6 +10,7 @@ export default {
         {"label":"recruiter_number","name":"Corporate membership number"},
         {"label":"recruiter_name","name":"Company name"},
         // {"label":"recruiter_nick_name","name":"Company name (nickname)"},
+        {"label":"email","name":"Email"},
         {"label":"record_status","name":"Status"},
         {"label":" "},
     ]

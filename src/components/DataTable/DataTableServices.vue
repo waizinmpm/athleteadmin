@@ -69,7 +69,7 @@ export default {
                 filteredData: this.filteredData,
                 columns:this.columns
             };
-			// page = page || 1;
+			page = page ?? 1;
 			let loader = null;
 			if (showLoading) {
 				loader = this.$loading.show({
