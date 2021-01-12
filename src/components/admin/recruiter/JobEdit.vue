@@ -516,7 +516,8 @@ export default {
         this.$api.get("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/edit")
             .then((res) => {
             this.formRegister = res.data.data;
-            this.formRegister.employment_types = this.formRegister.employment_types.split(",");
+            console.log(res.data.data); 
+            this.formRegister.employment_types = this.formRegister.employment_types.split(',').filter(i => i);
             this.formRegister.other_keywords = this.formRegister.other_keywords.split(",");
             this.formRegister.job_post_date = this.formRegister.job_post_date.split(' ');
             });
