@@ -128,7 +128,7 @@
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td>
-									<span @click="scoutJobDetail(project.job_id)" class="detail-link">
+									<span @click="scoutJobDetail(project.job_id, project.id)" class="detail-link">
 										{{project.management_number}}
 									</span>
 									<!-- <router-link :to="{ name: 'scout-job', params: {id: project.job_id}}">{{project.management_number}}</router-link> -->
@@ -387,11 +387,11 @@ export default {
 	
 	methods: {
 
-		scoutJobDetail(id){
+		scoutJobDetail(id, scout_id){
 			this.paging.page_no = this.projects.current_page;
 			this.paging.length  = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
-            this.$router.push({ name: 'scout-job', params: {id: id}});
+            this.$router.push({ name: 'scout-job', params: {id: id}, query: {sid: scout_id}});
         },
 
 		recruiterDetail(id){

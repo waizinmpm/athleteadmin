@@ -129,14 +129,30 @@ export default {
             try {
                 const response = await Promise.all([
                     this.$api.get("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/edit"),
-                    this.$api.get("/v1/recruiter/getalldata")
-                ]);
-                this.recruiter_job      = response[0].data.data;
+					this.$api.get("/v1/recruiter/getalldata")
+				]);
+				const temp_job = response[0].data.data;
                 this.employment_types   = response[1].data.employment;
                 this.occupations        = response[1].data.occupation;
                 this.countries          = response[1].data.country;
-                this.recruiter_job.employment_types = this.recruiter_job.employment_types.split(",");
-                this.recruiter_job.other_keywords   = this.recruiter_job.other_keywords.split(",");
+				
+				// Get scout occupation, types, location if route is scout job
+				if (this.isScoutJob) {
+					const scout_id = this.$route.query.sid;
+					if (scout_id) {
+						const r = await this.$api.get(`/v1/admin/scout-list/${scout_id}`)
+						const scout = r.data.data;
+						this.recruiter_job = Object.assign({}, temp_job, { 
+							occupation_description:  scout.occupation_description,
+							employment_types: scout.employment_types,
+							job_location: scout.job_location
+						});
+					}
+				} else {
+					this.recruiter_job = temp_job;
+				}
+				this.recruiter_job.employment_types = this.recruiter_job.employment_types.split(",").filter(i => i);
+				this.recruiter_job.other_keywords   = this.recruiter_job.other_keywords.split(",").filter(i => i);
             } catch (error) {
                 console.log(error);
             }
@@ -151,7 +167,12 @@ export default {
             // this.$store.commit('setPaging',paginate);
             this.$router.go(-1);
         }, */
-    }
+	},
+	computed: {
+		isScoutJob() {
+			return this.$route.name == 'scout-job';
+		}
+	}
     
 }
 </script>
