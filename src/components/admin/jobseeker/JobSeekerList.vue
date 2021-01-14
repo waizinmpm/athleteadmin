@@ -165,6 +165,11 @@
                             <span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
                         </td>
+                        <td class="tbl-wl">
+                            <span @click="jobseekerDetail(project.id)" class="detail-link">
+                                {{project.email}}
+                            </span>
+                        </td>
                         <td class="tbl-ws">
                             <div class="toggle-box" v-if="project.record_status != 0">
                                 <div class="scout-box">
