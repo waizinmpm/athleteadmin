@@ -4,6 +4,7 @@ export default {
     "columns": [
         {"label":"jobseeker_number", "name": "Job Seeker Number"},
         {"label":"jobseeker_name", "name": "Job Seeker Name"},
+        {"label":"email", "name": "Email"},
         {"label":"record_status", "name": "Status"},
         {"label":"", "name": ""},
 	],
