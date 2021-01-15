@@ -19,7 +19,7 @@
             <dd class="detail-data"><pre>{{ recruiter_job.job_location || '-' }}</pre></dd>
         </dl>
         <dl class="detail-list" v-else>
-            <h5 style="color: rgb(0, 98, 255); font-weight: bold;" v-if="recruiter_job.created_at != recruiter_job.updated_at">{{recruiter_job.updated_at| moment('YYYY-MM-DD H:m:s')}}に求人詳細が修正されています</h5>
+            <h5 style="color: rgb(0, 98, 255); font-weight: bold;" v-if="recruiter_job.created_at != recruiter_job.updated_at">{{recruiter_job.updated_at}}に求人詳細が修正されています</h5>
             <!-- <dt class="detail-head">求人タイトル</dt>
             <dd class="detail-data">{{ recruiter_job.title }}</dd> -->
             <dt class="detail-head">職種</dt>
@@ -129,7 +129,7 @@ export default {
             let loading = this.$loading.show();
             try {
                 const response = await Promise.all([
-                    this.$api.get("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/edit"),
+                    this.$api.get("/v1/recruiter/jobs/" + `${this.$route.params.id}` + "/detail"),
 					this.$api.get("/v1/recruiter/getalldata")
 				]);
 				const temp_job = response[0].data.data;
