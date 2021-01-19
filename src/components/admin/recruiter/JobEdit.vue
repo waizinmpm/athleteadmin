@@ -43,19 +43,12 @@
 
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
-                            <label for="name">{{ $t('jobcreate.title') }}</label>
+                            <label for="name">求人タイトル</label>
+                            <span class="required">必要</span>
                         </div>
                         <div class="col-md-8 form-right-block">
-                            <textarea
-                            class="form-control"
-                            id="title"
-                            rows="3"
-                            style="height: 100%;"
-                            v-model="formRegister.title"
-                            ></textarea>
-                            <div class="invalid-feedback">
-                            <span>求人タイトル</span>
-                            </div>
+                            <textarea :class="['form-control',$v.formRegister.title.$error?'is-invalid':'']" rows="3"  v-model="$v.formRegister.title.$model"></textarea>
+                            <span v-if="!$v.formRegister.title.required" style="color:red;">求人タイトルは必須です</span>
                         </div>
                     </div>
 
@@ -466,6 +459,7 @@ export default {
                 permission: "",
             },
             formRegister: {
+                title: '',
                 employment_types: [],
                 application_address: "",
                 country_id: "",
@@ -534,9 +528,10 @@ export default {
     },
     validations: {
         formRegister: {
-        application_address: { required, email },
-        occupation_id: { required },
-        country_id: { required },
+            title : {required},
+            application_address: { required, email },
+            occupation_id: { required },
+            country_id: { required },
         },
     },
 
