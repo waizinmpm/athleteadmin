@@ -81,14 +81,24 @@ export const mutations = {
     },
     setPaging(state, payload) {
         state.paging = payload;
-    }
+    },
+    refreshToken(state, token) {
+		state.currentUser.token = token;
+		localStorage.setItem("adminuser", JSON.stringify(state.currentUser));
+	}
 
 }
 
 export const actions = {
     login(context) {
         context.commit("login");
-    }
+    },
+    refreshToken({commit},payload){
+		return new Promise((resolve) => {
+			commit('refreshToken', payload.token);
+			resolve();
+		});
+	}
 }
 
 
