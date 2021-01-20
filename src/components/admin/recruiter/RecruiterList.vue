@@ -157,7 +157,7 @@
                             <!-- <router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}"><span>{{project.recruiter_number}}</span></router-link> -->
                         </td>
                         <td class="text-left">
-                            <span  class="detail-link" @click="recruiterDetail(project.id)" >{{project.recruiter_name}}</span><span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
+                            <span  class="detail-link" @click="recruiterDetail(project.id)" >{{project.recruiter_name}}</span><span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px; cursor: pointer;" @click="clearLoginLocked(project.user_email)">ロック中</span>
                         </td>
                         <td class="text-left">
                             <span @click="recruiterDetail(project.id)" class="detail-link">
@@ -348,6 +348,24 @@ export default {
         hideToggle() {
             this.status = false;
         },
+
+        clearLoginLocked(email){
+            this.$alertService.showConfirmDialog(null, "Do you want to UNLOCK this account?", this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
+                if (dialogResult.value) {
+                    let user_data = {};
+                    this.$set(user_data, "email", email);
+                    this.$set(user_data, "role_id", 2);
+                    this.$api.post("/v1/admin/login-unlock", user_data)
+                    .then((res) => {
+                        console.log(res.data.data ? "Unlock this account" : "This account was not locked");
+                    })
+                    .catch((errors) => {
+                        console.log(errors);
+                    });
+                }
+                this.getData(this.projects.current_page);
+            });
+        }
     },
 
     mounted() {

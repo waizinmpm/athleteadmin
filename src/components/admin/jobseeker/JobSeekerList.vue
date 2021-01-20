@@ -162,7 +162,7 @@
                         </td>
                         <td class="text-left">
                             <span  class="detail-link" @click="jobseekerDetail(project.id)">{{project.jobseeker_name}}</span>
-                            <span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
+                            <span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px; cursor: pointer;" @click="clearLoginLocked(project.email)">ロック中</span>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
                         </td>
                         <td class="tbl-wl">
@@ -342,6 +342,24 @@ export default {
             this.paging.length = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ name: 'jobseeker-detail', params: { id: id }});
+        },
+
+        clearLoginLocked(email){
+            this.$alertService.showConfirmDialog(null, "Do you want to UNLOCK this account?", this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
+                if (dialogResult.value) {
+                    let user_data = {};
+                    this.$set(user_data, "email", email);
+                    this.$set(user_data, "role_id", 3);
+                    this.$api.post("/v1/admin/login-unlock", user_data)
+                    .then((res) => {
+                        console.log(res.data.data ? "Unlock this account" : "This account was not locked");
+                    })
+                    .catch((errors) => {
+                        console.log(errors);
+                    });
+                }
+                this.getData(this.projects.current_page);
+            });
         },
 
         /* showBasicInfoModal(id) {
