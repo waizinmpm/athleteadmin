@@ -162,7 +162,8 @@
                         </td>
                         <td class="text-left">
                             <span  class="detail-link" @click="jobseekerDetail(project.id)">{{project.jobseeker_name}}</span>
-                            <span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px; cursor: pointer;" @click="clearLoginLocked(project.email)">ロック中</span>
+                            <span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;" >ロック中</span>
+                            <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.email)">ロック解除</button>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
                         </td>
                         <td class="tbl-wl">

@@ -157,7 +157,8 @@
                             <!-- <router-link :to="{ name: 'recruiter-detail', params: { id: project.id }}"><span>{{project.recruiter_number}}</span></router-link> -->
                         </td>
                         <td class="text-left">
-                            <span  class="detail-link" @click="recruiterDetail(project.id)" >{{project.recruiter_name}}</span><span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px; cursor: pointer;" @click="clearLoginLocked(project.user_email)">ロック中</span>
+                            <span  class="detail-link" @click="recruiterDetail(project.id)" >{{project.recruiter_name}}</span><span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
+                            <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.user_email)">ロック解除</button>
                         </td>
                         <td class="text-left">
                             <span @click="recruiterDetail(project.id)" class="detail-link">
