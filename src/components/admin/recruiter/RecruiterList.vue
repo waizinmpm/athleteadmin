@@ -160,7 +160,7 @@
                             <span  class="detail-link" @click="recruiterDetail(project.id)" >{{project.recruiter_name}}</span><span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
                             <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.user_email)">ロック解除</button>
                         </td>
-                        <td class="text-left">
+                        <td class="tbl-wmail">
                             <span @click="recruiterDetail(project.id)" class="detail-link">
                                 {{project.email}}
                             </span>
@@ -432,5 +432,8 @@ export default {
   height: 100vh;
   z-index: 10000;
   transition: .3s;
+}
+.tbl-wmail {
+    width: 200px;
 }
 </style>

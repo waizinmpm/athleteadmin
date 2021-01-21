@@ -166,7 +166,7 @@
                             <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.email)">ロック解除</button>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
                         </td>
-                        <td class="tbl-wl">
+                        <td class="tbl-wmail">
                             <span @click="jobseekerDetail(project.id)" class="detail-link">
                                 {{project.email}}
                             </span>
@@ -464,5 +464,8 @@ export default {
   height: 100vh;
   z-index: 10000;
   transition: .3s;
+}
+.tbl-wmail {
+    width: 200px;
 }
 </style>
