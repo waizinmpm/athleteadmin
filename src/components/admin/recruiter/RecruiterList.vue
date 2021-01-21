@@ -363,8 +363,8 @@ export default {
                     .catch((errors) => {
                         console.log(errors);
                     });
+                    this.getData(this.projects.current_page);
                 }
-                this.getData(this.projects.current_page);
             });
         }
     },
