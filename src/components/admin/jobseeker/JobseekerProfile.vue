@@ -2172,7 +2172,7 @@
                 this.defaultImageUrl = r.data.data;
             });
 
-            this.$api.get(`/v1/jobseeker/profile/selfintro/?jobseekerid=${request_id}`).then((r) => {
+            this.$api.get(`/v1/jobseeker/profile/selfintro?jobseekerid=${request_id}`).then((r) => {
                 this.file_names = r.data.data.hashedFile; //hashed for related_images
 
                 this.selfIntro = r.data.data.selfIntro; //rebind selfintro data
@@ -2597,7 +2597,7 @@
         },
 
         getBasicInfoDetails(request_id) {
-            this.$api.get(`/v1/jobseeker/profile/basicinfo/?jobseekerid=${request_id}`).then((response) => {
+            this.$api.get(`/v1/jobseeker/profile/basicinfo?jobseekerid=${request_id}`).then((response) => {
                 this.basicInfo = response.data.data.profile;
                 this.city_list = response.data.data.cities;
                 this.languages = response.data.data.languages;
@@ -2630,7 +2630,7 @@
         },
 
         getCarrerDetails(request_id) {
-            this.$api.get(`/v1/jobseeker/profile/carrerinfo/?jobseekerid=${request_id}`).then((response) => {
+            this.$api.get(`/v1/jobseeker/profile/carrerinfo?jobseekerid=${request_id}`).then((response) => {
                 
                 this.educations = response.data.data.educations;
                 this.experiences = response.data.data.experiences;
@@ -2853,7 +2853,7 @@
         //Su Sandy
         getDesiredCondition(request_id) {
         this.$api
-            .get(`/v1/jobseeker/profile/desired-condition/?jobseekerid=${request_id}`)
+            .get(`/v1/jobseeker/profile/desired-condition?jobseekerid=${request_id}`)
             .then((response) => {
                 this.desired_city_list = response.data.city_list;
                 this.industry_list = response.data.industry_list;
