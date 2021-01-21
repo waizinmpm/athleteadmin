@@ -161,9 +161,13 @@
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_number}}</router-link> -->
                         </td>
                         <td class="text-left">
-                            <span  class="detail-link" @click="jobseekerDetail(project.id)">{{project.jobseeker_name}}</span>
-                            <span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;" >ロック中</span>
-                            <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.email)">ロック解除</button>
+                            <div class="d-flex mr-3">
+                                <span  class="detail-link" @click="jobseekerDetail(project.id)">{{project.jobseeker_name}}</span>
+                                <div class="ml-auto">
+                                    <span v-if="project.login_locked" class="btn btn-danger ml-5 mr-2 w-105">ロック中</span>
+                                    <button type="button" v-if="project.login_locked" class="btn btn-info w-105" @click="clearLoginLocked(project.email)">ロック解除</button>
+                                </div>
+                            </div>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
                         </td>
                         <td class="tbl-wmail">
@@ -467,5 +471,8 @@ export default {
 }
 .tbl-wmail {
     width: 200px;
+}
+.btn-danger {
+    padding: 4px 0;
 }
 </style>
