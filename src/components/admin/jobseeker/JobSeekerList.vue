@@ -164,8 +164,8 @@
                             <div class="d-flex mr-3">
                                 <span  class="detail-link" @click="jobseekerDetail(project.id)">{{project.jobseeker_name}}</span>
                                 <div class="ml-auto">
-                                    <span v-if="project.login_locked" class="btn btn-danger ml-5 mr-2 w-105">ロック中</span>
-                                    <button type="button" v-if="project.login_locked" class="btn btn-info w-105" @click="clearLoginLocked(project.email)">ロック解除</button>
+                                    <span v-if="project.login_locked" class="still-lock-label"><i class="fa fa-lock pr-2" aria-hidden="true"></i>ロック中</span>
+                                    <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.email)">ロック解除</button>
                                 </div>
                             </div>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
@@ -472,7 +472,11 @@ export default {
 .tbl-wmail {
     width: 200px;
 }
-.btn-danger {
-    padding: 4px 0;
+.still-lock-label {
+    font-weight: bold; 
+    margin-right: 5px;    
+    color: #fa1313; 
+    padding: 6px 8px; 
+    vertical-align: middle;
 }
 </style>
