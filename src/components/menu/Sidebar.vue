@@ -89,7 +89,7 @@ export default {
                     that.$store.commit("logout");
                 }
             });
-        }, 600000); // 10* 60000(1min)
+        }, 60000); // 10* 60000(1min)
         this.interval = itv;
     },
 
