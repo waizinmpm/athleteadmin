@@ -57,10 +57,13 @@ api.interceptors.response.use(function (response) {
         //     errorShowing = true;
             // let redirect = '/';
             // localStorage.removeItem('adminuser');
-            // window.location = redirect;
-        store.commit('logout');
-        router.push({ path: "/" });
-        alertService.showInfoDialog(null,'長時間操作がなかったため、ログアウトしました。')
+			// window.location = redirect;
+		if(!router.currentRoute.name.includes('login')){
+			store.commit('logout');
+			router.push({ path: "/" });
+			alertService.showInfoDialog(null,'長時間操作がなかったため、ログアウトしました。');
+		}
+        
 		// }
 		
 	}
