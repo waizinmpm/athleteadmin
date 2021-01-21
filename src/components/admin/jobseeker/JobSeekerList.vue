@@ -165,7 +165,7 @@
                             <span v-if="project.login_locked" style="color: white; background: red; padding: 5px 8px; border-radius: 3px; margin-left: 10px;">ロック中</span>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
                         </td>
-                        <td class="tbl-wl">
+                        <td class="tbl-wmail">
                             <span @click="jobseekerDetail(project.id)" class="detail-link">
                                 {{project.email}}
                             </span>
@@ -445,5 +445,8 @@ export default {
   height: 100vh;
   z-index: 10000;
   transition: .3s;
+}
+.tbl-wmail {
+    width: 200px;
 }
 </style>
