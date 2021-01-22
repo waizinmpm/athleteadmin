@@ -19,7 +19,10 @@
             <dd class="detail-data"><pre>{{ recruiter_job.job_location || '-' }}</pre></dd>
         </dl>
         <dl class="detail-list" v-else>
-            <dt style="color: rgb(0, 98, 255);" v-if="recruiter_job.job_update_date">{{recruiter_job.created_at != recruiter_job.job_update_date ? recruiter_job.job_update_date : ''}}に求人詳細が修正されています</dt>
+            <dt style="color: rgb(0, 98, 255);" v-if="recruiter_job.job_update_date">
+                {{recruiter_job.created_at != recruiter_job.job_update_date ? recruiter_job.job_update_date : ''}}
+                に求人詳細が修正されています</dt>
+            <!-- show job update date -->
             <!-- <dt class="detail-head">求人タイトル</dt>
             <dd class="detail-data">{{ recruiter_job.title }}</dd> -->
             <dt class="detail-head">職種</dt>
