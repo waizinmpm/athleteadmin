@@ -44,7 +44,7 @@
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
                             <label for="name">求人タイトル</label>
-                            <span class="required">必要</span>
+                            <span class="required">必須</span>
                         </div>
                         <div class="col-md-8 form-right-block">
                             <textarea :class="['form-control',$v.formRegister.title.$error?'is-invalid':'']" rows="3"  v-model="$v.formRegister.title.$model"></textarea>
@@ -283,7 +283,7 @@
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
                             <label for="name">{{ $t('jobcreate.Application_address') }}</label>
-                            <span class="required">必要</span>
+                            <span class="required">必須</span>
                         </div>
                         <div class="col-md-8 form-right-block">
                             <p>{{ $t('jobcreate.Application_address_txt') }}</p>
@@ -339,7 +339,7 @@
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
                             <label for="name">{{ $t('jobcreate.area') }}</label>
-                            <span class="required">必要</span>
+                            <span class="required">必須</span>
                         </div>
                         <div class="col-md-8 form-right-block">
                             <div id="disabledMask"></div>
@@ -365,7 +365,7 @@
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
                             <label for="name">{{ $t('jobcreate.occupation_keyword') }}</label>
-                            <span class="required">必要</span>
+                            <span class="required">必須</span>
                         </div>
                         <div class="col-md-8 form-right-block">
                             <select
