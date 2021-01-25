@@ -82,10 +82,10 @@
                         <input type="text" class="form-control" :value="recruiterForm.email" readonly />
                     </div>
                     <div class="form-group">
-                        <label><span class="align-label">WEBサイトURL</span> <span class="required">必須</span></label>
-                        <input type="text" :class="['form-control',$v.recruiterForm.website.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.website.$model" />
+                        <label><span class="align-label">WEBサイトURL</span></label>
+                        <input type="text" :class="['form-control',$v.recruiterForm.website.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.website.$model" placeholder="http://www.example.com" />
                         <div class="invalid-feedback">
-                            <div class="error" v-if="!$v.recruiterForm.website.required && $v.recruiterForm.website.$error">WEBサイトURLは必須です</div>
+                            <!-- <div class="error" v-if="!$v.recruiterForm.website.required && $v.recruiterForm.website.$error">WEBサイトURLは必須です</div> -->
                             <div class="error" v-if="!$v.recruiterForm.website.url">URLの形式が正しくありません</div>
                         </div>
                     </div>
@@ -354,7 +354,7 @@
                 // num_of_employees: { numeric },
                 phone1: { required, numeric, minLength: minLength(10), maxLength: maxLength(14) },
                 phone2: { numeric, minLength: minLength(10), maxLength: maxLength(14) },			
-                website: { required, url },
+                website: { url },
                 incharge_name: { required },
                 incharge_name_furigana: { required, isFurigana },
                 question: { required, maxLength: maxLength(54) },
