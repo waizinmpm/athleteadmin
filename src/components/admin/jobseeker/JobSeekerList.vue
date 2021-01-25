@@ -350,7 +350,7 @@ export default {
         },
 
         clearLoginLocked(email){
-            this.$alertService.showConfirmDialog(null, "Do you want to UNLOCK this account?", this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
+            this.$alertService.showConfirmDialog(null, "ロックを解除しますか。", this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
                 if (dialogResult.value) {
                     let user_data = {};
                     this.$set(user_data, "email", email);
@@ -363,7 +363,7 @@ export default {
                         console.log(errors);
                     });
                     this.getData(this.projects.current_page);
-                }
+                } 
             });
         },
 
