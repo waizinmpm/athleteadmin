@@ -380,7 +380,7 @@
                 </dl>
                 <div class="explation-note">
                     <span class="private">{{$t('jobseekerprofile.private')}}</span>{{$t('jobseekerprofile.details')}}<br>
-                    {{$t('jobseekerprofile.details1')}}<br>
+                    <!-- {{$t('jobseekerprofile.details1')}}<br> -->
                     <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>{{$t('jobseekerprofile.detailsadmin')}}
                 </div>
             </div>
@@ -811,7 +811,7 @@
                     <dd class="detail-data" v-else>未入力</dd>
                 </dl>
                 <div class="explation-note"><span class="private">{{$t('jobseekerprofile.private')}}</span>{{$t('jobseekerprofile.details')}}<br>
-                {{$t('jobseekerprofile.details1')}}<br>
+                <!-- {{$t('jobseekerprofile.details1')}}<br> -->
                 <span class="view-permission">{{$t('jobseekerprofile.admin')}}</span>{{$t('jobseekerprofile.detailsadmin')}}
                 </div>
             </div>
