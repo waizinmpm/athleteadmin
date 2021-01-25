@@ -48,7 +48,9 @@
                         </div>
                         <div class="col-md-8 form-right-block">
                             <textarea :class="['form-control',$v.formRegister.title.$error?'is-invalid':'']" rows="3"  v-model="$v.formRegister.title.$model"></textarea>
-                            <span v-if="!$v.formRegister.title.required" style="color:red;">求人タイトルは必須です</span>
+                            <div v-if="$v.formRegister.title.$dirty">
+                                <span v-if="!$v.formRegister.title.required" style="color:red;">求人タイトルは必須です</span>
+                            </div>
                         </div>
                     </div>
 
