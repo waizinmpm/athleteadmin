@@ -2712,6 +2712,10 @@
                     } else {
                     element.to_month = "月";
                     }
+
+                    if(element.private_status == null){
+                        element.private_status = 0;
+                    }
                 });
                 } else {
                     this.experiences.push({
