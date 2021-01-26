@@ -199,7 +199,7 @@
                             </div>
                         </td>
                         <td class="tbl-ws">
-                            <button type="button" class="btn btn-edit" @click="jobseekerEdit(project.id)">{{ $t('common.edit')}}</button>
+                            <button type="button" class="btn btn-edit" @click="jobseekerEdit(project.id)" v-if="project.record_status != 3">{{ $t('common.edit')}}</button>
                             <!-- <router-link :to="'/admin-jobseeker-list/jobseeker/' + project.id + '/edit'" class="btn btn-info" v-if="project.record_status != 3" >{{ $t('common.edit') }}</router-link> -->
                         </td>
                         </tr>
