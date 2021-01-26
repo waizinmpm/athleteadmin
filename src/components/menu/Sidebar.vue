@@ -68,7 +68,7 @@
 <script>
 
 export default {
-    name: "app-header",
+    name: "admin-menu",
     data() {
         return {
             interval : null,

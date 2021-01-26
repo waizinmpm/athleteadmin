@@ -41,7 +41,7 @@
 
 <script>
 export default {
-    name: 'app-header',
+    name: 'admin-header',
     data(){
       return{
         langs:[
