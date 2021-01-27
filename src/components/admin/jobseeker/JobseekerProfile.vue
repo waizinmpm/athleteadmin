@@ -3297,7 +3297,7 @@
   line-height: 1.8;
 }
 .explation-note .private {
-  padding: 3px 10px;
+  // padding: 3px 10px;
 }
 textarea.form-control {
   height: 200px;
