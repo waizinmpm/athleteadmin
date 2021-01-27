@@ -165,7 +165,7 @@
                                 <span  class="detail-link" @click="jobseekerDetail(project.id)">{{project.jobseeker_name}}</span>
                                 <div class="ml-auto">
                                     <span v-if="project.login_locked" class="still-lock-label"><i class="fa fa-lock pr-2" aria-hidden="true"></i>ロック中</span>
-                                    <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.email)">ロック解除</button>
+                                    <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.user_id, project.email)">ロック解除</button>
                                 </div>
                             </div>
                             <!-- <router-link :to="{ name: 'jobseeker-detail', params: { id: project.id }}">{{project.jobseeker_name}}</router-link> -->
@@ -349,12 +349,14 @@ export default {
             this.$router.push({ name: 'jobseeker-detail', params: { id: id }});
         },
 
-        clearLoginLocked(email){
+        clearLoginLocked(user_id, email){
             this.$alertService.showConfirmDialog(null, "ロックを解除しますか。", this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
                 if (dialogResult.value) {
                     let user_data = {};
+                    this.$set(user_data, "user_id", user_id);
                     this.$set(user_data, "email", email);
                     this.$set(user_data, "role_id", 3);
+                    console.log('user_data', user_data);
                     this.$api.post("/v1/admin/login-unlock", user_data)
                     .then((res) => {
                         console.log(res.data.data ? "Unlock this account" : "This account was not locked");
