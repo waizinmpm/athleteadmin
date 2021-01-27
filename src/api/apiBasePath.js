@@ -58,7 +58,7 @@ api.interceptors.response.use(function (response) {
             // let redirect = '/';
             // localStorage.removeItem('adminuser');
 			// window.location = redirect;
-		if(!router.currentRoute.name.includes('login')){
+		if(router.currentRoute.name !== 'login'){
 			store.commit('logout');
 			router.push({ path: "/" });
 			alertService.showInfoDialog(null,'長時間操作がなかったため、ログアウトしました。');

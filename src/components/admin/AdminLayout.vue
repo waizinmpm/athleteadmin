@@ -43,6 +43,7 @@ import ChatComponent from '../ChatComponent';
 import { mapGetters } from "vuex";
 
 export default {
+  name: 'admin-layout',
   data() {
     return {
       langs:['日本語','English']
