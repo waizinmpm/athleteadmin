@@ -161,7 +161,7 @@
                                 <span  class="detail-link" @click="recruiterDetail(project.id)" >{{project.recruiter_name}}</span>
                                 <div class="ml-auto">
                                     <span v-if="project.login_locked" class="still-lock-label"><i class="fa fa-lock pr-2" aria-hidden="true"></i>ロック中</span>
-                                    <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.user_email)">ロック解除</button>
+                                    <button type="button" v-if="project.login_locked" class="btn btn-info" @click="clearLoginLocked(project.user_id, project.user_email)">ロック解除</button>
                                 </div>
                            </div>
                         </td>
@@ -355,10 +355,11 @@ export default {
             this.status = false;
         },
 
-        clearLoginLocked(email){
+        clearLoginLocked(user_id, email){
             this.$alertService.showConfirmDialog(null, "ロックを解除しますか。", this.$t("common.yes"), this.$t("common.no")).then((dialogResult) => {
                 if (dialogResult.value) {
                     let user_data = {};
+                    this.$set(user_data, "user_id", user_id);
                     this.$set(user_data, "email", email);
                     this.$set(user_data, "role_id", 2);
                     this.$api.post("/v1/admin/login-unlock", user_data)
