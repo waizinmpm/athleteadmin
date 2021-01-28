@@ -507,7 +507,7 @@
                         <div class="col-md-4">
                             <select class="form-control" v-model.trim="basicInfo.country_name">
                                 <!-- <option value="" v-if="basicInfo.country_name == basicInfo.continent_name" selected>都市を選択</option> -->
-                                <option value="">都市を選択</option>
+                                <option value="">都道府県を選択</option>
                                 <option v-for="city in city_list" :key="city.id" v-bind:value="city.country_name">
                                     {{city.country_name}}
                                 </option>
