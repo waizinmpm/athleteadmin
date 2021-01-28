@@ -304,7 +304,10 @@ export default {
 			.then(r => {
 				// --messages response
 				this.messages = r[0].data.reverse();
-
+				this.current_page = r[0].current_page;
+				this.last_page = r[0].last_page;
+				
+				
 				// --metadata response
 				let meta = r[1];
 				this.username = this.currentUser.role_id == 2 ? meta.jobseeker.jobseeker_name : meta.recruiter.recruiter_name ;
@@ -324,13 +327,12 @@ export default {
 				this.loading = false;
 
 				this.markAsRead();
-
+				this.$refs.scrollChat.scrollTop = this.$refs.scrollChat.scrollHeight;
 			})
 			.catch(r => {
 				console.log('Error when fetching data', r);
 			})
-
-            this.$refs.scrollChat.scrollTop = this.$refs.scrollChat.scrollHeight ;   
+            
         },
         unreadMessage(){
 			this.jobs.forEach(job => {
