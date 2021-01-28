@@ -747,10 +747,10 @@
                     </dd>
                     <dt class="detail-head"> 勤務先  </dt>
                     <dd class="detail-data" v-if="experiences">
-                        <div style="white-space:nowrap;" v-for="(exp,index) in experiences" :key="exp.id">
+                        <div  v-for="(exp,index) in experiences" :key="exp.id">
                                 <div v-if="(experiences.length ==1 && exp.id != null) || experiences.length > 1">
                                 <!-- <label>勤務先{{index + 1}}</label> -->
-                                <table style="width:100%;">
+                                <table class="history-edit-tbl">
                                     <tr>
                                         <td style="width:51%;">企業名 <span class="private float-right" style="margin" v-if="exp.private_status == 1 || exp.private_status == 2">{{$t('jobseekerprofile.private')}}</span></td>
                                         <td>
@@ -3620,5 +3620,8 @@ textarea.form-control {
 .desired-label {
     width: 100px;
     margin-bottom: 0px;
+}
+.history-edit-tbl  {
+    width: 100%;
 }
 </style>
