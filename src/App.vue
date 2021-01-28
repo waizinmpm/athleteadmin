@@ -925,6 +925,12 @@ body {
 .vs__clear{
     margin-top:-3px !important;
 }
+.condition-content .vs__search, .condition-content .vs__search:focus{
+    margin: 5px 0 0 !important;
+} 
+.experience-content .vs__search, .experience-content .vs__search:focus{
+    margin: 4px 0 0 !important;
+}
 @media (max-width:1400px) {
     .inner-wrapper {
         width: 75%;
