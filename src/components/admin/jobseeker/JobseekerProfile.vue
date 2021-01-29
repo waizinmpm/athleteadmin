@@ -898,7 +898,7 @@
                                 <option :value="null">年</option>
                                 <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
                             </select>
-                            <span class="sort-desc">&#9662;</span>
+                            <!-- <span class="sort-desc">&#9662;</span> -->
                             </div>
                         </div>
                         <div class="col-md-2 pl-1">
@@ -911,10 +911,10 @@
                                 <option :value="null">月</option>
                                 <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
                             </select>
-                            <span class="sort-desc">&#9662;</span>
+                            <!-- <span class="sort-desc">&#9662;</span> -->
                             </div>
                         </div>
-                        <label for>から</label>
+                        <label for class="lbl-txt">から</label>
                     </div>
                     <div class="row align-items-center">
                     <div class="col-md-2 pr-1">
@@ -927,7 +927,7 @@
                             <option :value="null">年</option>
                             <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                         </div>
                     </div>
                     <div class="col-md-2 pl-1">
@@ -940,16 +940,16 @@
                             <option :value="null">月</option>
                             <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                         </div>
                     </div>
-                    <label for>まで</label>
+                    <label for class="lbl-txt">まで</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for>ステータス</label>
                     <div class="row">
-                    <div class="col-4">
+                    <div class="col-sm-4">
                         <div class="select-wrap">
                         <select v-model="edu.education_status" id class="form-control">
                             <option value="null" selected>ステータスを選択</option>
@@ -957,7 +957,7 @@
                             <option value="卒業予定">卒業予定</option>
                             <option value="中退">中退</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                         </div>
                     </div>
                     </div>
@@ -1049,7 +1049,7 @@
                         <label :for="'現在も在籍中'+indx" class="custom-control-label custom-checkbox-label">{{$t('jobseekerprofile.currentperoid')}}</label>
                     </div>
                     <div class="form-group">
-                        <div class="row mb-2">
+                        <div class="row mb-2 align-items-center">
                             <div class="col-md-2 pr-1">
                                 <div class="select-wrap">
                                     <select class="form-control" v-model="exp.from_year" @change="change('year',exp.from_year,indx)">
@@ -1070,9 +1070,9 @@
                                 </div>
                                 <span class="error" v-if="exp.current == 1 && exp.from_month == '月' "> 開始月を入力してください </span>
                             </div>
-                            <label for="">から</label>
+                            <label for="" class="lbl-txt">から</label>
                         </div>
-                        <div class="row">
+                        <div class="row align-items-center">
                             <div class="col-md-2 pr-1">
                                 <select class="form-control" v-model="exp.to_year" v-bind:disabled="(exp.current != 0 && exp.current != null) || (exp.from_year == '年' && exp.from_month == '月')">
                                     <option  value="年">年</option>
@@ -1085,7 +1085,7 @@
                                     <option v-for="month in 12" :key="month">{{ month }}{{' 月'}}</option>
                                 </select>
                             </div>
-                            <label for="" style="line-height: 35px;">まで</label>
+                            <label for="" class="lbl-txt">まで</label>
                         </div>
                     </div>
                 </div>
@@ -1102,7 +1102,7 @@
                                 :value="pos.id"
                             >{{ pos.position_name }}</option>
                             </select>
-                            <span class="sort-desc">&#9662;</span>
+                            <!-- <span class="sort-desc">&#9662;</span> -->
                         </div>
                     </div>
                 </div>
@@ -1119,7 +1119,7 @@
                                 :value="etype.id"
                             >{{ etype.employment_type_name }}</option>
                             </select>
-                            <span class="sort-desc">&#9662;</span>
+                            <!-- <span class="sort-desc">&#9662;</span> -->
                         </div>
                     </div>
                 </div>
@@ -1332,7 +1332,7 @@
                             :value="industry.id"
                         >{{industry.industry_name}}</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                     </div>
                 </div>
@@ -1353,7 +1353,7 @@
                             :value="occupation.id"
                         >{{occupation.occupation_name}}</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                     </div>
                     <div class="col-md-8 p-0">
@@ -1371,7 +1371,7 @@
                             :value="position.id"
                         >{{position.position_name}}</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                     </div>
                 </div>
@@ -1501,7 +1501,7 @@
                         >{{ moti.id }}</option>
                     </select>
 
-                    <span class="sort-desc">&#9662;</span>
+                    <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                 </div>
                 </div>
@@ -1517,7 +1517,7 @@
                             :value="status.id"
                             >{{ status.id }}</option>
                         </select>
-                    <span class="sort-desc">&#9662;</span>
+                    <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                 </div>
                 </div>
@@ -1533,7 +1533,7 @@
                         :value="jobs.id"
                         >{{ jobs.id }}</option>
                     </select>
-                    <span class="sort-desc">&#9662;</span>
+                    <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                 </div>
                 </div>
@@ -1545,7 +1545,7 @@
                         <option :value="null">転職希望時期</option>
                         <option v-for="date in date_list" :key="date.id" :value="date">{{ date }}</option>
                     </select>
-                    <span class="sort-desc">&#9662;</span>
+                    <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                 </div>
                 </div>
@@ -1565,7 +1565,7 @@
                             :value="city.id"
                         >{{ city.country_name }}</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                     </div>
                 </div>
@@ -1580,7 +1580,7 @@
                             :value="city.id"
                         >{{ city.country_name }}</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                     </div>
                 </div>
@@ -1595,7 +1595,7 @@
                             :value="city.id"
                         >{{ city.country_name }}</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                     </div>
                 </div>
@@ -1640,7 +1640,7 @@
                                     :value="indu.id"
                                 >{{ indu.industry_name }}</option>
                                 </select>
-                                <span class="sort-desc">&#9662;</span>
+                                <!-- <span class="sort-desc">&#9662;</span> -->
                             </div>
                             </div>
                         </div>
@@ -1693,7 +1693,7 @@
                             :value="occu.id"
                             >{{ occu.occupation_name }}</option>
                         </select>
-                        <span class="sort-desc">&#9662;</span>
+                        <!-- <span class="sort-desc">&#9662;</span> -->
                         </div>
                     </div>
                     </div>
@@ -3333,18 +3333,21 @@ textarea.form-control {
   position: relative;
   border: 1px solid #919191;
 }
-.select-wrap .form-control {
-  border: none;
-  -webkit-appearance: none;
+.select-wrap .form-control{
+    border: none;
 }
+// .select-wrap .form-control {
+//   border: none;
+//   -webkit-appearance: none;
+// }
 
-.sort-desc {
-  position: absolute;
-  top: 0;
-  right: 18px;
-  font-size: 24px;
-  color: #c4c4c4;
-}
+// .sort-desc {
+//   position: absolute;
+//   top: 0;
+//   right: 18px;
+//   font-size: 24px;
+//   color: #c4c4c4;
+// }
 .r-5 {
   right: 5px !important;
 }
@@ -3623,5 +3626,8 @@ textarea.form-control {
 }
 .history-edit-tbl  {
     width: 100%;
+}
+.lbl-txt {
+    line-height: 43px;
 }
 </style>
