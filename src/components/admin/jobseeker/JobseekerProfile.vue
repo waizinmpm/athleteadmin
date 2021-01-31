@@ -2365,6 +2365,11 @@
             // this.getSelfIntroDetails(`${this.$route.params.id}`);
             // this.getCarrerDetails();
             if (action == "open") {
+                if(boxName == 'desiredConditionEdit'){
+                    if(!this.date_list.includes(this.desired_condition.desired_change_period)){
+                        this.desired_condition.desired_change_period = null;
+                    }
+                }
                 window.scrollTo(0, 0);
                 this.$emit('menuShowHide',this.showMenuBar = false)
             } else {
