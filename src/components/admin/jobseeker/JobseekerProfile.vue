@@ -2218,11 +2218,12 @@
             const ext = file.name.split(".").pop().toLowerCase();
 
             if (ext == "png" || ext == "jpg" || ext == "jpeg") {
-                if (file.size / 1024 / 1024 <= 3) {
+                // if (file.size / 1024 / 1024 <= 3) {
                 this.selfIntro.face_image = file;
                 this.selfIntro.face_image_url = URL.createObjectURL(file);
                 this.selfIntro.delete_fac_image = false;
-                } else {
+                // } 
+                /* else {
                 this.$alertService
                     .showWarningDialog(
                     null,
@@ -2232,7 +2233,7 @@
                     .then((r) => {
                         console.log(r);
                     });
-                }
+                } */
             } else {
                 this.$alertService
                 .showWarningDialog(
@@ -2284,7 +2285,7 @@
                 const ext = file.name.split(".").pop().toLowerCase();
 
                 if (ext == "png" || ext == "jpg" || ext == "jpeg") {
-                if (file.size / 1024 / 1024 <= 3) {
+                // if (file.size / 1024 / 1024 <= 3) {
                     let filename = availables[i];
                     let extension = file.type.split("/").pop();
                     let entry = {
@@ -2300,7 +2301,8 @@
                     );
                     if (deleteFlagIndex == -1)
                     vm.selfIntro.delete_related_images.splice(deleteFlagIndex, 1);
-                } else {
+                // } 
+                /* else {
                     this.$alertService
                     .showWarningDialog(
                         null,
@@ -2310,7 +2312,7 @@
                     .then((r) => {
                         console.log(r);
                     });
-                }
+                } */
                 } else {
                 this.$alertService
                     .showWarningDialog(
