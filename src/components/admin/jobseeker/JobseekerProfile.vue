@@ -90,10 +90,10 @@
                 <dl class="detail-list clearfix">                       
                     <dt class="detail-head">希望職種</dt>
                     <dd class="detail-data"> 
-                        <p class="mb-0" v-for="occ in selfIntroDetails.occupation_name" :key="occ.id">
-                            {{occ}} 
+                        <p class="mb-0" v-for="occ in desired_condition.occupation_name" :key="occ.id">
+                            {{occ.occupation_name}} 
                         </p>
-                        <p class="mb-0" v-if="selfIntroDetails.occupation_name.length === 0">
+                        <p class="mb-0" v-if="desired_condition.occupation_name.length === 0">
                             未入力
                         </p>
                     </dd>
