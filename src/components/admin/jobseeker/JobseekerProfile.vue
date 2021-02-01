@@ -1307,7 +1307,7 @@
                         type="number"
                         v-model="experience_job.experience_year"
                         class="form-control"
-                        placeholder="経験社数を入力"
+                        placeholder="経験年数を入力"
                         min="0"
                         maxlength="2"
                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
