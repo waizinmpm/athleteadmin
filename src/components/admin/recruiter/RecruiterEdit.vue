@@ -24,21 +24,17 @@
                 <div class="border">
                     <div class="form-group">
                         <label>設立年月</label>
-                        <div class="row col-12">
-                            <div class="col-md-4">
-                                <input id="exampleInput1" type="text" name="" class="form-control" v-model="recruiterForm.establishment_date">
+                        <input id="exampleInput1" type="text" name="" class="form-control" v-model="recruiterForm.establishment_date">
                                 <!-- <select class="form-control" v-model="recruiterForm.establishment_year">
                                     <option disabled value=""></option>
                                     <option v-for="year in 100" :key="year">{{ 1920 + year }}</option>
                                 </select> -->
-                            </div>
                             <!-- <div class="col-md-6">
                                 <select class="form-control" v-model="recruiterForm.establishment_month">
                                     <option disabled value=""></option>
                                     <option v-for="month in 12" :key="month">{{ month }}</option>
                                 </select>
                             </div> -->
-                        </div>
                     </div>
                     <div class="form-group">
                         <label>代表者名</label>
