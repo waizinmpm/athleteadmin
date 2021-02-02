@@ -3288,6 +3288,9 @@
     background: #0071b4;
     color: #fff;
 }
+.explation-note .private {
+    padding: 3px 10px;
+} 
 .view-permission {
     display: inline-block;
     margin: 0 20px 0 auto;
@@ -3616,8 +3619,7 @@ textarea.form-control {
    padding: 5px 0;
 }
 .history-edit-tbl td:first-child {
-    display: block;
-    width: 260px;
+    width: 48%;
 }
 .status {
     display: inline-block;
