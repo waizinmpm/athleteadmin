@@ -751,7 +751,7 @@
                                 <!-- <label>勤務先{{index + 1}}</label> -->
                                 <table class="history-edit-tbl">
                                     <tr>
-                                        <td style="width:51%;">企業名 <span class="private float-right" style="margin" v-if="exp.private_status == 1 || exp.private_status == 2">{{$t('jobseekerprofile.private')}}</span></td>
+                                        <td>企業名 <span class="private float-right" style="margin" v-if="exp.private_status == 1 || exp.private_status == 2">{{$t('jobseekerprofile.private')}}</span></td>
                                         <td>
                                             <span v-if="exp.job_location">{{exp.job_location}} </span>
                                             <span v-else>-</span>
@@ -1219,7 +1219,7 @@
                             </span> -->
                             <!-- <div v-if="(experience_qualification.experience_jobs.length ==1 && exp_job.industry_history_id != null) || experience_qualification.experience_jobs.length > 1"> -->
                             <div v-if="!containNullOnly(exp_job)">
-                                <table style="width:100%">
+                                <table class="history-edit-tbl">
                                     <tr>
                                         <td>経験年数</td>
                                         <td>
@@ -3616,6 +3616,7 @@ textarea.form-control {
    padding: 5px 0;
 }
 .history-edit-tbl td:first-child {
+    display: block;
     width: 260px;
 }
 .status {
@@ -3628,7 +3629,7 @@ textarea.form-control {
     border-radius: 3px;
 }
 .desired-label {
-    width: 100px;
+    width: 260px;
     margin-bottom: 0px;
 }
 .history-edit-tbl  {
