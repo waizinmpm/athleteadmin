@@ -93,9 +93,8 @@
                         <p class="mb-0" v-for="occ in desired_condition.occupation_name" :key="occ.id">
                             {{occ.occupation_name}} 
                         </p>
-                        <p class="mb-0" v-if="desired_condition.occupation_name.length === 0">
-                            未入力
-                        </p>
+                        <p  class="mb-0" v-if="desired_condition.occupation_name.length == 0 && desired_condition.desired_occupation_status == 0">未入力</p>
+                        <p v-if="desired_condition.desired_occupation_status == 1">こだわらない </p>
                     </dd>
                     <dt class="detail-head">希望勤務地</dt>
                     <dd class="detail-data">
@@ -159,7 +158,7 @@
                 <br />
                 <span
                     class="label-txt"
-                >※ 容量3MB以下のJPG、JPEG、PNGいずれかの形式の画像をアップロード可能です。</span>
+                >※JPG、JPEG、PNGいずれかの形式の画像をアップロード可能です。</span>
 
                 <div
                     class="col-md-12 p-0 drag-wrapper mt-2 float-none"
@@ -235,7 +234,7 @@
                 <br />
                 <span
                     class="label-txt"
-                >※ 容量3MB以下のJPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。</span>
+                >※JPEG、PNGいずれかの形式の画像を4枚までアップロード可能です。</span>
                 <div
                     class="col-md-12 p-0 mt-2"
                     @drop.prevent="changeRelatedImages($event)"
@@ -862,7 +861,7 @@
                     <div class="row">
                     <div class="col-md-4">
                         <select class="form-control" v-model="edu.degree">
-                        <option value="null" selected>学位を選択</option>
+                        <option :value="null" selected>学位を選択</option>
                         <option
                             v-for="status in finaleducation"
                             :key="status.id"
