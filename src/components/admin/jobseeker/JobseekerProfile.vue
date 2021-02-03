@@ -1300,7 +1300,7 @@
                 </p>
                 <div class="form-group">
                     <label for>{{$t('jobseekerprofile.experience_year')}}</label>
-                    <div class="col-md-2 p-0 float-none">
+                    <div class="col-md-4 p-0 float-none">
                     <div class="select-wrap">
                         <input
                         type="number"
@@ -1805,7 +1805,7 @@
     export default {
     data() {
         return {
-            years_data : (new Date().getFullYear()) - 1920,
+            years_data : (new Date().getFullYear() + 1) - 1920,
             edit_page : true,
             showMenuBar: true,
             file_names: [],
