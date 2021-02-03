@@ -1308,7 +1308,7 @@
                         class="form-control"
                         placeholder="経験年数を入力"
                         min="0"
-                        maxlength="2"
+                        maxlength="4"
                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         />
                     </div>
@@ -1805,7 +1805,7 @@
     export default {
     data() {
         return {
-            years_data : (new Date().getFullYear() + 1) - 1920,
+            years_data : (new Date().getFullYear()) - 1919,
             edit_page : true,
             showMenuBar: true,
             file_names: [],
