@@ -1309,7 +1309,7 @@
                         min="0"
                         maxlength="4"
                         @paste="(e)=> { e.preventDefault(); return false}"
-                        @keypress="isNumber(event)"
+                        @keypress="isNumber($event)"
                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         />
                     </div>
