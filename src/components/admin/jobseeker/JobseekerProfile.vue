@@ -1308,6 +1308,7 @@
                         placeholder="経験年数を入力"
                         min="0"
                         maxlength="4"
+                        @paste="(e)=> { e.preventDefault(); return false}"
                         @keypress="isNumber(event)"
                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         />
