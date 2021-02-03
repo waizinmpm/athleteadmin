@@ -973,7 +973,7 @@
                 <div class="form-group mt-4">
                 <label for>経験社数</label>
                 <div class="col-md-3 p-0">
-                    <input type="text" v-model="carrers.num_of_experienced_companies" class="form-control" placeholder="経験社数を入力" />
+                    <input type="number" v-model="carrers.num_of_experienced_companies" class="form-control" placeholder="経験社数を入力" min="0" />
                 </div>
                 </div>
 
@@ -1303,12 +1303,12 @@
                     <div class="col-md-4 p-0 float-none">
                     <div class="select-wrap">
                         <input
-                        type="number"
                         v-model="experience_job.experience_year"
                         class="form-control"
                         placeholder="経験年数を入力"
                         min="0"
                         maxlength="4"
+                        @keypress="isNumber(event)"
                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                         />
                     </div>
@@ -2084,6 +2084,16 @@
     },
 
     methods: {
+        isNumber: function(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                evt.preventDefault();
+            } else {
+                return true;
+            }
+        },
+
         chooseLocation(){            
             
             if(this.desired_condition.desired_location_1 != null || this.desired_condition.desired_location_2 != null || this.desired_condition.desired_location_3 != null){
