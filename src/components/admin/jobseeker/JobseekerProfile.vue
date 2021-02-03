@@ -2473,7 +2473,7 @@
                     for (const industry_history of industry_histories) {
                         this.experience_qualification.experience_jobs.push({
                             industry_history_id: industry_history.id,
-                            experience_year: industry_history.experience_year,
+                            experience_year: parseFloat(industry_history.experience_year.toString()),
                             experience_industry: industry_history.industry_id || '',
                             experience_occupation: industry_history.occupation_keyword_id || '',
                             experience_position: industry_history.position_id || '',
