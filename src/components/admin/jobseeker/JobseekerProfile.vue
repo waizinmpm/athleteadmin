@@ -973,7 +973,7 @@
                 <div class="form-group mt-4">
                 <label for>経験社数</label>
                 <div class="col-md-3 p-0">
-                    <input type="number" v-model="carrers.num_of_experienced_companies" class="form-control" placeholder="経験社数を入力" min="0" />
+                    <input type="number" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0" v-model="carrers.num_of_experienced_companies" class="form-control" placeholder="経験社数を入力" />
                 </div>
                 </div>
 
