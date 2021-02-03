@@ -1053,7 +1053,7 @@
                                 <div class="select-wrap">
                                     <select class="form-control" v-model="exp.from_year" @change="change('year',exp.from_year,indx)">
                                         <option  value="年">年</option>
-                                        <option v-for="year in years_data" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                                        <option v-for="year in expyears_data" :key="year">{{ 1920 + year}}{{' 年'}}</option>
                                     </select>
                                     
                                 </div>
@@ -1075,7 +1075,7 @@
                             <div class="col-md-2 pr-1">
                                 <select class="form-control" v-model="exp.to_year" v-bind:disabled="(exp.current != 0 && exp.current != null) || (exp.from_year == '年' && exp.from_month == '月')">
                                     <option  value="年">年</option>
-                                    <option v-for="year in years_data" :key="year">{{ 1920 + year}}{{' 年'}}</option>
+                                    <option v-for="year in expyears_data" :key="year">{{ 1920 + year}}{{' 年'}}</option>
                                 </select>
                             </div>
                             <div class="col-md-2 pl-1">
@@ -1807,6 +1807,7 @@
     data() {
         return {
             years_data : (new Date().getFullYear()) - 1919,
+            expyears_data : (new Date().getFullYear()) - 1920,
             edit_page : true,
             showMenuBar: true,
             file_names: [],
