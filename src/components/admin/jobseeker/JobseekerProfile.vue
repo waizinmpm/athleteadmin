@@ -1306,11 +1306,9 @@
                         v-model="experience_job.experience_year"
                         class="form-control"
                         placeholder="経験年数を入力"
-                        min="0"
-                        maxlength="4"
                         @paste="(e)=> { e.preventDefault(); return false}"
-                        @keypress="isNumber($event)"
-                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                        type="text"
+                        onkeypress="return ((event.charCode >= 48 && event.charCode < 58) || event.charCode == 46)"
                         />
                     </div>
                     </div>
@@ -2085,15 +2083,6 @@
     },
 
     methods: {
-        isNumber: function(evt) {
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-                evt.preventDefault();
-            } else {
-                return true;
-            }
-        },
 
         chooseLocation(){            
             
@@ -2472,7 +2461,7 @@
                     for (const industry_history of industry_histories) {
                         this.experience_qualification.experience_jobs.push({
                             industry_history_id: industry_history.id,
-                            experience_year: parseFloat(industry_history.experience_year.toString()),
+                            experience_year: industry_history.experience_year,
                             experience_industry: industry_history.industry_id || '',
                             experience_occupation: industry_history.occupation_keyword_id || '',
                             experience_position: industry_history.position_id || '',
