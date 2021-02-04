@@ -60,7 +60,8 @@
 											<div v-if="!isSender(message)" class="name">
 												<strong>{{ senderName(message) }}</strong>
 											</div>
-                                            <div v-html="$options.filters.highlight(message.message, search)"></div>
+                                            <!-- <div v-html="$options.filters.highlight(message.message, search)"></div> -->
+											<pre>{{ message.message }}</pre>
                                         </div>
                                         <div :class="`time ${ isSender(message) ? 'float-right' : ''}`">
                                             {{ formatDate(message.created_at) }}
@@ -73,8 +74,11 @@
                         </div>
                         <div class="footer-chat">
                             <div v-if="typing" class="typing"><img width="50" src="/images/loading.gif" alt="loading"></div>
-                            <input @keyup="userTyping" @keydown.enter="sendMessage" v-model="message_payload.message" type="text" placeholder="メッセージを入力">
-                            <i class="fa fa-paper-plane-o" @click="sendMessage" title="Press Enter to send"></i>
+                            <!-- <input @keyup="userTyping" @keydown.enter="sendMessage" v-model="message_payload.message" type="text" placeholder="メッセージを入力"> -->
+							<textarea :rows="messageLines" @keyup="userTyping" @keydown.alt.enter="sendMessage" @keydown.ctrl.enter="sendMessage" v-model="message_payload.message" placeholder="メッセージを入力" 
+								@input="calcTextareaHeight" :disabled="!message_payload.scoutid_or_applyid">
+							</textarea>
+                            <i class="fa fa-paper-plane-o" @click="sendMessage"></i>
                         </div>
                     </div>
             </div> 
@@ -144,6 +148,7 @@ export default {
 				created_at: new Date(),
 			},
 			meta: {},
+			messageLines: 1,
         }
     },
     mounted() {
@@ -328,6 +333,7 @@ export default {
 
 				this.markAsRead();
 				this.$refs.scrollChat.scrollTop = this.$refs.scrollChat.scrollHeight;
+				this.resetLine();
 			})
 			.catch(r => {
 				console.log('Error when fetching data', r);
@@ -423,8 +429,9 @@ export default {
 					})
 				}
 				offlines.forEach(x => {
-					console.log(`Sending chat notification mail to: ${x.to}`);
+					// console.log(`Sending chat notification mail to: ${x.to}`);
 					this.sendMail(x);
+					this.resetLine();
 				})
 			})
 			.catch((error) => {
@@ -507,6 +514,21 @@ export default {
 				console.log(e);
 			})
 		},
+		addLine() {
+			this.messageLines++;
+			this.message_payload.message = this.message_payload.message + "\r\n";
+		},
+		resetLine() {
+			this.messageLines = 1;
+		},
+		calcTextareaHeight() {
+			let lineBreaks = (this.message_payload.message.match(/\n/g)||[]).length;
+			if (lineBreaks > 1) { 
+				this.messageLines = lineBreaks
+			} else if (lineBreaks == 0) {
+				this.messageLines = 1;
+			}
+		},
 	},
 	computed: {
 		...mapGetters(["currentUser"]),
@@ -561,219 +583,225 @@ input:focus{
     height: 460px;
     z-index: 9;
 }
-    .main-chat{
-        right: 90px;
-        bottom: 20px;
-        .tab-right{
+.main-chat{
+	right: 90px;
+	bottom: 20px;
+	.tab-right{
+		width: 100%;
+		padding: 0;
+		border-left: 1px solid #e2e2e2;
+		max-height: 460px;
+		display:flex;
+		flex-direction: column;
+	}
+	.tab-left{
+		width: 100%;
+		padding: 0;
+		margin-top: 5px;
+		.list-user{
+			height: 410px;
+			overflow-y: scroll;
+		}
+	}
+	.header-chat{
+		width: 100%;
+		height: 70px;
+		background:#84BE3F;
+		padding: 5px;
+		h3{
+			margin-top: 15px;
+			font-size: 16px;
+			color: #fff;
+			text-align: center;
+		}
+		.name{
+			margin-left: 15px;
+			color: #fff;
+			p{
+				margin: 0;
+				font-size: 14px;
+				
+				font-weight: bold;
+			}
+			span{
+				font-size: 12px;
+			}
+		}
+		.close{
+			text-shadow:unset;
+			&:hover{
+				opacity: 1;
+			}
+		}
+	}
+	.list-user{
+		.filter-input {
 			width: 100%;
-            padding: 0;
-            border-left: 1px solid #e2e2e2;
-        }
-        .tab-left{
-			width: 100%;
-            padding: 0;
-            margin-top: 5px;
-            .list-user{
-                height: 410px;
-                overflow-y: scroll;
-            }
-        }
-        .header-chat{
-            width: 100%;
-            height: 70px;
-            background:#84BE3F;
-            padding: 5px;
-            h3{
-                margin-top: 15px;
-                font-size: 16px;
-                color: #fff;
-                text-align: center;
-            }
-            .name{
-                margin-left: 15px;
-                color: #fff;
-                p{
-                    margin: 0;
-                    font-size: 14px;
-                    
-                    font-weight: bold;
-                }
-                span{
-                    font-size: 12px;
-                }
-            }
-            .close{
-                text-shadow:unset;
-                &:hover{
-                    opacity: 1;
-                }
-            }
-        }
-        .list-user{
-			.filter-input {
-				width: 100%;
-				border: 0;
-				border-bottom: 1px solid#e2e2e2;
-				line-height: 60px; 
-				&::placeholder {
-					color: #A1A1A1;
+			border: 0;
+			border-bottom: 1px solid#e2e2e2;
+			line-height: 60px; 
+			&::placeholder {
+				color: #A1A1A1;
+			}
+		}
+		li{
+			display: flex;
+			padding: 7px 10px;
+			margin: 0 5px;
+			position: relative;
+			list-style-type: none;
+			border-bottom: 1px solid #e2e2e2;
+			transition: 0.3s;
+			&.active{
+				background: #84BE3F;
+				color: #fff;
+				
+				&:hover{
+					background: #84BE3F;
+					cursor: context-menu;
 				}
 			}
-            li{
-                display: flex;
-                padding: 7px 10px;
-                margin: 0 5px;
-                position: relative;
-                list-style-type: none;
-                border-bottom: 1px solid #e2e2e2;
-                transition: 0.3s;
-                &.active{
-                    background: #84BE3F;
-                    color: #fff;
-                    
-                    &:hover{
-                        background: #84BE3F;
-                        cursor: context-menu;
-                    }
-                }
-                &:hover{
-                    cursor: pointer;
-                    background: #d4cdcd;
-                }
-                .unread{
-                    position: absolute;
-                    top: 15px;
-                    right: 0;
-                    height: 18px;
-                    width: 18px;
-                    background: #c51223;
-                    border-radius: 50%;
-                    span{
-                        position: absolute;
-                        color: #fff;
-                        font-size: 9px;
-                        left: 34%;
-                        top: 2px;
-                    }
-                    .plus{
-                        left: 29%;
-                    }
-                }
-				&.has-input {
-					padding: 7px 3px;
-					border: 0;
-					height: 70px;
-					position: sticky;
-					top: 0px;
-					z-index: 99;
-					background: white;
-					.search-container {
-						display: flex;
-						align-items: flex-end;
-						width: 100%;
-						height: 100%;
-						span {
-							color: #a1a1a1;
-							margin: 0px 5px;
-							padding-bottom: 23px; 
-						}
-						input {
-							flex: 1 1 auto;
-						}
+			&:hover{
+				cursor: pointer;
+				background: #d4cdcd;
+			}
+			.unread{
+				position: absolute;
+				top: 15px;
+				right: 0;
+				height: 18px;
+				width: 18px;
+				background: #c51223;
+				border-radius: 50%;
+				span{
+					position: absolute;
+					color: #fff;
+					font-size: 9px;
+					left: 34%;
+					top: 2px;
+				}
+				.plus{
+					left: 29%;
+				}
+			}
+			&.has-input {
+				padding: 7px 3px;
+				border: 0;
+				height: 70px;
+				position: sticky;
+				top: 0px;
+				z-index: 99;
+				background: white;
+				.search-container {
+					display: flex;
+					align-items: flex-end;
+					width: 100%;
+					height: 100%;
+					span {
+						color: #a1a1a1;
+						margin: 0px 5px;
+						padding-bottom: 23px; 
+					}
+					input {
+						flex: 1 1 auto;
 					}
 				}
-				&.is-title {
-					padding: 7px 3px;
-					&:hover {
-						cursor: default;
-						background: transparent;
-					}
+			}
+			&.is-title {
+				padding: 7px 3px;
+				&:hover {
+					cursor: default;
+					background: transparent;
 				}
-				&.user-list-searching {
-					padding: 3px 0px;
-					justify-content: center;
-					border: 0;
+			}
+			&.user-list-searching {
+				padding: 3px 0px;
+				justify-content: center;
+				border: 0;
+			}
+		}
+		.name{
+			margin-left: 5px;
+			p{
+				margin: 0;
+				font-size: 12px;
+			}
+		}
+	}
+	.content-chat{
+		flex: 1 1 340px;
+		overflow-y: scroll;  
+		.chat-history{
+			.loading{
+				margin-top: 40%;
+			}
+			padding: 10px;
+			ul{
+				li{
+					list-style-type: none;
 				}
-            }
-            .name{
-                margin-left: 5px;
-                p{
-                    margin: 0;
-                    font-size: 12px;
-                }
-            }
-        }
-        .content-chat{
-            height: 340px;
-            overflow-y: scroll;  
-            .chat-history{
-                .loading{
-                    margin-top: 40%;
-                }
-                padding: 10px;
-                ul{
-                    li{
-                        list-style-type: none;
-                    }
-                }
-                .message{
-                    clear: both;
-                    padding: 5px;
-                    max-width: 230px;
-                    font-size: 13px;
-                }                   
-                .my-message{
-                    background: #59d0ce;
-                    background: #9bca64;
-                    border-top-left-radius: 10px;
-                    border-top-right-radius: 10px;
-                    border-bottom-left-radius: 10px;
-                }
-                .other-message{
-                    background: #d0d0d0;
-                    border-top-left-radius: 10px;
-                    border-top-right-radius: 10px;
-                    border-bottom-right-radius: 10px;
-                    .name{
-                        color: #84BE3F;
-                        font-size: 11px;
-                    }
-                }
-                .time{
-                    clear: both;
-                    margin-bottom: 15px;
-                    font-size: 10px;
-                    color: #888888;
-                }
+			}
+			.message{
+				clear: both;
+				padding: 5px;
+				max-width: 230px;
+				font-size: 13px;
+			}                   
+			.my-message{
+				background: #59d0ce;
+				background: #9bca64;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+				border-bottom-left-radius: 10px;
+			}
+			.other-message{
+				background: #d0d0d0;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+				border-bottom-right-radius: 10px;
+				.name{
+					color: #84BE3F;
+					font-size: 11px;
+				}
+			}
+			.time{
+				clear: both;
+				margin-bottom: 15px;
+				font-size: 10px;
+				color: #888888;
+			}
 
-            }
-        }
-        .footer-chat{
-            padding: 5px 10px;
-            input{
-                padding: 7px 20px;
-                width: 80%;
-                border-radius: 20px;
-                border: 1px solid #84BE3F;
-            }
-            i{
-                margin-left: 10px;
-                font-size: 18px;
-                color: #84BE3F;
-                padding: 10px;
-                &:hover{
-                    color: #fff;
-                    background: #84BE3F;
-                    border-radius: 20px;
-                    cursor: pointer;
-                }
-            }
-            .typing{
-                position: absolute;
-                bottom: 35px;
-            }
-        }
-    }
+		}
+	}
+	.footer-chat{
+		padding: 5px 10px;
+		display: flex;
+		align-items: center;
+		textarea{
+			width: 90%;
+			max-height: 100px;
+			padding: 7px 20px;
+			border-radius: 5px;	
+			border: 1px solid #84BE3F;
+		}
+		i{
+			margin-left: 10px;
+			font-size: 18px;
+			color: #84BE3F;
+			padding: 10px;
+			&:hover{
+				color: #fff;
+				background: #84BE3F;
+				border-radius: 20px;
+				cursor: pointer;
+			}
+		}
+		.typing{
+			position: absolute;
+			bottom: 35px;
+		}
+	}
+}
 
 .btn-chat{
     position: fixed;
