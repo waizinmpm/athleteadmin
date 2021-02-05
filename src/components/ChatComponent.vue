@@ -780,9 +780,10 @@ input:focus{
 		textarea{
 			width: 90%;
 			max-height: 100px;
-			padding: 7px 20px;
+			padding: 10px 20px;
 			border-radius: 5px;	
 			border: 1px solid #84BE3F;
+            line-height: 18px;
 		}
 		i{
 			margin-left: 10px;
