@@ -137,7 +137,7 @@
     position: sticky;
     top: 60px;
     width: 100%!important;
-    z-index: 1020;
+    z-index: 99;
 }
 .tab-content {
     padding: 50px 20px;
