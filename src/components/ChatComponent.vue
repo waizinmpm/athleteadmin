@@ -581,7 +581,7 @@ input:focus{
     bottom: 20px;
     width: 600px;
     height: 460px;
-    z-index: 999;
+    z-index: 9999;
 }
 .main-chat{
 	right: 90px;
