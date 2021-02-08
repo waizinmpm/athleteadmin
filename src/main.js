@@ -8,6 +8,8 @@ import DataTable from '../src/components/DataTable/DataTable';
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/ja';
+window.$ = require('jquery')
+window.JQuery = require('jquery')
 import VueI18n from 'vue-i18n';
 import English from '../src/lang/en';
 import 日本語 from './lang/jp';

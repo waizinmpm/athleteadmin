@@ -529,6 +529,9 @@ export default {
 			let lineBreaks = (this.message_payload.message.match(/\n/g)||[]).length;
 			if (lineBreaks > 0) { 
 				this.messageLines = lineBreaks + 1;
+				if(lineBreaks >3 ){
+					window.$("#chrom-txtarea textarea").animate({ scrollTop: $(document).height -$(window).height });
+				}
 			} else if (lineBreaks == 0) {
 				this.messageLines = 1;
 			}
