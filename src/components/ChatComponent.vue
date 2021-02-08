@@ -519,6 +519,7 @@ export default {
 			this.message_payload.message = this.message_payload.message + "\r\n";
 		},
 		resetLine() {
+			this.message_payload.message = '';
 			this.messageLines = 1;
 		},
 		calcTextareaHeight() {
