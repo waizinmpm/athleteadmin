@@ -1,5 +1,5 @@
 <template>
-    <div id="boxchat" @mousedown="dragMouseDown">
+    <div id="boxchat">
         <div ref="draggableContainer" :class="`box-chat ${isToggled == true ? 'chat_show' : 'chat_hide' }`">  
                 <div class="main-chat">
                     <div class="col-4 tab-left float-left">
@@ -37,14 +37,15 @@
                     </div>
                     <div class="col-8 tab-right float-right">
                         <div class="header-chat">
-                            <div class="close" @click="closeChatBox()" >
-                                <i class="fa fa-times-circle-o" title="Close"></i>
-                            </div>
                             <div class="name">
                                 <p>{{number}}</p>
                                 <span class="txt-vertical-ellipsis">{{title}}</span>
 								<span class="txt-vertical-ellipsis" style="font-size:12px;">{{showName}}</span>
                             </div>
+							<div class="draggable-filler" @mousedown="dragMouseDown"></div>
+							<div class="close" @click="closeChatBox">
+								<i class="fa fa-times-circle-o" title="Close"></i>
+							</div>
                         </div>
                         <div class="content-chat" ref="scrollChat" v-chat-scroll="{always: false, smooth: true}"  @v-chat-scroll-top-reached="scrollTop(channel,current_page)">
                             <div class="chat-history">
@@ -526,8 +527,8 @@ export default {
 		},
 		calcTextareaHeight() {
 			let lineBreaks = (this.message_payload.message.match(/\n/g)||[]).length;
-			if (lineBreaks > 1) { 
-				this.messageLines = lineBreaks
+			if (lineBreaks > 0) { 
+				this.messageLines = lineBreaks + 1;
 			} else if (lineBreaks == 0) {
 				this.messageLines = 1;
 			}
@@ -611,6 +612,7 @@ input:focus{
 		height: 70px;
 		background:#84BE3F;
 		padding: 5px;
+		display: flex;
 		h3{
 			margin-top: 15px;
 			font-size: 16px;
@@ -631,10 +633,14 @@ input:focus{
 			}
 		}
 		.close{
+			align-self: flex-start;
 			text-shadow:unset;
 			&:hover{
 				opacity: 1;
 			}
+		}
+		.draggable-filler {
+			flex: 1;
 		}
 	}
 	.list-user{
