@@ -101,7 +101,8 @@
 <script>
 import Vue from 'vue';
 import { mapGetters } from "vuex";
-
+import JQuery from 'jquery'
+let $ = JQuery
 Vue.filter('highlight', function(stringToSearch, searchTerm){
 	if (searchTerm === '') return stringToSearch;
 	var iQuery = new RegExp(searchTerm, "ig");
@@ -530,7 +531,7 @@ export default {
 			if (lineBreaks > 0) { 
 				this.messageLines = lineBreaks + 1;
 				if(lineBreaks >3 ){
-					window.$("#chrom-txtarea textarea").animate({ scrollTop: $(document).height -$(window).height });
+					$("#chrom-txtarea textarea").animate({ scrollTop: $(document).height -$(window).height });
 				}
 			} else if (lineBreaks == 0) {
 				this.messageLines = 1;
