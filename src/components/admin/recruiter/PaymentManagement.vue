@@ -166,7 +166,7 @@
 									<br v-if="project.actual_payment_date">
 									<button type="button" @click="editAmountDate(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
-								<td class="text-left" style="min-width:120px;">
+								<td  style="min-width:120px;">
 									<span @click="recruiterDetail(project.recruiter_id)" class="txt-vertical-ellipsis detail-link">
 										{{ project.recruiter_name }}
 									</span>
