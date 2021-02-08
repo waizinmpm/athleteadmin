@@ -166,13 +166,13 @@
 									<br v-if="project.actual_payment_date">
 									<button type="button" @click="editAmountDate(project)" class="btn btn-change mt-2">{{ $t('common.change') }}</button>
 								</td>
-								<td  style="min-width:120px;">
+								<td class="text-left" style="min-width:120px;">
 									<span @click="recruiterDetail(project.recruiter_id)" class="txt-vertical-ellipsis detail-link">
 										{{ project.recruiter_name }}
 									</span>
 									<!-- <router-link :to="{ name: 'recruiter-detail', params: { id: project.recruiter_id }}" class="txt-vertical-ellipsis">{{ project.recruiter_name }}</router-link> -->
 								</td>
-								<td  class="tbl-wm">
+								<td  class="tbl-wm text-left">
 									<span @click="recruiterDetail(project.recruiter_id)" class="txt-vertical-ellipsis detail-link">
 										{{ project.incharge_name }}
 									</span>
