@@ -531,7 +531,7 @@ export default {
 			if (lineBreaks > 0) { 
 				this.messageLines = lineBreaks + 1;
 				if(lineBreaks >3 ){
-					$("#chrom-txtarea textarea").animate({ scrollTop: $(document).height -$(window).height });
+					$("#chrom-txtarea textarea").animate({ scrollTop: $(document).height() -$(window).height() });
 				}
 			} else if (lineBreaks == 0) {
 				this.messageLines = 1;
