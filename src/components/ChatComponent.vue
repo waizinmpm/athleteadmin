@@ -75,9 +75,11 @@
                         <div class="footer-chat">
                             <div v-if="typing" class="typing"><img width="50" src="/images/loading.gif" alt="loading"></div>
                             <!-- <input @keyup="userTyping" @keydown.enter="sendMessage" v-model="message_payload.message" type="text" placeholder="メッセージを入力"> -->
-							<textarea :rows="messageLines" @keyup="userTyping" @keydown.alt.enter="sendMessage" @keydown.ctrl.enter="sendMessage" v-model="message_payload.message" placeholder="メッセージを入力" 
-								@input="calcTextareaHeight" :disabled="!message_payload.scoutid_or_applyid">
-							</textarea>
+							<div id="chrom-txtarea">
+								<textarea :rows="messageLines" @keyup="userTyping" @keydown.alt.enter="sendMessage" @keydown.ctrl.enter="sendMessage" v-model="message_payload.message" placeholder="メッセージを入力" 
+									@input="calcTextareaHeight" :disabled="!message_payload.scoutid_or_applyid">
+								</textarea>
+							</div>
                             <i class="fa fa-paper-plane-o" @click="sendMessage"></i>
                         </div>
                     </div>
@@ -599,7 +601,7 @@ input:focus{
 		padding: 0;
 		margin-top: 5px;
 		.list-user{
-			height: 410px;
+			height: 445px;
 			overflow-y: scroll;
 		}
 	}
@@ -774,7 +776,8 @@ input:focus{
 		}
 	}
 	.footer-chat{
-		padding: 5px 10px;
+		padding: 10px 10px 0px 10px;
+		margin-bottom: 10px;
 		display: flex;
 		align-items: center;
 		textarea{
@@ -847,4 +850,45 @@ input:focus{
 .active-job {
 	background: #F0F0F0;
 }
+/*fixed for textarea browser support*/
+#chrom-txtarea {
+    width: 100%;
+    margin: 0 auto;
+	padding: 1px;
+    position: relative;
+    clear: both;
+    box-sizing: border-box;
+    border: 1px solid #84BE3F;
+    border-radius: 5px;
+}
+#chrom-txtarea textarea {
+    width: 100%;
+    font-family: Arial;
+    font-size: 12px;
+    line-height: 18px;
+	background:transparent;
+    border: none !important;
+    overflow: auto;
+    resize: none;
+    display: block;
+}
+#chrom-txtarea:before, #chrom-txtarea:after {
+    display: block;
+    height: 5px;
+    background-color: #FFF;
+    position: absolute;
+    left: 1px;
+    right: 17px;
+    content:'';
+}
+#chrom-txtarea:before {
+    top: 1px;
+}
+#chrom-txtarea:after {
+    bottom: 1px;
+}
+/*end fixed for textarea browser support*/
+
+
+
 </style>
