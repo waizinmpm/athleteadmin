@@ -526,9 +526,11 @@ export default {
 		},
 		calcTextareaHeight() {
 			let lineBreaks = (this.message_payload.message.match(/\n/g)||[]).length;
+			
 			if (lineBreaks > 1) { 
 				this.messageLines = lineBreaks
-			} else if (lineBreaks == 0) {
+			} 
+			else if (lineBreaks == 0) {
 				this.messageLines = 1;
 			}
 		},
@@ -890,6 +892,9 @@ input:focus{
 }
 /*end fixed for textarea browser support*/
 
+*:focus {
+    outline: none;
+}
 
 
 </style>
