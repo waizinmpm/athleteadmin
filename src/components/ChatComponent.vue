@@ -36,13 +36,13 @@
                         </ul>
                     </div>
                     <div class="col-8 tab-right float-right">
-                        <div class="header-chat">
+                        <div class="header-chat" @mousedown="dragMouseDown">
                             <div class="name">
                                 <p>{{number}}</p>
                                 <span class="txt-vertical-ellipsis">{{title}}</span>
 								<span class="txt-vertical-ellipsis" style="font-size:12px;">{{showName}}</span>
                             </div>
-							<div class="draggable-filler" @mousedown="dragMouseDown"></div>
+							<div class="draggable-filler"></div>
 							<div class="close" @click="closeChatBox">
 								<i class="fa fa-times-circle-o" title="Close"></i>
 							</div>
