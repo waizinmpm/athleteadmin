@@ -613,7 +613,8 @@ input:focus{
 	}
 	.header-chat{
 		width: 100%;
-		height: 70px;
+		min-height: 70px;
+		max-height: 80px;
 		background:#84BE3F;
 		padding: 5px;
 		display: flex;
@@ -793,7 +794,7 @@ input:focus{
 		align-items: center;
 		textarea{
 			width: 90%;
-			max-height: 100px;
+			max-height: 96px;
 			/*padding: 4px 20px;*/
 			padding: 12px 20px;
 			border-radius: 5px;	
