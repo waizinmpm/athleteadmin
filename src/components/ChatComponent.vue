@@ -36,13 +36,13 @@
                         </ul>
                     </div>
                     <div class="col-8 tab-right float-right">
-                        <div class="header-chat" @mousedown="dragMouseDown">
-                            <div class="name">
-                                <p>{{number}}</p>
+                        <div class="header-chat">
+                            <div class="name" @mousedown.self="dragMouseDown">
+                                <span>{{number}}</span>
                                 <span class="txt-vertical-ellipsis">{{title}}</span>
 								<span class="txt-vertical-ellipsis" style="font-size:12px;">{{showName}}</span>
                             </div>
-							<div class="draggable-filler"></div>
+							<div class="draggable-filler" @mousedown="dragMouseDown"></div>
 							<div class="close" @click="closeChatBox">
 								<i class="fa fa-times-circle-o" title="Close"></i>
 							</div>
@@ -627,6 +627,10 @@ input:focus{
 		.name{
 			margin-left: 15px;
 			color: #fff;
+			cursor: grabbing;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
 			p{
 				margin: 0;
 				font-size: 14px;
@@ -635,17 +639,20 @@ input:focus{
 			}
 			span{
 				font-size: 12px;
+				cursor: text;
 			}
 		}
 		.close{
 			align-self: flex-start;
 			text-shadow:unset;
+			cursor: pointer;
 			&:hover{
 				opacity: 1;
 			}
 		}
 		.draggable-filler {
 			flex: 1;
+			cursor: grabbing;
 		}
 	}
 	.list-user{
