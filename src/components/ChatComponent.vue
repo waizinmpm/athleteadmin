@@ -76,12 +76,14 @@
                         <div class="footer-chat">
                             <div v-if="typing" class="typing"><img width="50" src="/images/loading.gif" alt="loading"></div>
                             <!-- <input @keyup="userTyping" @keydown.enter="sendMessage" v-model="message_payload.message" type="text" placeholder="メッセージを入力"> -->
-							<div id="chrom-txtarea">
-								<textarea :rows="messageLines" @keyup="userTyping" @keydown.alt.enter="sendMessage" @keydown.ctrl.enter="sendMessage" v-model="message_payload.message" placeholder="メッセージを入力" 
-									@input="calcTextareaHeight" :disabled="!message_payload.scoutid_or_applyid">
-								</textarea>
+							<div class="d-flex" style="padding-top:25px;">
+								<div id="chrom-txtarea">
+									<textarea :rows="messageLines" @keyup="userTyping" @keydown.alt.enter="sendMessage" @keydown.ctrl.enter="sendMessage" v-model="message_payload.message" placeholder="メッセージを入力" 
+										@input="calcTextareaHeight" :disabled="!message_payload.scoutid_or_applyid">
+									</textarea>
+								</div>
+								<i class="fa fa-paper-plane-o" @click="sendMessage"></i>
 							</div>
-                            <i class="fa fa-paper-plane-o" @click="sendMessage"></i>
                         </div>
                     </div>
             </div> 
@@ -797,7 +799,7 @@ input:focus{
 	.footer-chat{
 		padding: 10px 10px 0px 10px;
 		margin-bottom: 10px;
-		display: flex;
+		// display: flex;
 		align-items: center;
 		textarea{
 			width: 90%;
@@ -823,7 +825,8 @@ input:focus{
 		}
 		.typing{
 			position: absolute;
-			bottom: 35px;
+			// bottom: 35px;
+			margin-bottom: 10px;
 		}
 	}
 }
