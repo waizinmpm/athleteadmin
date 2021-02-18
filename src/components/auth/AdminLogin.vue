@@ -6,7 +6,7 @@
       >Thank you {{registeredUser.name}}.You can now login</div>         
         <div class="login-card-body row">
             <div class="col-12 form-wrap">
-                <p class="logo-txt"><span >A</span>THLETE <span  class="ml-1">R</span>EBORN <span  class="ml-1">P</span>PROJECT</p>
+                <p class="logo-txt"><span >A</span>THLETE <span  class="ml-1">R</span>EBORN <span  class="ml-1">P</span>ROJECT</p>
                 <form class="form-signin" role="form" @submit.prevent="authenticate">
                     <h3 class="form-signin-heading text-center">運営管理者ログイン</h3> 
 
