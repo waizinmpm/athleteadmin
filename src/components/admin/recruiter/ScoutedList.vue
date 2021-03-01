@@ -344,7 +344,6 @@ export default {
 			
 			arr_status: [
 				{ id: this.$configs.scouts.interested, checked: false },
-				{ id: this.$configs.scouts.expired, checked: false },
 				{ id: this.$configs.scouts.declined, checked: false },
 				{ id: this.$configs.scouts.unclaimed, checked: false },
 				{ id: this.$configs.scouts.billed, checked: false },

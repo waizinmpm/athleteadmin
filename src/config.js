@@ -4,7 +4,7 @@ export default {
 		waiting: '回答待ち',
 		interested: '興味あり',		
 		declined: '不採用/辞退',
-		expired: '期限切れ',
+		// expired: '期限切れ',
 		unclaimed: '内定未請求',		
 		billed: '請求済',
 		payment_confirmed: '入金確認済',
