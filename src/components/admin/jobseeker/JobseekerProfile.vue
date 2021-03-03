@@ -1729,8 +1729,9 @@
                 <div class="form-group row">
                 <label for class="col-md-2"></label>
                 <div class="col-md-4">
-                    <div class="select-wrap">
-                        <v-select v-model="desired_condition.desired_currency"
+                    <span>円</span>
+                    <!-- <div class="select-wrap"> -->
+                        <!-- <v-select v-model="desired_condition.desired_currency"
                             :options="iso_list" 
                             label="iso_list"
                             class="form-control"
@@ -1740,13 +1741,13 @@
                             <span slot="no-options" @click="$refs.select.open = false">
                             検索条件当てはまるデータはありません。
                             </span>
-                        </v-select>
+                        </v-select> -->
                         <!-- <select id class="form-control" v-model="desired_condition.desired_currency">
                             <option :value="null">通貨を選択</option>
                             <option v-for="curr in currency" :key="curr.id" :value="curr.id">{{ curr.id }}</option>
                         </select>
                         <span class="sort-desc">&#9662;</span> -->
-                    </div>
+                    <!-- </div> -->
                 </div>
                 </div>
             </div>
