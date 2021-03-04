@@ -1471,7 +1471,7 @@
                 <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income"> 未入力 </dd>
                 <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}}{{desired_condition.desired_currency}}以上 </dd>
                 <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_max_annual_income}}{{desired_condition.desired_currency}} </dd>
-                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}} ~ {{desired_condition.desired_max_annual_income}} {{desired_condition.desired_currency}}</dd>
+                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}} ~ {{desired_condition.desired_max_annual_income}}</dd>
             </dl>
             </div>
         </div>
@@ -1729,7 +1729,6 @@
                 <div class="form-group row">
                 <label for class="col-md-2"></label>
                 <div class="col-md-4">
-                    <span>円</span>
                     <!-- <div class="select-wrap"> -->
                         <!-- <v-select v-model="desired_condition.desired_currency"
                             :options="iso_list" 
