@@ -659,6 +659,131 @@
         </div>
         <!-- End basic-info -->
 
+        <!-- Athlete-info -->
+        <div class="row tab-content experience-content mb-3 m-0" id="athleteInfoEdit" v-if="!athleteInfoEdit && showDetails">
+            <div class="col-12">
+                <div class="tit-box">
+                    <h3 class="profile-edit-tit">アスリート情報</h3>
+                    <p class="profile-edit-txt" @click="editBox('athleteInfoEdit','open')"><span class="icon icon-edit"></span>{{$t('common.edit')}}</p>
+                </div>
+                <dl class="detail-list clearfix history-edit">
+                    <dt class="detail-head">アスリート情報</dt>
+                    <dd class="detail-data">
+                        <div v-for="(athleteInfo,index) in athleteInformation" :key="athleteInfo.id">
+                            <div v-if="!containNullOnly(athleteInfo)">
+                                <table class="history-edit-tbl">
+                                    <tr>
+                                        <td>競技</td>
+                                        <td>
+                                            <span>{{athleteInfo.competition_name || '-'}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>競技歴</td>
+                                        <td>
+                                            <span>{{athleteInfo.competition_history || '-'}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>所得ライセンス</td>
+                                        <td>
+                                            <span>{{athleteInfo.income_license || '-'}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>出身校</td>
+                                        <td>
+                                            <span>{{athleteInfo.attended_college || '-'}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>活動実績・経歴</td>
+                                        <td>
+                                            <span>{{athleteInfo.result || '-'}}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div v-else> 未入力 </div>
+                            <hr v-if="index != (athleteInformation.length-1)">
+                        </div>
+                    </dd>
+                </dl>
+                <div class="explation-note"><span class="private mr-1">{{$t('jobseekerprofile.private')}}</span>{{$t('jobseekerprofile.details')}}<br>
+                <!-- {{$t('jobseekerprofile.details1')}}<br> -->
+                <span class="view-permission mr-1">{{$t('jobseekerprofile.admin')}}</span>{{$t('jobseekerprofile.detailsadmin')}}
+                </div>
+            </div>
+        </div>
+    
+        <div class="row tab-content experience-content mb-3 m-0" v-if="athleteInfoEdit">
+            <div class="head-wrap col-12">
+                <div class="tit-box tit-box-edit">
+                    <h3 class="profile-edit-tit">アスリート情報</h3>
+                    <p class="profile-edit-txt" @click="editBox('athleteInfoEdit','close')"><span class="icon icon-times"></span>{{$t('common.close')}}</p>
+                </div>
+
+                <div class="popup-databox" >
+                    <h6 class="font-weight-bold">アスリート情報</h6>
+                    <!-- athlete-info array -->
+                    <div class="col-md-12 school-box" v-for="(athleteInfo,indx) in athleteInformation" :key="athleteInfo.id">
+                        <p class="delete-btn" @click="deleteAthleteInfo(indx, athleteInfo.athlete_history_id)" v-if="athleteInformation.length > 1">
+                            <span class="icon icon-times"></span>
+                        </p>
+                        <div class="form-group">
+                            <label for="">競技</label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="" v-model="athleteInfo.competition_name" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">競技歴</label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <textarea v-model="athleteInfo.competition_history" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">所得ライセンス</label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="" v-model="athleteInfo.income_license" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">出身校</label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="" v-model="athleteInfo.attended_college" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">活動実績・経歴</label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="" v-model="athleteInfo.result" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end athlete-info array -->
+                    <p class="text-center mt-4">
+                        <span class="btn add-btn" @click="addAthleteInfo">+ {{$t('jobseekerprofile.add')}}</span>
+                    </p>
+                </div>
+            </div>
+            
+            <p class="col-md-12 text-center mt-3">
+                <span class="btn save-btn" @click="saveAthleteInfo">{{$t('jobseekerprofile.save')}}</span>
+            </p>
+        </div>
+        <!-- End Athlete-info -->
+
         <!-- career -->
         <div
             class="row tab-content experience-content mb-3 m-0"
@@ -1814,6 +1939,7 @@
             showDetails: true,
             selfIntroEdit: false,
             basicInfoEdit: false,
+            athleteInfoEdit : false,
             careerEdit: false,
             expQualificationEdit: false,
             desiredConditionEdit: false,
@@ -1904,6 +2030,9 @@
             ],
             // currency : [{ id: "円"},{ id: "元"},{ id: "USドル"},{ id: "バーツ"}],
             //basicInfo
+
+            ids_to_del_athlete_info: [],
+            athleteInformation:[],
 
             // (start) experience qualification
             ids_to_del_exp_quali: [],
@@ -2356,6 +2485,7 @@
 
             let request_id = {};
             this.$set(request_id, "id", jobseeker_id);
+            this.getAthleteInfo(request_id);
             this.getJobIndustryExpDetails(request_id);
         },
 
@@ -2408,6 +2538,74 @@
 
         deleteEducation(indx) {
             this.educations.splice(indx, 1);
+        },
+
+        // Athlete-Information Part
+        addAthleteInfo() {
+            this.athleteInformation.push({
+                competition_name : "",
+                competition_history : "",
+                income_license : "",
+                attended_college : "",
+                result : "",
+            });
+        },
+        deleteAthleteInfo(index, athlete_history_id) {
+            if( typeof(athlete_history_id) !== 'undefined' ){
+                this.ids_to_del_athlete_info.push({athlete_history_id});
+            }
+            this.athleteInformation.splice(index, 1);
+        },
+        getAthleteInfo(request_id){
+            console.log(request_id);
+            this.$api.post("/v1/jobseeker/profile/athlete-information", request_id)
+            .then((res) => {
+                let athlete_histories = res.data.data.athlete_histories;
+                this.athleteInformation = [];
+                if(athlete_histories.length > 0){
+                    for(const athlete_history of athlete_histories){
+                        this.athleteInformation.push({
+                            athlete_history_id  : athlete_history.id,
+                            competition_name    : athlete_history.competition_name || '',
+                            competition_history : athlete_history.competition_history || '',
+                            income_license      : athlete_history.income_license || '',
+                            attended_college    : athlete_history.attended_college || '',
+                            result              : athlete_history.result || '',
+                        });
+                    }
+                }else {
+                    this.athleteInformation.push({
+                        athlete_history_id  : "",
+                        competition_name : "",
+                        competition_history : "",
+                        income_license : "",
+                        attended_college : "",
+                        result : "",
+                    });
+                }
+            })
+            .catch((errors) => {
+                console.log(errors);
+            });
+        },
+        saveAthleteInfo(){
+            let request_data = {
+                request_id          : `${this.$route.params.id}`,
+                athlete_information : this.athleteInformation,
+                delete_athlete_info : this.ids_to_del_athlete_info,
+            };
+            console.log('request_data',request_data);
+            let loader = this.$loading.show();
+            this.$api.post("/v1/jobseeker/profile/athlete-information/update", request_data)
+                .then((response) => {
+                    console.log(response.data.data);
+                    loader.hide();
+                    this.$alertService.showSuccessDialog(null, this.$t('alertMessage.saveSuccess'), this.$t('common.close'));
+                    this.editBox('athleteInfoEdit','close');
+                })
+                .catch(() => {
+                    loader.hide();
+                });
         },
 
         // Experience
