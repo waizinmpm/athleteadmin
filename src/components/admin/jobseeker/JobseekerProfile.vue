@@ -664,7 +664,7 @@
             <div class="col-12">
                 <div class="tit-box">
                     <h3 class="profile-edit-tit">アスリート情報</h3>
-                    <p class="profile-edit-txt" @click="editBox('athleteInfoEdit','open')"><span class="icon icon-edit"></span>{{$t('common.edit')}}</p>
+                    <p class="profile-edit-txt" @click="editBox('athleteInfoEdit','open')" v-if="edit_page"><span class="icon icon-edit"></span>{{$t('common.edit')}}</p>
                 </div>
                 <dl class="detail-list clearfix history-edit">
                     <dt class="detail-head">アスリート情報</dt>
@@ -777,7 +777,7 @@
                     </p>
                 </div>
             </div>
-            
+
             <p class="col-md-12 text-center mt-3">
                 <span class="btn save-btn" @click="saveAthleteInfo">{{$t('jobseekerprofile.save')}}</span>
             </p>
