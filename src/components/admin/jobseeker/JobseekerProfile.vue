@@ -1471,7 +1471,7 @@
                 <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income"> 未入力 </dd>
                 <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}}{{desired_condition.desired_currency}}以上 </dd>
                 <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_max_annual_income}}{{desired_condition.desired_currency}} </dd>
-                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}} ~ {{desired_condition.desired_max_annual_income}}</dd>
+                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}} ~ {{desired_condition.desired_max_annual_income}}{{desired_condition.desired_currency}}</dd>
             </dl>
             </div>
         </div>
@@ -1706,24 +1706,21 @@
                 <div class="form-group row">
                 <label for class="col-md-2 pl-5">最低年収</label>
                 <div class="col-md-4">
-                    <input type="text" :placeholder="[[$t('jobseekerprofile.enteramount') ]]" class="form-control" v-model="desired_condition.desired_min_annual_income " />  
+                    <input type="number" :placeholder="[[$t('jobseekerprofile.enteramount') ]]" class="form-control" v-model="desired_condition.desired_min_annual_income " onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0"/>  
                     <!-- <span class="invalid-feedback">
                     <span v-if="$v.desired_condition.desired_min_annual_income.$error">最低年収が必要です</span>
                     </span> -->
                 </div>
-                <!-- <div class="col-md-2" style="margin-top:5px;">万</div> -->
+                <div class="col-md-1" style="margin-top:5px;">円</div>
                 </div>
 
                 <div class="form-group row">
                 <label for class="col-md-2 pl-5">最高年収</label>
                 <div class="col-md-4">
-                    <input
-                    type="text"
-                    class="form-control"
-                    :placeholder="[[$t('jobseekerprofile.enteramount') ]]"
-                    v-model="desired_condition.desired_max_annual_income"
-                    />
+                    <input type="number" class="form-control" :placeholder="[[$t('jobseekerprofile.enteramount') ]]"
+                    v-model="desired_condition.desired_max_annual_income" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0"/>
                 </div>
+                <div class="col-md-1" style="margin-top:5px;">円</div>
                 <!-- <div class="col-md-2" style="margin-top:5px;">万</div> -->
                 </div>
                 <div class="form-group row">
