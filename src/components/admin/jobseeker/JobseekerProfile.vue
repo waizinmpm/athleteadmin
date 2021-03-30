@@ -3007,10 +3007,6 @@
 
         saveSponsorshipRequirements(){
             let loader = this.$loading.show();
-            /* let request_data = {
-                request_id : `${this.$route.params.id}`,
-                sponsorship_requirement : this.sponsorship,
-            }; */
             this.$set(this.sponsorship, "request_id", `${this.$route.params.id}`);
             this.$api
                 .post("/v1/jobseeker/profile/sponsorship-requirements/update", this.sponsorship)
