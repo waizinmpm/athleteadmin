@@ -1988,6 +1988,121 @@
             </p>
         </div>
         <!-- End desired-condition -->
+
+        <!-- Start Sponsorship Requirements -->
+            <div class="row tab-content experience-content mb-3 m-0" id="sponsorshipEdit" v-if="!sponsorshipEdit && showDetails">
+                <div class="col-12">
+                    <div class="tit-box">
+                        <h3 class="profile-edit-tit">スポンサー希望条件</h3>
+                        <p class="profile-edit-txt" @click="editBox('sponsorshipEdit','open')"><span class="icon icon-edit"></span>{{$t('common.edit')}}</p>
+                    </div>
+                    <dl class="detail-list clearfix history-edit">
+                        <dt class="detail-head">希望支援額</dt>
+                        <dd class="detail-data">
+                            {{ sponsorship.supportive_amount || '未入力' }}
+                        </dd>
+                        <dt class="detail-head">活動費内訳</dt>
+                        <dd class="detail-data">
+                            <div v-for="activities in sponsorship.activities" :key="activities.id">
+                                <div v-if="!containNullOnly(activities)">
+                                {{activities.activity}} {{activities.cost}}
+                                </div>
+                                <div v-else>未入力</div>
+                            </div>   
+                        </dd>
+                        <dt class="detail-head">スポンサーに対して出来ること</dt>
+                        <dd class="detail-data">
+                            {{ sponsorship.sponsor_detail || '未入力' }}
+                        </dd>
+                        <dt class="detail-head">活動目標</dt>
+                        <dd class="detail-data">
+                            {{ sponsorship.activity_goal || '未入力' }}
+                        </dd>
+                        <dt class="detail-head">競技への意気込み</dt>
+                        <dd class="detail-data">
+                            {{ sponsorship.enthusiasm || '未入力' }}
+                        </dd>
+                        <dt class="detail-head">スポンサーへのPR</dt>
+                        <dd class="detail-data">
+                            {{ sponsorship.sponsor_pr || '未入力' }}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        
+            <div class="row tab-content experience-content mb-3 m-0" v-if="sponsorshipEdit">
+                <div class="head-wrap col-12">
+                    <div class="tit-box tit-box-edit">
+                        <h3 class="profile-edit-tit">アスリート情報</h3>
+                        <p class="profile-edit-txt" @click="editBox('sponsorshipEdit','close')"><span class="icon icon-times"></span>{{$t('common.close')}}</p>
+                    </div>
+
+                    <div class="popup-databox" >
+                        <h6 class="font-weight-bold">スポンサー希望条件</h6>
+                        <input type="radio" v-model="sponsorship.is_sponsor" :value="1">private
+                        <input type="radio" v-model="sponsorship.is_sponsor" :value="0">public
+                        <div class="col-md-12 school-box">
+                            <div class="form-group">
+                                <label for="">希望支援額</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" v-model="sponsorship.supportive_amount">
+                                    </div>
+                                    <div class="col-md-1">円</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">活動費内訳</label>
+                                <div class="row form-group" v-for="(activities, index) in sponsorship.activities" :key="activities.id">
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" v-model="activities.activity">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" class="form-control" v-model="activities.cost" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0">
+                                    </div>
+                                    <div class="col-md-1">円
+                                        <p class="delete-btn" @click="deleteActivity(index, activities.id)" v-if="sponsorship.activities.length > 1">
+                                            <span class="icon icon-times"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <span class="btn add-btn" @click="addActivity">+ {{$t('jobseekerprofile.add')}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">スポンサーに対して出来ること</label>
+                                <div class="row form-group">
+                                    <textarea rows="3" class="form-control" v-model="sponsorship.sponsor_detail"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">活動目標</label>
+                                <div class="row form-group">
+                                    <textarea rows="3" class="form-control" v-model="sponsorship.activity_goal"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">競技への意気込み</label>
+                                <div class="row form-group">
+                                    <textarea rows="3" class="form-control" v-model="sponsorship.enthusiasm"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">スポンサーへのPR</label>
+                                <div class="row form-group">
+                                    <textarea rows="3" class="form-control" v-model="sponsorship.sponsor_pr"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="w-100 text-center mt-3">
+                    <span class="btn appendbtn btn-large" @click="saveSponsorshipRequirements">{{$t('common.save')}}</span>
+                </p>
+            </div>
+            <!-- End Sponsorship Requirements -->
         </form>
     </div>
 </template>
@@ -2050,6 +2165,7 @@
             careerEdit: false,
             expQualificationEdit: false,
             desiredConditionEdit: false,
+            sponsorshipEdit: false,
             facImageUrl: "",
             selfIntro: {
                 related_images: [],
@@ -2154,6 +2270,19 @@
                 remove_college_ids  : []
             },
             // end athleteInformation
+
+            // start sponsor's desired condition
+            sponsorship: {
+                is_sponsor          : 0,
+                delete_activities   : [],
+                supportive_amount   : "",
+                activities          : [],
+                sponsor_detail      : "",
+                activity_goal       : "",
+                enthusiasm          : "",
+                sponsor_pr          : ""
+            },
+            // end sponsor's desired condition
 
             // (start) experience qualification
             ids_to_del_exp_quali: [],
@@ -2608,6 +2737,7 @@
             this.$set(request_id, "id", jobseeker_id);
             this.getAthleteInfo(request_id);
             this.getJobIndustryExpDetails(request_id);
+            this.getSponsorshipRequirements(request_id);
         },
 
         // Edit Button Click
@@ -2661,7 +2791,7 @@
             this.educations.splice(indx, 1);
         },
 
-        // Athlete-Information Part
+        //(start) Athlete-Information Part
         addIncomeLicense(){
             this.athleteInformation.income_license.push({
                 income_lic : ''
@@ -2830,6 +2960,72 @@
                     loader.hide();
                 });
         },
+        //(end) Athlete-Information Part
+
+        //(start) Sponsorship-Requirements Part
+        addActivity(){
+            this.sponsorship.activities.push({ activity : '', cost : '' });
+        },
+
+        deleteActivity(index, id){
+            if( typeof(id) !== 'undefined' ){
+                this.sponsorship.delete_activities.push(id);
+            }
+            this.sponsorship.activities.splice(index, 1);
+        },
+
+        getSponsorshipRequirements(request_id){
+            this.$api.post("/v1/jobseeker/profile/sponsorship-requirements", request_id)
+            .then((res) => {
+                let jobseeker       = res.data.data.jobseeker_detail;
+                let sponsor_info    = res.data.data.sponsor_info;
+
+                this.sponsorship.is_sponsor         = jobseeker.is_sponsor;
+                this.sponsorship.supportive_amount  = jobseeker.sponsor_amount;
+                this.sponsorship.sponsor_detail     = jobseeker.sponsor_detail;
+                this.sponsorship.activity_goal      = jobseeker.sponsor_activity;
+                this.sponsorship.enthusiasm         = jobseeker.enthusiasm;
+                this.sponsorship.sponsor_pr         = jobseeker.sponsor_pr;
+                
+                this.sponsorship.activities = [];
+                if(sponsor_info.length > 0){
+                    for(const sponsor_activity of sponsor_info){
+                        this.sponsorship.activities.push({
+                            id          : sponsor_activity.id,
+                            activity    : sponsor_activity.sponsor_item,
+                            cost        : sponsor_activity.cost
+                        });
+                    }
+                }else{
+                    this.addActivity();
+                }
+            })
+            .catch((errors) => {
+                console.log(errors);
+            });
+        },
+
+        saveSponsorshipRequirements(){
+            let loader = this.$loading.show();
+            /* let request_data = {
+                request_id : `${this.$route.params.id}`,
+                sponsorship_requirement : this.sponsorship,
+            }; */
+            this.$set(this.sponsorship, "request_id", `${this.$route.params.id}`);
+            this.$api
+                .post("/v1/jobseeker/profile/sponsorship-requirements/update", this.sponsorship)
+                .then((response) => {
+                    console.log(response.data.data);
+                    loader.hide();
+                    this.$alertService.showSuccessDialog(null, this.$t('alertMessage.saveSuccess'), this.$t('common.close'));
+                    this.editBox('sponsorshipEdit','close');
+                })
+                .catch((errors) => {
+                    console.log('errors', errors);
+                    loader.hide();
+                });
+        },
+        //(end) Sponsorship-Requirements Part
 
         // Experience
         addExperience() {

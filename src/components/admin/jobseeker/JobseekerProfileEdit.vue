@@ -42,17 +42,18 @@
         props: ['isActive'],
         data(){
              return{               
-                  items: {
-                     selfIntroEdit:{text:'自己紹介'},
-                     basicInfoEdit:{text:'基本情報'},
-                     athleteInfoEdit:{text:'アスリート情報'},
-                     careerEdit:{text:'経歴'},
-                     expQualificationEdit:{text:'経験・資格'},
-                     desiredConditionEdit:{text:'希望条件'},                             
-                 },    
-                 activeIndex : null, 
-                 showMenuBar : true,
-                 record_status : 1,
+                items: {
+                    selfIntroEdit:{text:'自己紹介'},
+                    basicInfoEdit:{text:'基本情報'},
+                    athleteInfoEdit:{text:'アスリート情報'},
+                    careerEdit:{text:'経歴'},
+                    expQualificationEdit:{text:'経験・資格'},
+                    desiredConditionEdit:{text:'希望条件'},
+                    sponsorshipEdit:{text:'スポンサー希望条件'},
+                },    
+                activeIndex : null, 
+                showMenuBar : true,
+                record_status : 1,
             }
         },
         created(){
@@ -72,7 +73,7 @@
             },
 
             handleScroll () {
-                 let id = ['careerEdit','expQualificationEdit','desiredConditionEdit','selfIntroEdit','basicInfoEdit', 'athleteInfoEdit']
+                 let id = ['careerEdit','expQualificationEdit','desiredConditionEdit','selfIntroEdit','basicInfoEdit', 'athleteInfoEdit', 'sponsorshipEdit']
                  const elementsInViewArray = id.map(String => {
                  const el = document.getElementById(String);
                  if(elementInViewport(el)) {
