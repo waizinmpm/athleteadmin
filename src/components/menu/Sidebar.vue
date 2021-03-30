@@ -33,6 +33,11 @@
                         </router-link>
                     </li>
                     <li>
+                        <router-link to="/sponsor-list" class="list-group-item list-group-child-item">
+                            <span class="fa fa-cog"></span>{{ $t('sponsor_list.title') }}
+                        </router-link>
+                    </li>
+                    <li>
                         <router-link to="/payment-management" class="list-group-item list-group-child-item">
                             <span class="fa fa-file"></span>{{ $t('menu.payment_management') }}
                         </router-link>

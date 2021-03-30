@@ -4,6 +4,7 @@ import recruiter_list from './recruiter-list';
 import job_list from './job-list';
 import jobseeker_list from './jobseeker-list';
 import scouted_list from './scouted-list';
+import sponsor_list from './sponsor-list';
 import jobapply_list from './jobapply-list';
 import common from './common';
 import jobcreate from './recruiterjobcreate';
@@ -20,6 +21,7 @@ export default {
 	job_list: job_list,
 	jobseeker_list: jobseeker_list,
 	scouted_list: scouted_list,
+	sponsor_list:  sponsor_list,
 	jobapply_list: jobapply_list,
 	jobcreate: jobcreate,
 	payment_management: payment_management,
