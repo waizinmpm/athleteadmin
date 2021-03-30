@@ -2788,7 +2788,8 @@
                             });
                         } 
                     }
-                }else {
+                }
+                if(this.athleteInformation.attended_college.length == 0){
                     this.athleteInformation.attended_college.push({
                         income_lic      : null,
                         college_name    : '',
@@ -2797,7 +2798,8 @@
                         to_year         : '',
                         to_month        : '',
                     });
-
+                }
+                if(this.athleteInformation.income_license.length == 0){
                     this.athleteInformation.income_license.push({
                         income_lic  : '',
                     });
