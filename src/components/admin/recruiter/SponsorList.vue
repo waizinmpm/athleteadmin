@@ -371,12 +371,12 @@ export default {
 		
 		},
 		onStatusChange(index, e) {
-			const scout = this.$data.projects.data[index];
+			const sponsor = this.$data.projects.data[index];
 			this.$alertService.showConfirmDialog(null,this.$tc('alertMessage.change_confirm_message', e.target.value, { n:e.target.value }), this.$t('common.yes'), this.$t('common.no')) 
 			.then(r => {
 				if (r.value) {
-					this.$api.post('/v1/admin/scout-list/change-status', { 
-						scout_id: scout.id, 
+					this.$api.post('/v1/admin/sponsor-list/change-status', { 
+						sponsor_id: sponsor.id, 
 						status: e.target.value,
 					})
 					.then(() => {
