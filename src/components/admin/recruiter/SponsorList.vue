@@ -21,14 +21,6 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3">
-							<label for="求人番号">{{ $t('common.job_number') }}</label>
-							<input type="text" placeholder="求人番号" class="form-control" v-model.trim="filteredData.job_number">
-						</div>
-						<div class="col-md-3">
-							<label for="求人タイトル">{{ $t('common.job_title') }}</label>
-							<input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
-						</div>
-						<div class="col-md-3">
 							<label for="求職者会員番号">{{ $t('sponsor_list.jobseeker_number') }}</label>
 							<input type="text" :placeholder="$t('sponsor_list.jobseeker_number')" class="form-control" v-model.trim="filteredData.jobseeker_number">
 						</div>      
@@ -39,7 +31,7 @@
 					</div>
 					<div class="row date-row">
 						<div class="col-md-3 datepicker-wrapper">
-							<label for="スカウト日時">{{ $t('sponsor_list.scout_date') }}</label>
+							<label for="スカウト日時">{{ $t('sponsor_list.sponsor_date') }}</label>
 							<date-picker v-model="filteredData.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
 						</div>  
 						<div class="col-md-3 datepicker-wrapper similarto">
@@ -95,7 +87,7 @@
 				<div class="status-row">                     
 					<div class="status-col" v-for="status in arr_status" v-bind:key="status.id">    
 						<label class="custom-control-label custom-checkbox-label">                      
-							<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.scout_status" @change="getData()">
+							<input type="checkbox" name="scout-status" class="custom-control-input custom-checkbox" :value="status.id" :checked="status.checked" v-model="filteredData.sponsor_status" @change="getData()">
 							<span class="custom-check-label-post">{{status.id}}</span>
 						</label>                          
 					</div> 
@@ -124,59 +116,36 @@
                     </div>
                 </div>
 				<div class="tbl-wrap">
-					<DataTable ref="dat0 atable" :columns="$t('sponsor_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total" :hasSearched="hasSearched">
+					<DataTable ref="datatable" :columns="$t('sponsor_list.columns')" :sortKey="sortKey" :showCheckbox="false" :sortOrders="sortOrders" @sort="sortBy" :totalLength="projects.total" :hasSearched="hasSearched">
 						<tbody>
 							<tr v-for="(project, index) in projects.data" :key="project.id">
 								<td>
-									<span @click="scoutJobDetail(project.job_id, project.id)" class="detail-link">
+									<span>
 										{{project.management_number}}
 									</span>
-									<!-- <router-link :to="{ name: 'scout-job', params: {id: project.job_id}}">{{project.management_number}}</router-link> -->
 								</td>
-								<td>{{project.scouted_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
-								<!-- <td>{{project.recruiter_number}}</td>
-								<td>{{project.recruiter_name}}</td> -->
+								<td>{{project.sponsor_date | moment('YYYY/MM/D HH:mm:ss')}}</td>
 								<td class="text-left tbl-wl">
-                                    <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_number}} </router-link></p>
-                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail'}"> {{project.recruiter_name}} </router-link></p> -->
 									<span @click="recruiterDetail(project.recruiter_id)" class="d-flex detail-link">
 										{{project.recruiter_number}}
 										<span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{project.recruiter_name}}</span>
 									</span>
-									<!-- <router-link class="d-flex" :to="{ path: '/admin-recruiter-list/recruiter/'+ project.recruiter_id +'/detail/'+ projects.current_page}">{{project.recruiter_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{project.recruiter_name}}</span></router-link> -->
                                 </td>
-								<td class="text-left tbl-titw">
-									<span @click="jobDetail(project.job_id)" class="d-flex detail-link">
-										{{project.job_number}} 
-										<span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.title }}</span>
-									</span>
-									<!-- <router-link class="d-flex" :to="{ path: '/job-list/'+ project.job_id +'/detail/'+ projects.current_page}"> {{project.job_number}} 
-									<span class="ml-2 txt-vertical-ellipsis" style="width:100px;">{{ project.title }}</span>
-									</router-link> -->
-								</td>
-								<!-- <td  class="text-left tbl-titw" @click="textEllipsis($event)"><router-link :to="{ path: '/job-list/'+ project.job_id +'/detail'}"><span class="txt-vertical-ellipsis">{{ project.title }}</span></router-link></td> -->
-								
-								<!-- <td>{{project.jobseeker_number}}</td>
-								<td>{{project.jobseeker_name}}</td> -->
-								
 								<td class="text-left tbl-wl ">
-                                    <!-- <p><span class="font-weight-bold d-inline-block" style="width:30px;">番号</span> - <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}"> {{project.jobseeker_number}} </router-link></p>
-                                    <p><span class="font-weight-bold  d-inline-block" style="width:30px;">名</span> - <router-link :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail'}"> {{project.jobseeker_name}} </router-link></p> -->
 									<span @click="jobseekerDetail(project.jobseeker_id)" class="d-flex detail-link">
 										{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;overflow-wrap: break-word;">{{project.jobseeker_name}}</span>
 									</span>
-									<!-- <router-link class="d-flex" :to="{ path: '/admin-jobseeker-list/jobseeker/'+ project.jobseeker_id +'/detail/'+ projects.current_page}">{{project.jobseeker_number}} <span class="ml-2 txt-vertical-ellipsis" style="width:100px;overflow-wrap: break-word;">{{project.jobseeker_name}}</span></router-link> -->
                                 </td>
 								<td style="position:relative;">
 									<div class="scout-box">
-										<p class="scout-txt">{{project.scout_status}} </p>
-										<p v-if="project.scout_status != '入金確認済'" class="btn btn-common" v-on:click="showToggle(index)">
+										<p class="scout-txt">{{project.sponsor_status}} </p>
+										<p v-if="project.sponsor_status != '入金確認済'" class="btn btn-common" v-on:click="showToggle(index)">
 											{{$t('common.change')}}
 											<span class="down-icon">&#9662;</span>
 										</p>
-										<div v-if="project.scout_status != '入金確認済'" class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
+										<div v-if="project.sponsor_status != '入金確認済'" class="scout-toggle"  :id="'scout-status'+index" v-bind:class="{'scout-expand': (current === index) && (toggle_status == true)}">
 											<p class="custom-radio-group mr-3"  v-for="status in arr_status" v-bind:key="status.id">
-												<input type="radio" :id="status.id+index" v-model="project.scout_status" class="custion-radio" 
+												<input type="radio" :id="status.id+index" v-model="project.sponsor_status" class="custion-radio" 
 													@change="onStatusChange(index, $event)" :value="status.id" v-if="status.id != '期限切れ'">
 												<label :for="status.id+index" class="custom-radio-lable status-lable" @click="hideToggle" v-if="status.id != '期限切れ'">{{ status.id }}</label>
 											</p>
@@ -184,14 +153,12 @@
 									</div>
 								</td>
 								<td class="tbl-wm">
-									<span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.scout_status)">{{$t('common.chat')}}</span>
-									<!-- <span class="btn btn-default mb-1" @click="confirmPayment(project.id, index)" v-if="allowPaymentConfirm(project.scout_status)">{{$t('common.payment_confirm')}}</span> -->
-									<span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.scout_status)">{{$t('common.invoice_generate')}}</span>
+									<span class="btn btn-default mb-1" @click="startChat(project)" v-if="allowChat(project.sponsor_status)">{{$t('common.chat')}}</span>
+									<span class="btn btn-default" @click="generateBill(project.id, index)" v-if="allowBilling(project.sponsor_status)">{{$t('common.invoice_generate')}}</span>
 								</td>
 							</tr>
 						</tbody>
 					</DataTable>
-					
 				</div>
                 <pagination v-if="projects.length != 0" :data="projects" @pagination-change-page="getData" :limit="limitpc">
                     <span slot="prev-nav">
@@ -207,7 +174,6 @@
 		<!-- Modal content -->
 		<div id="myModal" :class="['modal',requireInvoiceForm ? 'modal-open' : 'modal-close' ]">
 			<div class="modal-content">
-				<!-- <span class="close" @click="closeInvoiceModal">&times;</span> -->
 				<p class="close-ico" @click="closeInvoiceModal">
 					<span class="icon icon-times"></span>
 				</p>
@@ -275,7 +241,6 @@
 						<div class="col-sm-6 invoice-col">
 							<h5 class="main-header">{{ $t('common.invoice_preview') }}</h5>
 							<div class="invoice-preview-area"  v-if="invoicePreview">
-								<!-- <iframe v-bind:srcdoc="invoicePreview" class="invoice-frame"></iframe> -->
 								<iframe :src="invoicePreview" frameborder="1" class="invoice-frame"></iframe>
 							</div>
 						</div>
@@ -292,15 +257,6 @@
 			</div>
 		</div>
 		<!-- End Modal Content -->
-		
-		<!-- <div ref="chatboxContainer" class="chatbox-container">
-			<div v-for="(chatbox) in chatBoxes" :key="chatbox.scoutid_or_applyid">
-				<ChatBox :payload="chatbox" @chatboxClosed="onChatboxClosed"></ChatBox>
-			</div>
-		</div> -->
-
-
-
     </div>
 </template>
 
@@ -324,30 +280,27 @@ export default {
 			old_index:'',
 			toggle_status:false,
 			current: null,
-			base_url: "/v1/admin/scout-list",
+			base_url: "/v1/admin/sponsor-list",
 			columns: columns,
 			sortOrders: sortOrders,
 			filteredData:{
 				recruiter_id: '',
-				title: '',
 				recruiter_name: '',
 				from_date: '',
 				to_date:'',
-				job_number: '',
-				job_title: '',
 				jobseeker_name: '',
 				jobseeker_number:'',
 				management_no:'',
-				scout_status: [],
+				sponsor_status: [],
 				recruiter_status: [],
 			},
 			
 			arr_status: [
-				{ id: this.$configs.scouts.interested, checked: false },
-				{ id: this.$configs.scouts.declined, checked: false },
-				{ id: this.$configs.scouts.unclaimed, checked: false },
-				{ id: this.$configs.scouts.billed, checked: false },
-				{ id: this.$configs.scouts.payment_confirmed, checked: false },
+				{ id: this.$configs.sponsor.interested, checked: false },
+				{ id: this.$configs.sponsor.declined, checked: false },
+				{ id: this.$configs.sponsor.unclaimed, checked: false },
+				{ id: this.$configs.sponsor.billed, checked: false },
+				{ id: this.$configs.sponsor.payment_confirmed, checked: false },
 			],
 			recruiter_arr_status: [
                 { id: this.$configs.deactivated, checked: false },
@@ -361,7 +314,7 @@ export default {
 				}
 			},  
 			invoiceForm: {
-				scout_id: 0,
+				sponsor_id: 0,
 				management_number: 0,
 				title: '',
 				recruiter_number: '',
@@ -377,7 +330,7 @@ export default {
 			chatBoxes: [],
 			visible: false,
 			paging : {
-                page: 'scouted-list',
+                page: 'sponsor-list',
 				page_no: 1,
 				length: 5
             }
@@ -386,25 +339,11 @@ export default {
 	
 	methods: {
 
-		scoutJobDetail(id, scout_id){
-			this.paging.page_no = this.projects.current_page;
-			this.paging.length  = this.tableData.length;
-            this.$store.commit('setPaging',this.paging);
-            this.$router.push({ name: 'scout-job', params: {id: id}, query: {sid: scout_id}});
-        },
-
 		recruiterDetail(id){
 			this.paging.page_no = this.projects.current_page;
 			this.paging.length  = this.tableData.length;
             this.$store.commit('setPaging',this.paging);
             this.$router.push({ path: '/admin-recruiter-list/recruiter/'+ id +'/detail/'});
-        },
-
-        jobDetail(id) {
-			this.paging.page_no = this.projects.current_page;
-			this.paging.length  = this.tableData.length;
-            this.$store.commit('setPaging',this.paging);
-            this.$router.push({ path: '/job-list/'+ id +'/detail'});
         },
 
         jobseekerDetail(id){
@@ -419,22 +358,17 @@ export default {
 				this.toggle_status = false;
         },
 		allowChat(status) {
-			return (status == this.$configs.scouts.interested || status == this.$configs.scouts.unclaimed ||  status == this.$configs.scouts.billed);
+			return (status == this.$configs.sponsor.interested || status == this.$configs.sponsor.unclaimed ||  status == this.$configs.sponsor.billed);
 		},
 		allowBilling(status) {
-			return status == this.$configs.scouts.unclaimed;
+			return status == this.$configs.sponsor.unclaimed;
 		},
 		allowPaymentConfirm(status) {
-			return status == this.$configs.scouts.billed;
+			return status == this.$configs.sponsor.billed;
 		},
-		startChat(scout) {
-			const payload = {
-				recruiter_id: scout.recruiter_id,
-				jobseeker_id: scout.jobseeker_id,
-				scoutid_or_applyid: scout.id,
-				type: 'scout',
-			};
-			this.$emit('chatStarted', payload);
+		startChat(sponsor) {
+			sponsor
+		
 		},
 		onStatusChange(index, e) {
 			const scout = this.$data.projects.data[index];
@@ -464,13 +398,13 @@ export default {
 		},
 		generateBill(scoutId, index) {
             // --Set form default value
-			let scout = this.$data.projects.data[index];
-			this.invoiceForm.scout_id = scout.id;
-			this.invoiceForm.title = scout.title;
-			this.invoiceForm.management_number = scout.management_number;
-			this.invoiceForm.recruiter_number = scout.recruiter_number;
-			this.invoiceForm.recruiter_name = scout.recruiter_name;
-			this.invoiceForm.email = scout.recruiter_email;
+			let sponsor = this.$data.projects.data[index];
+			this.invoiceForm.sponsor_id = sponsor.id;
+			this.invoiceForm.title = sponsor.title;
+			this.invoiceForm.management_number = sponsor.management_number;
+			this.invoiceForm.recruiter_number = sponsor.recruiter_number;
+			this.invoiceForm.recruiter_name = sponsor.recruiter_name;
+			this.invoiceForm.email = sponsor.recruiter_email;
 			this.invoiceForm.default_amount = 200000;
 			this.invoiceForm.tax_id = this.tax.id;
 			this.requireInvoiceForm = true;
@@ -480,7 +414,7 @@ export default {
 			this.closeInvoicePreview();
 			// --reset invoice form data
 			this.invoiceForm = {
-				scout_id: 0,
+				sponsor_id: 0,
 				management_number: 0,
 				title: '',
 				recruiter_number: '',
@@ -496,61 +430,17 @@ export default {
 			this.requireInvoiceForm = false; 
 		},
 		loadInvoicePreview() {
-			this.$v.invoiceForm.$touch();
-			if (this.$v.invoiceForm.$invalid) {
-				return;
-			}
-			this.$api.post('/v1/admin/scout-list/generate-bill', this.invoiceForm)
-			.then((response) => {
-				// let html = r.data;
-				// this.invoicePreview = html;
-				var enURL = encodeURI(response.data.data.pdf);
-                this.invoicePreview = `data:application/pdf;base64, ${enURL}`;
-			})
-			.catch((e) => {
-				console.log(e);
-			})
+		
 		},
 		closeInvoicePreview() {
 			this.invoicePreview = null;
 		},
 		sendInvoiceMail() {
-			this.$v.invoiceForm.$touch();
-			if (this.$v.invoiceForm.$invalid) {
-				return;
-			}
-			let loading = this.$loading.show({
-                isFullPage: true
-			});
-			
-			this.$api.post('/v1/admin/scout-list/send-invoice-mail', this.invoiceForm)
-			.then((r) => {
-				loading.hide();
-				const scout = r.data.data;
-				this.projects.data
-					.filter(x => x.id == scout.id)
-					.forEach(x => x.scout_status = this.$configs.scouts.billed);
-				this.$alertService.showSuccessDialog(null, this.$t('common.mail_is_sent'), this.$t('common.close'));
-				this.requireInvoiceForm = false;
-				this.closeInvoiceModal();
-			})
-			.catch(() => {
-				loading.hide();
-			})
+		
 		},
-		confirmPayment(scoutId, index) {
-			this.$alertService
-			.showConfirmDialog(null, this.$t('common.payment_confirmed_question'), this.$t('common.yes'), this.$t('common.no'))
-			.then((dialogResult) => {
-				if (dialogResult.value) {
-					this.$api.post('/v1/admin/scout-list/confirm-payment', { scout_id: scoutId })
-					.then(() => {
-						this.$data.projects.data[index].scout_status = this.$configs.scouts.payment_confirmed;
-					})
-					.catch(() => {
-					})
-				}
-			});
+		confirmPayment(sponsorId, index) {
+			sponsorId;index;
+			
 		},
 		showToggle(index) {
 			this.current = index;
@@ -580,15 +470,9 @@ export default {
 	watch: {
 		'invoiceForm.default_amount': function() {
 			let amount = Number(this.invoiceForm.default_amount);
-			// if (!isNaN(amount)) {
-				// Re-value tax
 				this.invoiceForm.tax = amount * (this.tax.percent ?? 0) / 100;
 				// Re-value invoice amout 
 				this.invoiceForm.invoice_amount = amount + this.invoiceForm.tax;
-			// } else {
-			// 	this.invoiceForm.invoice_amount = 0;
-			// 	this.invoiceForm.tax = 0;
-			// }
 		}
 	},
 	validations: {
@@ -650,21 +534,6 @@ export default {
 
 /* The Close Button */
 .close-ico {
-	/* position: absolute;
-	width: 40px;
-	height: 40px;
-	top: -10px;
-	right: -10px;
-	font-size: 35px;
-	font-weight: bold;
-	background: #fff;
-	border: 1px solid;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 33px;
-	vertical-align: middle;
-	opacity: 0.8;
-	z-index: 100; */
 	position: absolute;
     top: 10px;
 	right: 15px;
@@ -743,8 +612,6 @@ dl {
     left: -10px;
     font-size: 25px;
 }
-
-
 
 /* tooltip for status */
 .tooltip {

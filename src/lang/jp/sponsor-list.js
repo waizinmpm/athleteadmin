@@ -11,5 +11,6 @@ export default {
         {"label":"recruiter_number","name":"企業会員"},
         {"label":"jobseeker_number","name":"求職者"},
 		{"label":"sponsor_status","name":"ステータス"},
+        {"label":"","name":""},
 	],
 }
