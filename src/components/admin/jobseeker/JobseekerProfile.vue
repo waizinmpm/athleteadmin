@@ -296,6 +296,18 @@
             </div>
 
             <div class="popup-databox">
+                    <div class="form-group">
+                    <label for="" class="mb-3">関連SNS</label>
+                    <div class="row">
+                        <label class="col-12 col-sm-3 col-md-2 label-txt mt-2">SNS URL</label>
+                        <div class="col-12 col-sm-9 col-md-10">
+                            <input v-model="selfIntro.sns_account" type="text" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="popup-databox">
                 <div class="form-group  mb-1">
                 <label for class="mb-3">自己PR</label>
 
@@ -731,166 +743,177 @@
                 </div>
 
                 <div class="popup-databox" >
-                    <h6 class="font-weight-bold">アスリート情報</h6>
-                    <div class="col-md-12 school-box">
-                        <div class="form-group">
-                            <label for="">競技</label>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <span v-for="(competition, index) in athleteInformation.tmp_competition_names" :key="'Show'+index">
-                                        {{ competition.competition_name }}
-                                    </span>
-                                    <button type="button" class="form-control btn btn-primary" @click="modalOnOff('open')">openModal</button>
-                                </div>
+                    <div class="form-group">
+                        <label for="">競技</label>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <span v-for="(competition, index) in athleteInformation.tmp_competition_names" :key="'Show'+index">
+                                    {{ competition.competition_name }}
+                                </span>
+                                <button type="button" class="pl-md-4 btn add-btn selected-info-btn" @click="modalOnOff('open')">選択</button>
                             </div>
-                            <!-- Competition-Name ModalBox -->
-                            <transition name="fade">
-                                <div class="modal-wrapper" v-if="athleteInformation.competition_modal">
-                                    <div class="modal-block">
-                                        <div class="modal-container">
-                                            <div class="modal-header">
-                                                <h3 class="header">競技</h3>
-                                                <button class="cross-btn" type="button" @click="modalOnOff('close')">
-                                                    <span class="icon icon-times"></span>
-                                                    閉じる
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row form-group">
-                                                    <div class="col-md-2">
-                                                        <h5>Competitions</h5>
-                                                        <span v-for="competition in athleteInformation.all_competition_list" :key="competition.id">
-                                                            <button type="button" class="form-control btn btn-primary" v-if="competition.parent_id === null" @click="showCompetitions(competition.id)">
-                                                                {{competition.competition_name}}
-                                                                {{selectedItemsCount(groupBySelectedItems()[competition.id])}}
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <h5>Sub-Competitions</h5>
-                                                        <div v-for="competition in athleteInformation.all_competition_list" :key="competition.id" style="display: inline-block;">
-                                                            <button type="button" class="form-control btn-info" v-show="competition.parent_id === athleteInformation.current_competition_id" @click="selectedCompetitions(competition.id, competition.parent_id, competition.competition_name)">
-                                                                {{competition.competition_name}}
-                                                                <span v-show="showRemoveIcon(competition.id)">
-                                                                    <span class="icon icon-times"></span>
-                                                                </span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                        </div>
+                        <!-- Competition-Name ModalBox -->
+                        <transition name="fade">
+                            <div class="modal-wrapper" v-if="athleteInformation.competition_modal">
+                                <div class="modal-block">
+                                    <div class="modal-container">
+                                        <div class="modal-header">
+                                            <h3 class="header">競技</h3>
+                                            <button class="cross-btn" type="button" @click="modalOnOff('close')">
+                                                <span class="icon icon-times"></span>
+                                                閉じる
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row form-group">
+                                                <div class="col-md-2">
+                                                    <h5>Competitions</h5>
+                                                    <span v-for="competition in athleteInformation.all_competition_list" :key="competition.id">
+                                                        <button type="button" class="form-control btn btn-primary" v-if="competition.parent_id === null" @click="showCompetitions(competition.id)">
+                                                            {{competition.competition_name}}
+                                                            {{selectedItemsCount(groupBySelectedItems()[competition.id])}}
+                                                        </button>
+                                                    </span>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-12" v-show="athleteInformation.tmp_competition_names.length > 0">
-                                                        <h5>Selected Competitions</h5>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <button type="button" class="btn btn-outline-warning" v-for="(competition, index) in athleteInformation.tmp_competition_names" :key="'Display'+index" @click="removeCompetition(competition.id)" style="color:black;">
-                                                            {{ competition.competition_name }}<span class="icon icon-times"></span>
+                                                <div class="col-md-10">
+                                                    <h5>Sub-Competitions</h5>
+                                                    <div v-for="competition in athleteInformation.all_competition_list" :key="competition.id" style="display: inline-block;">
+                                                        <button type="button" class="form-control btn-info" v-show="competition.parent_id === athleteInformation.current_competition_id" @click="selectedCompetitions(competition.id, competition.parent_id, competition.competition_name)">
+                                                            {{competition.competition_name}}
+                                                            <span v-show="showRemoveIcon(competition.id)">
+                                                                <span class="icon icon-times"></span>
+                                                            </span>
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button class="btn delete-color" type="button" @click="removeCompetition(null)">Clear All</button>
-                                                <button class="btn cancelbtn" type="button" @click="modalOnOff('close')">Confirm</button>
+                                            <div class="row">
+                                                <div class="col-md-12" v-show="athleteInformation.tmp_competition_names.length > 0">
+                                                    <h5>Selected Competitions</h5>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <button type="button" class="btn btn-outline-warning" v-for="(competition, index) in athleteInformation.tmp_competition_names" :key="'Display'+index" @click="removeCompetition(competition.id)" style="color:black;">
+                                                        {{ competition.competition_name }}<span class="icon icon-times"></span>
+                                                    </button>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn delete-color" type="button" @click="removeCompetition(null)">Clear All</button>
+                                            <button class="btn cancelbtn" type="button" @click="modalOnOff('close')">Confirm</button>
                                         </div>
                                     </div>
                                 </div>
-                            </transition>
-                        </div>
-                        <div class="form-group">
-                            <label for="">競技歴</label>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <select class="form-control" v-model="athleteInformation.competition_year">
-                                        <option value="">年</option>
-                                        <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
-                                    </select>
-                                    <span>年</span>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="form-control" v-model="athleteInformation.competition_month">
-                                        <option value="">月</option>
-                                        <option v-for="month in 12" :key="month">{{ month }}</option>
-                                    </select>
-                                    <span>月</span>
-                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="">所得ライセンス</label>
-                            <div class="row form-group" v-for="(income_license, index) in athleteInformation.income_license" :key="income_license.id">
-                                <div class="col-md-8">
-                                    <p class="delete-btn" @click="deleteIncomeLicense(index, income_license.id)" v-if="athleteInformation.income_license.length > 1">
-                                        <span class="icon icon-times"></span>
-                                    </p>
-                                    <input type="text" class="form-control" placeholder="" v-model="income_license.income_lic" />
-                                </div>
+                        </transition>
+                    </div>
+                </div>
+
+                <div class="popup-databox" >
+                    <div class="form-group">
+                        <label for="">競技歴</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select class="form-control" v-model="athleteInformation.competition_year">
+                                    <option value="">年</option>
+                                    <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
+                                </select>
+                                <span>年</span>
                             </div>
-                            <div class="text-center row">
-                                <span class="btn add-btn" @click="addIncomeLicense">+ {{$t('jobseekerprofile.add')}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="">出身校</label>
-                            <div class="form-group" v-for="(this_college, index) in athleteInformation.attended_college" :key="this_college.id">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <label>学校</label>
-                                        <p class="delete-btn" @click="deleteAttendedCollege(index, this_college.id)" v-if="athleteInformation.attended_college.length > 1">
-                                            <span class="icon icon-times"></span>
-                                        </p>
-                                        <input type="text" class="form-control" placeholder="" v-model="this_college.college_name" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <select class="form-control" v-model="this_college.from_year">
-                                            <option value="">年</option>
-                                            <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <select class="form-control" v-model="this_college.from_month">
-                                            <option value="">月</option>
-                                            <option v-for="month in 12" :key="month">{{ month }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">入学</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <select class="form-control" v-model="this_college.to_year">
-                                            <option value="">年</option>
-                                            <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <select class="form-control" v-model="this_college.to_month">
-                                            <option value="">月</option>
-                                            <option v-for="month in 12" :key="month">{{ month }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">卒業</div>
-                                </div>
-                            </div>
-                            <span class="btn add-btn" @click="addAttendedCollege">+ {{$t('jobseekerprofile.add')}}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="">活動実績・経歴</label>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <textarea class="form-control" v-model="athleteInformation.competition_activity" rows="3"></textarea>
-                                </div>
+                            <div class="col-md-4">
+                                <select class="form-control" v-model="athleteInformation.competition_month">
+                                    <option value="">月</option>
+                                    <option v-for="month in 12" :key="month">{{ month }}</option>
+                                </select>
+                                <span>月</span>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="popup-databox" >
+                    <div class="form-group">
+                        <label for="">所得ライセンス</label>
+                        <div class="row form-group" v-for="(income_license, index) in athleteInformation.income_license" :key="income_license.id">
+                            <div class="col-md-8">
+                                <p class="delete-btn" @click="deleteIncomeLicense(index, income_license.id)" v-if="athleteInformation.income_license.length > 1">
+                                    <span class="icon icon-times"></span>
+                                </p>
+                                <input type="text" class="form-control" placeholder="" v-model="income_license.income_lic" />
+                            </div>
+                        </div>
+                        <div class="text-center row">
+                            <span class="btn add-btn" @click="addIncomeLicense">+ {{$t('jobseekerprofile.add')}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="popup-databox" >
+                    <div class="form-group">
+                        <label for="">出身校</label>
+                        <div class="form-group" v-for="(this_college, index) in athleteInformation.attended_college" :key="this_college.id">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label>学校</label>
+                                    <p class="delete-btn" @click="deleteAttendedCollege(index, this_college.id)" v-if="athleteInformation.attended_college.length > 1">
+                                        <span class="icon icon-times"></span>
+                                    </p>
+                                    <input type="text" class="form-control" placeholder="" v-model="this_college.college_name" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <select class="form-control" v-model="this_college.from_year">
+                                        <option value="">年</option>
+                                        <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control" v-model="this_college.from_month">
+                                        <option value="">月</option>
+                                        <option v-for="month in 12" :key="month">{{ month }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">入学</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <select class="form-control" v-model="this_college.to_year">
+                                        <option value="">年</option>
+                                        <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control" v-model="this_college.to_month">
+                                        <option value="">月</option>
+                                        <option v-for="month in 12" :key="month">{{ month }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">卒業</div>
+                            </div>
+                        </div>
+                        <span class="btn add-btn" @click="addAttendedCollege">+ {{$t('jobseekerprofile.add')}}</span>
+                    </div>
+                </div>
+
+                 <div class="popup-databox" >
+                    <div class="form-group">
+                        <label for="">活動実績・経歴</label>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <textarea class="form-control" v-model="athleteInformation.competition_activity" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
 
             <p class="w-100 text-center mt-3">
                 <span class="btn save-btn" @click="saveAthleteInfo">{{$t('common.save')}}</span>
             </p>
+            
         </div>
         <!-- End Athlete-info -->
 
@@ -1993,7 +2016,7 @@
             <div class="row tab-content experience-content mb-3 m-0" id="sponsorshipEdit" v-if="!sponsorshipEdit && showDetails">
                 <div class="col-12">
                     <div class="tit-box">
-                        <h3 class="profile-edit-tit">スポンサー希望条件</h3>
+                        <h3 class="profile-edit-tit">スポンサー希望条件 <span class="private ml-3">非公開</span></h3>
                         <p class="profile-edit-txt" @click="editBox('sponsorshipEdit','open')" v-if="edit_page"><span class="icon icon-edit"></span>{{$t('common.edit')}}</p>
                     </div>
                     <dl class="detail-list clearfix history-edit">
@@ -2004,9 +2027,10 @@
                         <dt class="detail-head">活動費内訳</dt>
                         <dd class="detail-data">
                             <div v-for="activities in sponsorship.activities" :key="activities.id">
-                                <div v-if="!containNullOnly(activities)">
-                                {{activities.activity}} {{activities.cost}}
-                                </div>
+                                <p v-if="!containNullOnly(activities)" class="mb-0">
+                                <label class="desired-label">{{activities.activity}} </label>
+                                <span class="price-txt">{{activities.cost}}</span>
+                                </p>
                                 <div v-else>未入力</div>
                             </div>   
                         </dd>
@@ -2039,66 +2063,88 @@
 
                     <div class="popup-databox" >
                         <h6 class="font-weight-bold">スポンサー希望条件</h6>
-                        <input type="radio" v-model="sponsorship.is_sponsor" :value="1">private
-                        <input type="radio" v-model="sponsorship.is_sponsor" :value="0">public
-                        <div class="col-md-12 school-box">
-                            <div class="form-group">
-                                <label for="">希望支援額</label>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" v-model="sponsorship.supportive_amount">
-                                    </div>
-                                    <div class="col-md-1">円</div>
+                        <!-- <input type="radio" v-model="sponsorship.is_sponsor" :value="1">private
+                        <input type="radio" v-model="sponsorship.is_sponsor" :value="0">public -->
+
+
+                        <div class="form-group">
+                            <span class="mr-2 sponsor-radio">
+                                 <input type="radio"  class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="1" />
+                                <label  class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
+                            </span> 
+                            <span class="sponsor-radio">
+                                <input type="radio" class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="0" />
+                                <label class="custom-control-label custom-checkbox-label" style="color:#636363">公開</label>
+                            </span> 
+                        </div>
+
+                       
+                        <div class="form-group">
+                            <label for="">希望支援額</label>
+                            <div class="row d-flex  align-items-center">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" v-model="sponsorship.supportive_amount">
                                 </div>
+                                <div class="col-md-1">円</div>
                             </div>
-                            <div class="form-group">
-                                <label for="">活動費内訳</label>
-                                <div class="row form-group" v-for="(activities, index) in sponsorship.activities" :key="activities.id">
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" v-model="activities.activity">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="number" class="form-control" v-model="activities.cost" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0">
-                                    </div>
-                                    <div class="col-md-1">円
-                                        <p class="delete-btn" @click="deleteActivity(index, activities.id)" v-if="sponsorship.activities.length > 1">
-                                            <span class="icon icon-times"></span>
-                                        </p>
-                                    </div>
+                        </div>
+
+                        <label for="">活動費内訳</label>
+                        <div class="col-md-12 experience-box"  v-for="(activities, index) in sponsorship.activities" :key="activities.id">
+                            <p class="delete-btn" @click="deleteActivity(index, activities.id)" v-if="sponsorship.activities.length > 1">
+                                <span class="icon icon-times"></span>
+                            </p>
+                            <div class="row form-group  mb-0 d-flex align-items-center">
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" v-model="activities.activity">
                                 </div>
-                                <div class="row">
-                                    <span class="btn add-btn" @click="addActivity">+ {{$t('jobseekerprofile.add')}}</span>
+                                <div class="col-md-2">
+                                    <input type="number" class="form-control" v-model="activities.cost" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0">
                                 </div>
+                                <div class="col-md-1">円</div>
                             </div>
-                            <div class="form-group">
-                                <label for="">スポンサーに対して出来ること</label>
-                                <div class="row form-group">
-                                    <textarea rows="3" class="form-control" v-model="sponsorship.sponsor_detail"></textarea>
-                                </div>
+                        </div>
+                        <p class="text-center mt-4">
+                            <span class="btn add-btn" @click="addActivity">+ {{$t('jobseekerprofile.add')}}</span>
+                        </p>
+
+                            
+                    </div>
+
+                    <div class="popup-databox">
+                        <div class="form-group">
+                            <label for="">スポンサーに対して出来ること</label>
+                            <div class="col-md-8 p-0">
+                                <textarea rows="3" class="form-control col-md-8" v-model="sponsorship.sponsor_detail"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="">活動目標</label>
-                                <div class="row form-group">
-                                    <textarea rows="3" class="form-control" v-model="sponsorship.activity_goal"></textarea>
-                                </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="">活動目標</label>
+                            <div class="col-md-8 p-0">
+                                <textarea rows="3" class="form-control" v-model="sponsorship.activity_goal"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="">競技への意気込み</label>
-                                <div class="row form-group">
-                                    <textarea rows="3" class="form-control" v-model="sponsorship.enthusiasm"></textarea>
-                                </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="">競技への意気込み</label>
+                            <div class="col-md-8 p-0">
+                                <textarea rows="3" class="form-control" v-model="sponsorship.enthusiasm"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="">スポンサーへのPR</label>
-                                <div class="row form-group">
-                                    <textarea rows="3" class="form-control" v-model="sponsorship.sponsor_pr"></textarea>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">スポンサーへのPR</label>
+                            <div class="col-md-8 p-0">
+                                <textarea rows="3" class="form-control" v-model="sponsorship.sponsor_pr"></textarea>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                <p class="w-100 text-center mt-3">
+                <p class="text-center mt-3">
                     <span class="btn appendbtn btn-large" @click="saveSponsorshipRequirements">{{$t('common.save')}}</span>
                 </p>
             </div>
@@ -3665,6 +3711,167 @@
     border-radius: 3px;
     border: 1px solid #c4c4c4;
 }
+
+
+
+/* modal-dialog */
+.popup-databox {
+    border: 1px solid #c4c4c4;
+    border-radius: 8px;
+    padding: 15px 30px;
+    margin-bottom: 20px;
+}
+.popup-databox .form-group {
+    margin-bottom: 1.5rem;
+}
+.school-box,
+.experience-box {
+    margin-bottom: 30px;
+    padding: 30px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    border: 1px solid #c4c4c4;
+}
+.school-box-2{
+    border: none;
+    background: none;
+    padding: 10px 0 0 0;
+}
+/*.school-box-2 .popup-databox{
+    padding: 30px;
+}*/
+.school-box-2 .form-group{
+    border-radius: 3px;
+    border: 1px solid #c4c4c4;
+    padding: 30px;
+    background: #ffffff;
+    position: relative;
+}
+.history-box{
+    margin: 0;
+}
+.school-box-2 .row.form-group{
+    background: #f0f0f0;
+    margin: 0 0 1.5rem 0;
+}
+.school-box-2 .license-row{
+    position: relative;
+}
+.school-box-2 .college_row{
+    background: #f0f0f0;
+}
+.admission-row,
+.graduate-row{
+    padding: 0;
+    margin: 0;
+}
+.competition-group,
+.sub-competition-group,
+.selected-group{
+    width: 100%;
+    background: #f0f0f0;
+    max-height: 335px;
+    overflow-y: auto;
+    padding: 20px;
+}
+.sub-competition-group{
+    min-height: 150px;
+}
+.competition-group .btn-primary{
+    min-width: 100%;
+    min-width: 100%;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 10px;
+}
+.sub-competition-group{
+    margin: 0;
+}
+.selected-group{
+    margin: 15px 15px 0px 15px !important;
+}
+.selected-info{
+    padding: 30px;
+    background: #f0f0f0;
+    border: 1px solid #c4c4c4;
+}
+.selected-info-btn{
+    padding: 8px 0.75rem !important;
+    margin-left: 30px;
+}
+.showadd-box{
+    text-align: center;
+}
+.selected-info .check-item{
+    border-radius: 0;
+    margin: 0 15px 12px 0;
+    width: 32%;
+    background: #ffffff;
+}
+.selected-info .check-item:nth-child(3n+0){
+    margin-right: 0;
+}
+.selected-info .add-btn{
+    background: #fff;
+}
+.competition-modal .header{
+    padding-left: 15px;
+    margin-bottom: 10px;
+}
+.competition-modal-body{
+    padding: 0 0 1rem 0;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.selected-info .modal-btn{
+    text-align: center;
+}
+.competnameClass{
+    width: 46.5%;
+    margin: 0 0 12px 15px;
+    box-sizing: border-box;
+}
+.competnameClass-btn{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 0 8px 15px;
+    text-align: left;
+    background: #ffffff;
+    border: 1px solid #9b9898;
+    color: #999;
+}
+.competnameClass-btn:hover,
+.selected-btn:hover{
+    cursor: pointer;
+    color: #666 !important;
+}
+.competnameClass-btn .icon-times,
+.selected-btn .icon-times{
+    float: right;
+    padding: 5px 10px;
+}
+.selected-btngroup{
+    padding: 0;
+}
+.selected-btn{
+    width: 47.2%;
+    float: left;
+    text-align: left;
+    background: #ffffff;
+    border: 1px solid #9b9898;
+    color: #999 !important;
+    margin: 10px;
+    padding-right: 0;
+}
+.school-box-2 .modal-footer{
+    justify-content: center;
+    margin: 10px 0;
+}
+
 .add-btn {
     padding: 0.7rem 2rem;
     background: #f0f0f0;
@@ -4254,5 +4461,22 @@ textarea.form-control {
 }
 .lbl-txt {
     line-height: 43px;
+}
+.price-txt {
+    display: inline-block;
+    width: 25%;
+    text-align: right;
+}
+.profile-edit-tit .private {
+    padding: 3px 10px;
+    font-size: 14px;
+}
+.appendbtn {
+    background-color: #EF8B1E;
+    color: #fff;
+}
+.btn-large {
+    padding: 8px 0;
+    width: 140px;
 }
 </style>

@@ -127,7 +127,7 @@
     border: 1px solid #f3efef;
 }
 .tab-list .list-item {
-    padding: 20px 40px;
+    padding: 20px 36px;
     list-style: none;
 }
 .list-link {

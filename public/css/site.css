@@ -2928,7 +2928,7 @@ output {
 .form-control[readonly],
 fieldset[disabled] .form-control {
     cursor: not-allowed;
-    background-color: #eee;
+    background-color: #e9ecef;
     opacity: 1;
 }
 
