@@ -334,7 +334,7 @@ export default {
 				};
                 this.title = meta.job.title;
 				this.number = meta.job.management_number;
-				this.showName = '企：'+ meta.recruiter.recruiter_name + '  求：' + meta.jobseeker.jobseeker_name;
+				this.showName = '企：'+ meta.recruiter.recruiter_name + '  ア：' + meta.jobseeker.jobseeker_name;
 				this.loading = false;
 
 				this.markAsRead();

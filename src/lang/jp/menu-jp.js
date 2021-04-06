@@ -2,7 +2,7 @@ export default {
     admin: '',
     close_menu: 'メニューを閉じる',
     logoheader: 'アスリートリボーンプロジェクト',
-    logotxt: 'アスリートのセカンドキャリアを応援するサイト',
+    logotxt: 'アスリートを応援するサイト',
     Home: 'マイページ',
     login: 'ログインする',
     logout: 'ログアウト',
