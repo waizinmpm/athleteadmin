@@ -106,7 +106,7 @@
             <div class="col-sm-12 p-0">
                 <div class="row">
                     <div class="col-sm-12 select">
-                        <span>{{ $t('common.total_results') }}: {{ $tc('common.item', totalScouts, { n:totalScouts }) }}</span><br>
+                        <span>{{ $t('common.total_results') }}: {{ $tc('common.item', totalSponsors, { n:totalSponsors }) }}</span><br>
                         <span>1 {{ $t('common.displayed_page') }}&nbsp;</span>
                         <select v-model="tableData.length" @change="getData()">
                             <option v-for="(records, index) in perPage" :key="index" :value="records">
@@ -183,16 +183,16 @@
 							<div class="border">
 								<h5>求人</h5>
 								<dl class="row mb-4">
-									<dt class="col-sm-5 scouted-list">{{ $t('sponsor_list.columns.0.name') }}</dt>
+									<dt class="col-sm-5 sponsor-list">{{ $t('sponsor_list.columns.0.name') }}</dt>
 									<dd class="col-sm-7">{{ invoiceForm.management_number }}</dd>
-									<dt class="col-sm-5 scouted-list">{{ $t('sponsor_list.columns.5.name') }}</dt>
+									<dt class="col-sm-5 sponsor-list">{{ $t('sponsor_list.columns.5.name') }}</dt>
 									<dd class="col-sm-7">{{ invoiceForm.title }}</dd>
 								</dl>
 								<h5>{{ $t('common.billing_recruiter') }}</h5>
 								<dl class="row">
-									<dt class="col-sm-5 scouted-list">{{ $t('sponsor_list.columns.2.name') }}</dt>
+									<dt class="col-sm-5 sponsor-list">{{ $t('sponsor_list.columns.2.name') }}</dt>
 									<dd class="col-sm-7">{{ invoiceForm.recruiter_number }}</dd>
-									<dt class="col-sm-5 scouted-list">{{ $t('sponsor_list.columns.3.name') }}</dt>
+									<dt class="col-sm-5 sponsor-list">{{ $t('sponsor_list.columns.3.name') }}</dt>
 									<dd class="col-sm-7">{{ invoiceForm.recruiter_name }}</dd>
 								</dl>
 							</div>		
@@ -463,7 +463,7 @@ export default {
 		currentUser() {
 			return this.$store.getters.currentUser;
 		},
-		totalScouts: function() {
+		totalSponsors: function() {
 			return this.$data.projects.total;
 		}
 	},
@@ -602,7 +602,7 @@ dl {
 	height: 100%;
 	border: none;
 }
-.scouted-list {
+.sponsor-list {
 	padding-left: 90px;
 }
 .similarto::before {
