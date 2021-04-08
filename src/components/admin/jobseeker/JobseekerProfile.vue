@@ -3861,12 +3861,16 @@
     padding: 0;
     margin: 0;
 }
-.competition-group,
 .selected-group{
     width: 100%;
     background: #f0f0f0;
     max-height: 335px;
     overflow-y: auto;
+    padding: 20px;
+}
+.competition-group {
+    width: 100%;
+    background: #f0f0f0;
     padding: 20px;
 }
 .sub-competition-group{
@@ -4236,6 +4240,7 @@
     width: 59%;
     background-color: #fff;
     min-height: 50px;
+    word-break: break-all;
 }
 .private {
     margin: 0 20px 0 auto;
