@@ -90,7 +90,7 @@ export default {
     dragphoto2 : ' ドロップまたは',
     selectfiles : 'ファイルを選択',
 
-    desiredconditions : '希望条件',
+    desiredconditions : '就業希望条件',
     changejobs : '転職意欲',
     activitystatus : '転職活動状況',
     translocation : ' 転臓で最も重視すること',

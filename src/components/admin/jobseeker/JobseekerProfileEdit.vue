@@ -48,7 +48,7 @@
                     athleteInfoEdit:{text:'アスリート情報'},
                     careerEdit:{text:'経歴'},
                     expQualificationEdit:{text:'経験・資格'},
-                    desiredConditionEdit:{text:'希望条件'},
+                    desiredConditionEdit:{text:'就業希望条件'},
                     sponsorshipEdit:{text:'スポンサー希望条件'},
                 },    
                 activeIndex : null, 

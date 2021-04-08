@@ -147,7 +147,7 @@
                 </p>
             </div>
             <label class="info">
-                <span class="glyphicon glyphicon-info-sign"></span>「希望職種・希望勤務地→希望条件」「語学レベル→経験・資格」にて設定してください。
+                <span class="glyphicon glyphicon-info-sign"></span>「希望職種・希望勤務地→就業希望条件」「語学レベル→経験・資格」にて設定してください。
             </label>
             <!-- <div class="popup-databox">
                 <label for class="mb-3">ニックネーム</label>
@@ -696,7 +696,7 @@
                     </dd>
                     <dt class="detail-head">競技歴</dt>
                     <dd class="detail-data">
-                        <span v-if="athleteInformation.competition_year || athleteInformation.competition_month">{{athleteInformation.competition_year ? athleteInformation.competition_year + ' 年' : ''}}{{athleteInformation.competition_month ?athleteInformation.competition_month + ' 月' : ''}}</span>
+                        <span v-if="athleteInformation.competition_year || athleteInformation.competition_month">{{athleteInformation.competition_year ? athleteInformation.competition_year + ' 年' : ''}}{{athleteInformation.competition_month ?athleteInformation.competition_month + ' ヵ月' : ''}}</span>
                         <span v-else>未入力</span>
                     </dd>
                     <dt class="detail-head">所得ライセンス</dt>
@@ -869,7 +869,7 @@
                                     <option value="">月</option>
                                     <option v-for="month in 12" :key="month">{{ month }}</option>
                                 </select>
-                                <span>月</span>
+                                <span>ヵ月</span>
                             </div>
                         </div>
                     </div>
@@ -887,7 +887,7 @@
                             </div>
                             <div class="col-md-8 p-0">
                                 <label for="">所属</label>
-                                <input type="text" class="form-control" v-model="income_license.affiliation" />
+                                <input type="text" class="form-control" placeholder="例.チーム・会社・団体・組織etc" v-model="income_license.affiliation" />
                             </div>
                         </div>
                         <p class="text-center mt-4">
@@ -1092,7 +1092,7 @@
                     <dt class="detail-head">{{$t('jobseekerprofile.experiencecompany')}}</dt>
                     <dd class="detail-data">
                         <span v-if="(carrers.num_of_experienced_companies != '' && carrers.num_of_experienced_companies != null) || (carrers.num_of_experienced_companies == 0)">
-                            {{carrers.num_of_experienced_companies}}
+                            {{carrers.num_of_experienced_companies}} 社
                         </span>
                         <span v-else>未入力</span>
                     </dd>
@@ -1325,7 +1325,7 @@
                 <div class="form-group mt-4">
                 <label for>経験社数</label>
                 <div class="col-md-3 p-0">
-                    <input type="number" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0" v-model="carrers.num_of_experienced_companies" class="form-control" placeholder="経験社数を入力" />
+                    <input type="number" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0" v-model="carrers.num_of_experienced_companies" class="form-control" placeholder="経験社数を入力" /><span>社</span>
                 </div>
                 </div>
 
@@ -1765,7 +1765,7 @@
         >
             <div class="col-md-12">
             <div class="tit-box">
-                <h3 class="profile-edit-tit">希望条件</h3>
+                <h3 class="profile-edit-tit">就業希望条件</h3>
                 <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','open')" v-if="edit_page">
                 <span class="icon icon-edit"></span>編集
                 </p>
@@ -1830,7 +1830,7 @@
         <div class="row tab-content condition-content m-0" v-if="desiredConditionEdit">
             <div class="col-md-12">
             <div class="tit-box tit-box-edit">
-                <h3 class="profile-edit-tit">希望条件</h3>
+                <h3 class="profile-edit-tit">就業希望条件</h3>
                 <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','close')">
                 <span class="icon icon-times"></span>
                 {{$t('common.close')}}
