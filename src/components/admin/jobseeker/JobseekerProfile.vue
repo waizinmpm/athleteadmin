@@ -3862,7 +3862,6 @@
     margin: 0;
 }
 .competition-group,
-.sub-competition-group,
 .selected-group{
     width: 100%;
     background: #f0f0f0;
@@ -3871,6 +3870,9 @@
     padding: 20px;
 }
 .sub-competition-group{
+    width: 100%;
+    background: #f0f0f0;
+    padding: 20px;
     min-height: 150px;
     display: flex;
     flex-wrap: wrap;
@@ -3966,12 +3968,14 @@
 }
 .competnameClass-btn{
     width: 100%;
+    max-height: 40px;
     box-sizing: border-box;
     padding: 8px 0 8px 15px;
     text-align: left;
     background: #ffffff;
     border: 1px solid #9b9898;
     color: #999;
+    overflow-y: auto;
 }
 .competnameClass-btn:hover,
 .selected-btn:hover{
