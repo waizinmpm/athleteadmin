@@ -84,6 +84,11 @@
                             </div>
                         </div>
                         <p class="show-info">関連動画</p>
+                        <div class="d-flex align-items-center justify-content-center">
+								<a :href="selfIntroDetails.facebook_account" target="_blank" v-if="selfIntroDetails.facebook_account"><img :src="'/images/facebook-old.svg'"  alt="Facebook" width="50" /></a>
+								<a :href="selfIntroDetails.twitter_account" target="_blank" v-if="selfIntroDetails.twitter_account"><img :src="'/images/twitter.svg'"  alt="Twitter" width="38" /></a>
+								<a :href="selfIntroDetails.ig_account" target="_blank" v-if="selfIntroDetails.ig_account"><img :src="'/images/instagram.svg'"  alt="Instagram" width="50" /></a>
+							</div>
                     </div>
                 </div>
                 <!--info-->
@@ -708,25 +713,37 @@
                     </dd>
                     <dt class="detail-head">出身校</dt>
                     <dd class="detail-data">
-                        <div v-for="(this_college, index) in athleteInformation.attended_college" :key="this_college.id">
-                            <div v-if="!containNullOnly(this_college)">
-                                学校
-                                <span>{{ this_college.college_name || '-' }}</span>
-                                <div>
-                                    {{ this_college.from_year ? this_college.from_year + ' 年' : '- 年' }}
-                                    {{ this_college.from_month ? this_college.from_month + ' 月' : '- 月' }} 入学
+                            <div v-for="(this_college, index) in athleteInformation.attended_college" :key="index">
+                                <div v-if="!containNullOnly(this_college)">
+                                    <p class="mb-0">
+                                        <label class="desired-label">学校</label>
+                                        <span>{{ this_college.college_name || '-' }}</span>
+                                    </p>
+                                    
+                                    
+                                    <p class="mb-0">
+                                        <label class="desired-label">入学</label>
+                                        <span>
+                                            {{ this_college.from_year ? this_college.from_year + ' 年' : '- 年' }}
+                                            {{ this_college.from_month ? this_college.from_month + ' 月' : '- 月' }}
+                                        </span>
+                                         
+                                    </p>
+
+                                    <p class="mb-0">
+                                        <label class="desired-label">卒業</label>
+                                        <span>
+                                            {{ this_college.to_year ? this_college.to_year + ' 年' : '- 年' }}
+                                            {{ this_college.to_month ? this_college.to_month + ' 月' : '- 月' }} 
+                                        </span>
+                                    </p>
+                                    <br>
                                 </div>
-                                <div>
-                                    {{ this_college.to_year ? this_college.to_year + ' 年' : '- 年' }}
-                                    {{ this_college.to_month ? this_college.to_month + ' 月' : '- 月' }} 卒業
+                                <div v-else>
+                                    未入力
                                 </div>
-                                <hr v-if="index != (athleteInformation.attended_college.length-1)">
                             </div>
-                            <div v-else>
-                                未入力
-                            </div>
-                        </div>
-                    </dd>
+                        </dd>
                     <dt class="detail-head">活動実績・経歴</dt>
                     <dd class="detail-data">
                         <span>{{athleteInformation.competition_activity || '未入力'}}</span>
@@ -746,7 +763,11 @@
                     <div class="form-group">
                         <label for="">競技</label>
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-12 d-flex">
+                                <div  class="col-md-8 area-col sport-text pl-0">
+                                    <!-- <input type="text" class="form-control" placeholder="" /> -->
+                                     <input type="text" class="form-control" :value="athleteInformation.current_competitions" readonly />
+                                </div> 
                                 <span v-for="(competition, index) in athleteInformation.tmp_competition_names" :key="'Show'+index">
                                     {{ competition.competition_name }}
                                 </span>
@@ -755,74 +776,96 @@
                         </div>
                         <!-- Competition-Name ModalBox -->
                         <transition name="fade">
-                            <div class="modal-wrapper" v-if="athleteInformation.competition_modal">
+                            <div class="modal-wrapper competition-modal" v-if="athleteInformation.competition_modal">
                                 <div class="modal-block">
                                     <div class="modal-container">
-                                        <div class="modal-header">
+                                        <div class="header-wrap">
                                             <h3 class="header">競技</h3>
                                             <button class="cross-btn" type="button" @click="modalOnOff('close')">
                                                 <span class="icon icon-times"></span>
                                                 閉じる
                                             </button>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row form-group">
-                                                <div class="col-md-2">
-                                                    <h5>Competitions</h5>
-                                                    <span v-for="competition in athleteInformation.all_competition_list" :key="competition.id">
-                                                        <button type="button" class="form-control btn btn-primary" v-if="competition.parent_id === null" @click="showCompetitions(competition.id)">
-                                                            {{competition.competition_name}}
-                                                            {{selectedItemsCount(groupBySelectedItems()[competition.id])}}
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <h5>Sub-Competitions</h5>
-                                                    <div v-for="competition in athleteInformation.all_competition_list" :key="competition.id" style="display: inline-block;">
-                                                        <button type="button" class="form-control btn-info" v-show="competition.parent_id === athleteInformation.current_competition_id" @click="selectedCompetitions(competition.id, competition.parent_id, competition.competition_name)">
-                                                            {{competition.competition_name}}
-                                                            <span v-show="showRemoveIcon(competition.id)">
-                                                                <span class="icon icon-times"></span>
+                                        <div class="modal-body competition-modal-body">
+                                            <div class="row m-0  area-col">
+                                                <div class="col-md-2 left-competition">
+                                                        <h5 class="competition-title">Competitions </h5>
+                                                        <div class="competition-group">
+                                                            <span v-for="competition in athleteInformation.all_competition_list" :key="competition.id">
+                                                                <button type="button" class="form-control btn btn-primary" v-if="competition.parent_id === null" @click="showCompetitions(competition.id)">
+                                                                    {{competition.competition_name}}
+                                                                    {{selectedItemsCount(groupBySelectedItems()[competition.id])}}
+                                                                </button>
                                                             </span>
-                                                        </button>
+                                                        </div>
+                                                    </div>
+                                                <div class="col-md-10 right-competition">
+                                                    <h5 class="competition-title">{{ athleteInformation.current_sub_competition }}</h5>
+                                                    <div class="row sub-competition-group">
+                                                        <div v-for="competition in athleteInformation.all_competition_list" :key="competition.id" :class="{ competnameClass: competition.parent_id === athleteInformation.current_competition_id }">
+                                                            <button type="button" class="form-control btn-info col-md-12 competnameClass-btn" v-show="competition.parent_id === athleteInformation.current_competition_id" @click="selectedCompetitions(competition.id, competition.parent_id, competition.competition_name)">
+                                                                {{competition.competition_name}}
+                                                                <span v-show="showRemoveIcon(competition.id)">
+                                                                    <span class="icon icon-times"></span>
+                                                                </span>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12" v-show="athleteInformation.tmp_competition_names.length > 0">
+                                            <div class="row col-md-12 selected-group" v-show="athleteInformation.tmp_competition_names.length > 0">
+                                                <div class="col-md-12">
                                                     <h5>Selected Competitions</h5>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <button type="button" class="btn btn-outline-warning" v-for="(competition, index) in athleteInformation.tmp_competition_names" :key="'Display'+index" @click="removeCompetition(competition.id)" style="color:black;">
+                                                <div class="col-md-12 selected-btngroup">
+                                                    <button type="button" class="form-control selected-btn" v-for="(competition, index) in athleteInformation.tmp_competition_names" :key="'Display'+index" @click="removeCompetition(competition.id)" style="color:black;">
                                                         {{ competition.competition_name }}<span class="icon icon-times"></span>
                                                     </button>
                                                 </div>
                                             </div>
+                                            <div class="col-md-12 mt-3" v-if="athleteInformation.showAddCompetition">
+                                                <div class="col-md-12 popup-databox showadd-box">
+                                                    <div class="row col-md-12 area-col">
+                                                        <span class="col-md-10 col-sm-10 area-col">
+                                                            <input v-model="athleteInformation.new_competition" type="text" placeholder="競技を入力" class="form-control" />
+                                                        </span>
+                                                        <span class="col-md-2 col-sm-2">
+                                                            <button type="button" class="pl-md-4 btn add-btn selected-info-btn ml-0 compet-save-btn-2" @click="saveNewCompetition('save')">保存する</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-3" v-else>
+                                                <div class="col-md-12 popup-databox showadd-box">
+                                                    <span class="col-md-2">その他</span>
+                                                    <span class="col-md-10">
+                                                        <button type="button" class="pl-md-4 btn add-btn selected-info-btn compet-save-btn" @click="saveNewCompetition('show')">+ 追加する</button>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button class="btn delete-color" type="button" @click="removeCompetition(null)">Clear All</button>
-                                            <button class="btn cancelbtn" type="button" @click="modalOnOff('close')">Confirm</button>
+                                            <button class="btn delete-color" type="button" @click="removeCompetition(null)">全てクリア</button>
+                                            <button class="btn cancelbtn" type="button" @click="modalOnOff('close')">選択する</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </transition>
                     </div>
-                </div>
 
-                <div class="popup-databox" >
                     <div class="form-group">
                         <label for="">競技歴</label>
                         <div class="row">
-                            <div class="col-md-4">
-                                <select class="form-control" v-model="athleteInformation.competition_year">
+                            <div class="col-md-4 d-flex align-items-center">
+                                <select class="form-control mr-2" v-model="athleteInformation.competition_year">
                                     <option value="">年</option>
                                     <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
                                 </select>
                                 <span>年</span>
                             </div>
-                            <div class="col-md-4">
-                                <select class="form-control" v-model="athleteInformation.competition_month">
+                            <div class="col-md-4 d-flex align-items-center">
+                                <select class="form-control mr-2" v-model="athleteInformation.competition_month">
                                     <option value="">月</option>
                                     <option v-for="month in 12" :key="month">{{ month }}</option>
                                 </select>
@@ -833,23 +876,26 @@
                 </div>
 
                 <div class="popup-databox" >
-                    <div class="form-group">
-                        <label for="">所得ライセンス</label>
-                        <div class="row form-group" v-for="(income_license, index) in athleteInformation.income_license" :key="income_license.id">
-                            <div class="col-md-8">
-                                <p class="delete-btn" @click="deleteIncomeLicense(index, income_license.id)" v-if="athleteInformation.income_license.length > 1">
-                                    <span class="icon icon-times"></span>
-                                </p>
+                        
+                        <div class="row form-group license-row" v-for="(income_license, index) in athleteInformation.income_license" :key="income_license.id">
+                            <p class="delete-btn" @click="deleteIncomeLicense(index, income_license.id)" v-if="athleteInformation.income_license.length > 1">
+                                <span class="icon icon-times"></span>
+                            </p>
+                            <div class="col-md-8 p-0 mb-3">
+                                <label for="">所得ライセンス</label>
                                 <input type="text" class="form-control" placeholder="" v-model="income_license.income_lic" />
                             </div>
+                            <div class="col-md-8 p-0">
+                                <label for="">所属</label>
+                                <input type="text" class="form-control" v-model="income_license.affiliation" />
+                            </div>
                         </div>
-                        <div class="text-center row">
+                        <p class="text-center mt-4">
                             <span class="btn add-btn" @click="addIncomeLicense">+ {{$t('jobseekerprofile.add')}}</span>
-                        </div>
-                    </div>
+                        </p>
                 </div>
 
-                 <div class="popup-databox" >
+                 <!-- <div class="popup-databox" >
                     <div class="form-group">
                         <label for="">出身校</label>
                         <div class="form-group" v-for="(this_college, index) in athleteInformation.attended_college" :key="this_college.id">
@@ -895,6 +941,54 @@
                         </div>
                         <span class="btn add-btn" @click="addAttendedCollege">+ {{$t('jobseekerprofile.add')}}</span>
                     </div>
+                </div> -->
+
+                 <div class="popup-databox">
+                    <label for="">出身校</label>
+                    <div class="form-group license-row" v-for="(this_college, index) in athleteInformation.attended_college" :key="this_college.id">
+                        <p class="delete-btn" @click="deleteAttendedCollege(index, this_college.id)" v-if="athleteInformation.attended_college.length > 1">
+                            <span class="icon icon-times"></span>
+                        </p>
+                        <div class="row mb-4">
+                            <div class="col-md-8 col-sm-12">
+                                <label>学校</label>
+                                <input type="text" class="form-control" placeholder="" v-model="this_college.college_name" />
+                            </div>
+                        </div>
+                        <div class="row mb-4 d-flex align-items-center">
+                            <div class="col-md-4 col-sm-5 admission-year">
+                                <select class="form-control" v-model="this_college.from_year">
+                                    <option value="">年</option>
+                                    <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-sm-5 admission-month">
+                                <select class="form-control" v-model="this_college.from_month">
+                                    <option value="">月</option>
+                                    <option v-for="month in 12" :key="month">{{ month }}</option>
+                                </select>
+                            </div>
+                            <label class="col-md-2 col-sm-2 admission-label mb-0">入学</label>
+                        </div>
+                        <div class="row mb-4 d-flex align-items-center">
+                            <div class="col-md-4 col-sm-5 graduate-year">
+                                <select class="form-control" v-model="this_college.to_year">
+                                    <option value="">年</option>
+                                    <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-sm-5 graduate-month">
+                                <select class="form-control" v-model="this_college.to_month">
+                                    <option value="">月</option>
+                                    <option v-for="month in 12" :key="month">{{ month }}</option>
+                                </select>
+                            </div>
+                            <label class="col-md-2 col-sm-2 graduate-label mb-0">卒業</label>
+                        </div>
+                    </div>
+                    <p class="text-center mt-4">
+                        <span class="btn add-btn" @click="addAttendedCollege">+ {{$t('jobseekerprofile.add')}}</span>
+                    </p>
                 </div>
 
                  <div class="popup-databox" >
@@ -910,7 +1004,7 @@
                 
             </div>
 
-            <p class="w-100 text-center mt-3">
+            <p class="col-md-12 text-center mt-3">
                 <span class="btn save-btn" @click="saveAthleteInfo">{{$t('common.save')}}</span>
             </p>
             
@@ -2057,24 +2151,19 @@
             <div class="row tab-content experience-content mb-3 m-0" v-if="sponsorshipEdit">
                 <div class="head-wrap col-12">
                     <div class="tit-box tit-box-edit">
-                        <h3 class="profile-edit-tit">アスリート情報</h3>
+                        <h3 class="profile-edit-tit">スポンサー希望条件</h3>
                         <p class="profile-edit-txt" @click="editBox('sponsorshipEdit','close')"><span class="icon icon-times"></span>{{$t('common.close')}}</p>
                     </div>
 
-                    <div class="popup-databox" >
-                        <h6 class="font-weight-bold">スポンサー希望条件</h6>
-                        <!-- <input type="radio" v-model="sponsorship.is_sponsor" :value="1">private
-                        <input type="radio" v-model="sponsorship.is_sponsor" :value="0">public -->
-
-
+                    <div class="popup-databox">
                         <div class="form-group">
-                            <span class="mr-2 sponsor-radio">
-                                 <input type="radio"  class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="1" />
-                                <label  class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
+                            <span class="mr-4">
+                                 <input type="radio"  class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="1" id="private" />
+                                <label  class="custom-control-label custom-checkbox-label" for="private" style="color:#636363">非公開</label>
                             </span> 
-                            <span class="sponsor-radio">
-                                <input type="radio" class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="0" />
-                                <label class="custom-control-label custom-checkbox-label" style="color:#636363">公開</label>
+                            <span>
+                                <input type="radio" class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="0" id="public" />
+                                <label class="custom-control-label custom-checkbox-label" for="public" style="color:#636363">公開</label>
                             </span> 
                         </div>
 
@@ -2082,13 +2171,17 @@
                         <div class="form-group">
                             <label for="">希望支援額</label>
                             <div class="row d-flex  align-items-center">
-                                <div class="col-md-4">
+                                <div class="col-md-4 pr-0">
                                     <input type="text" class="form-control" v-model="sponsorship.supportive_amount">
                                 </div>
-                                <div class="col-md-1">円</div>
+                                <div class="col-md-1 pl-2 yan-txt">円</div>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="popup-databox">
+                        <!-- <input type="radio" v-model="sponsorship.is_sponsor" :value="1">private
+                        <input type="radio" v-model="sponsorship.is_sponsor" :value="0">public -->
                         <label for="">活動費内訳</label>
                         <div class="col-md-12 experience-box"  v-for="(activities, index) in sponsorship.activities" :key="activities.id">
                             <p class="delete-btn" @click="deleteActivity(index, activities.id)" v-if="sponsorship.activities.length > 1">
@@ -2098,10 +2191,10 @@
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" v-model="activities.activity">
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 pr-0">
                                     <input type="number" class="form-control" v-model="activities.cost" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0">
                                 </div>
-                                <div class="col-md-1">円</div>
+                                <div class="col-md-1 pl-2 yan-txt">円</div>
                             </div>
                         </div>
                         <p class="text-center mt-4">
@@ -2877,6 +2970,8 @@
 
         showCompetitions(id){
             this.athleteInformation.current_competition_id = id;
+            this.athleteInformation.current_sub_competition = _.find(this.athleteInformation.all_competition_list, (f) => f.id == id).competition_name;
+                this.athleteInformation.current_competitions_count = _.filter(this.athleteInformation.all_competition_list, (e) =>  e.parent_id == id).length;
         },
 
         selectedCompetitions(id, parent_id, name){
@@ -3750,12 +3845,13 @@
 .history-box{
     margin: 0;
 }
-.school-box-2 .row.form-group{
+.license-row{
+    position: relative;
     background: #f0f0f0;
     margin: 0 0 1.5rem 0;
-}
-.school-box-2 .license-row{
-    position: relative;
+    border-radius: 3px;
+    border: 1px solid #c4c4c4;
+    padding: 30px;
 }
 .school-box-2 .college_row{
     background: #f0f0f0;
@@ -3776,13 +3872,17 @@
 }
 .sub-competition-group{
     min-height: 150px;
+    display: flex;
+    flex-wrap: wrap;
 }
 .competition-group .btn-primary{
-    min-width: 100%;
-    min-width: 100%;
+    min-width: 90px !important;
     margin-bottom: 5px;
     border: none;
-    border-radius: 10px;
+    border-radius: 10px !important;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
 }
 .sub-competition-group{
     margin: 0;
@@ -3796,6 +3896,8 @@
     border: 1px solid #c4c4c4;
 }
 .selected-info-btn{
+    width: 120px;
+    height: 40px;
     padding: 8px 0.75rem !important;
     margin-left: 30px;
 }
@@ -3816,7 +3918,18 @@
 }
 .competition-modal .header{
     padding-left: 15px;
-    margin-bottom: 10px;
+    margin: 0 10px 0 0;
+    font-size: 20px;
+    color: #84BE3F;
+}
+.competition-modal .modal-footer .btn {
+    min-width: 120px;
+    padding: 8px .75rem;
+    font-size: 14px;
+    box-shadow: 2px 2px 8px #afadad;
+    border-radius: .15rem;
+    color: #fff;
+    border-color: transparent;
 }
 .competition-modal-body{
     padding: 0 0 1rem 0;
@@ -3826,6 +3939,22 @@
     flex-wrap: wrap;
     max-height: 400px;
     overflow-y: auto;
+}
+.competition-modal .modal-footer {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    padding: .75rem;
+    border-top: 1px solid #dee2e6;
+    border-bottom-right-radius: calc(.3rem - 1px);
+    border-bottom-left-radius: calc(.3rem - 1px);
+    justify-content: center;
+    margin: 10px 0;
 }
 .selected-info .modal-btn{
     text-align: center;
@@ -4411,6 +4540,8 @@ textarea.form-control {
     border-radius: 50px;
     color:#fff;
     border: 1px solid;
+    z-index: 9;
+    background: #fff;
 }
 .img-modal-wrapper .icon-times:before {
     color: #fff;
@@ -4455,6 +4586,7 @@ textarea.form-control {
 .desired-label {
     width: 260px;
     margin-bottom: 0px;
+    font-weight: normal;
 }
 .history-edit-tbl  {
     width: 100%;
@@ -4479,4 +4611,243 @@ textarea.form-control {
     padding: 8px 0;
     width: 140px;
 }
+.yan-txt {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.delete-color {
+    background-color: #ef8b1e !important;
+}
+.cancelbtn {
+    background: #828fa5 !important;
+}
+.modal-wrapper {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
+    z-index: 9998;
+    .cross-btn {
+        position: absolute;
+        top: 15px;
+        right: 25px;
+        padding: 2px 7px;
+        font-size: 16px;
+        background: transparent;
+        padding: 4px 10px;
+        border-radius: 50px;
+        color: #919191;
+        border: 1px solid;
+        span {
+            font-size: 13px;
+        }
+    }
+    .modal-container {
+        position: relative;
+        width: 950px;
+        max-height: 800px;
+        margin: 0px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        overflow-y: auto;
+        
+    }
+}
+.left-competition{
+    flex: 0 0 20%;
+    max-width: 20%;
+}
+.right-competition{
+    flex: 0 0 80%;
+    max-width: 80%;
+}
+.competition-title{
+    min-height: 25px;
+    max-height: 25px;
+}
+
+
+
+// check box
+
+.custom-control-label {
+    position: relative;
+    margin-bottom: 0;
+    vertical-align: top;
+  }
+  
+  .custom-control-label::before {
+    position: absolute;
+    top: 0.25rem;
+    left: -1.5rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+    content: "";
+    background-color: #fff;
+    border: #adb5bd solid 1px;
+  }
+  
+  .custom-control-label::after {
+    position: absolute;
+    top: 0.25rem;
+    left: -1.5rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    content: "";
+    background: no-repeat 50% / 50% 50%;
+  }
+
+
+.custom-checkbox {
+    height: 18px !important;
+    width: 18px !important;
+}
+
+.custom-checkbox-label {
+    padding-left: 29px;
+    line-height: 20px;
+    font-weight: normal;
+    &::before {
+        top: -0.15rem;
+        left: 0;
+        width: 1.4rem;
+        height: 1.4rem;
+        border: #b5b5b5 solid 2px;
+        border-radius: 0;
+    }
+}
+
+.custom-control-input {
+    &:checked~.custom-control-label {
+        &::before {
+            color: #fff;
+            background-color: transparent;
+            content: '\2714';
+            color: #2f2d2c;
+            font-size: 17px;
+            padding-left: 2px;
+            border-color: #b5b5b5;
+        }
+    }
+}
+
+// custom radio
+.custion-radio {
+    &:checked {
+        position: absolute;
+        left: -9999px;
+        + {
+            .custom-radio-lable {
+                position: relative;
+                padding-left: 35px;
+                cursor: pointer;
+                line-height: 20px;
+                display: inline-block;
+                &:before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 22.4px;
+                    height: 22.4px;
+                    border: 1px solid color(bordercolor);
+                    border-radius: 100%;
+                    background: #fff;
+                }
+                &:after {
+                    content: '';
+                    width: 12px;
+                    height: 12px;
+                    background: #2f2d2c;
+                    position: absolute;
+                    top: 5px;
+                    left: 5px;
+                    border-radius: 100%;
+                    -webkit-transition: all 0.2s ease;
+                    transition: all 0.2s ease;
+                    opacity: 1;
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+            }
+        }
+    }
+    &:not(:checked) {
+        position: absolute;
+        left: -9999px;
+        + {
+            .custom-radio-lable {
+                position: relative;
+                padding-left: 35px;
+                cursor: pointer;
+                line-height: 20px;
+                display: inline-block;
+                &:before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 22.4px;
+                    height: 22.4px;
+                    border: 1px solid color(bordercolor);
+                    border-radius: 100%;
+                    background: #fff;
+                }
+                &:after {
+                    content: '';
+                    width: 12px;
+                    height: 12px;
+                    background: #2f2d2c;
+                    position: absolute;
+                    top: 5px;
+                    left: 5px;
+                    border-radius: 100%;
+                    -webkit-transition: all 0.2s ease;
+                    transition: all 0.2s ease;
+                    opacity: 0;
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                }
+            }
+        }
+    }
+}
+
+
+.custom-checkbox {
+    height: 18px !important;
+    width: 18px !important;
+}
+.custom-control-input {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    width: 1rem;
+    height: 1.25rem;
+    opacity: 0;
+}
+.custom-control-label::after {
+    position: absolute;
+    top: .25rem;
+    left: -1.5rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    content: "";
+    background: no-repeat 50%/50% 50%;
+}
+
 </style>
