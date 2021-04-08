@@ -838,7 +838,7 @@
                                             <div class="col-md-12 mt-3" v-else>
                                                 <div class="col-md-12 popup-databox showadd-box">
                                                     <span class="col-md-2">その他</span>
-                                                    <span class="col-md-10">
+                                                    <span class="col-md-2">
                                                         <button type="button" class="pl-md-4 btn add-btn selected-info-btn compet-save-btn" @click="saveNewCompetition('show')">+ 追加する</button>
                                                     </span>
                                                 </div>
@@ -869,7 +869,7 @@
                                     <option value="">月</option>
                                     <option v-for="month in 12" :key="month">{{ month }}</option>
                                 </select>
-                                <span>ヵ月</span>
+                                <span class="month-txt">ヵ月</span>
                             </div>
                         </div>
                     </div>
@@ -1324,8 +1324,8 @@
                 <h6 class="font-weight-bold">職歴</h6>
                 <div class="form-group mt-4">
                 <label for>経験社数</label>
-                <div class="col-md-3 p-0">
-                    <input type="number" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0" v-model="carrers.num_of_experienced_companies" class="form-control" placeholder="経験社数を入力" /><span>社</span>
+                <div class="col-md-3 p-0 d-flex align-items-center">
+                    <input type="number" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0" v-model="carrers.num_of_experienced_companies" class="form-control mr-3" placeholder="経験社数を入力" /><span>社</span>
                 </div>
                 </div>
 
@@ -3861,6 +3861,8 @@
     padding: 0;
     margin: 0;
 }
+.competition-group,
+.sub-competition-group,
 .selected-group{
     width: 100%;
     background: #f0f0f0;
@@ -3868,18 +3870,10 @@
     overflow-y: auto;
     padding: 20px;
 }
-.competition-group {
-    width: 100%;
-    background: #f0f0f0;
-    padding: 20px;
-}
 .sub-competition-group{
-    width: 100%;
-    background: #f0f0f0;
-    padding: 20px;
-    min-height: 150px;
     display: flex;
     flex-wrap: wrap;
+    min-height: 150px;
 }
 .competition-group .btn-primary{
     min-width: 90px !important;
@@ -4857,6 +4851,11 @@ textarea.form-control {
     height: 1rem;
     content: "";
     background: no-repeat 50%/50% 50%;
+}
+
+.month-txt {
+    display: block;
+    width: 35px;
 }
 
 </style>
