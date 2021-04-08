@@ -82,7 +82,7 @@
                                 <tr><th colspan="2" class="tooltip-head">ステータスの説明</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td class="w-105">公開</td><td>求職者会員全員に公開している求人。スカウトに用いることも可能。</td></tr>
+                                <tr><td class="w-105">公開</td><td>アスリート会員全員に公開している求人。スカウトに用いることも可能。</td></tr>
                                 <tr><td class="w-105">非公開</td><td>スカウト専用の非公開の求人</td></tr>
                                 <tr><td class="w-105">停止</td><td>募集を停止している求人</td></tr>
                             </tbody>

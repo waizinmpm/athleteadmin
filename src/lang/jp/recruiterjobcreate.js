@@ -78,9 +78,9 @@ export default {
     location_ex2 : ' 沖縄県うるま市',
 
     Application_address : ' 応募先アドレス',
-    Application_address_txt : ' 求職者から応募があった場合・スカウトに興味があった場合このアドレスに通知があります。',
+    Application_address_txt : ' アスリートから応募があった場合・スカウトに興味があった場合このアドレスに通知があります。',
     
-    message_jobs : ' 求職者へのメッセージ',
+    message_jobs : ' アスリートへのメッセージ',
     message_jobs_ex1 : ' (記入例)',
     message_jobs_ex2 : ' 弊社は沖縄県で WEB サイトを構築を行っ ております。',
     message_jobs_ex3 : ' この度事業拡張にともないス タッフの増強をおこないます。',

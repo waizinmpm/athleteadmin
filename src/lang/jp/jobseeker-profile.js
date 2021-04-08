@@ -20,8 +20,8 @@ export default {
     unemployed : ' 無職',
     retirement : ' 定年退職',
 
-    jobseeker_number:'求職者会員番号',
-    jobseeker_name :' 求職者氏名',
+    jobseeker_number:'アスリート会員番号',
+    jobseeker_name :' アスリート氏名',
     furigana : ' フリガナ',
     gender : ' 性別',
     date : ' 生年月日 ',

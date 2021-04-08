@@ -29,8 +29,8 @@ export default {
     "job_number": "求人番号",
     "job_title": "求人タイトル",
     //-- Job Seeker Fields
-    "jobseeker_name": "求職者会員氏名",
-    "jobseeker_number": "求職者会員番号",
+    "jobseeker_name": "アスリート会員氏名",
+    "jobseeker_number": "アスリート会員番号",
     // Invoice
 	"job": "仕事",
 	"job_or_scout": "求人またはスカウト",
