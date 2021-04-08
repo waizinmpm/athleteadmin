@@ -9,7 +9,7 @@ export default {
     post: '役職',
     management_screen: 'トップ',
     recruiter_member: '企業会員',
-    jobseeker_member: '求職者会員',
+    jobseeker_member: 'アスリート会員',
     member_information_list: '会員情報一覧',
     payment_management: '手数料入金管理',
     change_password: 'パスワード変更',

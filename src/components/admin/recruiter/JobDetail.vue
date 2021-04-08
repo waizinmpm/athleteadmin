@@ -1,7 +1,7 @@
 <template>
     <div class="job-detail row">
         <h5 class="main-header"><span class="job-no">{{ recruiter_job.job_number }}</span> {{ recruiter_job.title }}</h5>
-        <label v-if="$route.name == 'scout-job'">より、以下の条件で求職者会員をスカウトしました。</label>
+        <label v-if="$route.name == 'scout-job'">より、以下の条件でアスリート会員をスカウトしました。</label>
         <dl class="detail-list" v-if="$route.name == 'scout-job'">
             <dt class="detail-head" v-if="$route.name == 'scout-job'">募集ポジション</dt>
             <dt class="detail-head" v-else>職種</dt>
@@ -49,7 +49,7 @@
             <dd class="detail-data"><pre>{{ recruiter_job.job_location || '-' }}</pre></dd>
             <dt class="detail-head">応募先アドレス</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.application_address || '-' }}</pre></dd>
-            <dt class="detail-head">求職者へのメッセージ</dt>
+            <dt class="detail-head">アスリートへのメッセージ</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.message || '-' }}</pre></dd>
             <dt class="detail-head">勤務地 (検索用キーワード)</dt>
             <dd class="detail-data">

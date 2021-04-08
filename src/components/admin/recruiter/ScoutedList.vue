@@ -29,11 +29,11 @@
 							<input type="text" placeholder="求人タイトル" class="form-control" v-model.trim="filteredData.job_title">
 						</div>
 						<div class="col-md-3">
-							<label for="求職者会員番号">{{ $t('scouted_list.jobseeker_number') }}</label>
+							<label for="アスリート会員番号">{{ $t('scouted_list.jobseeker_number') }}</label>
 							<input type="text" :placeholder="$t('scouted_list.jobseeker_number')" class="form-control" v-model.trim="filteredData.jobseeker_number">
 						</div>      
 						<div class="col-md-3">
-							<label for="求職者氏名">{{ $t('scouted_list.jobseeker_name') }}</label>
+							<label for="アスリート氏名">{{ $t('scouted_list.jobseeker_name') }}</label>
 							<input type="text" :placeholder="$t('scouted_list.jobseeker_name')" class="form-control" v-model.trim="filteredData.jobseeker_name">
 						</div>                        
 					</div>
@@ -82,8 +82,8 @@
                                 <tr><th colspan="2" class="tooltip-head">ステータスの説明</th></tr>
                             </thead>
                             <tbody>
-								<tr><td class="w-105">興味あり</td><td>求職者会員がスカウトに興味を示した状態。</td></tr>
-								<tr><td class="w-105">不採用/辞退</td><td>企業会員からの不採用又は求職者会員の辞退。</td></tr>
+								<tr><td class="w-105">興味あり</td><td>アスリート会員がスカウトに興味を示した状態。</td></tr>
+								<tr><td class="w-105">不採用/辞退</td><td>企業会員からの不採用又はアスリート会員の辞退。</td></tr>
 								<tr><td class="w-105">内定済未請求</td><td>企業会員からの内定の連絡があったが、手数料を未請求。</td></tr>
 								<tr><td class="w-105">請求済</td><td>企業会員に手数料を請求済。</td></tr>
 								<tr><td class="w-105">入金確認済</td><td>企業会員からの手数料の入金を確認済。</td></tr>

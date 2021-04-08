@@ -332,7 +332,7 @@
                             v-model="formRegister.message"
                             ></textarea>
                             <div class="invalid-feedback">
-                            <span>求職者へのメッセージ</span>
+                            <span>アスリートへのメッセージ</span>
                             </div>
                         </div>
                     </div>

@@ -19,7 +19,7 @@
             <div class="dashboard-card">
                 <div class="txt-warp">
                     <h5>{{count.jobseeker}}</h5>
-                    <p>求職者会員</p>
+                    <p>アスリート会員</p>
                 </div>
                 <span class="custom-icon"><i class="fa fa-files-o color-three" style="font-size:40px;"></i></span>
             </div>             
