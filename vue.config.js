@@ -1,5 +1,5 @@
 // publicPath: '/oversea-admin/'
 module.exports = {
-    publicPath: '/athlete-admin/'
-    // publicPath: '/'
+    // publicPath: '/athlete-admin/'
+    publicPath: '/'
 }

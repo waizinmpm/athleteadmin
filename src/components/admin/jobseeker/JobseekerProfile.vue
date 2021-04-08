@@ -686,13 +686,7 @@
                 <dl class="detail-list clearfix history-edit">
                     <dt class="detail-head">競技</dt>
                     <dd class="detail-data">
-                        <div v-if="!containNullOnly(athleteInformation.tmp_competition_names)">
-                            <span v-for="competition in athleteInformation.tmp_competition_names" :key="competition.id">
-                                {{ competition.competition_name }}
-                            </span>
-                            <!-- <hr v-if="index != (athleteInformation.competition_name.length-1)"> -->
-                        </div>
-                        <div v-else>未入力</div>
+                        {{athleteInformation.current_competitions || '未入力'}}
                     </dd>
                     <dt class="detail-head">競技歴</dt>
                     <dd class="detail-data">
@@ -768,9 +762,6 @@
                                     <!-- <input type="text" class="form-control" placeholder="" /> -->
                                      <input type="text" class="form-control" :value="athleteInformation.current_competitions" readonly />
                                 </div> 
-                                <span v-for="(competition, index) in athleteInformation.tmp_competition_names" :key="'Show'+index">
-                                    {{ competition.competition_name }}
-                                </span>
                                 <button type="button" class="pl-md-4 btn add-btn selected-info-btn" @click="modalOnOff('open')">選択</button>
                             </div>
                         </div>
@@ -2976,26 +2967,41 @@
 
         selectedCompetitions(id, parent_id, name){
             if(this.athleteInformation.tmp_competition_names.some(competition => competition.id === id)){
-                this.removeCompetition(id);
+                this.removeCompetition(id, name);
                 /* let result = _.filter(this.athleteInformation.tmp_competition_names, (e) => e.id !== id );
                 this.athleteInformation.tmp_competition_names = [];
                 result.forEach(element => {
                     this.athleteInformation.tmp_competition_names.push(element);
                 }); */
+                
             }else{
                 this.athleteInformation.tmp_competition_names.push({
                     id               : id,
                     parent_id        :parent_id,
                     competition_name :name
                 });
-            }
+                if(this.athleteInformation.current_competitions == null || this.athleteInformation.current_competitions == ""){
+                this.athleteInformation.current_competitions = name; 
+                }
+                else{
+                    this.athleteInformation.current_competitions += ','+name; 
+                }
+                // this.athleteInformation.current_competitions += this.athleteInformation.current_competitions.length > 0 ? ',' + name : name;
+            }    
         },
 
-        removeCompetition(id){
+        removeCompetition(id, name){
+           
             // if id is null, remove all selected items
             if(id === null){
                 this.athleteInformation.tmp_competition_names = [];
             }else{
+
+                let current_competitions_array = this.athleteInformation.current_competitions.split(',');
+                _.remove(current_competitions_array, (competition) => competition == name);
+                console.log('current_competitions_arr', current_competitions_array);
+                this.athleteInformation.current_competitions = current_competitions_array.join(",");
+
                 let left_selected_competitions = _.filter(this.athleteInformation.tmp_competition_names, (e) => e.id !== id );
                 this.athleteInformation.tmp_competition_names = [];
                 left_selected_competitions.forEach(element => {
@@ -3020,62 +3026,82 @@
         getAthleteInfo(request_id){
             this.$api.post("/v1/jobseeker/profile/athlete-information", request_id)
             .then((res) => {
-                let athlete_histories   = res.data.data.athlete_histories;
-                let jobseeker_info      = res.data.data.jobseeker_detail;
-                let all_competitions    = res.data.data.competition;
-                let competition_ids     = jobseeker_info['competition_name'] === null ? [] : jobseeker_info['competition_name'].split(',');
+                    let athlete_histories   = res.data.data.athlete_histories;
+                    let jobseeker_info      = res.data.data.jobseeker_detail;
+                    let all_competitions    = res.data.data.competition;
+                    let competition_names   = jobseeker_info['competition_name'] === null ? [] : jobseeker_info['competition_name'].split(',');
 
-                this.athleteInformation.all_competition_list    = all_competitions;
-                this.athleteInformation.competition_year        = jobseeker_info['competition_year'] || '';
-                this.athleteInformation.competition_month       = jobseeker_info['competition_month'] || '';
-                this.athleteInformation.competition_activity    = jobseeker_info['competition_activity'] || '';
-                this.athleteInformation.tmp_competition_names   = [];
-                this.athleteInformation.attended_college        = [];
-                this.athleteInformation.income_license          = [];
-
-                if(competition_ids.length > 0){
-                    for(const competition_id of competition_ids){
-                        var result = _.find( all_competitions, (item) => item.id == competition_id );
-                        this.athleteInformation.tmp_competition_names.push(result);
+                    this.athleteInformation.all_competition_list    = all_competitions;
+                    this.athleteInformation.current_competitions    = jobseeker_info['competition_name'] || null;
+                    this.athleteInformation.competition_year        = jobseeker_info['competition_year'] || '';
+                    this.athleteInformation.competition_month       = jobseeker_info['competition_month'] || '';
+                    this.athleteInformation.competition_activity    = jobseeker_info['competition_activity'] || '';
+                    this.athleteInformation.tmp_competition_names   = [];
+                    this.athleteInformation.attended_college        = [];
+                    this.athleteInformation.income_license          = [];
+                    this.athleteInformation.affiliation             = [];
+                    if(competition_names.length > 0){
+                        for(const competition_name of competition_names){
+                            var result = _.find(all_competitions, (item) => item.competition_name == competition_name);
+                            this.athleteInformation.tmp_competition_names.push(result);
+                        }
                     }
-                }
 
-                if(athlete_histories.length > 0){
-                    for(const athlete_history of athlete_histories){
-                        if(athlete_history['income_license'] === null){
-                            this.athleteInformation.attended_college.push({
-                                id              : athlete_history['id'],
-                                income_lic      : null,
-                                college_name    : athlete_history['attended_college'],
-                                from_year       : athlete_history['from_year'] || '',
-                                from_month      : athlete_history['from_month'] || '',
-                                to_year         : athlete_history['to_year'] || '',
-                                to_month        : athlete_history['to_month'] || '', 
-                            });
-                        }else{
-                            this.athleteInformation.income_license.push({
-                                id          : athlete_history['id'],
-                                income_lic  : athlete_history['income_license']
-                            });
-                        } 
+                    // show current sub-competition name
+                    this.athleteInformation.current_sub_competition = all_competitions.find((com) => com.parent_id == null).competition_name;
+
+                    if(athlete_histories.length > 0){
+                        for(const athlete_history of athlete_histories){
+                            if(athlete_history['income_license'] === null && athlete_history['affiliation'] === null){
+                                this.athleteInformation.attended_college.push({
+                                    id              : athlete_history['id'],
+                                    income_lic      : null,
+                                    affiliation     : null,
+                                    college_name    : athlete_history['attended_college'],
+                                    from_year       : athlete_history['from_year'] || '',
+                                    from_month      : athlete_history['from_month'] || '',
+                                    to_year         : athlete_history['to_year'] || '',
+                                    to_month        : athlete_history['to_month'] || '', 
+                                });
+                            }else{
+                                if(athlete_history['affiliation'] === null){
+                                    this.athleteInformation.income_license.push({
+                                        id          : athlete_history['id'],
+                                        income_lic  : athlete_history['income_license'] || ''
+                                        
+                                    });
+                                }else{
+                                    this.athleteInformation.affiliation.push({
+                                        id          : athlete_history['id'],
+                                        affiliation  : athlete_history['affiliation'] || ''
+                                    });
+                                }
+                            } 
+                        }
                     }
-                }
-                if(this.athleteInformation.attended_college.length == 0){
-                    this.athleteInformation.attended_college.push({
-                        income_lic      : null,
-                        college_name    : '',
-                        from_year       : '',
-                        from_month      : '',
-                        to_year         : '',
-                        to_month        : '',
-                    });
-                }
-                if(this.athleteInformation.income_license.length == 0){
-                    this.athleteInformation.income_license.push({
-                        income_lic  : '',
-                    });
-                }
-            })
+                    if(this.athleteInformation.attended_college.length == 0){
+                        this.athleteInformation.attended_college.push({
+                            income_lic      : null,
+                            affiliation     : null,
+                            college_name    : '',
+                            from_year       : '',
+                            from_month      : '',
+                            to_year         : '',
+                            to_month        : '',
+                        });
+                    }
+                    
+                    if(this.athleteInformation.income_license.length == 0){
+                        this.athleteInformation.income_license.push({
+                            income_lic      : '',
+                        });
+                    }  
+                    if(this.athleteInformation.affiliation.length == 0){
+                        this.athleteInformation.affiliation.push({
+                            affiliation     : '',
+                        });
+                    }                  
+                })
             .catch((errors) => {
                 console.log(errors);
             });
