@@ -303,12 +303,33 @@
             <div class="popup-databox">
                     <div class="form-group">
                     <label for="" class="mb-3">関連SNS</label>
-                    <div class="row">
-                        <label class="col-12 col-sm-3 col-md-2 label-txt mt-2">SNS URL</label>
-                        <div class="col-12 col-sm-9 col-md-10">
-                            <input v-model="selfIntro.sns_account" type="text" class="form-control" />
-                        </div>
-                    </div>
+						<div class="row form-group">
+							<label class="col-12 col-sm-3 col-md-2 label-txt mt-2">Facebook</label>
+							<div class="col-12 col-sm-9 col-md-10">
+								<input v-model.trim="$v.selfIntro.facebook_account.$model" type="text" :class="['form-control',$v.selfIntro.facebook_account.$error?'is-invalid':'']" />
+								<div class="invalid-feedback">
+									<div class="error" v-if="!$v.selfIntro.facebook_account.url">URLの形式が正しくありません</div>
+								</div>
+							</div>
+						</div>
+						<div class="row form-group">
+							<label class="col-12 col-sm-3 col-md-2 label-txt mt-2">Twitter</label>
+							<div class="col-12 col-sm-9 col-md-10">
+								<input v-model="$v.selfIntro.twitter_account.$model" type="text" :class="['form-control',$v.selfIntro.twitter_account.$error?'is-invalid':'']" />
+								<div class="invalid-feedback">
+									<div class="error" v-if="!$v.selfIntro.twitter_account.url">URLの形式が正しくありません</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<label class="col-12 col-sm-3 col-md-2 label-txt mt-2">Instagram</label>
+							<div class="col-12 col-sm-9 col-md-10">
+								<input v-model="$v.selfIntro.ig_account.$model" type="text" :class="['form-control',$v.selfIntro.ig_account.$error?'is-invalid':'']" />
+								<div class="invalid-feedback">
+									<div class="error" v-if="!$v.selfIntro.ig_account.url">URLの形式が正しくありません</div>
+								</div>
+							</div>
+						</div>
                 </div>
             </div>
 
@@ -1485,13 +1506,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <input
-                            type="text"
+                            type="number"
                             v-model="carrers.last_annual_income"
                             placeholder="金額を入力"
                             class="form-control"
+							onkeypress="return (event.charCode >= 48 && event.charCode < 58)" min="0"
                             />
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 py-2">
                             <!-- <select class="form-control" v-model.trim="carrers.last_currency">
                             <option :value="null" v-if="carrers.last_currency  == null" selected>通貨を選択</option>
                             <option v-else :value="null" selected>通貨を選択</option>
@@ -1500,7 +1522,7 @@
                                 :key="status.id"
                                 v-bind:value="status.id"
                             >{{status.id}}</option>
-                            </select> -->
+                            </select> 
                             <v-select v-model="carrers.last_currency"
                                 :options="iso_list" 
                                 label="iso_list"
@@ -1512,6 +1534,8 @@
                                 検索条件当てはまるデータはありません。
                                 </span>
                             </v-select>
+							-->
+							円
                         </div>
                     </div>
                 </div>
@@ -1756,7 +1780,7 @@
         >
             <div class="col-md-12">
             <div class="tit-box">
-                <h3 class="profile-edit-tit">就業希望条件</h3>
+                <h3 class="profile-edit-tit">就業希望条件<span class="private ml-3" v-if="desired_condition.is_desired_condition">公開</span><span class="private ml-3" v-else>非公開</span></h3>
                 <p class="profile-edit-txt" @click="editBox('desiredConditionEdit','open')" v-if="edit_page">
                 <span class="icon icon-edit"></span>編集
                 </p>
@@ -1829,6 +1853,16 @@
             </div>
 
             <div class="popup-databox">
+				<div class="form-group">
+					<span class="mr-4">
+						<input type="radio" id="1" v-model="desired_condition.is_desired_condition" :value="0" class="custom-control-input custom-checkbox" />
+						<label for="1" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
+					</span> 
+					<span>
+						<input type="radio" id="0" v-model="desired_condition.is_desired_condition" :value="1" class="custom-control-input custom-checkbox" />
+						<label for="0" class="custom-control-label custom-checkbox-label" style="color:#636363">公開</label>
+					</span> 
+				</div>
                 <div class="form-group">
                 <label for>転職意欲</label>
                 <div class="col-md-8 p-0">
@@ -2101,7 +2135,7 @@
             <div class="row tab-content experience-content mb-3 m-0" id="sponsorshipEdit" v-if="!sponsorshipEdit && showDetails">
                 <div class="col-12">
                     <div class="tit-box">
-                        <h3 class="profile-edit-tit">スポンサー希望条件 <span class="private ml-3">非公開</span></h3>
+                        <h3 class="profile-edit-tit">スポンサー希望条件 <span class="private ml-3" v-if="sponsorship.is_sponsor">公開</span><span class="private ml-3" v-else>非公開</span></h3>
                         <p class="profile-edit-txt" @click="editBox('sponsorshipEdit','open')" v-if="edit_page"><span class="icon icon-edit"></span>{{$t('common.edit')}}</p>
                     </div>
                     <dl class="detail-list clearfix history-edit">
@@ -2149,11 +2183,11 @@
                     <div class="popup-databox">
                         <div class="form-group">
                             <span class="mr-4">
-                                 <input type="radio"  class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="1" id="private" />
+                                 <input type="radio"  class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="0" id="private" />
                                 <label  class="custom-control-label custom-checkbox-label" for="private" style="color:#636363">非公開</label>
                             </span> 
                             <span>
-                                <input type="radio" class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="0" id="public" />
+                                <input type="radio" class="custom-control-input custom-checkbox" v-model="sponsorship.is_sponsor" :value="1" id="public" />
                                 <label class="custom-control-label custom-checkbox-label" for="public" style="color:#636363">公開</label>
                             </span> 
                         </div>
@@ -2237,7 +2271,7 @@
     </div>
 </template>
 <script>
-    import {required, minLength, maxLength, numeric, helpers} from "vuelidate/lib/validators";
+    import {required, minLength, maxLength, numeric, helpers, url} from "vuelidate/lib/validators";
     import { matchYoutubeUrl } from "../../../partials/common";
     import _ from "lodash";
 
@@ -2301,6 +2335,9 @@
                 related_images: [],
                 delete_related_images: [],
                 delete_fac_image: false,
+				facebook_account: '',
+				twitter_account: '',
+				ig_account: '',
             },
             selfIntroDetails: {
                 occupation_name : []
@@ -2521,6 +2558,9 @@
         selfIntro: {
         video: { matchYoutubeUrl },
         face_image: { isTrueImage },
+		facebook_account: { url },
+		twitter_account: { url },
+		ig_account: { url },
         },
         basicInfo: {
             phone: {
@@ -3153,6 +3193,7 @@
                 this.sponsorship.activity_goal      = jobseeker.sponsor_activity;
                 this.sponsorship.enthusiasm         = jobseeker.enthusiasm;
                 this.sponsorship.sponsor_pr         = jobseeker.sponsor_pr;
+				this.sponsorship.is_sponsor			= jobseeker.is_sponsor;
                 
                 this.sponsorship.activities = [];
                 if(sponsor_info.length > 0){
