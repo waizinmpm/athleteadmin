@@ -10,12 +10,12 @@ export default {
 		payment_confirmed: '入金確認済',
 	},
 	sponsor: {
-		waiting: '回答待ち',
-		interested: '興味あり',		
-		declined: '不採用/辞退',
-		unclaimed: '内定未請求',		
-		billed: '請求済',
-		payment_confirmed: '入金確認済',
+		interested : '興味あり',
+		declined : '辞退',
+
+		unclaimed : 'スポンサー合意未請求',
+		billed : '請求済',
+		payment_confirmed : '入金確認済',
 	},
 	job_apply: {
 		under_review: '検討中',
