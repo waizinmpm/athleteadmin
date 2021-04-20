@@ -1836,9 +1836,9 @@
                 </dd>
                 <dt class="detail-head">{{$t('jobseekerprofile.desiredsalary')}}</dt>
                 <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income"> 未入力 </dd>
-                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}}{{desired_condition.desired_currency}}以上 </dd>
-                <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_max_annual_income}}{{desired_condition.desired_currency}} </dd>
-                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income}} ~ {{desired_condition.desired_max_annual_income}}{{desired_condition.desired_currency}}</dd>
+                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && !desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income|currency('',0)}}{{desired_condition.desired_currency}}以上 </dd>
+                <dd class="detail-data" v-if="!desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_max_annual_income|currency('',0)}}{{desired_condition.desired_currency}} </dd>
+                <dd class="detail-data" v-if="desired_condition.desired_min_annual_income && desired_condition.desired_max_annual_income">{{desired_condition.desired_min_annual_income|currency('',0)}} ~ {{desired_condition.desired_max_annual_income|currency('',0)}}{{desired_condition.desired_currency}}</dd>
             </dl>
             </div>
         </div>
@@ -2140,15 +2140,16 @@
                     </div>
                     <dl class="detail-list clearfix history-edit">
                         <dt class="detail-head">希望支援額</dt>
-                        <dd class="detail-data">
-                            {{ sponsorship.supportive_amount || '未入力' }}
+                        <dd class="detail-data" v-if="sponsorship.supportive_amount">
+                            {{ sponsorship.supportive_amount|currency('',0) }}
                         </dd>
+						<dd class="detail-data" v-else>未入力</dd>
                         <dt class="detail-head">活動費内訳</dt>
                         <dd class="detail-data">
                             <div v-for="activities in sponsorship.activities" :key="activities.id">
                                 <p v-if="!containNullOnly(activities)" class="mb-0">
                                 <label class="desired-label">{{activities.activity}} </label>
-                                <span class="price-txt">{{activities.cost}}</span>
+                                <span class="price-txt">{{activities.cost|currency('',0)}}</span>
                                 </p>
                                 <div v-else>未入力</div>
                             </div>   

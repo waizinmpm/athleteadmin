@@ -25,6 +25,7 @@ import io from 'socket.io-client';
 import VueChatScroll from 'vue-chat-scroll';
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
+import Vue2Filters from 'vue2-filters';
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('DataTable', DataTable);
@@ -94,6 +95,8 @@ Vue.use(VueScrollTo, {
 // });
 
 Vue.filter('aj-number', (value) => Number(value) ? Number(value).toLocaleString('en-US',{ maximumFractionDigits: 0 }) : 0);
+
+Vue.use(Vue2Filters);
 
 new Vue({
     router,
