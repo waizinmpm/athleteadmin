@@ -430,7 +430,17 @@ export default {
 			this.requireInvoiceForm = false; 
 		},
 		loadInvoicePreview() {
-		
+			this.$v.invoiceForm.$touch();
+            if (this.$v.invoiceForm.$invalid) {
+                return;
+            }
+            this.$api.post('/v1/admin/sponsor-list/generate-bill', this.invoiceForm).then((response) => {
+                var enURL = encodeURI(response.data.data.pdf);
+                this.invoicePreview = `data:application/pdf;base64, ${enURL}`;
+            })
+            .catch((e) => {
+                console.log(e);
+            });
 		},
 		closeInvoicePreview() {
 			this.invoicePreview = null;
