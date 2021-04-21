@@ -1,13 +1,13 @@
 import Vue from 'vue';
 
-const successDialog = (title, message, ok = "OK") => {
+const successDialog = (title, message, ok = "閉じる") => {
 	return Vue.swal({
 		allowOutsideClick: false,		
 		icon: "success",
 		width: 350,
 		title: title,
 		text: message,
-		confirmButtonText: ok,
+		confirmButtonText:ok,
 		confirmButtonColor: "#1eb1ff",
 		customClass: {
 			confirmButton: 'border-style',
@@ -16,7 +16,7 @@ const successDialog = (title, message, ok = "OK") => {
 	});
 }
 
-const errorDialog = (title, message, ok = "OK") => {
+const errorDialog = (title, message, ok = "閉じる") => {
 	return Vue.swal({
 		allowOutsideClick: false,
 		icon: "error",

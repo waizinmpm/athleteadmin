@@ -49,7 +49,7 @@ window.socket = io(process.env.VUE_APP_SOCKET_URL);
 
 Vue.use(Loading, {
 	color: '#00AB00',
-	loader: process.env.VUE_APP_LOADING_INDICATOR ?? 'bars',
+	loader: process.env.VUE_APP_LOADING_INDICATOR ?? 'dots',
 	backgroundColor: '#ffffff',
 	width: 48,
 	height: 48,
