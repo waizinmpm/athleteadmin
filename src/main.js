@@ -48,12 +48,12 @@ window.io = io;
 window.socket = io(process.env.VUE_APP_SOCKET_URL);
 
 Vue.use(Loading, {
-	color: '#0062ff',
-	loader: process.env.VUE_APP_LOADING_INDICATOR ?? 'dots',
+	color: '#00AB00',
+	loader: process.env.VUE_APP_LOADING_INDICATOR ?? 'bars',
 	backgroundColor: '#ffffff',
-	width: 30,
-	height: 30,
-    opacity: 0.9,
+	width: 48,
+	height: 48,
+    opacity: 0.7,
     fontSize: 12,
 },{
 	after: (new Vue()).$createElement('p', {class: 'loading-text'}, ['送信中'])
