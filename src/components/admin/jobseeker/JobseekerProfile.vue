@@ -2141,7 +2141,7 @@
                     <dl class="detail-list clearfix history-edit">
                         <dt class="detail-head">希望支援額</dt>
                         <dd class="detail-data" v-if="sponsorship.supportive_amount">
-                            {{ sponsorship.supportive_amount|currency('',0) }}
+                            {{ sponsorship.supportive_amount | currency(' 円', 0, { symbolOnLeft: false }) }}
                         </dd>
 						<dd class="detail-data" v-else>未入力</dd>
                         <dt class="detail-head">活動費内訳</dt>
@@ -2149,7 +2149,7 @@
                             <div v-for="activities in sponsorship.activities" :key="activities.id">
                                 <p v-if="!containNullOnly(activities)" class="mb-0">
                                 <label class="desired-label">{{activities.activity}} </label>
-                                <span class="price-txt">{{activities.cost|currency('',0)}}</span>
+                                <span class="price-txt">{{activities.cost | currency(' 円', 0, { symbolOnLeft: false }) }}</span>
                                 </p>
                                 <div v-else>未入力</div>
                             </div>   
