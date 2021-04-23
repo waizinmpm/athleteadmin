@@ -716,10 +716,20 @@
                     </dd>
                     <dt class="detail-head">所得ライセンス</dt>
                     <dd class="detail-data">
-                        <div v-for="(income_license, index) in athleteInformation.income_license" :key="income_license.id">
+                        <div v-for="(income_license, index) in athleteInformation.income_license" :key="index">
                             <span v-if="!containNullOnly(income_license)">
-                                {{income_license.income_lic}}
-                                <hr v-if="index != (athleteInformation.income_license.length-1)">
+                                    {{income_license.income_lic}}
+                            </span>
+                            <span v-else>
+                                未入力
+                            </span>
+                        </div>
+                    </dd>
+                    <dt class="detail-head">所属</dt>
+                    <dd class="detail-data">
+                        <div v-for="(affiliation, index) in athleteInformation.affiliation" :key="index">
+                            <span v-if="!containNullOnly(affiliation.affiliation)">
+                                {{affiliation.affiliation}}
                             </span>
                             <span v-else>
                                 未入力
@@ -801,7 +811,7 @@
                                         <div class="modal-body competition-modal-body">
                                             <div class="row m-0  area-col">
                                                 <div class="col-md-2 left-competition">
-                                                        <h5 class="competition-title">Competitions </h5>
+                                                        <!-- <h5 class="competition-title">Competitions </h5> -->
                                                         <div class="competition-group">
                                                             <span v-for="competition in athleteInformation.all_competition_list" :key="competition.id">
                                                                 <button type="button" class="form-control btn btn-primary" v-if="competition.parent_id === null" @click="showCompetitions(competition.id)">
@@ -827,7 +837,7 @@
                                             </div>
                                             <div class="row col-md-12 selected-group" v-show="athleteInformation.tmp_competition_names.length > 0">
                                                 <div class="col-md-12">
-                                                    <h5>Selected Competitions</h5>
+                                                    <!-- <h5>Selected Competitions</h5> -->
                                                 </div>
                                                 <div class="col-md-12 selected-btngroup">
                                                     <button type="button" class="form-control selected-btn" v-for="(competition, index) in athleteInformation.tmp_competition_names" :key="'Display'+index" @click="removeCompetition(competition.id)" style="color:black;">
@@ -887,75 +897,35 @@
                     </div>
                 </div>
 
-                <div class="popup-databox" >
-                        
-                        <div class="row form-group license-row" v-for="(income_license, index) in athleteInformation.income_license" :key="income_license.id">
-                            <p class="delete-btn" @click="deleteIncomeLicense(index, income_license.id)" v-if="athleteInformation.income_license.length > 1">
-                                <span class="icon icon-times"></span>
-                            </p>
-                            <div class="col-md-8 p-0 mb-3">
-                                <label for="">所得ライセンス</label>
-                                <input type="text" class="form-control" placeholder="" v-model="income_license.income_lic" />
-                            </div>
-                            <div class="col-md-8 p-0">
-                                <label for="">所属</label>
-                                <input type="text" class="form-control" placeholder="例.チーム・会社・団体・組織etc" v-model="income_license.affiliation" />
-                            </div>
-                        </div>
-                        <p class="text-center mt-4">
-                            <span class="btn add-btn" @click="addIncomeLicense">+ {{$t('jobseekerprofile.add')}}</span>
+                <div class="popup-databox">
+                    <div class="row form-group license-row" v-for="(income_license, index) in athleteInformation.income_license" :key="income_license.id">
+                        <p class="delete-btn" @click="deleteIncomeLicense(index, income_license.id)" v-if="athleteInformation.income_license.length > 1">
+                            <span class="icon icon-times"></span>
                         </p>
+                        <div class="col-md-8 p-0 mb-3">
+                            <label for="">所得ライセンス</label>
+                            <input type="text" class="form-control" placeholder="" v-model="income_license.income_lic" />
+                        </div>
+                    </div>
+                    <p class="text-center mt-4">
+                        <span class="btn add-btn" @click="addIncomeLicense">+ {{$t('jobseekerprofile.add')}}</span>
+                    </p>
                 </div>
-
-                 <!-- <div class="popup-databox" >
-                    <div class="form-group">
-                        <label for="">出身校</label>
-                        <div class="form-group" v-for="(this_college, index) in athleteInformation.attended_college" :key="this_college.id">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <label>学校</label>
-                                    <p class="delete-btn" @click="deleteAttendedCollege(index, this_college.id)" v-if="athleteInformation.attended_college.length > 1">
-                                        <span class="icon icon-times"></span>
-                                    </p>
-                                    <input type="text" class="form-control" placeholder="" v-model="this_college.college_name" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <select class="form-control" v-model="this_college.from_year">
-                                        <option value="">年</option>
-                                        <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <select class="form-control" v-model="this_college.from_month">
-                                        <option value="">月</option>
-                                        <option v-for="month in 12" :key="month">{{ month }}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2">入学</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <select class="form-control" v-model="this_college.to_year">
-                                        <option value="">年</option>
-                                        <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <select class="form-control" v-model="this_college.to_month">
-                                        <option value="">月</option>
-                                        <option v-for="month in 12" :key="month">{{ month }}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2">卒業</div>
+                <div class="popup-databox">
+                    <div class="row form-group license-row" v-for="(affiliation, index) in athleteInformation.affiliation" :key="affiliation.id">
+                        <p class="delete-btn" @click="deleteAffiliation(index, affiliation.id)" v-if="athleteInformation.affiliation.length > 1">
+                            <span class="icon icon-times"></span>
+                        </p>
+                        <div class="col-md-8 p-0">
+                                <label for="">所属</label>
+                                <input type="text" class="form-control" placeholder="例.チーム・会社・団体・組織etc" v-model="affiliation.affiliation" />
                             </div>
                         </div>
-                        <span class="btn add-btn" @click="addAttendedCollege">+ {{$t('jobseekerprofile.add')}}</span>
-                    </div>
-                </div> -->
-
-                 <div class="popup-databox">
+                    <p class="text-center mt-4">
+                        <span class="btn add-btn" @click="addAffiliation">+ {{$t('jobseekerprofile.add')}}</span>
+                    </p>
+                </div>
+                <div class="popup-databox">
                     <label for="">出身校</label>
                     <div class="form-group license-row" v-for="(this_college, index) in athleteInformation.attended_college" :key="this_college.id">
                         <p class="delete-btn" @click="deleteAttendedCollege(index, this_college.id)" v-if="athleteInformation.attended_college.length > 1">
@@ -1003,7 +973,7 @@
                     </p>
                 </div>
 
-                 <div class="popup-databox" >
+                <div class="popup-databox" >
                     <div class="form-group">
                         <label for="">活動実績・経歴</label>
                         <div class="row">
@@ -2432,9 +2402,11 @@
                 competition_year    : "",
                 competition_month   : "",
                 income_license      : [],
+                affiliation             : [],
                 attended_college    : [],
                 competition_activity    : "",
                 remove_income_ids   : [],
+                remove_affiliation_ids  : [],
                 remove_college_ids  : []
             },
             // end athleteInformation
@@ -2975,7 +2947,17 @@
             }
             this.athleteInformation.income_license.splice(index, 1);
         },
-
+        addAffiliation(){
+                this.athleteInformation.affiliation.push({
+                    affiliation : ''
+                });
+            },
+        deleteAffiliation(index, income_id){
+            if( typeof(income_id) !== 'undefined' ){
+                this.athleteInformation.remove_affiliation_ids.push(income_id);
+            }
+            this.athleteInformation.affiliation.splice(index, 1);
+        },
         addAttendedCollege(){
             this.athleteInformation.attended_college.push({
                 college_name : '',
