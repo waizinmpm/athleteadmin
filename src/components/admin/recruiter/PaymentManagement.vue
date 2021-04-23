@@ -312,6 +312,8 @@ export default {
 			var url;
 			if(payment_job_type == 'scout') {
                 url = '/v1/admin/payment-transactions/'+scoutid_or_applyid+'/scout-invoice';
+			} else if(payment_job_type == 'sponsor') {
+				url = '/v1/admin/payment-transactions/'+scoutid_or_applyid+'/sponsor-invoice';
 			} else {
                 url = '/v1/admin/payment-transactions/'+scoutid_or_applyid+'/jobapply-invoice';
 			}
