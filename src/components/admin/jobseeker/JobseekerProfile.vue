@@ -880,18 +880,22 @@
                         <label for="">競技歴</label>
                         <div class="row">
                             <div class="col-md-4 d-flex align-items-center">
-                                <select class="form-control mr-2" v-model="athleteInformation.competition_year">
+                                <input v-model="athleteInformation.competition_year" class="form-control col-md-5 col-sm-5" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); else if(this.value<0)this.value=Math.abs(this.value);" maxlength="4" />
+                                <label class="col-md-1 col-sm-1 mb-0">年</label>
+                                <!-- <select class="form-control mr-2" v-model="athleteInformation.competition_year">
                                     <option value="">年</option>
                                     <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
                                 </select>
-                                <span>年</span>
+                                <span>年</span> -->
                             </div>
                             <div class="col-md-4 d-flex align-items-center">
-                                <select class="form-control mr-2" v-model="athleteInformation.competition_month">
+                                <input v-model="athleteInformation.competition_month" class="form-control col-md-4 col-sm-4" type="number" onKeyUp="if(this.value>12){this.value='12';}else if(this.value<0){this.value='';}" maxlength="2" />
+                                <label class="col-md-2 col-sm-2 mb-0">ヵ月</label>
+                                <!-- <select class="form-control mr-2" v-model="athleteInformation.competition_month">
                                     <option value="">月</option>
                                     <option v-for="month in 12" :key="month">{{ month }}</option>
                                 </select>
-                                <span class="month-txt">ヵ月</span>
+                                <span class="month-txt">ヵ月</span> -->
                             </div>
                         </div>
                     </div>
@@ -4163,6 +4167,18 @@
 */
 .upload-content .icon {
     font-size: 50px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 .tab-list {
