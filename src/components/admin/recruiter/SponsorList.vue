@@ -205,7 +205,9 @@
 							<div class="border">
 								<h5>{{ $t('common.brokerage_fee') }}</h5>
 								<div class="form-group row">
-									<div class="col-sm-2"></div>
+									<div class="col-sm-2">
+										スポンサー費用
+									</div>
 									<div class="col-sm-6 pr-0">
 										<input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
 										<div class="invalid-feedback">
@@ -215,6 +217,11 @@
 									</div>
 									<label class="pl-1 pt-2">円</label>
 								</div>
+								<dl class="row">
+									<dt class="col-sm-2 text-right">仲介手数料</dt>
+									<dd class="col-sm-6 text-right">{{ invoiceForm.agency_fee|aj-number }}</dd>
+									<label class="pl-1">円</label>
+								</dl>
 								<dl class="row">
 									<dt class="col-sm-2 text-right">{{ $t('common.tax') }}</dt>
 									<dd class="col-sm-6 text-right">{{ invoiceForm.tax|aj-number }}</dd>
@@ -323,6 +330,7 @@ export default {
 				tax: 0,
 				default_amount: 0,
 				invoice_amount: 0,
+				agency_fee: 0,
 				remark: '',
 			},
 			isToggle : false ,
@@ -422,6 +430,7 @@ export default {
 				email: '',
 				default_amount: 0,
 				invoice_amount: 0,
+				agency_fee: 0,
 				tax:0,
 				remark: '',
 				tax_id: this.tax.id,
@@ -501,9 +510,12 @@ export default {
 	watch: {
 		'invoiceForm.default_amount': function() {
 			let amount = Number(this.invoiceForm.default_amount);
-				this.invoiceForm.tax = amount * (this.tax.percent ?? 0) / 100;
-				// Re-value invoice amout 
-				this.invoiceForm.invoice_amount = amount + this.invoiceForm.tax;
+			// agency_fee as 10% of default amount
+			this.invoiceForm.agency_fee = amount * (this.tax.percent ?? 0) / 10;
+			// after added agency_fee, (total)tax is agency_fee + 1% tax
+			this.invoiceForm.tax = this.invoiceForm.agency_fee + (amount * (this.tax.percent ?? 0) / 100);
+			// Re-value invoice amout 
+			this.invoiceForm.invoice_amount = this.invoiceForm.agency_fee + amount + this.invoiceForm.tax;
 		}
 	},
 	validations: {
