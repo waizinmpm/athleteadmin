@@ -344,7 +344,16 @@ export default {
 					{ id: this.$configs.job_apply.billed, checked: false },
 					{ id: this.$configs.job_apply.payment_confirmed, checked: false }
 				];
-			} else 
+			}
+			else if (data.payment_job_type == this.$configs.payment_job_type.sponsor) 
+			{
+				return [
+					{ id: this.$configs.sponsor.unclaimed, checked: false },
+					{ id: this.$configs.sponsor.billed, checked: false },
+					{ id: this.$configs.sponsor.payment_confirmed, checked: false }
+				]
+			}
+			else 
 			{
 				return [];
 			}
@@ -394,6 +403,23 @@ export default {
 						})
 						.then(() => {
 						})
+						.catch((r) => {
+							const data = r.response.data;
+							this.$alertService.showErrorDialog(null,data.error.message);
+						})
+						.finally(() => {
+							// --Rebind original status
+							this.getData(this.projects.current_page);
+						})
+					}
+					else if (payment.payment_job_type == this.$configs.payment_job_type.sponsor) 
+					{
+						// --Sponsor status change
+						this.$api.post('/v1/admin/sponsor-list/change-status', { 
+							sponsor_id: payment.scoutid_or_applyid, 
+							status: e.target.value,
+						})
+						.then(() => {})
 						.catch((r) => {
 							const data = r.response.data;
 							this.$alertService.showErrorDialog(null,data.error.message);

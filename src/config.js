@@ -93,6 +93,7 @@ export default {
 	payment_job_type : {
 		scout : 'scout',
 		job_apply : 'job-apply',
+		sponsor : 'sponsor',
 	},
 	payment_method : {
 		invoice: '請求書',
