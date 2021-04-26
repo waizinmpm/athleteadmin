@@ -3934,6 +3934,12 @@
     background-color: #007bff;
     border-color: #007bff;
 }
+.competition-group .btn-primary {
+    background: #255796 !important;
+    &:focus {
+         border-color: transparent !important;
+    }
+}
 .sub-competition-group{
     margin: 0;
 }
