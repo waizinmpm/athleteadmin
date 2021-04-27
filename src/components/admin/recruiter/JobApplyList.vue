@@ -243,8 +243,8 @@
                             </div>
                             <div class="border">
                                 <h5>{{ $t('common.brokerage_fee') }}</h5>
-                                <div class="form-group row">
-                                    <div class="col-sm-2"></div>
+                                <div class="form-group row d-flex align-items-center">
+                                    <div class="col-sm-2 pr-0"></div>
                                     <div class="col-sm-6  pr-0">
                                         <input type="text" :class="['form-control text-right', $v.invoiceForm.default_amount.$error ? 'is-invalid' :'']" v-model="$v.invoiceForm.default_amount.$model">
                                         <div class="invalid-feedback">
@@ -252,20 +252,20 @@
                                             <div class="error txt-red" v-if="!$v.invoiceForm.default_amount.numeric">半角数字で入力してください</div>
                                         </div>
                                     </div>
-                                    <label class="pl-1 pt-2">円</label>
+                                    <label class="pl-1">円</label>
                                 </div>
                                 <dl class="row">
                                     <dt class="col-sm-2 text-right pr-0">{{ $t('common.tax') }}</dt>
-                                    <dd class="col-sm-6 text-right">{{ invoiceForm.tax|aj-number }}</dd>
-                                    <label class="pl-1">円</label>
+                                    <dd class="col-sm-6 text-right pr-0">{{ invoiceForm.tax|aj-number }}</dd>
+                                    <label class="pl-1" style="margin-top: -2px;">円</label>
                                 </dl>
                                 <dl class="row">
-                                    <dt class="col-sm-2  pr-0 txt-red text-right">{{ $t('common.invoice_amount') }}</dt>
-                                    <dd class="col-sm-6 text-right txt-red">{{ invoiceForm.invoice_amount|aj-number }}</dd>
-                                    <label class="pl-1 txt-red">円</label>
+                                    <dt class="col-sm-2 txt-red text-right pr-0">{{ $t('common.invoice_amount') }}</dt>
+                                    <dd class="col-sm-6 text-right txt-red pr-0">{{ invoiceForm.invoice_amount|aj-number }}</dd>
+                                    <label class="pl-1 txt-red" style="margin-top: -2px;">円</label>
                                 </dl>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 pr-0 text-right">{{ $t('common.remark') }}</label>
+                                    <label class="col-sm-2 text-right pr-0">{{ $t('common.remark') }}</label>
                                     <div class="col-sm-9">
                                         <textarea rows="5" class="form-control" v-model="invoiceForm.remark"></textarea>
                                     </div>
