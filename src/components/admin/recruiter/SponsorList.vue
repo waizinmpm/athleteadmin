@@ -203,8 +203,8 @@
 								</dl>
 							</div>
 							<div class="border">
-								<h5>{{ $t('common.brokerage_fee') }}</h5>
-								<div class="form-group row">
+								<!-- <h5>{{ $t('common.brokerage_fee') }}</h5> -->
+								<div class="form-group row pt-4">
 									<div class="col-sm-2">
 										スポンサー費用
 									</div>
@@ -218,7 +218,7 @@
 									<label class="pl-1 pt-2">円</label>
 								</div>
 								<dl class="row">
-									<dt class="col-sm-2 text-right">仲介手数料</dt>
+									<dt class="col-sm-2 text-right">{{ $t('common.brokerage_fee') }}</dt>
 									<dd class="col-sm-6 text-right">{{ invoiceForm.agency_fee|aj-number }}</dd>
 									<label class="pl-1">円</label>
 								</dl>
