@@ -890,7 +890,7 @@
                             </div>
                             <div class="col-md-4 d-flex align-items-center">
                                 <input v-model="athleteInformation.competition_month" class="form-control col-md-4 col-sm-4" type="number" onKeyUp="if(this.value>12){this.value='12';}else if(this.value<0){this.value='';}" maxlength="2" />
-                                <label class="col-md-3 col-sm-3 mb-0">ヵ月</label>
+                                <label class="col-md-2 col-sm-2 mb-0">ヵ月</label>
                                 <!-- <select class="form-control mr-2" v-model="athleteInformation.competition_month">
                                     <option value="">月</option>
                                     <option v-for="month in 12" :key="month">{{ month }}</option>
@@ -3007,12 +3007,11 @@
                     parent_id        :parent_id,
                     competition_name :name
                 });
-                if(this.athleteInformation.current_competitions == null || this.athleteInformation.current_competitions == ""){
-                this.athleteInformation.current_competitions = name; 
-                }
-                else{
+                if(this.athleteInformation.current_competitions == null || this.athleteInformation.current_competitions == "")
+                    this.athleteInformation.current_competitions = name; 
+                else
                     this.athleteInformation.current_competitions += ','+name; 
-                }
+                
                 // this.athleteInformation.current_competitions += this.athleteInformation.current_competitions.length > 0 ? ',' + name : name;
             }    
         },
@@ -3021,7 +3020,8 @@
            
             // if id is null, remove all selected items
             if(id === null){
-                this.athleteInformation.tmp_competition_names = [];
+                this.athleteInformation.tmp_competition_names   = [];
+                this.athleteInformation.current_competitions    = [];
             }else{
 
                 let current_competitions_array = this.athleteInformation.current_competitions.split(',');
@@ -3135,7 +3135,7 @@
         },
 
         saveAthleteInfo(){
-            this.athleteInformation.competition_names = this.athleteInformation.tmp_competition_names.map((name) => name.id);
+            this.athleteInformation.competition_names = this.athleteInformation.tmp_competition_names.map((name) => name.competition_name);
             let request_data = {
                 request_id          : `${this.$route.params.id}`,
                 athlete_information : this.athleteInformation,
