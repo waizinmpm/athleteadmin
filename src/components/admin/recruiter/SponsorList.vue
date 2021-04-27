@@ -468,7 +468,7 @@ export default {
                 const sponsor = r.data.data;
 				console.log('sponsor sponsor', sponsor);
                 this.projects.data
-                    .filter(x => x.sponsor_id == sponsor.id)
+                    .filter(x => x.id == sponsor.id)
                     .forEach(x => x.sponsor_status = this.$configs.sponsor.billed);
 				this.$alertService.showSuccessDialog(null, this.$t('common.mail_is_sent'), this.$t('common.close'));
                 this.requireInvoiceForm = false;
