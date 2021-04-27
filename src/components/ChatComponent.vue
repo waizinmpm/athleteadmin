@@ -278,11 +278,15 @@ export default {
 				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response)),
 				// --jobapply chattables
 				this.$api.get(`/v1/chattables/${role_id}/job-apply?q=${filter_text}`)
-				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response))
+				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response)),
+				// --sponsor chattables
+				this.$api.get(`/v1/chattables/${role_id}/sponsor?q=${filter_text}`)
+				.then(r => Promise.resolve(r.data.data)).catch(error => Promise.reject(error.response)), 
 			])
 			.then((r) => {
 				this.userListSearching = false;
-				this.jobs = r[0].concat(r[1]);
+				this.jobs = r[0].concat(r[1]).concat(r[2]); 
+				// this.jobs = r[0].concat(r[2]);
 				// --order by created_at of scouts/apply DESC
 				this.jobs.sort((a,b) => {
 					return new Date(b.o_created_at) - new Date(a.o_created_at);

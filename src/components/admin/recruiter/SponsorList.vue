@@ -375,8 +375,14 @@ export default {
 			return status == this.$configs.sponsor.billed;
 		},
 		startChat(sponsor) {
-			sponsor
-		
+			console.log("waizin",sponsor); 
+			const payload = {
+				recruiter_id: sponsor.recruiter_id,
+				jobseeker_id: sponsor.jobseeker_id,
+				scoutid_or_applyid: sponsor.id,
+				type: 'sponsor',
+			};
+			this.$emit('chatStarted', payload);
 		},
 		onStatusChange(index, e) {
 			const sponsor = this.$data.projects.data[index];
