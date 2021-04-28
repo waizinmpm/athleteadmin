@@ -2399,6 +2399,7 @@
             // start athleteInformation
             athleteInformation: {
                 competition_modal       : false,
+                showAddCompetition      : false,
                 all_competition_list    : [],
                 current_competition_id  : 1,
                 tmp_competition_names   : [],
@@ -2939,6 +2940,28 @@
         },
 
         //(start) Athlete-Information Part
+        saveNewCompetition(status){
+            if(status == 'save'){
+                let add_new_competition = this.athleteInformation.new_competition;
+                if(add_new_competition){
+                    let request_data = {
+                        new_competition : add_new_competition,
+                    };
+                    this.$api.post("/v1/jobseeker/profile/competition/add", request_data)
+                    .then((response) => {
+                        this.athleteInformation.all_competition_list = response.data.data.competition;
+                    })
+                    .catch((errors) => {
+                        console.log(errors);
+                    });
+                    this.athleteInformation.new_competition = '';
+                }
+                this.athleteInformation.showAddCompetition = false;
+            }else{
+                this.athleteInformation.showAddCompetition = true;
+            }
+        },
+
         addIncomeLicense(){
             this.athleteInformation.income_license.push({
                 income_lic : ''
