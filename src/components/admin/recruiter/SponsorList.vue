@@ -516,10 +516,18 @@ export default {
 	watch: {
 		'invoiceForm.default_amount': function() {
 			let amount = Number(this.invoiceForm.default_amount);
+			/* old form
 			// agency_fee as 10% of default amount
 			this.invoiceForm.agency_fee = amount * (this.tax.percent ?? 0) / 10;
 			// after added agency_fee, (total)tax is agency_fee + 1% tax
 			this.invoiceForm.tax = this.invoiceForm.agency_fee + (amount * (this.tax.percent ?? 0) / 100);
+			// Re-value invoice amout 
+			this.invoiceForm.invoice_amount = this.invoiceForm.agency_fee + amount + this.invoiceForm.tax; */
+
+			// agency_fee as 10% of default amount
+			this.invoiceForm.agency_fee = amount / 10;
+			// after added agency_fee, (total)tax is (agency_fee + default amount) tax% of the system
+			this.invoiceForm.tax = (this.invoiceForm.agency_fee + amount) * (this.tax.percent / 100);
 			// Re-value invoice amout 
 			this.invoiceForm.invoice_amount = this.invoiceForm.agency_fee + amount + this.invoiceForm.tax;
 		}
