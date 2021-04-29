@@ -375,7 +375,6 @@ export default {
 			return status == this.$configs.sponsor.billed;
 		},
 		startChat(sponsor) {
-			console.log("waizin",sponsor); 
 			const payload = {
 				recruiter_id: sponsor.recruiter_id,
 				jobseeker_id: sponsor.jobseeker_id,
