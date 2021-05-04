@@ -10,7 +10,7 @@
 							<input type="text" :placeholder="$t('payment_management.management_number')" class="form-control" 
 								v-model.trim="filteredData.management_number">
 						</div>
-						<div class="col-md-8">
+						<!-- <div class="col-md-8">
 							<div class="col-md-12 p-0 mb-2">
 								<label>{{ $t('payment_management.payment_method') }}</label>
 							</div>
@@ -30,7 +30,7 @@
 									</label>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 					<div class="row mb-2">
 						<div class="col-md-12">
@@ -216,10 +216,10 @@
 					</div>
 					<div class="modal-body">
 						<div class="mb-4">
-							<label>{{ $t('payment_management.payment_date') }}</label>
+							<label>{{ $t('payment_management.payment_amount') }}</label>
 							<input type="text" v-model="form.payment_amount" @keypress="isNumber($event)" class="form-control mb-1">
 						</div>				
-						<label>{{ $t('payment_management.payment_amount') }}</label>
+						<label>{{ $t('payment_management.payment_date') }}</label>
 						<date-picker v-model="form.actual_payment_date" value-type="format" class="datepicker w-100" :lang="lang" 
 							placeholder="年 - 月 - 日"></date-picker>
 					</div>
