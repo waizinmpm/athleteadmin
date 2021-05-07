@@ -89,6 +89,16 @@
 
                 <div class="border">
                     <div class="form-group">
+                        <label>スポンサーを希望するアスリートからのメッセージ</label>
+                        <div>
+                            <input type="radio" id="1" v-model="recruiterForm.is_sponsor" :value="1" class="" />受ける
+                            <input type="radio" id="0" v-model="recruiterForm.is_sponsor" :value="0" class="" />受けない
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border">
+                    <div class="form-group">
                         <label><span class="align-label">ご担当者名</span> <span class="required">必須</span></label>
                         <input type="text" :class="['form-control',$v.recruiterForm.incharge_name.$error?'is-invalid':'']" v-model.trim="$v.recruiterForm.incharge_name.$model" />
                         <div class="invalid-feedback">

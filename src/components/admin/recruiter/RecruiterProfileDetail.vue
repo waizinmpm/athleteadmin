@@ -3,9 +3,9 @@
          <h5 class="main-header">企業プロフィール詳細 <span style="color:red;">{{ recruiter_info.record_status == 3 ? '退会' : '' }}</span></h5> 
         <dl class="detail-list border-bottom">
             <dt class="detail-head detail-group-topline">企業会員番号</dt>
-            <dd class="detail-data detail-group-topline">{{ recruiter_info.recruiter_number }}</dd>
+            <dd class="detail-data detail-group-topline">{{ recruiter_info.recruiter_number || '未入力' }}</dd>
             <dt class="detail-head">企業名</dt>
-            <dd class="detail-data">{{ recruiter_info.recruiter_name }}</dd>
+            <dd class="detail-data">{{ recruiter_info.recruiter_name || '未入力' }}</dd>
             <dt class="detail-head detail-group-topline">設立年月</dt>
             <dd class="detail-data detail-group-topline">{{ recruiter_info.establishment_date || '未入力' }}</dd>
             <dt class="detail-head">代表者名</dt>
@@ -24,6 +24,8 @@
             <dd class="detail-data">{{ recruiter_info.email || '未入力' }}</dd>
             <dt class="detail-head">WEB サイト URL</dt>
             <dd class="detail-data">{{ recruiter_info.website || '未入力' }}</dd>
+            <dt class="detail-head detail-group-topline">スポンサーを希望するアスリートからのメッセージ</dt>
+            <dd class="detail-data detail-group-topline">{{ recruiter_info.is_sponsor == 1 ? '受ける' : '受けない' }}</dd>
             <dt class="detail-head detail-group-topline">ご担当者名</dt>
             <dd class="detail-data detail-group-topline">{{ recruiter_info.incharge_name || '未入力' }}</dd>
             <dt class="detail-head">担当者名(フリガナ)</dt>
