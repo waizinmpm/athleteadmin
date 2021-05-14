@@ -11,7 +11,7 @@
             <dt class="detail-head">代表者名</dt>
             <dd class="detail-data">{{ recruiter_info.representative_name || '未入力' }}</dd>
             <dt class="detail-head">従業員数</dt>
-            <dd class="detail-data">{{ recruiter_info.num_of_employees || '未入力' }}</dd>
+            <dd class="detail-data">{{ recruiter_info.num_of_employees ? recruiter_info.num_of_employees + '人' : '未入力' }}</dd>
             <dt class="detail-head">事業内容</dt>
             <dd class="detail-data">{{ recruiter_info.business_description || '未入力' }}</dd>
             <dt class="detail-head">所在地</dt>
