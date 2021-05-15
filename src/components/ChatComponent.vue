@@ -291,6 +291,15 @@ export default {
 				this.jobs.sort((a,b) => {
 					return new Date(b.o_created_at) - new Date(a.o_created_at);
 				})
+				this.jobs.forEach(x => {
+					if (x.type == 'sponsor') {
+						if (x.title == 'jobseeker') {
+							x.title = 'アスリートからスポンサー希望';
+						} else if (x.title == 'recruiter') {
+							x.title = '企業からスポンサー希望';
+						}
+					}
+				});
 
 				if (filter_text.length == 0) {
 					window.socket.emit('join', this.currentUser.id);
@@ -337,6 +346,11 @@ export default {
 					'recruiter_email': meta.recruiter.email,
 				};
                 this.title = meta.job.title;
+                if (this.title == 'jobseeker') {
+					this.title = 'アスリートからスポンサー希望';
+				} else if (this.title == 'recruiter') {
+					this.title = '企業からスポンサー希望';
+				}
 				this.number = meta.job.management_number;
 				this.showName = '企：'+ meta.recruiter.recruiter_name + '  ア：' + meta.jobseeker.jobseeker_name;
 				this.loading = false;
