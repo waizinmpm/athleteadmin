@@ -85,3 +85,18 @@ export const closeInvoiceModal = () => {
         invoice_form.remark = '';
     return invoice_form;
 }
+
+// to show establish date, use this func which return establish date result
+export const getEstablishDate = (est_date) => {
+    let establishment_date  = '';
+    let split_est_date      = est_date.split("-");
+    // array cell[0] is for establishment_year & cell[1] is for establishment_month
+    if (split_est_date[1] == '')
+        establishment_date = split_est_date[0]+'年';
+    else if(split_est_date[0] == '')
+        establishment_date = split_est_date[1]+'月';
+    else
+        establishment_date = split_est_date[0]+'年 '+split_est_date[1]+'月';
+    
+    return establishment_date;
+}

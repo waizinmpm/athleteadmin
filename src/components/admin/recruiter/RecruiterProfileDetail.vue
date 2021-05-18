@@ -102,6 +102,7 @@
 </template>
 
 <script>
+import { getEstablishDate } from "../../../partials/common";
 export default {
     data(){
         return {
@@ -121,8 +122,8 @@ export default {
         .then(r => { this.defaultImageUrl = r.data.data; });
 
         this.$api.get("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/edit").then(r => {
-            console.log("recruiter_info",r.data);
             this.recruiter_info = r.data.data;
+            if(this.recruiter_info.establishment_date != null) this.recruiter_info.establishment_date = getEstablishDate(this.recruiter_info.establishment_date);
             loading.hide()
         })
         .catch((e) => {     

@@ -24,17 +24,15 @@
                 <div class="border">
                     <div class="form-group">
                         <label>設立年月</label>
-                        <input id="exampleInput1" type="text" name="" class="form-control" v-model="recruiterForm.establishment_date">
-                                <!-- <select class="form-control" v-model="recruiterForm.establishment_year">
-                                    <option disabled value=""></option>
-                                    <option v-for="year in 100" :key="year">{{ 1920 + year }}</option>
-                                </select> -->
-                            <!-- <div class="col-md-6">
-                                <select class="form-control" v-model="recruiterForm.establishment_month">
-                                    <option disabled value=""></option>
-                                    <option v-for="month in 12" :key="month">{{ month }}</option>
-                                </select>
-                            </div> -->
+                        <!-- <input id="exampleInput1" type="text" name="" class="form-control" v-model="recruiterForm.establishment_date"> -->
+                        <select class="form-control" v-model="recruiterForm.establishment_year">
+                            <option value="">年</option>
+                            <option v-for="year in 101" :key="year">{{ 1920 + year }}</option>
+                        </select>
+                        <select class="form-control" v-model="recruiterForm.establishment_month">
+                            <option value="">月</option>
+                            <option v-for="month in 12" :key="month">{{ month }}</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>代表者名</label>
@@ -334,6 +332,16 @@
                     // const establishment_date = new Date(this.recruiterForm.establishment_date);
                     // this.recruiterForm.establishment_year = establishment_date.getFullYear();
                     // this.recruiterForm.establishment_month = establishment_date.getMonth() + 1;
+                    let establishment_date = this.recruiterForm.establishment_date;
+                    if(establishment_date != null){
+                        let est_date_array = establishment_date.split("-");
+                        this.recruiterForm.establishment_year 	= est_date_array[0];
+                        this.recruiterForm.establishment_month 	= est_date_array[1];
+                    }else{
+                        this.recruiterForm.establishment_year 	= '';
+                        this.recruiterForm.establishment_month 	= '';
+                    }
+
                     this.recruiterForm.delete_related_images = [];
 
                     // --map question type
