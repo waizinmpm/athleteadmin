@@ -27,7 +27,7 @@
                         <!-- <input id="exampleInput1" type="text" name="" class="form-control" v-model="recruiterForm.establishment_date"> -->
                         <select class="form-control" v-model="recruiterForm.establishment_year">
                             <option value="">年</option>
-                            <option v-for="year in 101" :key="year">{{ 1920 + year }}</option>
+                            <option v-for="year in years_data" :key="year">{{ 1920 + year }}</option>
                         </select>
                         <select class="form-control" v-model="recruiterForm.establishment_month">
                             <option value="">月</option>
@@ -300,6 +300,7 @@
     export default {
         data() {
             return {
+                years_data : (new Date().getFullYear()) - 1920,
                 showNavigationPane: true,
                 defaultImageUrl: "",
                 questionType: "",
