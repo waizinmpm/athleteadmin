@@ -504,7 +504,11 @@
                 </span>
                 <div class="row col-md-7 p-0 m-0">
                     <div class="col-md-4 pl-0">
-                        <input type="text" class="form-control" placeholder="生年月日" v-model="basicInfo.dob"/>
+                        <!-- <input type="text" class="form-control" placeholder="生年月日" v-model="basicInfo.dob"/> -->
+                        <DatePicker :default="basicInfo.dob" :format="'DD.MM.YYYY'" :min="min_year_picker" :max="max_year_picker" :months-names="picker_months" v-model="$v.basicInfo.dob.$model"> </DatePicker>
+                        <div class="input-group">
+                            <div class="error" v-if="!$v.basicInfo.dob.isValidDOB">DOB is in valid</div>
+                        </div>
                         <!-- <select class="form-control" v-model="basicInfo.dobyears">
                             <option disabled :value="null">年</option>
                             <option v-for="year in 100" :key="year">{{ 1920 + year}}{{' 年'}}</option>
@@ -2251,26 +2255,38 @@
     import {required, minLength, maxLength, numeric, helpers, url} from "vuelidate/lib/validators";
     import { matchYoutubeUrl } from "../../../partials/common";
     import _ from "lodash";
+    import DatePicker from "../../DatePicker";
 
     const isFurigana = (value) => {
-    let allow = true;
-    let charArray = value.split("");
-    for (let i = 0; i < charArray.length; i++) {
-        let code = charArray[i].charCodeAt();
-        if (!(code > 12448 && code < 12543)) {
-        allow = false;
-        break;
+        let allow = true;
+        let charArray = value.split("");
+        for (let i = 0; i < charArray.length; i++) {
+            let code = charArray[i].charCodeAt();
+            if (!(code > 12448 && code < 12543)) {
+            allow = false;
+            break;
+            }
         }
-    }
-    return !helpers.req(value) || allow;
+        return !helpers.req(value) || allow;
     };
+
     const isTrueImage = (value) => {
-    if (!value) {
-        return true;
-    }
-    let file = value;
-    return file.type ? file.type.startsWith("image") : true;
+        if (!value) {
+            return true;
+        }
+        let file = value;
+        return file.type ? file.type.startsWith("image") : true;
     };
+
+    const isValidDOB = (value) => {
+        if(value != null) {
+            if (value.includes('0000') || value.includes('-00')) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     function buildFormData(formData, data, parentKey) {
         if (
             data &&
@@ -2290,11 +2306,18 @@
             formData.append(parentKey, value);
         }
     }
+
     export default {
+    components: {
+        DatePicker
+    },
     data() {
         return {
             years_data : (new Date().getFullYear()) - 1919,
             expyears_data : (new Date().getFullYear()) - 1920,
+            picker_months: "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12",
+            max_year_picker : (new Date().getFullYear()).toString(),
+            min_year_picker : (new Date().getFullYear() - 120).toString(),
             edit_page : true,
             showMenuBar: true,
             file_names: [],
@@ -2543,6 +2566,9 @@
 		ig_account: { url },
         },
         basicInfo: {
+            dob: {
+                isValidDOB,
+            },
             phone: {
                 required,
                 numeric,
