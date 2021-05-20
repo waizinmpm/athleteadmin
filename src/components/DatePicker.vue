@@ -2,7 +2,7 @@
 	<!-- ATH'team component which customed by zayarpn@19/5/2021 -->
 	<div :class="[containerClassName]">
         <!-- Year -->
-		<div :class="[selectWrapperClassName]">
+		<div :class="[selectWrapperClassName]" class="date-box">
 			<select v-model="selectedYear" @change="updateDays()" :class="[selectClassName, selectYearClassName]">
 				<option value="">年</option>
 				<option v-for="year in years" :key="year.year" :value="year.year">
@@ -13,7 +13,7 @@
 		</div>
 
 		<!-- Month -->
-		<div :class="[selectWrapperClassName]">
+		<div :class="[selectWrapperClassName]" class="date-box">
 			<select v-model="selectedMonth" @change="updateDays()" :class="[selectClassName, selectMonthClassName]">
 				<option value="">月</option>
 				<option v-for="(month, index) in months" :value="index" :key="month.month">
@@ -24,7 +24,7 @@
 		</div>
 
 		<!-- Day -->
-		<div :class="[selectWrapperClassName]">
+		<div :class="[selectWrapperClassName]" class="date-box">
 			<select v-model="selectedDay" :class="[selectClassName, selectDayClassName]">
 				<option value="">日</option>
 				<option v-for="day in days" :key="day.day" :value="day.day">
@@ -243,10 +243,16 @@
 </script>
 
 <style scoped>
+	.date-box {
+		display: flex;
+		align-items: center;
+		width: 33.3%;
+	}
 	.date-dropdown-container {
 		display: flex;
 	}
 	.date-dropdown-select {
+		width: 75%;
 		display: inline-block;
 		border: 1px solid #e0e0e0;
 		border-radius: 3px;
@@ -254,7 +260,8 @@
 		margin-right: 10px;
 	}
     .datedropdown{
-        margin-right: 10px;
+		width: 25%;
+        margin: 0 5px;
 	}
 	@media(max-width: 390px){
 		.date-dropdown-select{

@@ -502,8 +502,7 @@
                     <input type="checkbox" id="dob_status_id" class="custom-control-input custom-checkbox" v-model="basicInfo.dob_status" />
                     <label for="dob_status_id" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
                 </span>
-                <div class="row col-md-7 p-0 m-0">
-                    <div class="col-md-4 pl-0">
+                <div class="row col-md-8 p-0 m-0">
                         <!-- <input type="text" class="form-control" placeholder="生年月日" v-model="basicInfo.dob"/> -->
                         <DatePicker :default="basicInfo.dob" :format="'DD.MM.YYYY'" :min="min_year_picker" :max="max_year_picker" :months-names="picker_months" v-model="$v.basicInfo.dob.$model"> </DatePicker>
                         <div class="input-group">
@@ -525,7 +524,6 @@
                             <option disabled :value="null">日</option>
                             <option v-for="day in 31" :key="day">{{ day }}{{' 日'}}</option>
                         </select> -->
-                    </div>
                 </div>
                 </div>
 

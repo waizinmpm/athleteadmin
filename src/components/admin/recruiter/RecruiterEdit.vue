@@ -25,14 +25,20 @@
                     <div class="form-group">
                         <label>設立年月</label>
                         <!-- <input id="exampleInput1" type="text" name="" class="form-control" v-model="recruiterForm.establishment_date"> -->
-                        <select class="form-control" v-model="recruiterForm.establishment_year">
-                            <option value="">年</option>
-                            <option v-for="year in years_data" :key="year">{{ 1920 + year }}</option>
-                        </select>
-                        <select class="form-control" v-model="recruiterForm.establishment_month">
-                            <option value="">月</option>
-                            <option v-for="month in 12" :key="month">{{ month }}</option>
-                        </select>
+                        <div class="establishment-row">
+                            <div class="establishment-col">
+                                <select class="form-control" v-model="recruiterForm.establishment_year">
+                                    <option value="">年</option>
+                                    <option v-for="year in years_data" :key="year">{{ 1920 + year }}</option>
+                                </select>
+                            </div>
+                            <div class="establishment-col">
+                                <select class="form-control" v-model="recruiterForm.establishment_month">
+                                    <option value="">月</option>
+                                    <option v-for="month in 12" :key="month">{{ month }}</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>代表者名</label>
@@ -720,5 +726,17 @@
 }
 label {
     margin-bottom: .5rem;
+}
+.establishment-row {
+	display: flex;
+}
+.establishment-col {
+	width: 49%;
+}
+.establishment-col:first-child {
+	margin-right: 1%;
+}
+.establishment-col:last-child {
+	margin-left: 1%;
 }
 </style>
