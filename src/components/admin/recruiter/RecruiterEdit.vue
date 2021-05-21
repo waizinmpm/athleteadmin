@@ -94,10 +94,18 @@
                 <div class="border">
                     <div class="form-group">
                         <label>スポンサーを希望するアスリートからのメッセージ</label>
-                        <div>
+                        <!-- <div>
                             <input type="radio" id="1" v-model="recruiterForm.is_sponsor" :value="1" class="" />受ける
                             <input type="radio" id="0" v-model="recruiterForm.is_sponsor" :value="0" class="" />受けない
-                        </div>
+                        </div> -->
+                        <p class="custom-radio-group mb-1">
+                            <input type="radio" id="1" v-model="recruiterForm.is_sponsor" :value="1" class="custion-radio" /> 
+                            <label for="1" class="custom-radio-lable">受ける</label>
+                        </p>
+                        <p class="custom-radio-group">
+                            <input type="radio" id="0" v-model="recruiterForm.is_sponsor" :value="0" class="custion-radio" />
+                            <label for="0" class="custom-radio-lable">受けない</label>
+                        </p>
                     </div>
                 </div>
 
@@ -738,5 +746,10 @@ label {
 }
 .establishment-col:last-child {
 	margin-left: 1%;
+}
+
+
+.custion-radio:checked + .custom-radio-lable:after {
+    background: #2f2d2c;
 }
 </style>
