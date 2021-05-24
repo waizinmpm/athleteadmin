@@ -388,7 +388,7 @@
 
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
-                            <label for="name">{{ $t('jobcreate.occupation_keyword') }}</label>
+                            <label for="name">{{ $t('jobcreate.industry_keyword') }}</label>
                             <span class="required">必須</span>
                         </div>
                         <div class="col-md-8 form-right-block">
@@ -396,7 +396,7 @@
                             v-model="$v.formRegister.occupation_id.$model"
                             :class="['form-control mb-0',$v.formRegister.occupation_id.$error?'is-invalid':'']"
                             >
-                            <option disabled value>{{ $t('jobcreate.occupation_select') }}</option>
+                            <option disabled value>{{ $t('jobcreate.industry_select') }}</option>
                             <option
                                 v-for="occupations in occupations"
                                 :key="occupations.id"
@@ -407,7 +407,7 @@
                             <div class="invalid-feedback">
                             <span
                                 v-if="!$v.formRegister.occupation_id.required"
-                            >{{ $t('jobcreate.occupation_required') }}</span>
+                            >{{ $t('jobcreate.industry_required') }}</span>
                             </div>
                         </div>
                     </div>

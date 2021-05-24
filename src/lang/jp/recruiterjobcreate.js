@@ -92,6 +92,9 @@ export default {
     occupation_keyword : ' 職種(検索用キーワード) ',
     occupation_select : ' 職種を選択',
     occupation_required : '職種を選択してください',
+    industry_keyword : ' 業種(検索用キーワード) ',
+    industry_select : ' 業種を選択',
+    industry_required : '業種を選択してください',
     other_keyword : ' その他キーワード (求人情報に表示されます)',
     update_date : ' 掲載開始日',
 
