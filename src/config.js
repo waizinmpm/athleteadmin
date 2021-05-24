@@ -78,6 +78,11 @@ export default {
 			display: '停止'
 		},
 	},
+	salary_type: {
+		hourly: '時給',
+		monthly: '月給',
+		yearly: '年収',
+	},
 	job_post: {
 		post: 'post',
 		draft: 'draft',

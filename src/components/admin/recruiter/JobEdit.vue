@@ -231,6 +231,28 @@
 
                     <div class="form-group row form-bottom-bordered">
                         <div class="col-md-4 form-left-block">
+                            <label for="salary">給与</label>
+                            <p>(求人掲載用)</p>
+                            <!-- <span class="required">必要</span> -->
+                        </div>
+                        <div class="col-md-8 form-right-block">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select class="form-control" id="salary" v-model="formRegister.payment_type">
+                                        <option :value="null">Type</option>
+                                        <option v-for="payment_type in payment_types" :key="payment_type.id">{{payment_type}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="salary" v-model="formRegister.salary" onkeypress="return (event.charCode >= 48 && event.charCode < 58)">
+                                </div>
+                                <div class="col-md-2 mt-2 pl-0">円 ～</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row form-bottom-bordered">
+                        <div class="col-md-4 form-left-block">
                             <label for="name">
                             {{ $t('jobcreate.startdate') }}
                             <br />
@@ -468,6 +490,8 @@ export default {
                 occupation_id: "",
                 other_keywords: [],
                 job_post_date : '',
+                payment_type : null,
+                salary : ''
             },
             employment_types: [],
             other_keywords: [
@@ -475,6 +499,11 @@ export default {
                 "未経験歓迎",
                 "シニア歓迎",
                 "上場企業",
+            ],
+            payment_types : [
+                this.$configs.salary_type.hourly,
+                this.$configs.salary_type.monthly,
+                this.$configs.salary_type.yearly
             ],
             occupations: [],
             countries: [],

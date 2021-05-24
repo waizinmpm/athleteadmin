@@ -43,6 +43,8 @@
             <dd class="detail-data"><pre>{{ recruiter_job.qualification || '-' }}</pre></dd>
             <dt class="detail-head">給与・待遇</dt>
             <dd class="detail-data"><pre>{{ recruiter_job.allowance || '-' }}</pre></dd>
+            <dt class="detail-head">給与 (求人掲載用)</dt>
+            <dd class="detail-data"><pre>{{ (!recruiter_job.payment_type && !recruiter_job.salary) ? '-' : (recruiter_job.payment_type || '') + (recruiter_job.salary ? recruiter_job.salary + '円 ～' : '') }}</pre></dd>
             <dt class="detail-head">勤務開始日</dt>
             <dd class="detail-data">{{ recruiter_job.job_start_date || '-' }}</dd>
             <dt class="detail-head">勤務地詳細</dt>
