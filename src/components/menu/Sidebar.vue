@@ -76,12 +76,12 @@ export default {
     name: "admin-menu",
     data() {
         return {
-            interval : null,
+            // interval : null,
         }
     },
 
     created() {
-        var that = this;
+        /* var that = this;
         var itv = setInterval(function(){
             that.$api.post('/v1/auth/me')
             .then(response => {
@@ -95,12 +95,12 @@ export default {
                 }
             });
         }, 60000); // 10* 60000(1min)
-        this.interval = itv;
+        this.interval = itv; */
     },
 
     methods: {
         logout() {
-            clearInterval(this.interval);
+            // clearInterval(this.interval);
             this.$store.commit("logout");
             this.$router.push("/");
         },
