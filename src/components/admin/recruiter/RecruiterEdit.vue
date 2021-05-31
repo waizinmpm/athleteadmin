@@ -29,13 +29,13 @@
                             <div class="establishment-col">
                                 <select class="form-control" v-model="recruiterForm.establishment_year">
                                     <option value="">年</option>
-                                    <option v-for="year in years_data" :key="year">{{ 1920 + year }}</option>
+                                    <option v-for="year in years_data" :key="year" :value="1920 + year">{{ 1920 + year + '年' }}</option>
                                 </select>
                             </div>
                             <div class="establishment-col">
                                 <select class="form-control" v-model="recruiterForm.establishment_month">
                                     <option value="">月</option>
-                                    <option v-for="month in 12" :key="month">{{ month }}</option>
+                                    <option v-for="month in 12" :key="month" :value="month">{{ month + '月' }}</option>
                                 </select>
                             </div>
                         </div>
