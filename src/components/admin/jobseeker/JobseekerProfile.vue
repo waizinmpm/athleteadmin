@@ -947,13 +947,13 @@
                             <div class="col-md-4 col-sm-5 admission-year">
                                 <select class="form-control" v-model="this_college.from_year">
                                     <option value="">年</option>
-                                    <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
+                                    <option v-for="year in years_data" :key="year" :value="1920 + year">{{ 1920 + year + '年'}}</option>
                                 </select>
                             </div>
                             <div class="col-md-4 col-sm-5 admission-month">
                                 <select class="form-control" v-model="this_college.from_month">
                                     <option value="">月</option>
-                                    <option v-for="month in 12" :key="month">{{ month }}</option>
+                                    <option v-for="month in 12" :key="month" :value="month">{{ month + '月' }}</option>
                                 </select>
                             </div>
                             <label class="col-md-2 col-sm-2 admission-label mb-0">入学</label>
@@ -962,13 +962,13 @@
                             <div class="col-md-4 col-sm-5 graduate-year">
                                 <select class="form-control" v-model="this_college.to_year">
                                     <option value="">年</option>
-                                    <option v-for="year in years_data" :key="year">{{ 1920 + year}}</option>
+                                    <option v-for="year in years_data" :key="year" :value="1920 + year">{{ 1920 + year + '年'}}</option>
                                 </select>
                             </div>
                             <div class="col-md-4 col-sm-5 graduate-month">
                                 <select class="form-control" v-model="this_college.to_month">
                                     <option value="">月</option>
-                                    <option v-for="month in 12" :key="month">{{ month }}</option>
+                                    <option v-for="month in 12" :key="month" :value="month">{{ month + '月' }}</option>
                                 </select>
                             </div>
                             <label class="col-md-2 col-sm-2 graduate-label mb-0">卒業</label>
