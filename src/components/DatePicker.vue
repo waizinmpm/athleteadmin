@@ -9,7 +9,7 @@
 					{{ year.year }}
 				</option>
 			</select>
-             <span class="datedropdown">年</span>
+             <!-- <span class="datedropdown">年</span> -->
 		</div>
 
 		<!-- Month -->
@@ -20,7 +20,7 @@
 					{{ month.month }} 
 				</option>
 			</select>
-             <span class="datedropdown">月</span>
+             <!-- <span class="datedropdown">月</span> -->
 		</div>
 
 		<!-- Day -->
@@ -31,7 +31,7 @@
 					{{ day.day }} 
 				</option>
 			</select>
-             <span class="datedropdown">日</span>
+             <!-- <span class="datedropdown">日</span> -->
 		</div>
 	</div>
 </template>

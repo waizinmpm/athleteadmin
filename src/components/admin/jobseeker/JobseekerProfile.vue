@@ -506,7 +506,7 @@
                         <!-- <input type="text" class="form-control" placeholder="生年月日" v-model="basicInfo.dob"/> -->
                         <DatePicker :default="basicInfo.dob" :format="'DD.MM.YYYY'" :min="min_year_picker" :max="max_year_picker" :months-names="picker_months" v-model="$v.basicInfo.dob.$model"> </DatePicker>
                         <div class="input-group">
-                            <div class="error" v-if="!$v.basicInfo.dob.isValidDOB">DOB is in valid</div>
+                            <div class="error" v-if="!$v.basicInfo.dob.isValidDOB">生年月日は正しくありません</div>
                         </div>
                         <!-- <select class="form-control" v-model="basicInfo.dobyears">
                             <option disabled :value="null">年</option>
