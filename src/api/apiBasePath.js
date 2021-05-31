@@ -51,7 +51,7 @@ api.interceptors.response.use(function (response) {
 }, function (error) {
     // response error
     console.log('api response.status', error.response.status);
-	if (400 === error.response.status) 
+	if (401 === error.response.status) 
 	{
 		// if (!errorShowing) {
         //     errorShowing = true;
