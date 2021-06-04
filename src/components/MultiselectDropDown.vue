@@ -9,7 +9,7 @@
         </div>
         <div class="multiselect" v-if="show">
             <ul>
-                <li v-for="(option, index) in options" :key="index">
+                <li v-for="(option, index) in options" :key="index" :class="{active : isActive(option.id)}">
                     <input type="checkbox" :id="index" :value="option.id" v-model="selected" :disabled="limit ?limit_reached(option.id) : false">
                     <label :for="index">{{ option.name }}</label>
                 </li>
@@ -107,12 +107,19 @@
             },
             hideDropDown() {
                 this.show = false; // hide dropdown if clicked outside of the component
+            },
+            isActive(id) {
+                return this.selected.includes(id);
             }
         },
     }
 </script>
 
 <style lang="scss" scoped>
+.active {
+    background: #bbd8bb;
+}
+
 .col {
     flex: 0 0 50%;
     max-width: 50%;
