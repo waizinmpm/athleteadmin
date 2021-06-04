@@ -53,6 +53,15 @@
                         </div> -->
                     </div>
                     <div class="form-group">
+                        <label>資本金</label>
+                        <input type="text" class="form-control" v-model.trim="recruiterForm.capital" />円
+                    </div>
+                    <div class="form-group">
+                        <label>業種</label>
+                        <multi-select :options="industries" :limit="5" defaultText="業種を選択" v-model="recruiterForm.industry_ids"></multi-select>
+                        <textarea class="form-control mt-2" rows="5" readonly v-model="showSelectedItems"></textarea>
+                    </div>
+                    <div class="form-group">
                         <label>事業内容</label>
                         <input type="text" class="form-control" v-model.trim="recruiterForm.business_description" />
                     </div>
@@ -284,6 +293,7 @@
     import { required, minLength, maxLength, url, numeric } from "vuelidate/lib/validators";
     // import { required , numeric , minLength , maxLength , url , between , withParams , email , helpers} from 'vuelidate/lib/validators';
     import { isFurigana, matchYoutubeUrl } from "../../../partials/common";
+    import MultiselectDropDown from '../../MultiselectDropDown';
 
     const isTrueImage = (value) => {
         if (!value) {
@@ -312,6 +322,9 @@
         }
     }
     export default {
+        components : {
+            'multi-select': MultiselectDropDown,
+        },
         data() {
             return {
                 years_data : (new Date().getFullYear()) - 1920,
@@ -330,18 +343,23 @@
                     establishment_date : "",
                 },
                 temp_related_image: null,
+                industries : [],
             };
+        },
+
+        computed: {
+            showSelectedItems: function () {
+                return (this.recruiterForm.industry_ids) ? this.industries.filter((industry) => this.recruiterForm.industry_ids.find((i) => i == industry.id)).map((ele) => ele.name).join("\n") : '';
+            },
         },
 
         created() {
             let loading = this.$loading.show();
-            console.log("waizin"); 
-            this.$api
-                .get("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/edit")
+            this.getIndustry();
+            this.$api.get("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/edit")
                 .then((r) => {
                   
                     this.recruiterForm = r.data.data;
-                    
                     console.log('recruiter form',this.recruiterForm);
                     // --split establishment_date into year and month
                     // const establishment_date = new Date(this.recruiterForm.establishment_date);
@@ -358,6 +376,7 @@
                     }
 
                     this.recruiterForm.delete_related_images = [];
+                    this.recruiterForm.industry_ids = this.recruiterForm.industry_ids ? this.recruiterForm.industry_ids.split(",").map((i) => parseInt(i)) : []; // must be array
 
                     // --map question type
                     if (Object.values(this.$configs.questions).includes(this.recruiterForm.question)) {
@@ -396,6 +415,12 @@
         },
 
         methods: {
+            getIndustry(){
+                this.$api.get("/v1/recruiter/getalldata").then((response) =>{
+                    this.industries = response.data.occupation.map(({ id, occupation_name }) => ({ id: id, name: occupation_name })); // must be object array which contain id, name
+                });
+            },
+            
             showRelatedImage(index) {
                 return this.recruiterForm.related_images[index];
             },

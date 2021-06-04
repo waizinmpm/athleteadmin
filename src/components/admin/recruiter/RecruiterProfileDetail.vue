@@ -10,6 +10,10 @@
             <dd class="detail-data detail-group-topline">{{ recruiter_info.establishment_date || '未入力' }}</dd>
             <dt class="detail-head">代表者名</dt>
             <dd class="detail-data">{{ recruiter_info.representative_name || '未入力' }}</dd>
+            <dt class="detail-head">資本金</dt>
+            <dd class="detail-data">{{ recruiter_info.capital ? recruiter_info.capital + '円' : '-' }}</dd>
+            <dt class="detail-head">業種</dt>
+            <dd class="detail-data">{{ recruiter_info.industry_ids || '未入力' }}</dd>
             <dt class="detail-head">従業員数</dt>
             <dd class="detail-data">{{ recruiter_info.num_of_employees ? recruiter_info.num_of_employees + '人' : '未入力' }}</dd>
             <dt class="detail-head">事業内容</dt>
@@ -112,24 +116,26 @@ export default {
             defaultImageUrl:'',
             showModal : false,
             imgUrl: '',
-            
+            industries : []
         }
     },
 
     created() {
         let loading = this.$loading.show();
-        this.$api.get('/v1/default-image')
-        .then(r => { this.defaultImageUrl = r.data.data; });
-
-        this.$api.get("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/edit").then(r => {
+        this.getIndustry();
+        this.$api.get('/v1/default-image').then(r => { this.defaultImageUrl = r.data.data; });
+        this.$api.get("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/edit")
+        .then(r => {
             this.recruiter_info = r.data.data;
-            if(this.recruiter_info.establishment_date != null) this.recruiter_info.establishment_date = getEstablishDate(this.recruiter_info.establishment_date);
-            loading.hide()
-        })
-        .catch((e) => {     
+            if(this.recruiter_info.establishment_date)
+                this.recruiter_info.establishment_date = getEstablishDate(this.recruiter_info.establishment_date);
+            if(this.recruiter_info.industry_ids)
+                this.recruiter_info.industry_ids = this.industries.filter((industry) => this.recruiter_info.industry_ids.split(',').map((i) => parseInt(i)).find((v) => v == industry.id)).map((ele) => ele.name).join();
+            // console.log('this.recruiter_info.industry_ids', this.recruiter_info.industry_ids);
+            loading.hide();
+        }).catch((e) => {     
             console.log("errors",e);
-        })
-        .finally(() => loading.hide());
+        }).finally(() => loading.hide());
     },
 
     methods : {
@@ -141,6 +147,11 @@ export default {
             // this.$store.commit('setPaging',paginate);
             this.$router.go(-1);
         }, */
+        getIndustry(){
+            this.$api.get("/v1/recruiter/getalldata").then((response) =>{
+                this.industries = response.data.occupation.map(({ id, occupation_name }) => ({ id: id, name: occupation_name }));
+            });
+        },
 
         hasRelatedImage(index) {
             return this.recruiter_info.related_images && this.recruiter_info.related_images[index];
