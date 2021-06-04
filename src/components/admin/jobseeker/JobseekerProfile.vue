@@ -453,10 +453,10 @@
                 </div>
                 <div class="form-group">
                 <label for>{{$t('jobseekerprofile.furigana')}}</label>
-                <span class="status">
+                <!-- <span class="status">
                     <input type="checkbox" id="jobseeker_furigana_name_status_id" class="custom-control-input custom-checkbox" v-model="basicInfo.jobseeker_furigana_name_status" />
                     <label for="jobseeker_furigana_name_status_id" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
-                </span>
+                </span> -->
                 <div class="col-md-8 p-0">
                     <input
                     type="text"
@@ -477,10 +477,10 @@
                 </div>
                 <div class="form-group gender-group">
                 <label for>{{$t('jobseekerprofile.gender')}}</label>
-                <span class="status">
+                <!-- <span class="status">
                     <input type="checkbox" id="gender_status_id" class="custom-control-input custom-checkbox" v-model="basicInfo.gender_status" />
                     <label for="gender_status_id" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
-                </span>
+                </span> -->
                 <div class="row col-md-7 p-0 m-0">
                     <div class="col-md-4 pl-0">
                     <p class="check-item m-0" transition="fade" @click="checkGender('女性')">
@@ -498,10 +498,10 @@
                 </div>
                 <div class="form-group">
                 <label for>{{$t('jobseekerprofile.date')}}</label>
-                <span class="status">
+                <!-- <span class="status">
                     <input type="checkbox" id="dob_status_id" class="custom-control-input custom-checkbox" v-model="basicInfo.dob_status" />
                     <label for="dob_status_id" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
-                </span>
+                </span> -->
                 <div class="row col-md-8 p-0 m-0">
                         <!-- <input type="text" class="form-control" placeholder="生年月日" v-model="basicInfo.dob"/> -->
                         <DatePicker :default="basicInfo.dob" :format="'DD.MM.YYYY'" :min="min_year_picker" :max="max_year_picker" :months-names="picker_months" v-model="$v.basicInfo.dob.$model"> </DatePicker>
@@ -529,10 +529,10 @@
 
                 <div class="form-group">
                     <label for>{{$t('jobseekerprofile.location')}}</label>
-                    <span class="status"> 
+                    <!-- <span class="status"> 
                         <input type="checkbox" id="current_address_status_id" class="custom-control-input custom-checkbox" v-model="basicInfo.current_address_status" />
                         <label for="current_address_status_id" class="custom-control-label custom-checkbox-label" style="color:#636363">非公開</label>
-                    </span>
+                    </span> -->
                     <div class="row col-md-7 p-0 m-0">
                         <div class="col-md-4 pl-0">
                             <select v-model.trim="basicInfo.continent_name" @change="getCity()" class="form-control">
