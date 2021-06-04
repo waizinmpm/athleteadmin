@@ -239,7 +239,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <select class="form-control" id="salary" v-model="formRegister.payment_type">
-                                        <option :value="null">Type</option>
+                                        <option :value="null">選択</option>
                                         <option v-for="payment_type in payment_types" :key="payment_type.id">{{payment_type}}</option>
                                     </select>
                                 </div>
