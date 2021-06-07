@@ -18,7 +18,7 @@ export default {
 		payment_confirmed : '入金確認済',
 	},
 	job_apply: {
-		under_review: '検討中',
+		under_review: '応募／問合せ',
 		declined: '辞退/不採用',
 		unclaimed: '内定未請求',
 		billed: '請求済',
