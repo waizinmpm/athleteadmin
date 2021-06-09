@@ -414,7 +414,12 @@
 
                     <div class="form-group row mb-0 d-flex">
                         <div class="col-md-4 form-left-block">
-                            <label for="name" style="line-height: 22px;">{{ $t('jobcreate.other_keyword') }}</label>
+                            <label for="name" style="line-height: 22px;">{{ $t('jobcreate.other_keyword') }}
+                                <p>
+                                    {{ $t('jobcreate.other_keyword_msg_1') }}<br/>
+                                    {{ $t('jobcreate.other_keyword_msg_2') }}
+                                </p>
+                            </label>
                         </div>
                         <div class="col-md-8 form-right-block">
                             <div class="row col-12 p-0 m-0">
@@ -499,6 +504,8 @@ export default {
                 "未経験歓迎",
                 "シニア歓迎",
                 "上場企業",
+                "セカンドキャリア歓迎",
+                "デュアルキャリア歓迎"
             ],
             payment_types : [
                 this.$configs.salary_type.hourly,
