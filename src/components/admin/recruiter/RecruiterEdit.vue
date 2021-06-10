@@ -58,7 +58,7 @@
                     </div>
                     <div class="form-group">
                         <label>業種</label>
-                        <multi-select :options="industries" :limit="5" defaultText="業種を選択" v-model="recruiterForm.industry_ids"></multi-select>
+                        <multi-select :options="occupations" :limit="5" defaultText="業種を選択" v-model="recruiterForm.occupation_ids"></multi-select>
                         <textarea class="form-control mt-2" rows="5" readonly v-model="showSelectedItems"></textarea>
                     </div>
                     <div class="form-group">
@@ -343,19 +343,19 @@
                     establishment_date : "",
                 },
                 temp_related_image: null,
-                industries : [],
+                occupations : [],
             };
         },
 
         computed: {
             showSelectedItems: function () {
-                return (this.recruiterForm.industry_ids) ? this.industries.filter((industry) => this.recruiterForm.industry_ids.find((i) => i == industry.id)).map((ele) => ele.name).join("\n") : '';
+                return (this.recruiterForm.occupation_ids) ? this.occupations.filter((industry) => this.recruiterForm.occupation_ids.find((i) => i == industry.id)).map((ele) => ele.name).join("\n") : '';
             },
         },
 
         created() {
             let loading = this.$loading.show();
-            this.getIndustry();
+            this.getOccupations();
             this.$api.get("/v1/recruiter/recruiters/" + `${this.$route.params.id}` + "/edit")
                 .then((r) => {
                   
@@ -376,7 +376,7 @@
                     }
 
                     this.recruiterForm.delete_related_images = [];
-                    this.recruiterForm.industry_ids = this.recruiterForm.industry_ids ? this.recruiterForm.industry_ids.split(",").map((i) => parseInt(i)) : []; // must be array
+                    this.recruiterForm.occupation_ids = this.recruiterForm.occupation_ids ? this.recruiterForm.occupation_ids.split(",").map((i) => parseInt(i)) : []; // must be array
 
                     // --map question type
                     if (Object.values(this.$configs.questions).includes(this.recruiterForm.question)) {
@@ -415,9 +415,9 @@
         },
 
         methods: {
-            getIndustry(){
+            getOccupations(){
                 this.$api.get("/v1/recruiter/getalldata").then((response) =>{
-                    this.industries = response.data.occupation.map(({ id, occupation_name }) => ({ id: id, name: occupation_name })); // must be object array which contain id, name
+                    this.occupations = response.data.occupation.map(({ id, occupation_name }) => ({ id: id, name: occupation_name })); // must be object array which contain id, name
                 });
             },
             
