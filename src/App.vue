@@ -27,7 +27,7 @@ buttonchangecolor:#fff,
 buttondeletecolor:#ffcdd5, 
 buttonenablecolor:#cbddf3,
 buttoncancelcolor:#3f69b1,
-buttonbackcolor:#aab2bd,
+buttonbackcolor: #5987d6,
 buttonsavecolor: #EF8B1E,);
 
 @function color($color-name) {
