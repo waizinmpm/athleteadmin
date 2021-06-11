@@ -504,8 +504,8 @@ export default {
                 "未経験歓迎",
                 "シニア歓迎",
                 "上場企業",
-                "セカンドキャリア歓迎",
-                "デュアルキャリア歓迎"
+                "セカンドキャリア採用",
+                "デュアルキャリア採用"
             ],
             payment_types : [
                 this.$configs.salary_type.hourly,
