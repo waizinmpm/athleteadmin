@@ -415,27 +415,27 @@
                     <div class="form-group row mb-0 d-flex">
                         <div class="col-md-4 form-left-block">
                             <label for="name" style="line-height: 22px;">{{ $t('jobcreate.other_keyword') }}
-                                <p>
-                                    {{ $t('jobcreate.other_keyword_msg_1') }}<br/>
-                                    {{ $t('jobcreate.other_keyword_msg_2') }}
-                                </p>
                             </label>
+                            <p>
+                                {{ $t('jobcreate.other_keyword_msg_1') }}<br/>
+                                {{ $t('jobcreate.other_keyword_msg_2') }}
+                            </p>
                         </div>
                         <div class="col-md-8 form-right-block">
                             <div class="row col-12 p-0 m-0">
-                            <div class="col-md-3" v-for="(keyword, index) in other_keywords" :key="keyword.id">
-                                <input
-                                type="checkbox"
-                                :value="keyword"
-                                :id="keyword"
-                                class="custom-control-input custom-checkbox"
-                                v-model="formRegister.other_keywords"
-                                />
-                                <label
-                                :for="keyword"
-                                class="custom-control-label custom-checkbox-label"
-                                >{{ $t('jobcreate.other_keywords['+ index+']') }}</label>
-                            </div>
+                                <div class="col-md-4 p-0 mb-2" v-for="(keyword, index) in other_keywords" :key="keyword.id">
+                                    <input
+                                    type="checkbox"
+                                    :value="keyword"
+                                    :id="keyword"
+                                    class="custom-control-input custom-checkbox"
+                                    v-model="formRegister.other_keywords"
+                                    />
+                                    <label
+                                    :for="keyword"
+                                    class="custom-control-label custom-checkbox-label"
+                                    >{{ $t('jobcreate.other_keywords['+ index+']') }}</label>
+                                </div>
                             </div>
                         </div>
                     </div>
