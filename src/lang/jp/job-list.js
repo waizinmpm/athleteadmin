@@ -9,7 +9,7 @@ export default {
         {"label":"recruiter", "name": "企業会員"},
         {"label":"jobapplied_count", "name": "求人問合わせ/応募者数"},
         {"label":"scout_count", "name": "スカウト興味あり数"},
-        {"label":"job_post_date", "name": "掲載期間"},
+        {"label":"job_post_date", "name": "掲載開始日"},
         {"label":"record_status", "name": "ステータス"},
         {"label":"", "name": ""},
 	],
