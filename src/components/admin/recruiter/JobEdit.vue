@@ -64,7 +64,7 @@
                             <div class="pl-3">
                             <ol>
                                 <li>{{ $t('jobcreate.occupation_ex1') }}</li>
-                                <li>{{ $t('jobcreate.occupation_ex2') }}</li>
+                                
                                 <li class="list-unstyled">{{ $t('jobcreate.occupation_ex3') }}</li>
                             </ol>
                             </div>
