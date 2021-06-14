@@ -52,9 +52,11 @@
                             <div class="error" v-if="!$v.recruiterForm.num_of_employees.numeric">This field must be number only.</div>
                         </div> -->
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="width: 67%;">
                         <label>資本金</label>
-                        <input type="text" class="form-control" v-model.trim="recruiterForm.capital" />円
+                        <span class="d-flex align-items-center">
+                            <input type="text" class="form-control mr-2" v-model.trim="recruiterForm.capital" />円
+                        </span>
                     </div>
                     <div class="form-group">
                         <label>業種</label>
