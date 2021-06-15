@@ -64,7 +64,7 @@
                             <div class="pl-3">
                             <ol>
                                 <li>{{ $t('jobcreate.occupation_ex1') }}</li>
-                                <li>{{ $t('jobcreate.occupation_ex2') }}</li>
+                                
                                 <li class="list-unstyled">{{ $t('jobcreate.occupation_ex3') }}</li>
                             </ol>
                             </div>
@@ -415,15 +415,14 @@
                     <div class="form-group row mb-0 d-flex">
                         <div class="col-md-4 form-left-block">
                             <label for="name" style="line-height: 22px;">{{ $t('jobcreate.other_keyword') }}
-                                <p>
-                                    {{ $t('jobcreate.other_keyword_msg_1') }}<br/>
-                                    {{ $t('jobcreate.other_keyword_msg_2') }}
-                                </p>
                             </label>
+                            <p>
+                                {{ $t('jobcreate.other_keyword_msg_1') }}<br/>
+                                {{ $t('jobcreate.other_keyword_msg_2') }}
+                            </p>
                         </div>
                         <div class="col-md-8 form-right-block">
-                            <div class="row col-12 p-0 m-0">
-                            <div class="col-md-3" v-for="(keyword, index) in other_keywords" :key="keyword.id">
+                            <div class="keywork-check" v-for="(keyword, index) in other_keywords" :key="keyword.id">
                                 <input
                                 type="checkbox"
                                 :value="keyword"
@@ -435,7 +434,6 @@
                                 :for="keyword"
                                 class="custom-control-label custom-checkbox-label"
                                 >{{ $t('jobcreate.other_keywords['+ index+']') }}</label>
-                            </div>
                             </div>
                         </div>
                     </div>
@@ -504,8 +502,8 @@ export default {
                 "未経験歓迎",
                 "シニア歓迎",
                 "上場企業",
-                "セカンドキャリア歓迎",
-                "デュアルキャリア歓迎"
+                "セカンドキャリア採用",
+                "デュアルキャリア採用"
             ],
             payment_types : [
                 this.$configs.salary_type.hourly,
@@ -813,5 +811,10 @@ select[disabled] {
 }
 select:disabled {
     opacity: 0.6;
+}
+.keywork-check {
+    float: left;
+    margin-right: 8%;
+    margin-bottom: 10px;
 }
 </style>

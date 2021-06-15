@@ -26,8 +26,8 @@ buttoneditcolor:#90a051,
 buttonchangecolor:#fff, 
 buttondeletecolor:#ffcdd5, 
 buttonenablecolor:#cbddf3,
-buttoncancelcolor:#919191,
-buttonbackcolor:#aab2bd,
+buttoncancelcolor:#3f69b1,
+buttonbackcolor: #5987d6,
 buttonsavecolor: #EF8B1E,);
 
 @function color($color-name) {
@@ -513,6 +513,7 @@ body {
 .swal2-cancel {
     width: 100px !important;
     padding: 10px 0px !important;
+    background-color: #3f69b1 !important;
 }
 
 .swal2-icon.swal2-warning {
@@ -531,7 +532,7 @@ body {
     width: 100px !important;
 }
 .cancelbtn {
-    background: #828fa5 !important;
+    background: #3f69b1!important;
 }
 
 .swal-remark  .swal2-content {

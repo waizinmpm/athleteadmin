@@ -70,7 +70,7 @@ export default {
 
     startdate : ' 勤務開始日',
     startdate_ex1 : ' (記入例)',
-    startdate_ex2 : ' 2020年5月以降',
+    startdate_ex2 : ' 2021年5月以降',
     startdate_ex3 : ' ※ 応相談',
 
     location : ' 勤務地詳細',
@@ -101,7 +101,7 @@ export default {
     update_date : ' 掲載開始日',
 
     other_keywords:[
-        '新卒歓迎', '未経験歓迎', 'シニア歓迎', '上場企業', 'セカンドキャリア歓迎', 'デュアルキャリア歓迎'
+        '新卒歓迎', '未経験歓迎', 'シニア歓迎', '上場企業', 'セカンドキャリア採用', 'デュアルキャリア採用'
     ],
     // graduates : ' 新卒歓迎',
     // inexperienced : ' 未経験歓迎',
