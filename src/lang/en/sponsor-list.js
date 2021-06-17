@@ -1,5 +1,6 @@
 export default {
-    "title": "Sponsor List",
+    "recruiter_title": "List of sponsor support",
+    "jobseeker_title": "List of sponsor applications",
     "sponsor_date": "Sponsor Date",
 	"sponsor_status": "Sponsor Status",
 	"jobseeker_number": "Jobseeker Number",

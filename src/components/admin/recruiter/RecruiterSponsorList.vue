@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-12 p-0 searchform-one">
                 <!--advanced search-->
-                <h5 class="m-b-10 main-header">{{ $t('sponsor_list.title') }}</h5>   
+                <h5 class="m-b-10 main-header">{{ $t('sponsor_list.recruiter_title') }}</h5>  
 				<div class="inner-wrapper">
 					<div class="row">
 						<div class="col-md-3">
@@ -287,7 +287,8 @@ export default {
 			old_index:'',
 			toggle_status:false,
 			current: null,
-			base_url: "/v1/admin/sponsor-list",
+			
+			base_url: "/v1/admin/sponsor-list/recruiter",
 			columns: columns,
 			sortOrders: sortOrders,
 			filteredData:{
@@ -505,6 +506,7 @@ export default {
         },
 	},
 	computed: {
+		
 		currentUser() {
 			return this.$store.getters.currentUser;
 		},
@@ -545,7 +547,7 @@ export default {
 			console.log("There was  an error when fetching tax percentage.");
 			this.tax = { percent: 2 };
 		})
-	}
+	},
 }
 </script>
 

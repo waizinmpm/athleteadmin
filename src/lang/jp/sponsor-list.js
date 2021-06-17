@@ -1,5 +1,6 @@
 export default {
-    "title": " スポンサー申し込み済み一覧 ",
+    "recruiter_title": "スポンサー支援検討一覧",
+    "jobseeker_title": "スポンサー申し込み一覧",
     "sponsor_date": "申し込み日時",
 	"sponsor_status": "ステータス",
 	"jobseeker_number": "アスリート会員番号",

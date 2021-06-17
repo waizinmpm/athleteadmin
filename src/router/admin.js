@@ -6,7 +6,8 @@ import JobEdit from '../components/admin/recruiter/JobEdit';
 import JobDetail from '../components/admin/recruiter/JobDetail';
 import JobApplyList from '../components/admin/recruiter/JobApplyList';
 import ScoutedList from '../components/admin/recruiter/ScoutedList';
-import SponsorList from '../components/admin/recruiter/SponsorList';
+import RecruiterSponsorList from '../components/admin/recruiter/RecruiterSponsorList';
+import JobseekerSponsorList from '../components/admin/jobseeker/JobseekerSponsorList';
 import PaymentManagement from '../components/admin/recruiter/PaymentManagement';
 import JobSeekerList from '../components/admin/jobseeker/JobSeekerList';
 import JobseekerProfileEdit from '../components/admin/jobseeker/JobseekerProfileEdit';
@@ -85,9 +86,19 @@ const route = [{
         }
     },
     {
-        name: 'sponsor-list',
-        path: '/sponsor-list',
-        component: SponsorList,
+        name: 'recruiter-sponsor-list',
+        path: '/sponsor-list/recruiter',
+        component: RecruiterSponsorList,
+        meta: {
+            reqiuresAuth: false,
+            admin: true, // for only admin component
+            jobseeker: false
+        }
+    },
+    {
+        name: 'jobseeker-sponsor-list',
+        path: '/sponsor-list/jobseeker',
+        component: JobseekerSponsorList,
         meta: {
             reqiuresAuth: false,
             admin: true, // for only admin component

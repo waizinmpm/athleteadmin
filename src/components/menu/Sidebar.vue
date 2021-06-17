@@ -33,8 +33,13 @@
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/sponsor-list" class="list-group-item list-group-child-item">
-                            <span class="fa fa-cog"></span>{{ $t('sponsor_list.title') }}
+                        <router-link to="/sponsor-list/recruiter" class="list-group-item list-group-child-item">
+                            <span class="fa fa-cog"></span>{{ $t('sponsor_list.recruiter_title') }}
+                        </router-link>
+                    </li>
+                    <li>
+                        <router-link to="/sponsor-list/jobseeker" class="list-group-item list-group-child-item">
+                            <span class="fa fa-cog"></span>{{ $t('sponsor_list.jobseeker_title') }}
                         </router-link>
                     </li>
                     <li>
