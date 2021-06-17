@@ -24,9 +24,11 @@
                                     <i class="fa fa-circle" style="color:#e1e1e1"></i>
                                     </div>									
                                 </div>
-								
                                 <div class="name">
-                                    <p>{{item.management_number}}<span class="text-secondary pull-right">{{ item.last_chat_time|last_time }}</span></p>
+                                    <p>
+										<span class="d_name">{{item.management_number}}</span>
+										<span class="text-secondary pull-right">{{ item.last_chat_time|last_time }}</span>
+									</p>
                                     <p class="txt-vertical-ellipsis">{{item.title}}</p>
                                 </div>                               
                                 <div class="unread" v-if="item.unread > 0">
@@ -77,20 +79,11 @@
 											</p>
                                         </div>
 										<!-- Message Time -->
-										<div class="time" v-if="!isSender(message)">
-											<span>{{ message.created_at }}</span>
-											<!-- Message File Expired -->
-											<div v-if="message.expired">
-												<span>このファイルのダウンロード期間が過ぎました</span>
-											</div>
-										</div>
-                                        <div :class="`time float-right text-right`" v-else>
-											<span v-if="message.status">
+										<div :class="['time',isSender(message) ? 'float-right text-right' : '']">
+											<span v-if="isSender(message) && message.status">
 												<i :class="`fa fa-check`"></i>
-												{{ message.read_time }}
 											</span>
-											<!-- <span v-else>未読</span> -->
-											<!-- Message File Expired -->
+											<span>{{ message.created_at|date('%Y-%m-%d %H:%M') }}</span>
 											<div v-if="message.expired">
 												<span>このファイルのダウンロード期間が過ぎました</span>
 											</div>
@@ -649,7 +642,18 @@ export default {
 				'log','dat',
 			];
 			if (!allowed_ext.includes(ext)) {
-				await this.$alertService.showWarningDialog(null,'ファイル形式を確認してください',this.$t('common.close'));
+				await Vue.swal({
+					allowOutsideClick: false,
+					icon: "warning",
+					width: 350,
+					title: null,
+					html: 'ファイル形式を確認してください。<br> ※アップロードできるファイル形式：<br> html、htm、css、js、jpeg、jpg、png、gif、tiff、bmp、avi、wmv、mpg、mov、swf、mp4、mp3、pdf、txt、docx、xlsx、pptx、zip、csv、doc、xls、ppt、txt、xml、rar、gz、flv、pps、xlr、odt、mkv、tar、log、dat',
+					confirmButtonText: '閉じる',
+					confirmButtonColor: "#ff5733",
+					customClass: {
+						confirmButton: 'border-style',
+					},
+				});
 				e.target.value = '';
 				return;
 			}
@@ -1063,6 +1067,13 @@ input:focus{
 			p{
 				margin: 0;
 				font-size: 12px;
+				.d_name {
+					max-width: 120px;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					white-space: nowrap;
+					display: inline-block;
+				}
 			}
 		}
 	}
