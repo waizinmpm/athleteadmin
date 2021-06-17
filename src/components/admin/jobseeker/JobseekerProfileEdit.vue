@@ -148,10 +148,6 @@
     border-radius: 5px !important;
     border: 1px solid #f3efef;
 }
-.btn-back {
-    border-color: #aab2bd;
-    background-color: #aab2bd;
-}
 .mb-20 {
     margin-bottom: 20px;
 }

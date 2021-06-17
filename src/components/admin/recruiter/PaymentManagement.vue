@@ -224,7 +224,7 @@
 							placeholder="年 - 月 - 日"></date-picker>
 					</div>
 					<div class="modal-footer">
-						<button class="btn" @click="closeModal">キャンセル</button>
+						<button class="btn btn-cancel" @click="closeModal">キャンセル</button>
 						<button class="btn btn-comfirm" @click="onEditingComplete(form,'amt')">保存</button>
 					</div>
 					</div>
