@@ -47,7 +47,7 @@
                     basicInfoEdit:{text:'基本情報'},
                     athleteInfoEdit:{text:'アスリート情報'},
                     careerEdit:{text:'経歴'},
-                    expQualificationEdit:{text:'経験・資格'},
+                    // expQualificationEdit:{text:'経験・資格'},
                     desiredConditionEdit:{text:'就業希望条件'},
                     sponsorshipEdit:{text:'スポンサー希望条件'},
                 },    
@@ -73,7 +73,8 @@
             },
 
             handleScroll () {
-                 let id = ['careerEdit','expQualificationEdit','desiredConditionEdit','selfIntroEdit','basicInfoEdit', 'athleteInfoEdit', 'sponsorshipEdit']
+                 let id = ['careerEdit','desiredConditionEdit','selfIntroEdit','basicInfoEdit', 'athleteInfoEdit', 'sponsorshipEdit']
+                //  'expQualificationEdit',
                  const elementsInViewArray = id.map(String => {
                  const el = document.getElementById(String);
                  if(elementInViewport(el)) {
