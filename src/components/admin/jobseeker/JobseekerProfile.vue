@@ -84,11 +84,22 @@
                             </div>
                         </div>
                         <p class="show-info">関連動画</p>
-                        <div class="d-flex align-items-center justify-content-center">
-								<a :href="selfIntroDetails.facebook_account" target="_blank" v-if="selfIntroDetails.facebook_account"><img :src="'/images/facebook-old.svg'"  alt="Facebook" width="50" /></a>
-								<a :href="selfIntroDetails.twitter_account" target="_blank" v-if="selfIntroDetails.twitter_account"><img :src="'/images/twitter.svg'"  alt="Twitter" width="38" /></a>
-								<a :href="selfIntroDetails.ig_account" target="_blank" v-if="selfIntroDetails.ig_account"><img :src="'/images/instagram.svg'"  alt="Instagram" width="50" /></a>
-							</div>
+                        <div class="d-flex align-items-center justify-content-around">
+                            <a :href="selfIntroDetails.facebook_account" target="_blank" v-if="selfIntroDetails.facebook_account"><img :src="'/images/facebook-old.svg'"  alt="Facebook" width="50" /></a>
+                            <a :href="selfIntroDetails.twitter_account" target="_blank" v-if="selfIntroDetails.twitter_account"><img :src="'/images/twitter.svg'"  alt="Twitter" width="38" /></a>
+                            <a :href="selfIntroDetails.ig_account" target="_blank" v-if="selfIntroDetails.ig_account"><img :src="'/images/instagram.svg'"  alt="Instagram" width="50" /></a>
+                        </div>
+                        <div>
+                            <div v-if="selfIntroDetails.facebook_friend">
+                                <span class="w-25 d-inline-block">Facebook</span><span class="w-25 d-inline-block">友達</span> {{ selfIntroDetails.facebook_friend + '人' }}
+                            </div>
+                            <div v-if="selfIntroDetails.ig_follower">
+                                <span class="w-25 d-inline-block">Instagram</span><span class="w-25 d-inline-block">フォロワー</span> {{ selfIntroDetails.ig_follower + '人' }}
+                            </div>
+                            <div v-if="selfIntroDetails.twitter_follower">
+                                <span class="w-25 d-inline-block">Twitter</span><span class="w-25 d-inline-block">フォロワー</span> {{ selfIntroDetails.twitter_follower + '人' }}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--info-->
@@ -312,6 +323,13 @@
 								</div>
 							</div>
 						</div>
+                        <div class="row form-group">
+                            <label class="col-12 col-sm-3 col-md-2 label-txt mt-2">友達</label>
+                            <div class="col-10 col-sm-9 col-md-5">
+                                <input v-model.trim="selfIntro.facebook_friend" type="number" :class="['form-control']" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" />
+                            </div>
+                            <div class="col-2 col-sm-3 col-md-2 mt-2 pl-0">人</div>
+                        </div>
 						<div class="row form-group">
 							<label class="col-12 col-sm-3 col-md-2 label-txt mt-2">Twitter</label>
 							<div class="col-12 col-sm-9 col-md-10">
@@ -321,7 +339,14 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
+                        <div class="row form-group">
+                            <label class="col-12 col-sm-3 col-md-2 label-txt mt-2">友達</label>
+                            <div class="col-10 col-sm-9 col-md-5">
+                                <input v-model.trim="selfIntro.twitter_follower" type="number" :class="['form-control']" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" />
+                            </div>
+                            <div class="col-2 col-sm-3 col-md-2 mt-2 pl-0">人</div>
+                        </div>
+						<div class="row form-group">
 							<label class="col-12 col-sm-3 col-md-2 label-txt mt-2">Instagram</label>
 							<div class="col-12 col-sm-9 col-md-10">
 								<input v-model="$v.selfIntro.ig_account.$model" type="text" :class="['form-control',$v.selfIntro.ig_account.$error?'is-invalid':'']" />
@@ -330,6 +355,13 @@
 								</div>
 							</div>
 						</div>
+                        <div class="row form-group">
+                            <label class="col-12 col-sm-3 col-md-2 label-txt mt-2">友達</label>
+                            <div class="col-10 col-sm-9 col-md-5">
+                                <input v-model.trim="selfIntro.ig_follower" type="number" :class="['form-control']" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" />
+                            </div>
+                            <div class="col-2 col-sm-3 col-md-2 mt-2 pl-0">人</div>
+                        </div>
                 </div>
             </div>
 
