@@ -31,7 +31,7 @@
 					</div>
 					<div class="row date-row">
 						<div class="col-md-3 datepicker-wrapper">
-							<label for="スカウト日時">{{ $t('sponsor_list.sponsor_date') }}</label>
+							<label for="スポンサー日時">{{ $t('sponsor_list.r_sponsor_date') }}</label>
 							<date-picker v-model="filteredData.from_date" valueType="format" class="datepicker" :lang="lang" placeholder="年 - 月 - 日"></date-picker>                  
 						</div>  
 						<div class="col-md-3 datepicker-wrapper similarto">
