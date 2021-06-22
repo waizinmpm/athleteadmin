@@ -84,11 +84,22 @@
                             </div>
                         </div>
                         <p class="show-info">関連動画</p>
-                        <div class="d-flex align-items-center justify-content-center">
-								<a :href="selfIntroDetails.facebook_account" target="_blank" v-if="selfIntroDetails.facebook_account"><img :src="'/images/facebook-old.svg'"  alt="Facebook" width="50" /></a>
-								<a :href="selfIntroDetails.twitter_account" target="_blank" v-if="selfIntroDetails.twitter_account"><img :src="'/images/twitter.svg'"  alt="Twitter" width="38" /></a>
-								<a :href="selfIntroDetails.ig_account" target="_blank" v-if="selfIntroDetails.ig_account"><img :src="'/images/instagram.svg'"  alt="Instagram" width="50" /></a>
-							</div>
+                        <div class="d-flex align-items-center justify-content-around">
+                            <a :href="selfIntroDetails.facebook_account" target="_blank" v-if="selfIntroDetails.facebook_account"><img :src="'/images/facebook-old.svg'"  alt="Facebook" width="50" /></a>
+                            <a :href="selfIntroDetails.twitter_account" target="_blank" v-if="selfIntroDetails.twitter_account"><img :src="'/images/twitter.svg'"  alt="Twitter" width="38" /></a>
+                            <a :href="selfIntroDetails.ig_account" target="_blank" v-if="selfIntroDetails.ig_account"><img :src="'/images/instagram.svg'"  alt="Instagram" width="50" /></a>
+                        </div>
+                        <div>
+                            <div v-if="selfIntroDetails.facebook_friend">
+                                <span class="w-25 d-inline-block">Facebook</span><span class="w-25 d-inline-block">友達</span> {{ selfIntroDetails.facebook_friend + '人' }}
+                            </div>
+                            <div v-if="selfIntroDetails.ig_follower">
+                                <span class="w-25 d-inline-block">Instagram</span><span class="w-25 d-inline-block">フォロワー</span> {{ selfIntroDetails.ig_follower + '人' }}
+                            </div>
+                            <div v-if="selfIntroDetails.twitter_follower">
+                                <span class="w-25 d-inline-block">Twitter</span><span class="w-25 d-inline-block">フォロワー</span> {{ selfIntroDetails.twitter_follower + '人' }}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--info-->
@@ -312,6 +323,13 @@
 								</div>
 							</div>
 						</div>
+                        <div class="row form-group">
+                            <label class="col-12 col-sm-3 col-md-2 label-txt mt-2">友達</label>
+                            <div class="col-10 col-sm-9 col-md-5">
+                                <input v-model.trim="selfIntro.facebook_friend" type="number" :class="['form-control']" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" />
+                            </div>
+                            <div class="col-2 col-sm-3 col-md-2 mt-2 pl-0">人</div>
+                        </div>
 						<div class="row form-group">
 							<label class="col-12 col-sm-3 col-md-2 label-txt mt-2">Twitter</label>
 							<div class="col-12 col-sm-9 col-md-10">
@@ -321,7 +339,14 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
+                        <div class="row form-group">
+                            <label class="col-12 col-sm-3 col-md-2 label-txt mt-2">友達</label>
+                            <div class="col-10 col-sm-9 col-md-5">
+                                <input v-model.trim="selfIntro.twitter_follower" type="number" :class="['form-control']" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" />
+                            </div>
+                            <div class="col-2 col-sm-3 col-md-2 mt-2 pl-0">人</div>
+                        </div>
+						<div class="row form-group">
 							<label class="col-12 col-sm-3 col-md-2 label-txt mt-2">Instagram</label>
 							<div class="col-12 col-sm-9 col-md-10">
 								<input v-model="$v.selfIntro.ig_account.$model" type="text" :class="['form-control',$v.selfIntro.ig_account.$error?'is-invalid':'']" />
@@ -330,6 +355,13 @@
 								</div>
 							</div>
 						</div>
+                        <div class="row form-group">
+                            <label class="col-12 col-sm-3 col-md-2 label-txt mt-2">友達</label>
+                            <div class="col-10 col-sm-9 col-md-5">
+                                <input v-model.trim="selfIntro.ig_follower" type="number" :class="['form-control']" onkeypress="return (event.charCode >= 48 && event.charCode < 58)" />
+                            </div>
+                            <div class="col-2 col-sm-3 col-md-2 mt-2 pl-0">人</div>
+                        </div>
                 </div>
             </div>
 
@@ -1143,9 +1175,11 @@
                             <span v-else>未入力</span>
                         </div> 
                     </dd>
+                    <dt class="detail-head">資格</dt>
+                    <dd class="detail-data"><pre>{{carrers.other_certificate ? carrers.other_certificate : '未入力'}}</pre></dd>
                     <dt class="detail-head">{{$t('jobseekerprofile.annualincome')}}</dt>
                     <dd class="detail-data" v-if="carrers.last_currency != null || carrers.last_annual_income != null">
-                        <span v-if="carrers.last_annual_income != null && carrers.last_annual_income != null">{{ carrers.last_annual_income}}</span> <span v-if="carrers.last_currency != null && carrers.last_currency != null">{{carrers.last_currency}}</span>
+                        <span v-if="carrers.last_annual_income != null && carrers.last_annual_income != null">{{ carrers.last_annual_income|aj-number}}</span> <span v-if="carrers.last_currency != null && carrers.last_currency != null">{{carrers.last_currency}}</span>
                     </dd>
                     <dd class="detail-data" v-else>未入力</dd>
                 </dl>
@@ -1476,6 +1510,15 @@
             </div>
 
             <div class="popup-databox">
+                <h6 class="font-weight-bold">{{$t('jobseekerprofile.qualifications')}}</h6>
+                <div class="form-group">
+                    <div class="col-md-8 p-0">
+                        <textarea class="form-control" v-model="carrers.other_certificate" ></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="popup-databox">
                 <h6 class="font-weight-bold">最終年収</h6>
                 <div class="form-group row">
                 <div class="col-md-6 float-none">
@@ -1532,7 +1575,7 @@
         <!-- End career -->
 
         <!-- exp-qualification -->
-        <div
+        <!-- <div
             class="row tab-content qualification-content mb-3 m-0"
             id="expQualificationEdit"
             v-if="!expQualificationEdit && showDetails"
@@ -1548,19 +1591,6 @@
                     <dt class="detail-head">経験業種・職種</dt>
                     <dd class="detail-data">
                         <div v-for="(exp_job,index) in experience_qualification.experience_jobs" :key="exp_job.id">
-                            <!-- <span v-if="!containNullOnly(exp_job)">
-                                <span v-show="exp_job.experience_year > 0">{{exp_job.experience_year}}年</span>
-                                <span v-for="occupation in occupation_list" :key="'occupation'+occupation.id">
-                                    <span v-if="occupation.id == exp_job.experience_occupation">{{occupation.occupation_name}}</span>
-                                </span>
-                                <span v-for="position in positions" :key="'position'+position.id">
-                                    <span v-if="position.id == exp_job.experience_position">・{{position.position_name}}</span>
-                                </span>
-                                <span v-for="industry in industry_list" :key="'industry'+industry.id">
-                                    <div v-if="industry.id == exp_job.experience_industry">{{industry.industry_name}}</div>
-                                </span>
-                            </span> -->
-                            <!-- <div v-if="(experience_qualification.experience_jobs.length ==1 && exp_job.industry_history_id != null) || experience_qualification.experience_jobs.length > 1"> -->
                             <div v-if="!containNullOnly(exp_job)">
                                 <table class="history-edit-tbl">
                                     <tr>
@@ -1610,14 +1640,12 @@
                         </div>
                     </dd>
                     <dt class="detail-head">資格</dt>
-                    <!-- その他資格 -->
                     <dd class="detail-data"><pre>{{experience_qualification.other_qualifications.qualifications ? experience_qualification.other_qualifications.qualifications : '未入力'}}</pre></dd>
                 </dl>
             </div>
         </div>
         <div class="row tab-content qualification-content mb-3 m-0" v-if="expQualificationEdit">
             <div class="head-wrap col-md-12">
-            <!-- <h3 class="text-left main-header header" >経歴 <span class="delete-btn" @click="careerEdit = !careerEdit"> <span class="icon icon-times"></span>{{$t('common.close')}} </span></h3> -->
             <div class="tit-box tit-box-edit">
                 <h3 class="profile-edit-tit">経歴業種・資格</h3>
                 <p class="profile-edit-txt" @click="editBox('expQualificationEdit','close')">
@@ -1626,7 +1654,6 @@
                 </p>
             </div>
 
-            <!-- Experienced job type -->
             <div class="popup-databox">
                 <h6 class="font-weight-bold">{{$t('jobseekerprofile.experience_industry_occupation')}}</h6>
                 <div
@@ -1673,7 +1700,6 @@
                             :value="industry.id"
                         >{{industry.industry_name}}</option>
                         </select>
-                        <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                     </div>
                 </div>
@@ -1694,7 +1720,6 @@
                             :value="occupation.id"
                         >{{occupation.occupation_name}}</option>
                         </select>
-                        <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                     </div>
                     <div class="col-md-8 p-0">
@@ -1712,7 +1737,6 @@
                             :value="position.id"
                         >{{position.position_name}}</option>
                         </select>
-                        <!-- <span class="sort-desc">&#9662;</span> -->
                     </div>
                     </div>
                 </div>
@@ -1725,11 +1749,9 @@
                 </p>
             </div>
 
-            <!-- qualification -->
             <div class="popup-databox">
                 <h6 class="font-weight-bold">{{$t('jobseekerprofile.qualifications')}}</h6>
                 <div class="form-group">
-                <!-- <label for>{{$t('jobseekerprofile.other_qualifications')}}</label> -->
                 <div class="col-md-8 p-0">
                     <textarea
                     class="form-control"
@@ -1745,7 +1767,7 @@
                 @click="saveExpQualification()"
             >{{$t('jobseekerprofile.save')}}</span>
             </p>
-        </div>
+        </div> -->
         <!-- End exp-qualification -->
 
         <!-- desired-condition -->
@@ -2347,9 +2369,10 @@
             positions: [],
             carrers: [
                 {
-                last_annual_income: "",
-                num_of_experienced_companies: "",
-                last_currency: "",
+                    last_annual_income: "",
+                    num_of_experienced_companies: "",
+                    last_currency: "",
+                    other_certificate: ""
                 },
             ],
             educations: [

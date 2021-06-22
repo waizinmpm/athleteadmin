@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from '../store';
 import router from '../router';
-import alertService from '../services/AlertService';
+// import alertService from '../services/AlertService';
 // let errorShowing = false;
 /* let canUpdateToken = true;
 const parseJwt = (token) => {
@@ -61,7 +61,7 @@ api.interceptors.response.use(function (response) {
 		if(router.currentRoute.name !== 'login'){
 			store.commit('logout');
 			router.push({ path: "/" });
-			alertService.showInfoDialog(null,'長時間操作がなかったため、ログアウトしました。');
+			// alertService.showInfoDialog(null,'長時間操作がなかったため、ログアウトしました。');
 		}
         
 		// }
