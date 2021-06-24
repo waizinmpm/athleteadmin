@@ -157,9 +157,6 @@
                 {{$t('common.close')}}
                 </p>
             </div>
-            <label class="info">
-                <span class="glyphicon glyphicon-info-sign"></span>「希望職種・希望勤務地→就業希望条件」「語学レベル→経験・資格」にて設定してください。
-            </label>
             <!-- <div class="popup-databox">
                 <label for class="mb-3">ニックネーム</label>
                 <div class="form-group"> 

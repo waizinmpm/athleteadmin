@@ -28,8 +28,8 @@
             <dd class="detail-data">{{ recruiter_info.email || '未入力' }}</dd>
             <dt class="detail-head">WEB サイト URL</dt>
             <dd class="detail-data">{{ recruiter_info.website || '未入力' }}</dd>
-            <dt class="detail-head detail-group-topline">スポンサーを希望するアスリートからのメッセージ</dt>
-            <dd class="detail-data detail-group-topline">{{ recruiter_info.is_sponsor == 1 ? '受ける' : '受けない' }}</dd>
+            <dt class="detail-head detail-group-topline">スポンサーを希望する </dt>
+            <dd class="detail-data detail-group-topline">{{ recruiter_info.is_sponsor == 1 ? '希望する' : '希望しない' }}</dd>
             <dt class="detail-head detail-group-topline">ご担当者名</dt>
             <dd class="detail-data detail-group-topline">{{ recruiter_info.incharge_name || '未入力' }}</dd>
             <dt class="detail-head">担当者名(フリガナ)</dt>
