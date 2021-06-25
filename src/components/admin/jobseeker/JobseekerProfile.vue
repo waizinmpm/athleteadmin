@@ -157,9 +157,6 @@
                 {{$t('common.close')}}
                 </p>
             </div>
-            <label class="info">
-                <span class="glyphicon glyphicon-info-sign"></span>「希望職種・希望勤務地→就業希望条件」「語学レベル→経験・資格」にて設定してください。
-            </label>
             <!-- <div class="popup-databox">
                 <label for class="mb-3">ニックネーム</label>
                 <div class="form-group"> 
@@ -1976,7 +1973,7 @@
             </div>
 
             <div class="popup-databox">
-                <h6 class="font-weight-bold mb-4">希望業種</h6>
+                <h6 class="font-weight-bold mb-4">希望職種</h6>
                 <div class="form-group">
                 <input
                     type="checkbox"
@@ -2006,7 +2003,7 @@
                                 @change="getData('industry')"
                                 class="form-control"
                                 >
-                                <option value="0">業種を選択</option>
+                                <option value="0">職種を選択</option>
                                 <option
                                     v-for="(indu,index) in industry_list"
                                     :key="index"
@@ -2026,7 +2023,7 @@
                 </div>
             </div>
             <div class="popup-databox">
-                <h6 class="font-weight-bold mb-4">希望職種</h6>
+                <h6 class="font-weight-bold mb-4">希望業種</h6>
                 <div class="form-group">
                 <input
                     type="checkbox"
@@ -2059,7 +2056,7 @@
                             v-model="occupation.id"
                             @change="getData('occupation')"
                         >
-                            <option value="0">職種を選択</option>
+                            <option value="0">業種を選択</option>
                             <option
                             v-for="(occu,indx) in occupation_list"
                             :key="indx"
