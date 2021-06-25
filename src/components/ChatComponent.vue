@@ -50,7 +50,7 @@
 								<i class="fa fa-times-circle-o" title="Close"></i>
 							</div>
                         </div>
-                        <div class="content-chat" ref="scrollChat" v-chat-scroll="{always: false, smooth: true}"  @v-chat-scroll-top-reached="scrollTop(channel,current_page)">
+                        <div :class="['content-chat',readOnly?'read-only':'']" ref="scrollChat" v-chat-scroll="{always: false, smooth: true}"  @v-chat-scroll-top-reached="scrollTop(channel,current_page)">
                             <div class="chat-history">
                                 <div v-if="loading" class="loading d-flex justify-content-center">
                                     <div class="spinner-border text-info">
@@ -94,8 +94,10 @@
                             </div>
                         </div>
                         <div class="footer-chat">
-							<div v-if="typing" class="typing"><img width="50" src="/images/loading.gif" alt="loading"></div>
-							<div class="d-flex" style="padding-top:15px;align-self: flex-end;align-items: center;">
+							<div v-if="typing" class="typing">
+								<img width="50" src="/images/loading.gif" alt="loading">
+							</div>
+							<div class="d-flex" style="padding-top:15px;align-self: flex-end;align-items: center;" v-if="!readOnly">
 								<!-- File Input -->
 								<i class="btn-attachment fa fa-paperclip" @click="$refs.fileInput.click()" v-if="message_payload.scoutid_or_applyid"></i>
 								<input type="file" @change="onFileChange" class="d-none" ref="fileInput">
@@ -234,6 +236,7 @@ export default {
 			},
 			meta: {},
 			messageLines: 1,
+			readOnly: false,
         }
     },
     mounted() {
@@ -418,7 +421,13 @@ export default {
 			});
 		},        
         getMessage(model){
-			
+			// --Set if message should be read only
+			let RO_status = [
+				this.$configs.scouts.payment_confirmed,
+				this.$configs.sponsor.payment_confirmed,
+				this.$configs.job_apply.payment_confirmed,
+			];
+			this.readOnly = RO_status.includes(model.status);
 			this.message_payload.recruiter_id = model.recruiter_id;
 			this.message_payload.jobseeker_id = model.jobseeker_id;
 			this.message_payload.scoutid_or_applyid = model.scoutid_or_applyid;
@@ -1079,6 +1088,9 @@ input:focus{
 	}
 	.content-chat{
 		flex: 1 1 340px;
+		&.read-only {
+			flex-basis: 400px;
+		}
 		overflow-y: scroll;  
 		.chat-history{
 			.loading{
