@@ -28,12 +28,11 @@
            
         </div>
         
-      <div class="row col-xs-12">
+  <!--     <div class="row col-xs-12">
            <hr>
             <h5 class="main-header">チャットにメッセージが投稿された際の通知メール</h5>   
             <div class="col-setting">           
             <div class="text-left">     
-             <!-- <p>チャット関係のメール</p>            -->
                 <div class="form-row">
                     <div class="form-check form-check-inline" style="margin-right:2rem;">
                         <input class="custion-radio" id="1" type="radio" value="1"  @change="changeEmailStatus" v-model="checked">
@@ -46,7 +45,7 @@
                 </div>               
             </div>  
         </div>  
-      </div>
+      </div> -->
 
        <div class="row col-xs-12">
            <hr>
